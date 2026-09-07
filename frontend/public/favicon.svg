@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- Pediment Triangular Roof -->
+  <polygon points="16,3 3,9.5 29,9.5" fill="#0056b3" />
+  <!-- Architrave Beam -->
+  <rect x="4" y="10.5" width="24" height="2" rx="0.5" fill="#0056b3" />
+  <!-- Four Classical Bank Columns -->
+  <rect x="6" y="13.5" width="3" height="9" rx="0.5" fill="#0056b3" />
+  <rect x="11.5" y="13.5" width="3" height="9" rx="0.5" fill="#0056b3" />
+  <rect x="17.5" y="13.5" width="3" height="9" rx="0.5" fill="#0056b3" />
+  <rect x="23" y="13.5" width="3" height="9" rx="0.5" fill="#0056b3" />
+  <!-- Stepped Stylobate / Base Foundation -->
+  <rect x="4" y="23.5" width="24" height="2" rx="0.5" fill="#0056b3" />
+  <rect x="2" y="26.5" width="28" height="2.5" rx="0.5" fill="#0056b3" />
+</svg>

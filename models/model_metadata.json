@@ -1,0 +1,26 @@
+{
+    "algorithm": "XGBoost",
+    "version": "v1",
+    "metrics": {
+        "accuracy": 0.9916666666666667,
+        "precision": 0.9862542955326461,
+        "recall": 0.9965277777777778,
+        "f1": 0.9913644214162349,
+        "roc_auc": 0.9996772613960114
+    },
+    "fairness": {
+        "protected_attribute": "Gender",
+        "male_tpr": 1.0,
+        "female_tpr": 0.9897959183673469,
+        "equal_opportunity_ratio": 0.9897959183673469,
+        "male_approval_rate": 0.512,
+        "female_approval_rate": 0.44,
+        "demographic_parity_ratio": 0.859375
+    },
+    "confusion_matrix": {
+        "tn": 308,
+        "fp": 4,
+        "fn": 1,
+        "tp": 287
+    }
+}

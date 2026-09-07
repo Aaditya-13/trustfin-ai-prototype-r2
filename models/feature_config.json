@@ -1,0 +1,40 @@
+{
+    "raw_features": [
+        "Gender",
+        "Married",
+        "Education",
+        "Employment_Status",
+        "Property_Area",
+        "Dependents",
+        "Applicant_Income",
+        "Coapplicant_Income",
+        "Loan_Amount",
+        "Loan_Term",
+        "Age",
+        "Monthly_EMI",
+        "DTI_Ratio",
+        "Credit_History"
+    ],
+    "transformed_features": [
+        "Dependents",
+        "Applicant_Income",
+        "Coapplicant_Income",
+        "Loan_Amount",
+        "Loan_Term",
+        "Age",
+        "Monthly_EMI",
+        "DTI_Ratio",
+        "Gender_Male",
+        "Married_Yes",
+        "Education_Not Graduate",
+        "Employment_Status_Self-Employed",
+        "Employment_Status_Unemployed",
+        "Property_Area_Semiurban",
+        "Property_Area_Urban",
+        "Credit_History"
+    ],
+    "target_mapping": {
+        "Approved": 1,
+        "Rejected": 0
+    }
+}
