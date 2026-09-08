@@ -33,3 +33,17 @@ Use PostgreSQL.
 
 Status:
 Approved
+
+---
+
+## ADR-004 — Deterministic XAI Evaluation & Auditability
+
+Decision:
+Implement input-hashed pseudo-random seeding for LIME synthetic sampling and Stability Gaussian perturbations.
+
+Reason:
+Eliminates artificial Trust Score fluctuation on repeated evaluations of identical applicant inputs, satisfying banking auditability, regulatory model reproducibility (BCBS 239 / Fed SR 11-7 / RBI Fair Lending), and credit officer trust without degrading localized perturbation mechanics.
+
+Status:
+Approved
+

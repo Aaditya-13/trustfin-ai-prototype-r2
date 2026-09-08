@@ -25,7 +25,7 @@ class LIMEExplainer:
             random_state=42 # For stability in our baseline
         )
         
-    def explain_instance(self, predict_proba_fn, transformed_instance: np.ndarray, original_values: dict = None, num_features: int = None) -> StandardExplanation:
+    def explain_instance(self, predict_proba_fn, transformed_instance: np.ndarray, original_values: dict = None, num_features: int = None, seed: int = None) -> StandardExplanation:
         """
         Generates a standardized LIME explanation for a single instance.
         Args:
@@ -33,12 +33,18 @@ class LIMEExplainer:
             transformed_instance: 1D numpy array containing the preprocessed features for one applicant.
             original_values: Optional dict for displaying original values.
             num_features: Maximum number of features to include in explanation.
+            seed: Optional integer seed to guarantee deterministic, reproducible sampling for this instance.
         """
         if transformed_instance.ndim == 2:
             transformed_instance = transformed_instance[0]
             
         if num_features is None:
             num_features = len(self.feature_names)
+            
+        # If seed is provided, reset LIME's internal random state for deterministic sampling
+        if seed is not None:
+            from sklearn.utils import check_random_state
+            self.explainer.random_state = check_random_state(seed)
             
         # Generate LIME explanation
         exp = self.explainer.explain_instance(

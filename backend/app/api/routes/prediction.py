@@ -4,6 +4,7 @@ import pandas as pd
 import numpy as np
 import json
 import os
+import hashlib
 from backend.app.api.schemas import LoanApplicationRequest, LoanPredictionResponse, SolvencyCheckResult, GenerateReportRequest
 from backend.app.reporting.pdf_generator import generate_loan_report_pdf
 from backend.app.ml.preprocessing import add_financial_features
@@ -16,6 +17,17 @@ from backend.app.validation.fairness import calculate_counterfactual_fairness
 from backend.app.trust.trust_score import calculate_trust_score
 
 router = APIRouter()
+
+def generate_applicant_seed(input_data: dict) -> int:
+    """
+    Derives a deterministic, cryptographically stable 32-bit integer seed
+    from the applicant input features.
+    Ensures identical inputs always produce identical random sequences for LIME
+    sampling and stability perturbations, preventing artificial score drift on re-evaluations.
+    """
+    serialized = json.dumps(input_data, sort_keys=True, default=str)
+    hash_hex = hashlib.sha256(serialized.encode("utf-8")).hexdigest()
+    return int(hash_hex[:8], 16) % (2**31 - 1)
 
 try:
     print("Loading models for API...")
@@ -96,8 +108,16 @@ async def predict_loan(request: LoanApplicationRequest):
         orig_values['Monthly_EMI'] = monthly_emi
         orig_values['DTI_Ratio'] = dti_ratio
         
+        # Derive deterministic seed per applicant profile to guarantee reproducible explanations & scores
+        applicant_seed = generate_applicant_seed(input_data)
+        
         shap_exp = shap_explainer.explain_instance(transformed_instance, original_values=orig_values)
-        lime_exp = lime_explainer.explain_instance(model.predict_proba, transformed_instance, original_values=orig_values)
+        lime_exp = lime_explainer.explain_instance(
+            model.predict_proba, 
+            transformed_instance, 
+            original_values=orig_values,
+            seed=applicant_seed
+        )
         
         # 5. Validation
         directional_mask = {}
@@ -110,7 +130,9 @@ async def predict_loan(request: LoanApplicationRequest):
         faithfulness_score = calculate_faithfulness(model, transformed_instance, shap_exp, feature_names, directional_mask, top_k=3)
         faithfulness_score = max(0.0, min(1.0, faithfulness_score))
         
-        noise = np.random.normal(0, 0.01, size=transformed_instance.shape)
+        # Deterministic stability perturbation via local seeded RNG (ensures audit consistency for identical inputs)
+        stability_rng = np.random.RandomState(applicant_seed)
+        noise = stability_rng.normal(0, 0.01, size=transformed_instance.shape)
         perturbed_instance = transformed_instance + noise
         shap_exp_perturbed = shap_explainer.explain_instance(perturbed_instance, original_values=orig_values)
         stability_score = calculate_stability(shap_exp, shap_exp_perturbed)
