@@ -1,20 +1,20 @@
-// Official Commercial Banking & Credit Underwriting Terminology Dictionary
+// Credit Assessment & Feature Terminology Dictionary
 
 export const BANKING_FEATURE_LABELS = {
-    'Applicant_Income': 'Primary Monthly Income',
-    'Coapplicant_Income': 'Co-Borrower Monthly Income',
-    'Loan_Amount': 'Requested Loan Principal',
-    'Loan_Term': 'Facility Tenor (Horizon)',
-    'Credit_History': 'Credit Bureau Rating (CIBIL Proxy)',
-    'Monthly_EMI': 'Monthly Debt Service (EMI)',
-    'DTI_Ratio': 'Debt-to-Income Ratio (FOIR)',
-    'Property_Area': 'Collateral Location Zone',
-    'Dependents': 'Household Dependents',
-    'Education': 'Educational Qualification',
-    'Employment_Status': 'Employment / Enterprise Sector',
+    'Applicant_Income': 'Applicant Monthly Income',
+    'Coapplicant_Income': 'Co-Applicant Monthly Income',
+    'Loan_Amount': 'Loan Amount',
+    'Loan_Term': 'Loan Term (Months)',
+    'Credit_History': 'Credit History (CIBIL)',
+    'Monthly_EMI': 'Estimated Monthly EMI',
+    'DTI_Ratio': 'Debt-to-Income (DTI) Ratio',
+    'Property_Area': 'Property Area',
+    'Dependents': 'Dependents',
+    'Education': 'Education',
+    'Employment_Status': 'Employment Status',
     'Married': 'Marital Status',
-    'Gender': 'Demographic Profile',
-    'Age': 'Borrower Age'
+    'Gender': 'Gender',
+    'Age': 'Age (Years)'
 };
 
 export const getBankingLabel = (featureKey) => {
@@ -24,28 +24,29 @@ export const getBankingLabel = (featureKey) => {
 export const getBankingDescription = (featureKey) => {
     switch (featureKey) {
         case 'Applicant_Income':
-            return 'Verified net monthly cash inflow of the primary borrower.';
+            return 'Verified monthly income of the primary applicant.';
         case 'Coapplicant_Income':
-            return 'Secondary household earnings contributing to debt service capacity.';
+            return 'Additional monthly income contributed by the co-applicant.';
         case 'Loan_Amount':
-            return 'Gross credit facility requested for sanction.';
+            return 'Total loan amount requested by the applicant.';
         case 'Loan_Term':
-            return 'Amortization period in calendar months.';
+            return 'Repayment duration in months.';
         case 'Credit_History':
-            return 'Historical repayment record registered with credit bureaus (CIBIL/Experian). 1 = Clean, 0 = Derogatory.';
+            return 'Repayment track record with credit bureaus. 1 = Good history, 0 = Past default or late payments.';
         case 'Monthly_EMI':
-            return 'Estimated monthly principal and interest repayment obligation.';
+            return 'Estimated monthly installment amount for the requested loan.';
         case 'DTI_Ratio':
-            return 'Fixed Obligation to Income Ratio (FOIR). Regulatory prudential cap is 50.0%.';
+            return 'Debt-to-Income ratio (Monthly EMI / Total Monthly Income). Standard banking limit is 50%.';
         case 'Property_Area':
-            return 'Geographical jurisdiction and marketability tier of the mortgaged collateral.';
+            return 'Location category of the mortgaged property (Urban, Semiurban, Rural).';
         case 'Dependents':
-            return 'Number of financial dependents supported by household cashflow.';
+            return 'Number of financially dependent family members.';
         case 'Education':
-            return 'Formally verified academic qualification reflecting earning trajectory.';
+            return 'Educational qualification of the applicant.';
         case 'Employment_Status':
-            return 'Livelihood stability classification (Salaried corporate vs. Self-Employed).';
+            return 'Employment type (Salaried or Self-Employed).';
         default:
-            return 'Credit underwriting evaluation parameter.';
+            return 'Evaluation parameter for credit decisioning.';
     }
 };
+

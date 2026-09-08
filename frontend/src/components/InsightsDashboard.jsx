@@ -190,16 +190,16 @@ const InsightsDashboard = ({ result, applicantData }) => {
                 <div className="flex-1 min-w-0">
                     <div className="flex flex-wrap items-center gap-2">
                         <h3 className="text-xs font-bold text-gray-900 uppercase tracking-wide">
-                            Official Credit Appraisal Dossier & A4 Memorandum
+                            Official Loan Decision Document
                         </h3>
                         <span className={`text-[10px] font-bold px-2 py-0.5 rounded-sm border uppercase tracking-wider ${
                             isApproved ? 'bg-green-50 text-green-800 border-green-300' : 'bg-red-50 text-red-800 border-red-300'
                         }`}>
-                            {isApproved ? 'Sanction Advice' : 'Adverse Notice'}
+                            {isApproved ? 'Sanction Letter' : 'Rejection Notice'}
                         </span>
                     </div>
                     <p className="text-[11px] text-gray-600 mt-1 leading-relaxed">
-                        Commercial bank memorandum with institutional letterhead, statutory debt-service compliance, and credit officer signature block.
+                        Formal bank document with institutional letterhead, loan terms summary, and official sign-off section.
                     </p>
                 </div>
             </div>
@@ -207,7 +207,7 @@ const InsightsDashboard = ({ result, applicantData }) => {
             {/* Bottom Action Bar */}
             <div className="px-4 py-2.5 bg-gray-50 border-t border-gray-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2.5">
                 <span className="text-[11px] text-gray-500 font-medium">
-                    Standard A4 Format • Verified for branch submission and customer copy
+                    Standard A4 Format • Download or preview verified document
                 </span>
                 <div className="flex items-center gap-2 w-full sm:w-auto shrink-0">
                     <button
@@ -256,7 +256,7 @@ const InsightsDashboard = ({ result, applicantData }) => {
                         }`}
                     >
                         <Building2 className="w-4 h-4" />
-                        Bank Underwriting & Risk Audit Console
+                        Bank Official / Risk Audit View
                     </button>
                     <button
                         onClick={() => setRoleView('applicant')}
@@ -267,31 +267,31 @@ const InsightsDashboard = ({ result, applicantData }) => {
                         }`}
                     >
                         <User className="w-4 h-4" />
-                        Applicant Sanction & Adverse Action Notice
+                        Applicant Notice View
                     </button>
                 </div>
             </div>
 
             {/* ========================================================================= */}
-            {/* VIEW 1: BANK UNDERWRITING & REGULATORY RISK AUDIT CONSOLE                 */}
+            {/* VIEW 1: BANK OFFICIAL / RISK AUDIT CONSOLE                                */}
             {/* ========================================================================= */}
             {roleView === 'bank_official' && (
                 <div className="space-y-6">
                     
-                    {/* Primary Underwriting Determination Banner */}
+                    {/* Primary Determination Banner */}
                     <div className={`p-5 border border-gray-300 shadow-sm rounded-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 ${isApproved ? 'bg-green-50' : 'bg-red-50'}`}>
                         <div>
                             <div className="flex items-center gap-2">
                                 <span className="text-[11px] font-bold px-2 py-0.5 bg-white border border-gray-300 text-gray-700 rounded-sm uppercase tracking-wider">
-                                    Dossier Ref #TF-2026-891
+                                    Application #TF-2026-891
                                 </span>
-                                <span className="text-xs text-gray-500">Underwriting Determination</span>
+                                <span className="text-xs text-gray-500">Evaluation Result</span>
                             </div>
                             <h2 className="text-base font-bold text-gray-900 uppercase tracking-tight mt-1">
-                                Credit Underwriting Determination
+                                Credit Decision & Assessment
                             </h2>
                             <p className="text-xs text-gray-700 mt-0.5">
-                                Algorithmic Risk Appraisal (Statistical Confidence: {(result.confidenceScore * 100).toFixed(1)}%)
+                                AI Risk Assessment (Model Confidence: {(result.confidenceScore * 100).toFixed(1)}%)
                             </p>
                         </div>
                         <div className={`px-5 py-2 text-xl font-extrabold uppercase rounded-sm border ${isApproved ? 'border-green-700' : 'border-red-700'} ${statusColor} tracking-wide text-center`}>
@@ -302,20 +302,20 @@ const InsightsDashboard = ({ result, applicantData }) => {
                     {/* Dedicated Official Bank PDF Report Card */}
                     {renderPdfReportCard()}
 
-                    {/* Statutory Solvency & Debt-Service Compliance Gate (FOIR / DTI) */}
+                    {/* Solvency & Debt-to-Income (DTI) Check */}
                     {result.solvencyCheck && (
                         <div className={`p-5 border shadow-sm rounded-sm ${result.solvencyCheck.isSolvent ? 'bg-white border-gray-300' : 'bg-red-50 border-red-300'}`}>
                             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-gray-200 pb-2 mb-3 gap-2">
                                 <div>
                                     <h3 className="text-sm font-bold text-gray-900 flex items-center gap-1.5 uppercase">
                                         {result.solvencyCheck.isSolvent ? (
-                                            <CheckCircle className="w-4 h-4 text-green-700" />
+                                             <CheckCircle className="w-4 h-4 text-green-700" />
                                         ) : (
                                             <AlertCircle className="w-4 h-4 text-red-700" />
                                         )}
-                                        Statutory Solvency & Debt-Service Compliance Gate (FOIR / DTI)
+                                        Solvency & Debt-to-Income (DTI) Check
                                     </h3>
-                                    <p className="text-xs text-gray-600">Prudential lending guidelines: Fixed Obligation to Income Ratio capped at 50.0%</p>
+                                    <p className="text-xs text-gray-600">Lending policy limit: Monthly EMI should not exceed 50.0% of total income</p>
                                 </div>
                                 <span className={`px-2.5 py-1 text-xs font-bold uppercase rounded-sm border ${
                                     result.solvencyCheck.status === 'INSOLVENT' 
@@ -324,27 +324,27 @@ const InsightsDashboard = ({ result, applicantData }) => {
                                         ? 'bg-amber-100 text-amber-900 border-amber-300'
                                         : 'bg-green-100 text-green-900 border-green-300'
                                 }`}>
-                                    {result.solvencyCheck.status === 'INSOLVENT' ? 'STATUTORY BREACH: INSOLVENT (FOIR EXCEEDED)' : result.solvencyCheck.status === 'MODERATE' ? 'ACCEPTABLE DEBT SERVICE (35-50%)' : 'PRUDENTIAL CLEARANCE: OPTIMAL (FOIR < 35%)'}
+                                    {result.solvencyCheck.status === 'INSOLVENT' ? 'INSOLVENT: DEBT EXCEEDS 50% LIMIT' : result.solvencyCheck.status === 'MODERATE' ? 'MODERATE DEBT (35% - 50%)' : 'OPTIMAL DEBT (< 35%)'}
                                 </span>
                             </div>
 
                             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center mb-1">
                                 <div className="p-2.5 bg-gray-50 border border-gray-200 rounded-sm">
-                                    <p className="text-[11px] font-semibold text-gray-500 uppercase">Monthly Debt Service (EMI)</p>
+                                    <p className="text-[11px] font-semibold text-gray-500 uppercase">Monthly EMI</p>
                                     <p className="text-base font-bold text-gray-900 font-mono">₹{result.solvencyCheck.monthlyEMI.toLocaleString('en-IN')}</p>
                                 </div>
                                 <div className="p-2.5 bg-gray-50 border border-gray-200 rounded-sm">
-                                    <p className="text-[11px] font-semibold text-gray-500 uppercase">Total Household Net Income</p>
+                                    <p className="text-[11px] font-semibold text-gray-500 uppercase">Total Monthly Income</p>
                                     <p className="text-base font-bold text-gray-900 font-mono">₹{result.solvencyCheck.totalIncome.toLocaleString('en-IN')}</p>
                                 </div>
                                 <div className="p-2.5 bg-gray-50 border border-gray-200 rounded-sm">
-                                    <p className="text-[11px] font-semibold text-gray-500 uppercase">Fixed Obligation (FOIR)</p>
+                                    <p className="text-[11px] font-semibold text-gray-500 uppercase">Debt-to-Income (DTI)</p>
                                     <p className={`text-base font-bold font-mono ${result.solvencyCheck.isSolvent ? 'text-green-700' : 'text-red-700'}`}>
                                         {result.solvencyCheck.dtiPercent}
                                     </p>
                                 </div>
                                 <div className="p-2.5 bg-gray-50 border border-gray-200 rounded-sm">
-                                    <p className="text-[11px] font-semibold text-gray-500 uppercase">Net Monthly Cash Surplus</p>
+                                    <p className="text-[11px] font-semibold text-gray-500 uppercase">Net Monthly Balance</p>
                                     <p className={`text-base font-bold font-mono ${netSurplus >= 0 ? 'text-green-700' : 'text-red-700'}`}>
                                         ₹{netSurplus.toLocaleString('en-IN')}
                                     </p>
@@ -355,9 +355,9 @@ const InsightsDashboard = ({ result, applicantData }) => {
                                 <div className="mt-3 p-3 bg-red-100 border border-red-300 rounded-sm text-xs text-red-900 flex items-start gap-2">
                                     <AlertTriangle className="w-4 h-4 text-red-700 shrink-0 mt-0.5" />
                                     <div>
-                                        <strong className="font-bold">Statutory Credit Policy Violation:</strong> {result.solvencyCheck.overrideWarning}
+                                        <strong className="font-bold">Policy Alert:</strong> {result.solvencyCheck.overrideWarning}
                                         <span className="block text-[11px] text-red-800 mt-1 font-medium">
-                                            Institutional Mandate: Facility disbursement is legally prohibited under credit risk policy regardless of pure statistical score.
+                                            Policy Rule: Loan cannot be approved when monthly repayment exceeds 50% of income, regardless of credit history score.
                                         </span>
                                     </div>
                                 </div>
@@ -365,15 +365,15 @@ const InsightsDashboard = ({ result, applicantData }) => {
                         </div>
                     )}
 
-                    {/* Decision Explainability & Model Governance Audit Index */}
+                    {/* AI Decision Trust Score */}
                     <div className="bg-white p-6 border border-gray-300 shadow-sm rounded-sm">
                         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-gray-300 pb-3 mb-4 gap-2">
                             <div>
                                 <h3 className="text-sm font-bold text-gray-900 flex items-center gap-2 uppercase">
                                     <ShieldCheck className="w-5 h-5 text-gov-blue" />
-                                    Decision Explainability & Model Governance Audit Index
+                                    AI Decision Trust Score
                                 </h3>
-                                <p className="text-xs text-gray-600">Independent mathematical validation of algorithmic credit decision drivers</p>
+                                <p className="text-xs text-gray-600">Evaluation of AI decision quality, stability, consistency, and fairness</p>
                             </div>
                             <div className={`px-3 py-1 text-xs font-bold uppercase rounded-sm border flex items-center gap-1.5 ${trustLevel.color}`}>
                                 <span className={`w-2 h-2 rounded-full ${trustLevel.badgeColor}`}></span>
@@ -384,7 +384,7 @@ const InsightsDashboard = ({ result, applicantData }) => {
                         <div className="flex flex-col md:flex-row items-center gap-6">
                             <div className="flex-1 w-full">
                                 <div className="flex justify-between text-sm text-gray-800 mb-1.5 font-semibold">
-                                    <span>Composite Audit Index (4 Co-Equal Pillars: 25% each)</span>
+                                    <span>Overall Trust Score (4 Pillars: 25% each)</span>
                                     <span className="font-mono">{trustPercent.toFixed(1)}%</span>
                                 </div>
                                 <div className="w-full bg-gray-200 h-5 rounded-sm border border-gray-300 relative overflow-hidden">
@@ -403,24 +403,24 @@ const InsightsDashboard = ({ result, applicantData }) => {
                         {/* 4 Component Breakdown Cards (Equal Weighting: 25% each) */}
                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-5">
                             <div className="p-3 bg-gray-50 border border-gray-200 rounded-sm text-center">
-                                <p className="text-xs font-semibold text-gray-600 uppercase tracking-wider">Fidelity</p>
+                                <p className="text-xs font-semibold text-gray-600 uppercase tracking-wider">Faithfulness</p>
                                 <p className="text-xl font-bold text-gray-900 mt-0.5 font-mono">{(result.trustScore.faithfulness * 100).toFixed(1)}%</p>
-                                <p className="text-[11px] text-gray-500 mt-1">Weight: 25% • Counterfactual Feature Masking</p>
+                                <p className="text-[11px] text-gray-500 mt-1">Weight: 25% • Feature Masking Impact</p>
                             </div>
                             <div className="p-3 bg-gray-50 border border-gray-200 rounded-sm text-center">
-                                <p className="text-xs font-semibold text-gray-600 uppercase tracking-wider">Robustness</p>
+                                <p className="text-xs font-semibold text-gray-600 uppercase tracking-wider">Stability</p>
                                 <p className="text-xl font-bold text-gray-900 mt-0.5 font-mono">{(result.trustScore.stability * 100).toFixed(1)}%</p>
-                                <p className="text-[11px] text-gray-500 mt-1">Weight: 25% • 1% Financial Noise Invariance</p>
+                                <p className="text-[11px] text-gray-500 mt-1">Weight: 25% • 1% Noise Invariance</p>
                             </div>
                             <div className="p-3 bg-gray-50 border border-gray-200 rounded-sm text-center">
-                                <p className="text-xs font-semibold text-gray-600 uppercase tracking-wider">Consensus</p>
+                                <p className="text-xs font-semibold text-gray-600 uppercase tracking-wider">Consistency</p>
                                 <p className="text-xl font-bold text-gray-900 mt-0.5 font-mono">{(result.trustScore.consistency * 100).toFixed(1)}%</p>
-                                <p className="text-[11px] text-gray-500 mt-1">Weight: 25% • SHAP/LIME Inter-Auditor Jaccard</p>
+                                <p className="text-[11px] text-gray-500 mt-1">Weight: 25% • SHAP vs LIME Agreement</p>
                             </div>
                             <div className="p-3 bg-gray-50 border border-gray-200 rounded-sm text-center">
-                                <p className="text-xs font-semibold text-gray-600 uppercase tracking-wider">Parity</p>
+                                <p className="text-xs font-semibold text-gray-600 uppercase tracking-wider">Fairness</p>
                                 <p className="text-xl font-bold text-gray-900 mt-0.5 font-mono">{((result.trustScore.fairness ?? 1.0) * 100).toFixed(1)}%</p>
-                                <p className="text-[11px] text-gray-500 mt-1">Weight: 25% • Counterfactual Demographic Invariance</p>
+                                <p className="text-[11px] text-gray-500 mt-1">Weight: 25% • Demographic Invariance</p>
                             </div>
                         </div>
 
@@ -431,22 +431,22 @@ const InsightsDashboard = ({ result, applicantData }) => {
                                 className="text-xs font-semibold text-gov-blue hover:underline flex items-center gap-1 focus:outline-none cursor-pointer"
                             >
                                 <Info className="w-3.5 h-3.5" />
-                                {showFormula ? 'Hide Model Governance Weighting Rationale & Regulatory Basis' : 'View Model Governance Weighting Rationale & Regulatory Basis'}
+                                {showFormula ? 'Hide Trust Score Formula & Explanation' : 'View Trust Score Formula & Explanation'}
                                 {showFormula ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
                             </button>
                             {showFormula && (
                                 <div className="mt-2.5 p-3.5 bg-slate-50 border border-slate-200 rounded-sm text-xs text-gray-700 space-y-2">
-                                    <p className="font-bold text-gray-900 font-sans uppercase tracking-wider">Institutional Model Governance Weighting Formula:</p>
+                                    <p className="font-bold text-gray-900 font-sans uppercase tracking-wider">Trust Score Formula (4 Pillars):</p>
                                     <p className="bg-white p-2 border border-gray-300 rounded-sm font-mono text-gray-900">
-                                        <strong>Trust Audit Index (T)</strong> = (0.25 × Fidelity) + (0.25 × Robustness) + (0.25 × Consensus) + (0.25 × Parity)
+                                        <strong>Overall Trust Score</strong> = (0.25 × Faithfulness) + (0.25 × Stability) + (0.25 × Consistency) + (0.25 × Fairness)
                                     </p>
                                     <div className="text-gray-600 space-y-1 pt-1">
-                                        <p>• <strong>Fidelity (25%)</strong>: Verifies that identified risk drivers genuinely govern model behavior via counterfactual feature ablation.</p>
-                                        <p>• <strong>Robustness (25%)</strong>: Computes rank correlation of credit drivers under 1% Gaussian input variation to guarantee stability.</p>
-                                        <p>• <strong>Consensus (25%)</strong>: Computes Jaccard driver agreement between independent attribution paradigms (Shapley Values vs. Local Surrogates).</p>
-                                        <p>• <strong>Parity (25%)</strong>: Measures counterfactual invariance across protected demographic classes to enforce non-discriminatory lending.</p>
+                                        <p>• <strong>Faithfulness (25%)</strong>: Checks whether the identified features genuinely impact the model's prediction when masked.</p>
+                                        <p>• <strong>Stability (25%)</strong>: Measures if the explanation remains consistent when a small 1% noise is added.</p>
+                                        <p>• <strong>Consistency (25%)</strong>: Measures the agreement (Jaccard similarity) between SHAP and LIME on top features.</p>
+                                        <p>• <strong>Fairness (25%)</strong>: Checks whether the decision remains unbiased across demographic groups (e.g., gender).</p>
                                         <p className="text-[11px] text-gray-500 italic pt-1 border-t border-gray-200">
-                                            * Academic & Policy Proof for Equal Weighting (EW): Supported by Dawes (1979, American Psychologist) and the OECD Handbook on Constructing Composite Indicators (2008), confirming that equal weighting prevents statistical overfitting and eliminates subjective researcher bias.
+                                            * Equal Weighting (25% each): Standard multi-criteria evaluation approach ensuring balanced assessment across all four reliability dimensions.
                                         </p>
                                     </div>
                                 </div>
@@ -458,8 +458,8 @@ const InsightsDashboard = ({ result, applicantData }) => {
                     <div className="bg-white p-6 border border-gray-300 shadow-sm rounded-sm">
                         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-gray-300 pb-3 mb-4 gap-2">
                             <div>
-                                <h3 className="text-sm font-bold text-gray-900 uppercase">Underwriting Scorecard Drivers (Local Attribution)</h3>
-                                <p className="text-xs text-gray-600">Empirical risk and eligibility factors derived via dual independent audit algorithms</p>
+                                <h3 className="text-sm font-bold text-gray-900 uppercase">Key Decision Factors (Feature Impact)</h3>
+                                <p className="text-xs text-gray-600">Impact of each feature on the decision calculated using SHAP and LIME</p>
                             </div>
                             {/* Explainer Tab Switcher */}
                             <div className="flex border border-gray-300 rounded-sm overflow-hidden text-xs font-semibold">
@@ -467,22 +467,22 @@ const InsightsDashboard = ({ result, applicantData }) => {
                                     onClick={() => setActiveExplainerTab('shap')}
                                     className={`px-3 py-1.5 transition-colors cursor-pointer ${activeExplainerTab === 'shap' ? 'bg-gov-blue text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
                                 >
-                                    Ensemble TreeSHAP (Game Theory)
+                                    SHAP Analysis
                                 </button>
                                 <button
                                     onClick={() => setActiveExplainerTab('lime')}
                                     className={`px-3 py-1.5 transition-colors cursor-pointer ${activeExplainerTab === 'lime' ? 'bg-gov-blue text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
                                 >
-                                    Independent LIME (Surrogate)
+                                    LIME Analysis
                                 </button>
                             </div>
                         </div>
 
                         <p className="text-xs text-gray-600 mb-3">
                             {activeExplainerTab === 'shap' ? (
-                                <span><strong>Ensemble TreeSHAP (Shapley Additive Explanations)</strong>: Computes mathematically exact marginal contributions across all decision trees.</span>
+                                <span><strong>SHAP (Shapley Additive Explanations)</strong>: Computes how much each feature contributed towards approval or rejection.</span>
                             ) : (
-                                <span><strong>Independent LIME (Local Interpretable Model-agnostic Explanations)</strong>: Fits a localized linear surrogate model around the applicant's profile.</span>
+                                <span><strong>LIME (Local Interpretable Model-agnostic Explanations)</strong>: Explains the decision by testing small variations around the applicant's profile.</span>
                             )}
                         </p>
 
@@ -497,12 +497,12 @@ const InsightsDashboard = ({ result, applicantData }) => {
                                     <XAxis type="number" tick={{fill: '#4b5563', fontSize: 11}} />
                                     <YAxis dataKey="name" type="category" width={180} tick={{fontSize: 11, fill: '#1f2937'}} />
                                     <Tooltip 
-                                        formatter={(val) => [Number(val).toFixed(4), 'Attribution Weight']}
+                                        formatter={(val) => [Number(val).toFixed(4), 'Feature Impact']}
                                         contentStyle={{ borderRadius: '2px', border: '1px solid #d1d5db', fontSize: '12px' }} 
                                     />
                                     <Bar dataKey="contribution" isAnimationActive={false}>
                                         {(activeExplainerTab === 'shap' ? shapData : limeData).map((entry, index) => (
-                                            <Cell key={`cell-${index}`} fill={entry.contribution > 0 ? '#28a745' : '#dc3545'} />
+                                             <Cell key={`cell-${index}`} fill={entry.contribution > 0 ? '#28a745' : '#dc3545'} />
                                         ))}
                                     </Bar>
                                 </BarChart>
@@ -510,27 +510,27 @@ const InsightsDashboard = ({ result, applicantData }) => {
                         </div>
                         <div className="flex justify-center gap-6 mt-2 text-xs font-semibold text-gray-700">
                             <span className="flex items-center gap-1.5">
-                                <span className="w-3 h-3 bg-green-600 inline-block rounded-xs"></span> Favorable Factor (Enhances Credit Eligibility)
+                                <span className="w-3 h-3 bg-green-600 inline-block rounded-xs"></span> Positive Factor (Supports Approval)
                             </span>
                             <span className="flex items-center gap-1.5">
-                                <span className="w-3 h-3 bg-red-600 inline-block rounded-xs"></span> Adverse Factor (Increases Default Risk / Penalty)
+                                <span className="w-3 h-3 bg-red-600 inline-block rounded-xs"></span> Negative Factor (Increases Risk)
                             </span>
                         </div>
                     </div>
 
-                    {/* Cross-Auditor Concordance Matrix (SHAP vs. LIME) */}
+                    {/* SHAP vs. LIME Agreement Matrix */}
                     <div className="bg-white p-6 border border-gray-300 shadow-sm rounded-sm">
                         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-gray-300 pb-3 mb-4 gap-2">
                             <div>
-                                <h3 className="text-sm font-bold text-gray-900 uppercase">Cross-Auditor Concordance Matrix (SHAP vs. LIME)</h3>
-                                <p className="text-xs text-gray-600">Cross-validating underwriting factors to eliminate single-explainer methodology bias</p>
+                                <h3 className="text-sm font-bold text-gray-900 uppercase">SHAP vs. LIME Agreement Matrix</h3>
+                                <p className="text-xs text-gray-600">Comparing both explanation methods to verify consistent decision drivers</p>
                             </div>
                             <div className="flex gap-2">
                                 <span className="px-2.5 py-1 text-xs bg-slate-100 border border-slate-300 text-slate-800 font-semibold rounded-sm">
-                                    Directional Consensus: <strong>{directionalConcordance}%</strong>
+                                    Directional Agreement: <strong>{directionalConcordance}%</strong>
                                 </span>
                                 <span className="px-2.5 py-1 text-xs bg-slate-100 border border-slate-300 text-slate-800 font-semibold rounded-sm">
-                                    Top-3 Driver Overlap: <strong>{(result.trustScore.consistency * 100).toFixed(0)}%</strong>
+                                    Top 3 Features Agreement: <strong>{(result.trustScore.consistency * 100).toFixed(0)}%</strong>
                                 </span>
                             </div>
                         </div>
@@ -539,10 +539,10 @@ const InsightsDashboard = ({ result, applicantData }) => {
                             <table className="w-full text-xs text-left border-collapse">
                                 <thead>
                                     <tr className="bg-gray-100 border-b border-gray-300 text-gray-800 uppercase tracking-wider font-semibold">
-                                        <th className="py-2.5 px-3">Underwriting Parameter</th>
-                                        <th className="py-2.5 px-3 text-right">SHAP Impact (Log-Odds)</th>
-                                        <th className="py-2.5 px-3 text-right">LIME Local Weight</th>
-                                        <th className="py-2.5 px-3 text-center">Auditor Alignment Status</th>
+                                        <th className="py-2.5 px-3">Feature / Parameter</th>
+                                        <th className="py-2.5 px-3 text-right">SHAP Impact</th>
+                                        <th className="py-2.5 px-3 text-right">LIME Weight</th>
+                                        <th className="py-2.5 px-3 text-center">Agreement Status</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-200">
@@ -577,7 +577,7 @@ const InsightsDashboard = ({ result, applicantData }) => {
                         <div className="mt-3 p-3 bg-blue-50 border border-blue-200 rounded-sm text-xs text-blue-900 flex items-start gap-2">
                             <Info className="w-4 h-4 text-blue-700 shrink-0 mt-0.5" />
                             <span>
-                                <strong>Institutional Audit Standard:</strong> Concordance between independent attribution methodologies confirms that highlighted credit drivers are robust empirical factors rather than algorithmic artifacts of a single explainer framework.
+                                <strong>Why Compare Both?</strong> When both SHAP and LIME agree on the same top factors (e.g., Credit History or DTI Ratio), loan officers and reviewers can be confident that the AI's explanation is mathematically reliable.
                             </span>
                         </div>
                     </div>
@@ -591,19 +591,19 @@ const InsightsDashboard = ({ result, applicantData }) => {
             {roleView === 'applicant' && (
                 <div className="space-y-6">
 
-                    {/* Official Bank Memorandum Letterhead */}
+                    {/* Official Bank Notice */}
                     <div className="bg-white border border-gray-300 shadow-sm rounded-sm p-6">
                         
                         <div className="border-b-2 border-gray-300 pb-4 mb-5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
                             <div>
                                 <span className="text-[11px] uppercase tracking-widest text-gov-blue font-bold">
-                                    TrustFin National Retail Banking Division
+                                    TrustFin Credit Decision System
                                 </span>
                                 <h2 className="text-xl font-extrabold text-gray-900 mt-1 uppercase tracking-tight">
-                                    {isApproved ? 'Provisional Facility Sanction Advice' : 'Notice of Adverse Credit Determination'}
+                                    {isApproved ? 'Loan Sanction Letter (Approval)' : 'Loan Application Rejection Notice'}
                                 </h2>
                                 <p className="text-xs text-gray-500 mt-0.5">
-                                    Statutory Credit Appraisal Communication • Generated on {new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
+                                    Credit Evaluation Summary • Generated on {new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
                                 </p>
                             </div>
                             <div className="flex flex-wrap items-center gap-2">
@@ -643,12 +643,12 @@ const InsightsDashboard = ({ result, applicantData }) => {
                             )}
                             <div>
                                 <h3 className="font-bold text-sm uppercase tracking-wide">
-                                    {isApproved ? 'Application Provisionally Approved' : 'Application Ineligible Under Current Parameters'}
+                                    {isApproved ? 'Application Approved' : 'Application Not Approved'}
                                 </h3>
                                 <p className="text-xs mt-1 leading-relaxed">
                                     {isApproved 
-                                        ? 'We are pleased to inform you that your retail credit facility has successfully cleared our credit underwriting and solvency criteria. Below is the summary of your facility terms and cashflow commitments.' 
-                                        : 'Thank you for your application. Following our credit assessment and debt-servicing evaluation, we regret to inform you that we are unable to sanction your credit facility under the requested terms at this time.'}
+                                        ? 'We are pleased to inform you that your loan application has been approved based on your income, credit history, and debt-to-income limits. Below is your loan terms summary.' 
+                                        : 'Thank you for your application. Based on our credit risk assessment and debt-to-income limits, we are unable to approve your loan under the requested terms at this time.'}
                                 </p>
                             </div>
                         </div>
@@ -657,26 +657,26 @@ const InsightsDashboard = ({ result, applicantData }) => {
                         <div className="mb-6">
                             <h4 className="text-xs font-bold text-gray-800 uppercase tracking-wider mb-3 flex items-center gap-1.5">
                                 <Wallet className="w-4 h-4 text-gov-blue" />
-                                Household Monthly Cashflow & Debt Servicing Capacity
+                                Monthly Income & EMI Affordability
                             </h4>
 
                             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                                 <div className="p-3 bg-gray-50 border border-gray-200 rounded-sm">
-                                    <span className="text-[11px] text-gray-500 uppercase font-semibold">Total Verified Income</span>
+                                    <span className="text-[11px] text-gray-500 uppercase font-semibold">Total Monthly Income</span>
                                     <p className="text-lg font-bold text-gray-900 font-mono mt-1">₹{monthlyIncome.toLocaleString('en-IN')}</p>
-                                    <span className="text-[10px] text-gray-500">Applicant + Co-Borrower</span>
+                                    <span className="text-[10px] text-gray-500">Applicant + Co-Applicant</span>
                                 </div>
                                 <div className="p-3 bg-gray-50 border border-gray-200 rounded-sm">
-                                    <span className="text-[11px] text-gray-500 uppercase font-semibold">Estimated Monthly Installment (EMI)</span>
+                                    <span className="text-[11px] text-gray-500 uppercase font-semibold">Estimated Monthly EMI</span>
                                     <p className="text-lg font-bold text-gray-900 font-mono mt-1">₹{monthlyEMI.toLocaleString('en-IN')}</p>
-                                    <span className="text-[10px] text-gray-500">Proposed monthly repayment</span>
+                                    <span className="text-[10px] text-gray-500">Proposed monthly payment</span>
                                 </div>
                                 <div className="p-3 bg-gray-50 border border-gray-200 rounded-sm">
-                                    <span className="text-[11px] text-gray-500 uppercase font-semibold">Debt-to-Income (FOIR) Burden</span>
+                                    <span className="text-[11px] text-gray-500 uppercase font-semibold">Debt-to-Income (DTI) Ratio</span>
                                     <p className={`text-lg font-bold font-mono mt-1 ${dtiRatioVal <= 50 ? 'text-green-700' : 'text-red-700'}`}>
                                         {dtiRatioVal.toFixed(1)}%
                                     </p>
-                                    <span className="text-[10px] text-gray-500">Regulatory limit: 50.0% max</span>
+                                    <span className="text-[10px] text-gray-500">Maximum limit: 50.0%</span>
                                 </div>
                             </div>
 
@@ -684,7 +684,7 @@ const InsightsDashboard = ({ result, applicantData }) => {
                             <div className="mt-4 p-3 bg-gray-50 border border-gray-200 rounded-sm">
                                 <div className="flex justify-between text-xs font-semibold text-gray-700 mb-1">
                                     <span>EMI Share of Income: {dtiRatioVal.toFixed(1)}%</span>
-                                    <span>Statutory Cap: 50.0%</span>
+                                    <span>Limit: 50.0%</span>
                                 </div>
                                 <div className="w-full bg-gray-200 h-3 rounded-xs relative overflow-hidden">
                                     <div 
@@ -693,9 +693,9 @@ const InsightsDashboard = ({ result, applicantData }) => {
                                     ></div>
                                 </div>
                                 <div className="flex justify-between text-[10px] text-gray-500 mt-1">
-                                    <span>Safe (0% - 35%)</span>
-                                    <span>Manageable (35% - 50%)</span>
-                                    <span className="font-bold text-red-600">Insolvent (&gt; 50%)</span>
+                                    <span>Safe (&lt; 35%)</span>
+                                    <span>Moderate (35% - 50%)</span>
+                                    <span className="font-bold text-red-600">High Risk (&gt; 50%)</span>
                                 </div>
                             </div>
                         </div>
@@ -706,32 +706,32 @@ const InsightsDashboard = ({ result, applicantData }) => {
                                 <div className="p-4 bg-green-50 border border-green-200 rounded-sm">
                                     <h4 className="text-xs font-bold text-green-900 uppercase tracking-wider mb-2 flex items-center gap-1.5">
                                         <Check className="w-4 h-4 text-green-700" />
-                                        Key Eligibility Strengths Identified
+                                        Key Strengths Supporting Approval
                                     </h4>
                                     <ul className="text-xs text-green-800 space-y-1.5">
                                         <li className="flex items-start gap-1.5">
                                             <span className="text-green-600 font-bold">•</span>
-                                            <span><strong>Affordable Debt Servicing:</strong> Your monthly EMI of ₹{monthlyEMI.toLocaleString('en-IN')} leaves a comfortable surplus of ₹{netSurplus.toLocaleString('en-IN')} each month.</span>
+                                            <span><strong>Affordable Monthly EMI:</strong> Your monthly EMI of ₹{monthlyEMI.toLocaleString('en-IN')} leaves a comfortable balance of ₹{netSurplus.toLocaleString('en-IN')} each month.</span>
                                         </li>
                                         <li className="flex items-start gap-1.5">
                                             <span className="text-green-600 font-bold">•</span>
-                                            <span><strong>Satisfactory Credit History:</strong> Clean credit bureau record demonstrating consistent past debt servicing.</span>
+                                            <span><strong>Good Credit History:</strong> Clear credit bureau record with regular past repayment track record.</span>
                                         </li>
                                         <li className="flex items-start gap-1.5">
                                             <span className="text-green-600 font-bold">•</span>
-                                            <span><strong>Stable Household Cashflow:</strong> Steady income base sufficient to absorb potential financial volatility.</span>
+                                            <span><strong>Stable Household Cashflow:</strong> Steady income sufficient to cover monthly loan repayments.</span>
                                         </li>
                                     </ul>
                                 </div>
 
                                 <div className="p-4 bg-blue-50 border border-blue-200 rounded-sm">
                                     <h4 className="text-xs font-bold text-blue-900 uppercase tracking-wider mb-1">
-                                        Next Steps for Facility Disbursement
+                                        Next Steps for Loan Processing
                                     </h4>
                                     <ol className="text-xs text-blue-800 list-decimal list-inside space-y-1 mt-2">
-                                        <li>Submit self-attested copies of primary income statements (last 6 months bank statements).</li>
-                                        <li>Complete biometric or video KYC verification at your nearest designated branch.</li>
-                                        <li>Execute electronic loan agreement and auto-debit (NACH / e-Mandate) instructions.</li>
+                                        <li>Submit copies of income statements (last 6 months bank statements).</li>
+                                        <li>Complete KYC verification at your nearest bank branch or online.</li>
+                                        <li>Sign loan agreement and setup auto-debit (NACH / e-Mandate) instructions.</li>
                                     </ol>
                                 </div>
                             </div>
@@ -742,17 +742,17 @@ const InsightsDashboard = ({ result, applicantData }) => {
                                 <div className="p-4 bg-red-50 border border-red-200 rounded-sm">
                                     <h4 className="text-xs font-bold text-red-900 uppercase tracking-wider mb-2 flex items-center gap-1.5">
                                         <X className="w-4 h-4 text-red-700" />
-                                        Primary Reasons for Adverse Credit Determination
+                                        Key Factors for Rejection
                                     </h4>
                                     <p className="text-[11px] text-gray-600 mb-2">
-                                        Pursuant to statutory Fair Lending Regulations, the following factors contributed materially to this decision:
+                                        The following primary factors contributed to this decision:
                                     </p>
                                     <ul className="text-xs text-red-800 space-y-2">
                                         {dtiRatioVal > 50 && (
                                             <li className="flex items-start gap-1.5">
                                                 <span className="text-red-600 font-bold">1.</span>
                                                 <span>
-                                                    <strong>Excessive Debt Burden (FOIR Exceeded):</strong> Your proposed monthly installment of ₹{monthlyEMI.toLocaleString('en-IN')} represents {dtiRatioVal.toFixed(1)}% of your verified income. Banking regulations restrict monthly debt commitments to a maximum of 50.0% to protect borrowers from insolvency.
+                                                    <strong>High Debt Burden (DTI Exceeded):</strong> Your proposed monthly EMI of ₹{monthlyEMI.toLocaleString('en-IN')} represents {dtiRatioVal.toFixed(1)}% of your verified income. Standard lending policy caps monthly EMI at 50% of income.
                                                 </span>
                                             </li>
                                         )}
@@ -760,7 +760,7 @@ const InsightsDashboard = ({ result, applicantData }) => {
                                             <li className="flex items-start gap-1.5">
                                                 <span className="text-red-600 font-bold">2.</span>
                                                 <span>
-                                                    <strong>Adverse Credit Bureau History:</strong> Credit information reports indicate prior delinquencies, default records, or an inadequate credit score.
+                                                    <strong>Poor Credit History:</strong> Credit bureau reports indicate past defaults or irregular repayment history.
                                                 </span>
                                             </li>
                                         )}
@@ -768,7 +768,7 @@ const InsightsDashboard = ({ result, applicantData }) => {
                                             <li className="flex items-start gap-1.5">
                                                 <span className="text-red-600 font-bold">3.</span>
                                                 <span>
-                                                    <strong>Income-to-Loan Disproportion:</strong> The requested loan principal is disproportionately large relative to your primary net monthly earnings.
+                                                    <strong>High Loan Amount:</strong> The requested loan amount is high relative to your monthly income.
                                                 </span>
                                             </li>
                                         )}
@@ -779,31 +779,31 @@ const InsightsDashboard = ({ result, applicantData }) => {
                                 <div className="p-4 bg-slate-50 border border-slate-300 rounded-sm">
                                     <h4 className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-2 flex items-center gap-1.5">
                                         <ArrowRight className="w-4 h-4 text-gov-blue" />
-                                        Actionable Steps to Improve Credit Eligibility for Reapplication
+                                        Suggestions to Improve Loan Eligibility
                                     </h4>
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs mt-3">
                                         <div className="p-2.5 bg-white border border-gray-200 rounded-sm">
-                                            <strong className="text-gray-900 block mb-1">🕒 Increase Repayment Tenor:</strong>
+                                            <strong className="text-gray-900 block mb-1">🕒 Increase Loan Term:</strong>
                                             <p className="text-gray-600 text-[11px]">
-                                                Selecting a longer repayment horizon (e.g. 120 to 240 months) substantially reduces your monthly EMI, bringing your FOIR under 50%.
+                                                Selecting a longer repayment duration (e.g. 180 to 240 months) reduces your monthly EMI, bringing your DTI ratio below 50%.
                                             </p>
                                         </div>
                                         <div className="p-2.5 bg-white border border-gray-200 rounded-sm">
-                                            <strong className="text-gray-900 block mb-1">👥 Add an Earning Co-Borrower:</strong>
+                                            <strong className="text-gray-900 block mb-1">👥 Add a Co-Applicant:</strong>
                                             <p className="text-gray-600 text-[11px]">
-                                                Including a spouse or family member with verified monthly salary increases total household income and expands repayment capacity.
+                                                Adding an earning family member increases total monthly household income and expands repayment capacity.
                                             </p>
                                         </div>
                                         <div className="p-2.5 bg-white border border-gray-200 rounded-sm">
-                                            <strong className="text-gray-900 block mb-1">📉 Reduce Requested Principal:</strong>
+                                            <strong className="text-gray-900 block mb-1">📉 Reduce Loan Amount:</strong>
                                             <p className="text-gray-600 text-[11px]">
-                                                Applying for a lower facility principal lowers your monthly obligation and fits comfortably within your disposable surplus.
+                                                Applying for a smaller loan reduces your monthly EMI to fit comfortably within your income.
                                             </p>
                                         </div>
                                         <div className="p-2.5 bg-white border border-gray-200 rounded-sm">
-                                            <strong className="text-gray-900 block mb-1">💳 Rebuild Credit Bureau Score:</strong>
+                                            <strong className="text-gray-900 block mb-1">💳 Improve Credit History (CIBIL):</strong>
                                             <p className="text-gray-600 text-[11px]">
-                                                Regularize past due balances and maintain prompt on-time payments across all existing credit lines for at least 6 consecutive months.
+                                                Clear past overdue balances and maintain on-time payments across existing credit lines for at least 6 months.
                                             </p>
                                         </div>
                                     </div>
@@ -813,8 +813,8 @@ const InsightsDashboard = ({ result, applicantData }) => {
                         )}
 
                         <div className="mt-6 pt-4 border-t border-gray-200 flex justify-between items-center text-[11px] text-gray-500">
-                            <span>TrustFin Automated Lending & Governance Platform</span>
-                            <span>Equal Credit Opportunity & Fair Practice Code Compliant</span>
+                            <span>TrustFin AI • Credit Decision System</span>
+                            <span>Fair Lending & Responsible Credit Evaluation</span>
                         </div>
 
                     </div>
@@ -835,10 +835,10 @@ const InsightsDashboard = ({ result, applicantData }) => {
                                 <FileText className="w-4 h-4" />
                                 <div>
                                     <h3 className="text-xs font-bold uppercase tracking-wider">
-                                        Official Bank Document Preview • TrustFin National Bank
+                                        Document Preview • TrustFin Credit System
                                     </h3>
                                     <p className="text-[10px] text-blue-200">
-                                        {isApproved ? 'Provisional Loan Sanction Advice (Form-SANCT-A4)' : 'Adverse Status & Advisory Notice (Form-ADV-A4)'}
+                                        {isApproved ? 'Loan Sanction Letter' : 'Loan Rejection Notice'}
                                     </p>
                                 </div>
                             </div>

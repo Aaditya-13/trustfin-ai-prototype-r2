@@ -27,7 +27,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gov-gray flex flex-col font-sans">
-      {/* Enterprise Banking & Regulatory Header */}
+      {/* Header */}
       <header className="bg-gov-blue text-white p-4 shadow-sm border-b-4 border-yellow-500">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -36,29 +36,29 @@ function App() {
             </div>
             <div>
               <h1 className="text-2xl font-bold tracking-tight">TrustFin Credit Decision & Audit System</h1>
-              <p className="text-xs uppercase tracking-widest text-blue-200">Institutional Credit Underwriting & Explainability Governance Portal</p>
+              <p className="text-xs uppercase tracking-widest text-blue-200">Explainable AI Credit Underwriting & Decision Support</p>
             </div>
           </div>
           <div className="text-xs font-semibold border border-blue-400 px-3 py-1.5 rounded-sm bg-blue-900 tracking-wider uppercase">
-            Credit Risk & Underwriting Division
+            Credit Decision Portal
           </div>
         </div>
       </header>
 
-      {/* Main Underwriting Workspace */}
+      {/* Main Workspace */}
       <main className="flex-1 max-w-7xl mx-auto w-full p-6 grid grid-cols-1 xl:grid-cols-12 gap-6 mt-2">
         
-        {/* Left Column: Loan Application Dossier */}
+        {/* Left Column: Loan Application Form */}
         <div className="xl:col-span-6">
           <ApplicantForm onSubmit={handleEvaluate} isLoading={loading} />
           {error && (
             <div className="bg-red-50 text-red-800 p-4 border border-red-300 rounded-sm mt-4 shadow-sm text-sm">
-              <strong>Underwriting System Error:</strong> {error}
+              <strong>Error:</strong> {error}
             </div>
           )}
         </div>
 
-        {/* Right Column: Underwriting Determination & Audit Insights */}
+        {/* Right Column: Decision & Explainability Insights */}
         <div className="xl:col-span-6">
           {result ? (
             <InsightsDashboard result={result} applicantData={currentApplicantData} />
@@ -67,9 +67,9 @@ function App() {
               <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 mb-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
-              <p className="text-base font-bold text-gray-700">Awaiting Loan Application Appraisal</p>
+              <p className="text-base font-bold text-gray-700">Awaiting Loan Application</p>
               <p className="text-xs text-gray-500 mt-2 text-center max-w-sm">
-                Select a standard underwriting case benchmark on the left or enter applicant financial parameters, then click <strong>Execute Credit Underwriting & Solvency Appraisal</strong> to generate the credit determination, statutory debt-service compliance check, and explainability audit.
+                Select a sample test profile on the left or enter applicant details, then click <strong>Evaluate Loan Application</strong> to view the credit decision, solvency check, and explainability breakdown.
               </p>
             </div>
           )}
@@ -77,9 +77,9 @@ function App() {
 
       </main>
 
-      {/* Institutional Compliance Footer */}
+      {/* Footer */}
       <footer className="bg-white border-t border-gray-300 p-4 text-center text-xs text-gray-500 mt-auto">
-        <p>&copy; 2026 TrustFin Institutional Credit Framework. Designed for statutory compliance with automated lending governance guidelines. All algorithmic determinations are subject to designated credit officer sign-off.</p>
+        <p>&copy; 2026 TrustFin AI • Explainable Credit Decision Support System.</p>
       </footer>
     </div>
   );
