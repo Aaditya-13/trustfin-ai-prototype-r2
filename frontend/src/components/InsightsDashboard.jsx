@@ -6,7 +6,7 @@ import {
     Download, Loader2, Eye, Printer
 } from 'lucide-react';
 import { getBankingLabel, getBankingDescription } from '../utils/bankingTerms';
-import { getUnderwritingAction } from '../utils/governanceRouting';
+import { getUnderwritingAction } from '../utils/decisionAdvisory';
 import RecourseSimulator from './RecourseSimulator';
 import { downloadLoanReportPdf, fetchLoanReportPdfBlob } from '../services/api';
 
@@ -363,7 +363,7 @@ const InsightsDashboard = ({ result, applicantData }) => {
                                         )}
                                         Solvency & Debt-to-Income (DTI) Check
                                     </h3>
-                                    <p className="text-xs text-gray-600">Lending policy limit: Monthly EMI should not exceed 50.0% of total income</p>
+                                    <p className="text-xs text-gray-600">Lending safety limit: Monthly EMI should not exceed 50.0% of total income</p>
                                 </div>
                                 <span className={`px-2.5 py-1 text-xs font-bold uppercase rounded-sm border ${
                                     result.solvencyCheck.status === 'INSOLVENT' 
@@ -403,9 +403,9 @@ const InsightsDashboard = ({ result, applicantData }) => {
                                 <div className="mt-3 p-3 bg-red-100 border border-red-300 rounded-sm text-xs text-red-900 flex items-start gap-2">
                                     <AlertTriangle className="w-4 h-4 text-red-700 shrink-0 mt-0.5" />
                                     <div>
-                                        <strong className="font-bold">Policy Alert:</strong> {result.solvencyCheck.overrideWarning}
+                                        <strong className="font-bold">Repayment Alert:</strong> {result.solvencyCheck.overrideWarning}
                                         <span className="block text-[11px] text-red-800 mt-1 font-medium">
-                                            Policy Rule: Loan cannot be approved when monthly repayment exceeds 50% of income, regardless of credit history score.
+                                            Safety Rule: Loan cannot be approved when monthly repayment exceeds 50% of income, regardless of credit history score.
                                         </span>
                                     </div>
                                 </div>
@@ -800,7 +800,7 @@ const InsightsDashboard = ({ result, applicantData }) => {
                                             <li className="flex items-start gap-1.5">
                                                 <span className="text-red-600 font-bold">1.</span>
                                                 <span>
-                                                    <strong>High Debt Burden (DTI Exceeded):</strong> Your proposed monthly EMI of ₹{monthlyEMI.toLocaleString('en-IN')} represents {dtiRatioVal.toFixed(1)}% of your verified income. Standard lending policy caps monthly EMI at 50% of income.
+                                                    <strong>High Debt Burden (DTI Exceeded):</strong> Your proposed monthly EMI of ₹{monthlyEMI.toLocaleString('en-IN')} represents {dtiRatioVal.toFixed(1)}% of your verified income. Prudential banking safety limits cap monthly EMI at 50% of income.
                                                 </span>
                                             </li>
                                         )}

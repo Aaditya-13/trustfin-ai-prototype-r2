@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { FileText, UserCheck, Landmark } from 'lucide-react';
+import { FileText, UserCheck, Landmark, ArrowLeft } from 'lucide-react';
 
-const ApplicantForm = ({ onSubmit, isLoading }) => {
+const ApplicantForm = ({ onSubmit, isLoading, onBack, userRole = 'bank_officer', loanProduct }) => {
     const [formData, setFormData] = useState({
         Gender: 'Male',
         Married: 'No',
@@ -79,20 +79,41 @@ const ApplicantForm = ({ onSubmit, isLoading }) => {
         onSubmit(formData);
     };
 
+    const productName = loanProduct?.title || 'Residential Home Loan';
+
     return (
         <div className="bg-white p-6 border border-gray-300 rounded-sm mb-6 shadow-sm">
+            {/* Top Navigation & Context */}
+            {onBack && (
+                <div className="mb-4 pb-3 border-b border-gray-200 flex justify-between items-center">
+                    <button
+                        type="button"
+                        onClick={onBack}
+                        className="text-xs font-semibold text-gray-700 hover:text-gov-blue flex items-center gap-1.5 cursor-pointer transition-colors"
+                    >
+                        <ArrowLeft className="w-4 h-4" />
+                        Back to Loan Selection
+                    </button>
+                    <span className="text-[11px] font-mono text-gray-500">
+                        Facility: <strong className="text-gray-800">{productName}</strong>
+                    </span>
+                </div>
+            )}
+
             <div className="border-b border-gray-300 pb-3 mb-5 flex justify-between items-start">
                 <div>
                     <h2 className="text-base font-bold text-gray-900 uppercase tracking-tight flex items-center gap-2">
                         <FileText className="w-4 h-4 text-gov-blue" />
-                        Loan Application Form
+                        Loan Application Dossier
                     </h2>
                     <p className="text-xs text-gray-500 mt-0.5">
-                        Enter applicant parameters to evaluate loan eligibility, debt ratios, and AI risk scoring
+                        {userRole === 'bank_officer' 
+                            ? 'Enter applicant parameters for official credit scoring, solvency verification, and AI explainability audit'
+                            : 'Enter your financial and personal details to evaluate loan eligibility and instant underwriting decision'}
                     </p>
                 </div>
                 <span className="text-[11px] font-bold px-2 py-0.5 bg-blue-50 text-gov-blue border border-blue-200 rounded-sm uppercase tracking-wider">
-                    Retail Credit Form
+                    {userRole === 'bank_officer' ? 'Officer Entry' : 'Direct Portal'}
                 </span>
             </div>
 
