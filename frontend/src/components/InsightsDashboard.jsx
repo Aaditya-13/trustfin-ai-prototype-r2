@@ -96,26 +96,26 @@ const InsightsDashboard = ({ result, applicantData }) => {
     const determinationText = isApproved ? 'ELIGIBLE FOR APPROVAL' : 'RECOMMENDED FOR REJECTION';
     const trustPercent = Math.max(0, Math.min(100, result.trustScore.overallTrustScore * 100));
 
-    // Institutional Audit Reliability Classification
+    // Trust Reliability Classification
     let trustLevel = {
-        label: 'AUDIT VERIFIED: HIGH RELIABILITY',
+        label: 'HIGH TRUST: RELIABLE EXPLANATION',
         color: 'text-green-800 bg-green-50 border-green-300',
         badgeColor: 'bg-green-700',
-        desc: 'Explanations demonstrate high mathematical fidelity, input robustness, and cross-algorithmic consensus.'
+        desc: 'Both explanation methods strongly agree and the decision remains stable.'
     };
     if (trustPercent < 50) {
         trustLevel = {
-            label: 'AUDIT ALERT: UNRELIABLE EXPLANATION / ANOMALY',
+            label: 'LOW TRUST: MANUAL REVIEW REQUIRED',
             color: 'text-red-800 bg-red-50 border-red-300',
             badgeColor: 'bg-red-700',
-            desc: 'Underwriting drivers fail statutory audit criteria. Mandatory manual credit underwriter review required.'
+            desc: 'Explanation methods conflict or are unstable. A loan officer must review manually.'
         };
     } else if (trustPercent < 75) {
         trustLevel = {
-            label: 'AUDIT ADVISORY: SECONDARY REVIEW REQUIRED',
+            label: 'MODERATE TRUST: REVIEW RECOMMENDED',
             color: 'text-amber-800 bg-amber-50 border-amber-300',
             badgeColor: 'bg-amber-600',
-            desc: 'Explanations exhibit minor methodological divergence between auditing algorithms. Secondary review advised.'
+            desc: 'Minor differences found between explanation methods; officer review suggested.'
         };
     }
 
@@ -148,14 +148,14 @@ const InsightsDashboard = ({ result, applicantData }) => {
         const shapVal = shapFeat ? shapFeat.contribution : 0;
         const limeVal = limeFeat ? limeFeat.contribution : 0;
 
-        let status = 'Methodology Divergence';
+        let status = 'Explanation Difference';
         let statusBadgeClass = 'bg-amber-50 text-amber-800 border-amber-200';
 
         if ((shapVal > 0.001 && limeVal > 0.001) || (shapVal < -0.001 && limeVal < -0.001)) {
-            status = shapVal > 0 ? 'Consensus: Favorable' : 'Consensus: Adverse Risk';
+            status = shapVal > 0 ? 'Agreed: Positive Factor' : 'Agreed: Risk Factor';
             statusBadgeClass = shapVal > 0 ? 'bg-green-50 text-green-800 border-green-300' : 'bg-red-50 text-red-800 border-red-300';
         } else if (Math.abs(shapVal) < 0.001 || Math.abs(limeVal) < 0.001) {
-            status = 'Marginal Influence';
+            status = 'Low Impact';
             statusBadgeClass = 'bg-gray-50 text-gray-600 border-gray-200';
         }
 
@@ -256,7 +256,7 @@ const InsightsDashboard = ({ result, applicantData }) => {
                         }`}
                     >
                         <Building2 className="w-4 h-4" />
-                        Bank Official / Risk Audit View
+                        Bank Officer View
                     </button>
                     <button
                         onClick={() => setRoleView('applicant')}
@@ -267,7 +267,7 @@ const InsightsDashboard = ({ result, applicantData }) => {
                         }`}
                     >
                         <User className="w-4 h-4" />
-                        Applicant Notice View
+                        Applicant View
                     </button>
                 </div>
             </div>
@@ -324,7 +324,7 @@ const InsightsDashboard = ({ result, applicantData }) => {
                                         ? 'bg-amber-100 text-amber-900 border-amber-300'
                                         : 'bg-green-100 text-green-900 border-green-300'
                                 }`}>
-                                    {result.solvencyCheck.status === 'INSOLVENT' ? 'INSOLVENT: DEBT EXCEEDS 50% LIMIT' : result.solvencyCheck.status === 'MODERATE' ? 'MODERATE DEBT (35% - 50%)' : 'OPTIMAL DEBT (< 35%)'}
+                                    {result.solvencyCheck.status === 'INSOLVENT' ? 'HIGH RISK: REPAYMENT EXCEEDS 50% LIMIT' : result.solvencyCheck.status === 'MODERATE' ? 'MODERATE REPAYMENT (35% - 50%)' : 'HEALTHY REPAYMENT (< 35%)'}
                                 </span>
                             </div>
 
@@ -405,22 +405,22 @@ const InsightsDashboard = ({ result, applicantData }) => {
                             <div className="p-3 bg-gray-50 border border-gray-200 rounded-sm text-center">
                                 <p className="text-xs font-semibold text-gray-600 uppercase tracking-wider">Faithfulness</p>
                                 <p className="text-xl font-bold text-gray-900 mt-0.5 font-mono">{(result.trustScore.faithfulness * 100).toFixed(1)}%</p>
-                                <p className="text-[11px] text-gray-500 mt-1">Weight: 25% • Feature Masking Impact</p>
+                                <p className="text-[11px] text-gray-500 mt-1">Weight: 25% • Truthfulness (Feature Removal Test)</p>
                             </div>
                             <div className="p-3 bg-gray-50 border border-gray-200 rounded-sm text-center">
                                 <p className="text-xs font-semibold text-gray-600 uppercase tracking-wider">Stability</p>
                                 <p className="text-xl font-bold text-gray-900 mt-0.5 font-mono">{(result.trustScore.stability * 100).toFixed(1)}%</p>
-                                <p className="text-[11px] text-gray-500 mt-1">Weight: 25% • 1% Noise Invariance</p>
+                                <p className="text-[11px] text-gray-500 mt-1">Weight: 25% • Robustness (Noise Test)</p>
                             </div>
                             <div className="p-3 bg-gray-50 border border-gray-200 rounded-sm text-center">
                                 <p className="text-xs font-semibold text-gray-600 uppercase tracking-wider">Consistency</p>
                                 <p className="text-xl font-bold text-gray-900 mt-0.5 font-mono">{(result.trustScore.consistency * 100).toFixed(1)}%</p>
-                                <p className="text-[11px] text-gray-500 mt-1">Weight: 25% • SHAP vs LIME Agreement</p>
+                                <p className="text-[11px] text-gray-500 mt-1">Weight: 25% • Method Agreement (SHAP vs LIME)</p>
                             </div>
                             <div className="p-3 bg-gray-50 border border-gray-200 rounded-sm text-center">
                                 <p className="text-xs font-semibold text-gray-600 uppercase tracking-wider">Fairness</p>
                                 <p className="text-xl font-bold text-gray-900 mt-0.5 font-mono">{((result.trustScore.fairness ?? 1.0) * 100).toFixed(1)}%</p>
-                                <p className="text-[11px] text-gray-500 mt-1">Weight: 25% • Demographic Invariance</p>
+                                <p className="text-[11px] text-gray-500 mt-1">Weight: 25% • Demographic Fairness (Gender Test)</p>
                             </div>
                         </div>
 
@@ -527,10 +527,10 @@ const InsightsDashboard = ({ result, applicantData }) => {
                             </div>
                             <div className="flex gap-2">
                                 <span className="px-2.5 py-1 text-xs bg-slate-100 border border-slate-300 text-slate-800 font-semibold rounded-sm">
-                                    Directional Agreement: <strong>{directionalConcordance}%</strong>
+                                    Overall Agreement: <strong>{directionalConcordance}%</strong>
                                 </span>
                                 <span className="px-2.5 py-1 text-xs bg-slate-100 border border-slate-300 text-slate-800 font-semibold rounded-sm">
-                                    Top 3 Features Agreement: <strong>{(result.trustScore.consistency * 100).toFixed(0)}%</strong>
+                                    Top 3 Key Factors Agreement: <strong>{(result.trustScore.consistency * 100).toFixed(0)}%</strong>
                                 </span>
                             </div>
                         </div>
@@ -541,7 +541,7 @@ const InsightsDashboard = ({ result, applicantData }) => {
                                     <tr className="bg-gray-100 border-b border-gray-300 text-gray-800 uppercase tracking-wider font-semibold">
                                         <th className="py-2.5 px-3">Feature / Parameter</th>
                                         <th className="py-2.5 px-3 text-right">SHAP Impact</th>
-                                        <th className="py-2.5 px-3 text-right">LIME Weight</th>
+                                        <th className="py-2.5 px-3 text-right">LIME Impact</th>
                                         <th className="py-2.5 px-3 text-center">Agreement Status</th>
                                     </tr>
                                 </thead>
