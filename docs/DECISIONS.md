@@ -47,3 +47,18 @@ Eliminates artificial Trust Score fluctuation on repeated evaluations of identic
 Status:
 Approved
 
+---
+
+## ADR-005 — Scope Demarcation vs. AegisAI and Deep Explainability Research Frontiers
+
+Decision:
+1. Strictly ban all enterprise policy/governance terminology (`governance`, `policy engine`, `multi-tenancy`, `RBAC`, `risk routing`) from TrustFin's UI and technical documentation to eliminate domain overlap with AegisAI.
+2. Focus TrustFin's core research and academic contribution exclusively on **Scientific Explanation Validation (Meta-XAI)**, **Dual-Explainer Consensus (SHAP vs. LIME)**, **Algorithmic Counterfactual Recourse (Wachter et al.)**, and **Contrastive Case-Based Explanations**.
+
+Reason:
+AegisAI positions itself as an external policy middleware for third-party black-box models. TrustFin's core scientific contribution is evaluating whether post-hoc AI explanations can mathematically be trusted and providing actionable algorithmic recourse to applicants.
+
+Status:
+Approved
+
+
