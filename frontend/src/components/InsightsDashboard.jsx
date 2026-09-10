@@ -6,6 +6,8 @@ import {
     Download, Loader2, Eye, Printer
 } from 'lucide-react';
 import { getBankingLabel, getBankingDescription } from '../utils/bankingTerms';
+import { getUnderwritingAction } from '../utils/governanceRouting';
+import RecourseSimulator from './RecourseSimulator';
 import { downloadLoanReportPdf, fetchLoanReportPdfBlob } from '../services/api';
 
 const InsightsDashboard = ({ result, applicantData }) => {
@@ -95,6 +97,7 @@ const InsightsDashboard = ({ result, applicantData }) => {
     const statusColor = isApproved ? 'bg-gov-green text-white' : 'bg-gov-red text-white';
     const determinationText = isApproved ? 'ELIGIBLE FOR APPROVAL' : 'RECOMMENDED FOR REJECTION';
     const trustPercent = Math.max(0, Math.min(100, result.trustScore.overallTrustScore * 100));
+    const underwritingAction = getUnderwritingAction(result, applicantData);
 
     // Trust Reliability Classification
     let trustLevel = {
@@ -298,6 +301,51 @@ const InsightsDashboard = ({ result, applicantData }) => {
                             {determinationText}
                         </div>
                     </div>
+
+                    {/* Operational Underwriting Action Directive Card */}
+                    {underwritingAction && (
+                        <div className={`p-4 border rounded-sm shadow-sm ${underwritingAction.cardBgClass}`}>
+                            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-gray-200/80 pb-2.5 mb-3">
+                                <div className="flex items-center gap-2">
+                                    <span className={`w-2.5 h-2.5 rounded-full animate-pulse ${underwritingAction.indicatorClass}`}></span>
+                                    <span className="text-xs font-bold text-gray-900 uppercase tracking-wide">
+                                        Workflow Recommendation & Directive
+                                    </span>
+                                </div>
+                                <span className={`px-2.5 py-1 text-xs font-extrabold uppercase tracking-wider rounded-sm border ${underwritingAction.badgeClass}`}>
+                                    {underwritingAction.badgeText}
+                                </span>
+                            </div>
+
+                            <div className="space-y-2.5">
+                                <p className="text-xs font-bold text-gray-900">
+                                    {underwritingAction.headline}
+                                </p>
+
+                                <div className="bg-white/80 border border-gray-200 rounded-sm p-3">
+                                    <p className="text-[11px] font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+                                        Decision Reasoning & Evidence:
+                                    </p>
+                                    <ul className="text-xs text-gray-800 space-y-1">
+                                        {underwritingAction.reasons.map((reason, idx) => (
+                                            <li key={idx} className="flex items-start gap-1.5">
+                                                <span className={`font-bold ${underwritingAction.accentColor}`}>•</span>
+                                                <span>{reason}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+
+                                <div className="flex items-start gap-2 bg-white/60 border border-gray-200 p-2.5 rounded-sm text-xs">
+                                    <ArrowRight className={`w-4 h-4 shrink-0 mt-0.5 ${underwritingAction.accentColor}`} />
+                                    <div>
+                                        <strong className="text-gray-900 font-bold">Officer Action: </strong>
+                                        <span className="text-gray-700">{underwritingAction.nextStep}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
 
                     {/* Dedicated Official Bank PDF Report Card */}
                     {renderPdfReportCard()}
@@ -775,39 +823,8 @@ const InsightsDashboard = ({ result, applicantData }) => {
                                     </ul>
                                 </div>
 
-                                {/* Actionable Remediation Guidance */}
-                                <div className="p-4 bg-slate-50 border border-slate-300 rounded-sm">
-                                    <h4 className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                                        <ArrowRight className="w-4 h-4 text-gov-blue" />
-                                        Suggestions to Improve Loan Eligibility
-                                    </h4>
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs mt-3">
-                                        <div className="p-2.5 bg-white border border-gray-200 rounded-sm">
-                                            <strong className="text-gray-900 block mb-1">🕒 Increase Loan Term:</strong>
-                                            <p className="text-gray-600 text-[11px]">
-                                                Selecting a longer repayment duration (e.g. 180 to 240 months) reduces your monthly EMI, bringing your DTI ratio below 50%.
-                                            </p>
-                                        </div>
-                                        <div className="p-2.5 bg-white border border-gray-200 rounded-sm">
-                                            <strong className="text-gray-900 block mb-1">👥 Add a Co-Applicant:</strong>
-                                            <p className="text-gray-600 text-[11px]">
-                                                Adding an earning family member increases total monthly household income and expands repayment capacity.
-                                            </p>
-                                        </div>
-                                        <div className="p-2.5 bg-white border border-gray-200 rounded-sm">
-                                            <strong className="text-gray-900 block mb-1">📉 Reduce Loan Amount:</strong>
-                                            <p className="text-gray-600 text-[11px]">
-                                                Applying for a smaller loan reduces your monthly EMI to fit comfortably within your income.
-                                            </p>
-                                        </div>
-                                        <div className="p-2.5 bg-white border border-gray-200 rounded-sm">
-                                            <strong className="text-gray-900 block mb-1">💳 Improve Credit History (CIBIL):</strong>
-                                            <p className="text-gray-600 text-[11px]">
-                                                Clear past overdue balances and maintain on-time payments across existing credit lines for at least 6 months.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
+                                {/* Interactive What-If Eligibility Sandbox (Recourse Simulator) */}
+                                <RecourseSimulator applicantData={applicantData} result={result} />
 
                             </div>
                         )}
