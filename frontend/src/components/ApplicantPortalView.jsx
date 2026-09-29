@@ -45,7 +45,7 @@ const ApplicantPortalView = ({ result, applicantData, onNewApplication }) => {
                 setPdfBlobUrl(url);
             } catch (err) {
                 console.error("PDF Preview generation error:", err);
-                setPdfError("Failed to generate official document preview.");
+                setPdfError("Failed to generate credit assessment report preview.");
             } finally {
                 setLoadingPdfPreview(false);
             }
@@ -76,7 +76,7 @@ const ApplicantPortalView = ({ result, applicantData, onNewApplication }) => {
             await downloadLoanReportPdf(applicantData, result);
         } catch (err) {
             console.error("PDF generation error:", err);
-            alert("Failed to download official memorandum. Please verify service status.");
+            alert("Failed to download credit assessment report. Please verify service status.");
         } finally {
             setDownloadingPdf(false);
         }
@@ -92,7 +92,7 @@ const ApplicantPortalView = ({ result, applicantData, onNewApplication }) => {
                         Applicant Portal
                     </span>
                     <h2 className="text-base font-bold text-gray-900 mt-1 uppercase tracking-tight">
-                        Loan Application Decision & Guidance
+                        Credit Assessment & Guidance
                     </h2>
                 </div>
 
@@ -103,22 +103,22 @@ const ApplicantPortalView = ({ result, applicantData, onNewApplication }) => {
                         className="px-3.5 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-sm text-xs font-semibold flex items-center gap-1.5 cursor-pointer transition-colors border border-gray-300"
                     >
                         <RefreshCw className="w-3.5 h-3.5" />
-                        Apply for Another Loan
+                        Start New Assessment
                     </button>
                 </div>
             </div>
 
-            {/* Official Bank Notice Container */}
+            {/* Credit Assessment Report Container */}
             <div className="bg-white border border-gray-300 shadow-sm rounded-sm p-6">
                 
                 {/* Header Letterhead */}
                 <div className="border-b-2 border-gray-300 pb-4 mb-5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
                     <div>
                         <span className="text-[11px] uppercase tracking-widest text-gov-blue font-bold">
-                            TrustFin Retail Credit Division
+                            TrustFin AI Credit Assessment
                         </span>
                         <h2 className="text-xl font-extrabold text-gray-900 mt-1 uppercase tracking-tight">
-                            {isApproved ? 'Loan Sanction Letter (Approval)' : 'Loan Application Rejection Notice'}
+                            {isApproved ? 'Credit Assessment Report' : 'Credit Assessment Report'}
                         </h2>
                         <p className="text-xs text-gray-500 mt-0.5">
                             Credit Assessment Dossier • Issued on {new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
@@ -126,13 +126,13 @@ const ApplicantPortalView = ({ result, applicantData, onNewApplication }) => {
                     </div>
                     <div className="flex flex-wrap items-center gap-2">
                         <span className="text-xs font-mono font-bold bg-gray-100 border border-gray-300 px-2 py-1 rounded-sm text-gray-700">
-                            Ref: TF-SANCT-849201
+                            Ref: TF-ASMT-849201
                         </span>
                         <button
                             type="button"
                             onClick={handleOpenPdfPreview}
                             className="px-2.5 py-1 bg-white hover:bg-gray-100 text-gray-800 border border-gray-300 rounded-sm text-xs font-semibold flex items-center gap-1 cursor-pointer transition-colors shadow-xs"
-                            title="Preview Official Document"
+                            title="Preview Credit Assessment Report"
                         >
                             <Eye className="w-3.5 h-3.5 text-gov-blue" />
                             Preview
@@ -142,7 +142,7 @@ const ApplicantPortalView = ({ result, applicantData, onNewApplication }) => {
                             onClick={handleDownloadPdf}
                             disabled={downloadingPdf}
                             className="px-3 py-1 bg-gov-blue hover:bg-blue-900 text-white border border-blue-900 rounded-sm text-xs font-bold uppercase tracking-wider flex items-center gap-1 cursor-pointer transition-colors disabled:opacity-50 shadow-xs"
-                            title="Download Official PDF Memorandum"
+                            title="Download Credit Assessment Report"
                         >
                             {downloadingPdf ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Download className="w-3.5 h-3.5" />}
                             Download PDF
@@ -161,12 +161,12 @@ const ApplicantPortalView = ({ result, applicantData, onNewApplication }) => {
                     )}
                     <div>
                         <h3 className="font-extrabold text-xl uppercase tracking-wide">
-                            {isApproved ? 'Application Approved' : 'Application Not Approved'}
+                            {isApproved ? 'Assessment Complete' : 'Assessment Requires Further Review'}
                         </h3>
                         <p className="text-sm mt-1 leading-relaxed">
                             {isApproved 
-                                ? 'We are pleased to inform you that your loan application has been approved based on your income, credit history, and debt-to-income limits. Below is your loan terms summary.' 
-                                : 'Thank you for your application. Based on our credit risk assessment and debt-to-income limits, we are unable to approve your loan under the requested terms at this time.'}
+                                ? 'The application has been assessed using the provided financial information, credit indicators, and debt-to-income metrics. The assessment indicates that the application meets the configured eligibility criteria and is ready for further review.' 
+                                : 'The assessment indicates that the application does not currently meet the configured eligibility criteria. The factors below explain the key considerations identified by the assessment.'}
                         </p>
                     </div>
                 </div>
@@ -224,7 +224,7 @@ const ApplicantPortalView = ({ result, applicantData, onNewApplication }) => {
                         <div className="p-4 bg-green-50 border border-green-200 rounded-sm">
                             <h4 className="text-xs font-bold text-green-900 uppercase tracking-wider mb-2 flex items-center gap-1.5">
                                 <Check className="w-4 h-4 text-green-700" />
-                                Key Strengths Supporting Approval
+                                Key Factors Supporting the Assessment
                             </h4>
                             <ul className="text-xs text-green-800 space-y-1.5">
                                 <li className="flex items-start gap-1.5">
@@ -244,12 +244,12 @@ const ApplicantPortalView = ({ result, applicantData, onNewApplication }) => {
 
                         <div className="p-4 bg-blue-50 border border-blue-200 rounded-sm">
                             <h4 className="text-xs font-bold text-blue-900 uppercase tracking-wider mb-1">
-                                Next Steps for Loan Disbursement
+                                Recommended Next Steps
                             </h4>
                             <ol className="text-xs text-blue-800 list-decimal list-inside space-y-1 mt-2">
-                                <li>Submit copies of income statements (last 6 months bank statements).</li>
-                                <li>Complete KYC verification at your nearest bank branch or online.</li>
-                                <li>Sign loan agreement and setup auto-debit (NACH / e-Mandate) instructions.</li>
+                                <li>Review the assessment and supporting factors with the lending institution.</li>
+                                <li>Complete any additional documentation requested by the lender.</li>
+                                <li>Proceed with the lender's standard verification and approval process.</li>
                             </ol>
                         </div>
                     </div>
@@ -260,10 +260,10 @@ const ApplicantPortalView = ({ result, applicantData, onNewApplication }) => {
                         <div className="p-4 bg-red-50 border border-red-200 rounded-sm">
                             <h4 className="text-xs font-bold text-red-900 uppercase tracking-wider mb-2 flex items-center gap-1.5">
                                 <X className="w-4 h-4 text-red-700" />
-                                Primary Factors Leading to Adverse Decision
+                                Factors Requiring Further Review
                             </h4>
                             <p className="text-[11px] text-gray-600 mb-2">
-                                In accordance with fair lending standards, here are the principal factors impacting this decision:
+                                The following factors contributed to the assessment outcome:
                             </p>
                             <ul className="text-xs text-red-800 space-y-2">
                                 {dtiRatioVal > 50 && (
@@ -300,7 +300,7 @@ const ApplicantPortalView = ({ result, applicantData, onNewApplication }) => {
                 )}
 
                 <div className="mt-6 pt-4 border-t border-gray-200 flex flex-col sm:flex-row justify-between items-center text-[11px] text-gray-500 gap-2">
-                    <span>TrustFin AI • Institutional Retail Lending Engine</span>
+                    <span>TrustFin AI • Explainable Credit Decision Support</span>
                     <span>Fair Lending & Responsible Credit Evaluation</span>
                 </div>
 
@@ -316,7 +316,7 @@ const ApplicantPortalView = ({ result, applicantData, onNewApplication }) => {
                             <div className="flex items-center gap-2">
                                 <Eye className="w-4 h-4 text-yellow-400" />
                                 <h3 className="text-xs font-bold uppercase tracking-wider">
-                                    Official Credit Assessment Memorandum Preview
+                                    Credit Assessment Report Preview
                                 </h3>
                             </div>
                             <div className="flex items-center gap-2">
@@ -353,7 +353,7 @@ const ApplicantPortalView = ({ result, applicantData, onNewApplication }) => {
                             {loadingPdfPreview ? (
                                 <div className="text-center p-8">
                                     <Loader2 className="w-8 h-8 text-gov-blue animate-spin mx-auto mb-2" />
-                                    <p className="text-xs font-semibold text-gray-700">Rendering Verified Loan Memorandum...</p>
+                                    <p className="text-xs font-semibold text-gray-700">Rendering Credit Assessment Report...</p>
                                 </div>
                             ) : pdfError ? (
                                 <div className="text-center p-8 max-w-md">
@@ -365,7 +365,7 @@ const ApplicantPortalView = ({ result, applicantData, onNewApplication }) => {
                                 <iframe
                                     ref={iframeRef}
                                     src={pdfBlobUrl}
-                                    title="Credit Memorandum PDF"
+                                    title="Credit Assessment Report PDF"
                                     className="w-full h-full border-none"
                                 />
                             ) : null}
