@@ -366,20 +366,39 @@ const BankOfficerAudit = ({ result, applicantData, onBackToSummary }) => {
                     {showFormula && (
                         <div className="mt-3 p-4 bg-slate-50 border border-slate-200 rounded-sm text-xs text-gray-700 space-y-3">
                             <p className="font-bold text-gray-900 uppercase tracking-wider">Composite Trust Index Formulation:</p>
-                            <p className="bg-white p-2.5 border border-gray-300 rounded-sm font-mono text-gray-900">
-                                <strong>Trust Score (T)</strong> = (0.25 × Faithfulness) + (0.25 × Stability) + (0.25 × Consistency) + (0.25 × Fairness)
-                            </p>
+                            <div className="bg-white p-2.5 border border-gray-300 rounded-sm text-gray-900">
+                                <p className="font-mono font-semibold text-center leading-relaxed">
+                                    <strong>Trust Score (T)</strong> = (25% × Faithfulness) + (25% × Stability) + (25% × Consistency) + (25% × Fairness)
+                                </p>
+                                <p className="text-[11px] text-gray-500 text-center mt-1">
+                                    In simple terms: each of the 4 pillars contributes equally (25%) to the overall Trust Score.
+                                </p>
+                            </div>
                             
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
                                 <div className="bg-white p-3 border border-gray-200 rounded-sm">
-                                    <p className="font-bold text-gray-800 mb-1">Faithfulness Formulation:</p>
-                                    <p className="font-mono text-[11px] text-gray-700">F = 1.0 - (P_masked / P_original)</p>
-                                    <p className="text-[11px] text-gray-500 mt-1">High drop in output probability indicates genuine dependency on identified top features.</p>
+                                    <p className="font-bold text-gray-800 mb-1">Faithfulness: Does the explanation match the model?</p>
+                                    <p className="text-[11px] text-gray-700 leading-relaxed">
+                                        We hide the features identified as most important and check how much the model's prediction changes.
+                                    </p>
+                                    <div className="mt-2 p-2 bg-gray-50 border border-gray-200 rounded-sm text-[11px] text-gray-700 leading-relaxed">
+                                        <strong>Example:</strong> If the model's original probability is 80% and falls to 20% after the important features are hidden, the explanation is strongly supported because the prediction changed significantly.
+                                    </div>
+                                    <p className="text-[10px] text-gray-500 mt-1.5">
+                                        <strong>Higher score =</strong> the highlighted features genuinely influence the model's prediction.
+                                    </p>
                                 </div>
                                 <div className="bg-white p-3 border border-gray-200 rounded-sm">
-                                    <p className="font-bold text-gray-800 mb-1">Consistency Formulation:</p>
-                                    <p className="font-mono text-[11px] text-gray-700">J(S, L) = |TopK(S) ∩ TopK(L)| / |TopK(S) ∪ TopK(L)|</p>
-                                    <p className="text-[11px] text-gray-500 mt-1">Jaccard set similarity between top-3 SHAP attributions and top-3 LIME attributions.</p>
+                                    <p className="font-bold text-gray-800 mb-1">Consistency: Do SHAP and LIME agree?</p>
+                                    <p className="text-[11px] text-gray-700 leading-relaxed">
+                                        We compare the most important features identified by SHAP and LIME and count how many features both methods have in common.
+                                    </p>
+                                    <div className="mt-2 p-2 bg-gray-50 border border-gray-200 rounded-sm text-[11px] text-gray-700 leading-relaxed">
+                                        <strong>Example:</strong> If SHAP and LIME identify the same 3 features, consistency is <strong>100%</strong>. If they identify 4 unique features in total and 2 are shared, consistency is <strong>50%</strong>.
+                                    </div>
+                                    <p className="text-[10px] text-gray-500 mt-1.5">
+                                        <strong>Higher score =</strong> both explanation methods identify more of the same important factors.
+                                    </p>
                                 </div>
                             </div>
                         </div>
