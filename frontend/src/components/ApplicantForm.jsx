@@ -20,43 +20,43 @@ const ApplicantForm = ({ onSubmit, isLoading, onBack, userRole = 'bank_officer',
     const testProfiles = [
         { 
             id: 1, 
-            label: "Profile 1: Salaried Executive", 
+            label: "Profile 1: Jane Doe (Salaried Executive)", 
             badge: "Low Risk", 
             data: { Gender: 'Female', Married: 'Yes', Dependents: 0, Education: 'Graduate', Employment_Status: 'Salaried', Applicant_Income: 80000, Coapplicant_Income: 20000, Loan_Amount: 100000, Loan_Term: 360, Credit_History: 1, Property_Area: 'Urban', Age: 35 } 
         },
         { 
             id: 2, 
-            label: "Profile 2: Low Income & Bad Credit", 
+            label: "Profile 2: John Doe (Low Income & Bad Credit)", 
             badge: "Poor CIBIL", 
             data: { Gender: 'Male', Married: 'No', Dependents: 3, Education: 'Not Graduate', Employment_Status: 'Unemployed', Applicant_Income: 15000, Coapplicant_Income: 0, Loan_Amount: 300000, Loan_Term: 360, Credit_History: 0, Property_Area: 'Rural', Age: 24 } 
         },
         { 
             id: 3, 
-            label: "Profile 3: Self-Employed (Borderline)", 
+            label: "Profile 3: Robert Smith (Self-Employed)", 
             badge: "Moderate Risk", 
             data: { Gender: 'Male', Married: 'Yes', Dependents: 1, Education: 'Graduate', Employment_Status: 'Self-Employed', Applicant_Income: 45000, Coapplicant_Income: 0, Loan_Amount: 160000, Loan_Term: 180, Credit_History: 0, Property_Area: 'Semiurban', Age: 42 } 
         },
         { 
             id: 4, 
-            label: "Profile 4: High Loan Amount", 
+            label: "Profile 4: Emily Davis (High Loan Amount)", 
             badge: "High Principal", 
             data: { Gender: 'Female', Married: 'No', Dependents: 0, Education: 'Graduate', Employment_Status: 'Salaried', Applicant_Income: 90000, Coapplicant_Income: 0, Loan_Amount: 500000, Loan_Term: 360, Credit_History: 1, Property_Area: 'Urban', Age: 28 } 
         },
         { 
             id: 5, 
-            label: "Profile 5: Dual-Income Family", 
+            label: "Profile 5: Michael Clark (Dual-Income Family)", 
             badge: "Co-Applicant Backed", 
             data: { Gender: 'Male', Married: 'Yes', Dependents: 2, Education: 'Graduate', Employment_Status: 'Salaried', Applicant_Income: 60000, Coapplicant_Income: 40000, Loan_Amount: 120000, Loan_Term: 360, Credit_History: 1, Property_Area: 'Semiurban', Age: 45 } 
         },
         { 
             id: 6, 
-            label: "Profile 6: Rural Self-Employed", 
+            label: "Profile 6: Sarah Jenkins (Rural Self-Employed)", 
             badge: "Rural Sector", 
             data: { Gender: 'Female', Married: 'Yes', Dependents: 0, Education: 'Not Graduate', Employment_Status: 'Self-Employed', Applicant_Income: 35000, Coapplicant_Income: 10000, Loan_Amount: 180000, Loan_Term: 360, Credit_History: 1, Property_Area: 'Rural', Age: 50 } 
         },
         { 
             id: 7, 
-            label: "Profile 7: High Debt Burden (Insolvent)", 
+            label: "Profile 7: Alex Turner (High Debt Burden)", 
             badge: "DTI > 50% Limit", 
             data: { Gender: 'Male', Married: 'No', Dependents: 0, Education: 'Graduate', Employment_Status: 'Salaried', Applicant_Income: 2500, Coapplicant_Income: 0, Loan_Amount: 80000, Loan_Term: 3, Credit_History: 1, Property_Area: 'Urban', Age: 22 } 
         }

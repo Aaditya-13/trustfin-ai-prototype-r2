@@ -3,10 +3,10 @@ import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell 
 } from 'recharts';
 import { 
-    ArrowLeft, ShieldCheck, CheckCircle, AlertTriangle, 
+    ArrowLeft, ShieldCheck, CheckCircle, AlertTriangle, AlertCircle,
     Info, ChevronDown, ChevronUp, BarChart2, Layers, Cpu, Check, HelpCircle
 } from 'lucide-react';
-import { getBankingLabel, getBankingDescription } from '../utils/bankingTerms';
+import { getBankingLabel, getBankingDescription, getFeatureActualValue } from '../utils/bankingTerms';
 
 const BankOfficerAudit = ({ result, applicantData, onBackToSummary }) => {
     const [activeExplainerTab, setActiveExplainerTab] = useState('shap');
@@ -40,22 +40,24 @@ const BankOfficerAudit = ({ result, applicantData, onBackToSummary }) => {
         };
     }
 
-    // Prepare SHAP Data mapped to official banking names
+    // Prepare SHAP Data mapped to official banking names and actual input values
     const shapSorted = [...result.shap.features].sort((a, b) => Math.abs(b.contribution) - Math.abs(a.contribution));
     const shapData = shapSorted.slice(0, 7).map(f => ({
         rawName: f.feature,
         name: getBankingLabel(f.feature),
         contribution: Number(f.contribution.toFixed(3)),
-        direction: f.direction
+        direction: f.direction,
+        actualValue: getFeatureActualValue(f.feature, applicantData, result, f.value)
     }));
 
-    // Prepare LIME Data mapped to official banking names
+    // Prepare LIME Data mapped to official banking names and actual input values
     const limeSorted = [...result.lime.features].sort((a, b) => Math.abs(b.contribution) - Math.abs(a.contribution));
     const limeData = limeSorted.slice(0, 7).map(f => ({
         rawName: f.feature,
         name: getBankingLabel(f.feature),
         contribution: Number(f.contribution.toFixed(3)),
-        direction: f.direction
+        direction: f.direction,
+        actualValue: getFeatureActualValue(f.feature, applicantData, result, f.value)
     }));
 
     // Prepare Feature Agreement Comparison Table (Union of top SHAP & LIME features)
@@ -68,6 +70,7 @@ const BankOfficerAudit = ({ result, applicantData, onBackToSummary }) => {
         const limeFeat = result.lime.features.find(f => f.feature === rawName);
         const shapVal = shapFeat ? shapFeat.contribution : 0;
         const limeVal = limeFeat ? limeFeat.contribution : 0;
+        const featVal = shapFeat ? shapFeat.value : (limeFeat ? limeFeat.value : undefined);
 
         let status = 'Explanation Difference';
         let statusBadgeClass = 'bg-amber-50 text-amber-800 border-amber-200';
@@ -87,12 +90,70 @@ const BankOfficerAudit = ({ result, applicantData, onBackToSummary }) => {
             limeVal,
             status,
             statusBadgeClass,
-            isAgreement: (shapVal * limeVal > 0)
+            isAgreement: (shapVal * limeVal > 0),
+            actualValue: getFeatureActualValue(rawName, applicantData, result, featVal)
         };
     });
 
     const agreementCount = agreementRows.filter(r => r.isAgreement).length;
     const directionalConcordance = agreementRows.length > 0 ? ((agreementCount / agreementRows.length) * 100).toFixed(0) : '0';
+
+    // Helper to get color-matched semantic icon for concordance status
+    const getStatusIcon = (status) => {
+        if (status === 'Agreed: Positive Factor') {
+            return <CheckCircle className="w-3 h-3 text-green-700 shrink-0" />;
+        }
+        if (status === 'Agreed: Risk Factor') {
+            return <AlertCircle className="w-3 h-3 text-red-600 shrink-0" />;
+        }
+        if (status === 'Explanation Difference') {
+            return <AlertTriangle className="w-3 h-3 text-amber-700 shrink-0" />;
+        }
+        return <Info className="w-3 h-3 text-gray-500 shrink-0" />;
+    };
+
+    // Custom Hover Tooltip for Explainer Bar Charts displaying actual dossier value and impact
+    const CustomExplainerTooltip = ({ active, payload }) => {
+        if (active && payload && payload.length) {
+            const data = payload[0].payload;
+            const isPositive = data.contribution > 0;
+            return (
+                <div className="bg-white p-3 border border-gray-300 shadow-lg rounded-sm text-xs min-w-[250px] z-50">
+                    <div className="flex items-center justify-between border-b border-gray-200 pb-1.5 mb-2">
+                        <span className="font-bold text-gray-900 text-[12px]">{data.name}</span>
+                        <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-xs uppercase tracking-wider ${
+                            isPositive ? 'bg-green-100 text-green-800 border border-green-200' : 'bg-red-100 text-red-800 border border-red-200'
+                        }`}>
+                            {isPositive ? 'Supports Approval' : 'Risk Factor'}
+                        </span>
+                    </div>
+                    <div className="space-y-1.5">
+                        <div className="flex justify-between items-center gap-3">
+                            <span className="text-gray-600 font-medium">Actual Dossier Value:</span>
+                            <span className="font-mono font-bold text-gray-900 bg-gray-100 px-2 py-0.5 rounded-xs border border-gray-200">
+                                {data.actualValue || 'N/A'}
+                            </span>
+                        </div>
+                        <div className="flex justify-between items-center gap-3">
+                            <span className="text-gray-600 font-medium">
+                                {activeExplainerTab === 'shap' ? 'SHAP Impact Weight:' : 'LIME Surrogate Weight:'}
+                            </span>
+                            <span className={`font-mono font-bold text-[12px] ${isPositive ? 'text-green-700' : 'text-red-700'}`}>
+                                {data.contribution > 0 ? `+${data.contribution.toFixed(4)}` : data.contribution.toFixed(4)}
+                            </span>
+                        </div>
+                        <div className="flex justify-between items-center gap-3 text-[11px] pt-1.5 border-t border-gray-100">
+                            <span className="text-gray-500">Underwriting Effect:</span>
+                            <span className={`font-semibold ${isPositive ? 'text-green-700' : 'text-red-700'}`}>
+                                {isPositive ? 'Supports Credit Approval' : 'Increases Default Probability'}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+        return null;
+    };
 
     return (
         <div className="space-y-6">
@@ -135,7 +196,7 @@ const BankOfficerAudit = ({ result, applicantData, onBackToSummary }) => {
                             Local Feature Attribution (SHAP vs. LIME)
                         </h3>
                         <p className="text-xs text-gray-600">
-                            Quantified impact of individual applicant characteristics on the credit scoring model
+                            Quantified impact of individual applicant characteristics on the credit scoring model (hover any bar to view real dossier amounts)
                         </p>
                     </div>
 
@@ -187,8 +248,8 @@ const BankOfficerAudit = ({ result, applicantData, onBackToSummary }) => {
                             <XAxis type="number" tick={{fill: '#4b5563', fontSize: 11}} />
                             <YAxis dataKey="name" type="category" width={180} tick={{fontSize: 11, fill: '#1f2937'}} />
                             <Tooltip 
-                                formatter={(val) => [Number(val).toFixed(4), 'Attribution Weight']}
-                                contentStyle={{ borderRadius: '2px', border: '1px solid #d1d5db', fontSize: '12px' }} 
+                                content={<CustomExplainerTooltip />}
+                                cursor={{ fill: 'rgba(0, 86, 179, 0.05)' }}
                             />
                             <Bar dataKey="contribution" isAnimationActive={false}>
                                 {(activeExplainerTab === 'shap' ? shapData : limeData).map((entry, index) => (
@@ -236,6 +297,7 @@ const BankOfficerAudit = ({ result, applicantData, onBackToSummary }) => {
                         <thead>
                             <tr className="bg-gray-100 border-b border-gray-300 text-gray-800 uppercase tracking-wider font-semibold">
                                 <th className="py-2.5 px-3">Feature Parameter</th>
+                                <th className="py-2.5 px-3 text-center">Actual Dossier Value</th>
                                 <th className="py-2.5 px-3 text-right">SHAP Contribution</th>
                                 <th className="py-2.5 px-3 text-right">LIME Contribution</th>
                                 <th className="py-2.5 px-3 text-center">Concordance Assessment</th>
@@ -248,6 +310,11 @@ const BankOfficerAudit = ({ result, applicantData, onBackToSummary }) => {
                                         {row.bankingLabel}
                                         <span className="block text-[10px] text-gray-500 font-normal">{getBankingDescription(row.rawName)}</span>
                                     </td>
+                                    <td className="py-2 px-3 text-center font-mono font-bold text-gray-800">
+                                        <span className="bg-gray-100 border border-gray-200 px-2 py-0.5 rounded-xs">
+                                            {row.actualValue}
+                                        </span>
+                                    </td>
                                     <td className={`py-2 px-3 text-right font-mono font-medium ${row.shapVal > 0 ? 'text-green-700' : row.shapVal < 0 ? 'text-red-700' : 'text-gray-500'}`}>
                                         {row.shapVal > 0 ? `+${row.shapVal.toFixed(3)}` : row.shapVal.toFixed(3)}
                                     </td>
@@ -255,12 +322,8 @@ const BankOfficerAudit = ({ result, applicantData, onBackToSummary }) => {
                                         {row.limeVal > 0 ? `+${row.limeVal.toFixed(3)}` : row.limeVal.toFixed(3)}
                                     </td>
                                     <td className="py-2 px-3 text-center">
-                                        <span className={`inline-flex items-center gap-1 px-2 py-0.5 text-[11px] font-semibold rounded-sm border ${row.statusBadgeClass}`}>
-                                            {row.isAgreement ? (
-                                                <CheckCircle className="w-3 h-3 text-green-700" />
-                                            ) : (
-                                                <AlertTriangle className="w-3 h-3 text-amber-700" />
-                                            )}
+                                        <span className={`inline-flex items-center gap-1.5 px-2 py-0.5 text-[11px] font-semibold rounded-sm border ${row.statusBadgeClass}`}>
+                                            {getStatusIcon(row.status)}
                                             {row.status}
                                         </span>
                                     </td>

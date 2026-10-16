@@ -3,6 +3,8 @@
 The **TrustFin AI Frontend** is an institutional decision-support and explainability governance dashboard built for commercial banking operations. 
 It is purely functional, robust, and designed for dual stakeholders: **Credit Underwriting Officers** and **Retail Loan Applicants**.
 
+> **Quick Setup Note**: For the complete end-to-end system installation (Python virtual environment, FastAPI backend, database, and models), please follow the [Main Setup Guide](../README.md).
+
 ---
 
 ## 1. Key Interface Features & Architecture
@@ -40,13 +42,13 @@ A structured two-part intake form mirroring commercial bank loan appraisal forma
    - Primary Net Monthly Income ($₹$), Co-Borrower Monthly Income ($₹$), Requested Principal ($₹$), Repayment Tenor (Months), Credit Bureau CIBIL Rating Proxy, and Collateral Jurisdiction Zone.
 3. **Standard Underwriting Case Benchmarks**:
    - Quick-load pre-calibrated test profiles for rapid live appraisal demonstrations:
-     - `Dossier #101: Prime Salaried Executive` (*Low Risk — Instant Sanction*)
-     - `Dossier #102: Subprime Unemployed Applicant` (*Derogatory CIBIL — Rejection*)
-     - `Dossier #103: Self-Employed Enterprise` (*Borderline Bureau — Marginal*)
-     - `Dossier #104: High-Leverage Salaried` (*High Principal Burden*)
-     - `Dossier #105: Dual-Income Prime Household` (*Co-Borrower Backed*)
-     - `Dossier #106: Rural Micro-Enterprise` (*Priority Sector Lending*)
-     - `Dossier #107: Severe Solvency Stress Test` (*FOIR > 1000% — Insolvent Breach*)
+     - `Profile 1: Jane Doe (Salaried Executive)` (*Low Risk — Instant Sanction*)
+     - `Profile 2: John Doe (Low Income & Bad Credit)` (*Derogatory CIBIL — Rejection*)
+     - `Profile 3: Robert Smith (Self-Employed)` (*Borderline Bureau — Marginal*)
+     - `Profile 4: Emily Davis (High Loan Amount)` (*High Principal Burden*)
+     - `Profile 5: Michael Clark (Dual-Income Family)` (*Co-Borrower Backed*)
+     - `Profile 6: Sarah Jenkins (Rural Self-Employed)` (*Priority Sector Lending*)
+     - `Profile 7: Alex Turner (High Debt Burden)` (*DTI > 50% Limit — Insolvent Breach*)
 
 ---
 
