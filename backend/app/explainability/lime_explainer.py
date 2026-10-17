@@ -44,7 +44,13 @@ class LIMEExplainer:
         # If seed is provided, reset LIME's internal random state for deterministic sampling
         if seed is not None:
             from sklearn.utils import check_random_state
+            rng = check_random_state(seed)
             self.explainer.random_state = check_random_state(seed)
+            if hasattr(self.explainer, 'base'):
+                self.explainer.base.random_state = check_random_state(seed)
+            if hasattr(self.explainer, 'discretizer') and self.explainer.discretizer is not None:
+                self.explainer.discretizer.random_state = check_random_state(seed)
+            np.random.seed(seed)
             
         # Generate LIME explanation
         exp = self.explainer.explain_instance(
