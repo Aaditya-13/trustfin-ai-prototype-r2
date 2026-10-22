@@ -128,3 +128,33 @@ def test_predict_batch_json_and_persistence():
     del_resp = client.delete(f"/api/v1/loan/batches/{batch_id}")
     assert del_resp.status_code == 200
 
+
+def test_predict_batch_csv_file_upload_and_persistence():
+    # Construct an in-memory CSV with 2 valid records and 1 flawed record (missing income)
+    csv_content = (
+        "Gender,Married,Dependents,Education,Employment_Status,Applicant_Income,Coapplicant_Income,Loan_Amount,Loan_Term,Credit_History,Property_Area,Age\n"
+        "Female,Yes,0,Graduate,Salaried,75000,15000,120000,360,1,Urban,30\n"
+        "Male,No,1,Graduate,Self-Employed,60000,0,100000,360,1,Semiurban,35\n"
+        "Male,Yes,2,Not Graduate,Salaried,,0,80000,360,1,Rural,40\n"
+    )
+    
+    files = {
+        "file": ("test_upload.csv", csv_content.encode("utf-8"), "text/csv")
+    }
+    response = client.post("/api/v1/loan/predict-batch", files=files)
+    assert response.status_code == 200
+    data = response.json()
+    assert data["totalRecords"] == 3
+    assert data["validRecords"] == 2
+    assert data["flawedRecords"] == 1
+    assert len(data["flawedData"]) == 1
+    assert "Applicant_Income is required" in data["flawedData"][0]["errorReason"]
+    assert len(data["processedResults"]) == 2
+    
+    batch_id = data["batchId"]
+    assert batch_id.startswith("BATCH-")
+    
+    # Verify cleanup works
+    del_resp = client.delete(f"/api/v1/loan/batches/{batch_id}")
+    assert del_resp.status_code == 200
+
