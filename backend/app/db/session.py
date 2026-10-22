@@ -66,17 +66,14 @@ def get_db():
     try:
         db = SessionLocal()
         db.connection()
-        try:
-            yield db
-        finally:
-            db.close()
     except Exception as e:
-        # Graceful fallback to local SQLite if cloud DB fails
+        # Graceful fallback to local SQLite if cloud DB fails or is offline
         print(f"[DB Notice] Primary DB unavailable ({e}). Falling back to local SQLite.")
         init_db(sqlite_fallback_engine)
         db = SqliteSessionLocal()
-        try:
-            yield db
-        finally:
-            db.close()
+
+    try:
+        yield db
+    finally:
+        db.close()
 
