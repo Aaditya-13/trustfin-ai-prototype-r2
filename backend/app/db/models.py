@@ -43,4 +43,27 @@ class PredictionLog(Base):
     
     # Complete response JSON for zero-recompute instant retrieval
     full_response = Column(JSON, nullable=True)
+    
+    # Optional link to batch upload if processed as part of a batch
+    batch_id = Column(String(32), index=True, nullable=True) # e.g. "BATCH-20261022-8F12"
+
+
+class BatchUpload(Base):
+    __tablename__ = "batch_uploads"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    batch_id = Column(String(32), unique=True, index=True) # e.g. "BATCH-20261022-8F12"
+    filename = Column(String, default="batch_upload.csv")
+    timestamp = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    
+    # Statistics
+    total_records = Column(Integer, default=0)
+    valid_records = Column(Integer, default=0)
+    flawed_records = Column(Integer, default=0)
+    
+    # List of discarded / flawed records with row index, raw values, and specific error reason
+    flawed_data = Column(JSON, default=list)
+    
+    # High-level aggregate summary (e.g. approved_count, rejected_count, avg_trust_score)
+    summary = Column(JSON, nullable=True)
 

@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import Optional
+from typing import Optional, List
 from backend.app.explainability.schemas import StandardExplanation
 from backend.app.trust.trust_score import TrustEvaluation
 
@@ -64,5 +64,54 @@ class EvaluationDetailResponse(BaseModel):
     timestamp: str
     applicantData: dict
     predictionResult: LoanPredictionResponse
+
+
+class FlawedRecordItem(BaseModel):
+    row: int
+    rawData: dict
+    errorReason: str
+
+
+class BatchUploadResponse(BaseModel):
+    batchId: str
+    filename: str
+    timestamp: str
+    totalRecords: int
+    validRecords: int
+    flawedRecords: int
+    flawedData: List[FlawedRecordItem] = []
+    processedResults: List[LoanPredictionResponse] = []
+    summary: Optional[dict] = None
+
+
+class BatchSummaryItem(BaseModel):
+    id: int
+    batchId: str
+    filename: str
+    timestamp: str
+    totalRecords: int
+    validRecords: int
+    flawedRecords: int
+    approvedCount: int = 0
+    rejectedCount: int = 0
+
+
+class BatchDetailResponse(BaseModel):
+    id: int
+    batchId: str
+    filename: str
+    timestamp: str
+    totalRecords: int
+    validRecords: int
+    flawedRecords: int
+    flawedData: List[dict] = []
+    processedEvaluations: List[EvaluationSummaryItem] = []
+    summary: Optional[dict] = None
+
+
+class BatchUploadJsonRequest(BaseModel):
+    filename: Optional[str] = "preset_batch.csv"
+    rows: List[dict]
+
 
 

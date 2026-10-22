@@ -1,7 +1,17 @@
 import React, { useState } from 'react';
-import { FileText, UserCheck, Landmark, ArrowLeft } from 'lucide-react';
+import { FileText, UserCheck, Landmark, ArrowLeft, Layers, Upload } from 'lucide-react';
+import BatchUploadModal from './BatchUploadModal';
 
-const ApplicantForm = ({ onSubmit, isLoading, onBack, userRole = 'bank_officer', loanProduct }) => {
+const ApplicantForm = ({ 
+    onSubmit, 
+    isLoading, 
+    onBack, 
+    userRole = 'bank_officer', 
+    loanProduct,
+    onInspectEvaluation,
+    onOpenHistory 
+}) => {
+    const [showBatchModal, setShowBatchModal] = useState(false);
     const [formData, setFormData] = useState({
         Gender: 'Male',
         Married: 'No',
@@ -112,9 +122,22 @@ const ApplicantForm = ({ onSubmit, isLoading, onBack, userRole = 'bank_officer',
                             : 'Enter your financial and personal details to evaluate loan eligibility and instant credit decision'}
                     </p>
                 </div>
-                <span className="text-[11px] font-bold px-2 py-0.5 bg-blue-50 text-gov-blue border border-blue-200 rounded-sm uppercase tracking-wider">
-                    {userRole === 'bank_officer' ? 'Officer Entry' : 'Direct Portal'}
-                </span>
+                <div className="flex items-center gap-2">
+                    {userRole === 'bank_officer' && (
+                        <button
+                            type="button"
+                            onClick={() => setShowBatchModal(true)}
+                            className="px-3 py-1.5 bg-yellow-500 hover:bg-yellow-400 text-blue-950 font-bold text-xs uppercase tracking-wider rounded-sm flex items-center gap-1.5 cursor-pointer transition-colors shadow-xs"
+                            title="Upload and evaluate bulk CSV portfolios"
+                        >
+                            <Upload className="w-3.5 h-3.5" />
+                            <span>Upload Batch of Applications</span>
+                        </button>
+                    )}
+                    <span className="text-[11px] font-bold px-2 py-1 bg-blue-50 text-gov-blue border border-blue-200 rounded-sm uppercase tracking-wider">
+                        {userRole === 'bank_officer' ? 'Officer Entry' : 'Direct Portal'}
+                    </span>
+                </div>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -257,6 +280,14 @@ const ApplicantForm = ({ onSubmit, isLoading, onBack, userRole = 'bank_officer',
                     ))}
                 </div>
             </div>
+
+            {/* Batch Application Upload Modal */}
+            <BatchUploadModal 
+                isOpen={showBatchModal}
+                onClose={() => setShowBatchModal(false)}
+                onInspectEvaluation={onInspectEvaluation}
+                onViewInHistory={onOpenHistory}
+            />
         </div>
     );
 };

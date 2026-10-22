@@ -150,6 +150,8 @@ function App() {
               onBack={handleBackToLoanSelection}
               userRole={userRole}
               loanProduct={selectedLoanType}
+              onInspectEvaluation={handleLoadEvaluation}
+              onOpenHistory={() => setShowHistoryModal(true)}
             />
             {error && (
               <div className="bg-red-50 text-red-800 p-4 border border-red-300 rounded-sm mb-6 shadow-sm text-sm">
