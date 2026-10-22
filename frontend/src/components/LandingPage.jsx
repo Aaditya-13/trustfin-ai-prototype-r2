@@ -5,13 +5,13 @@ const LandingPage = ({ onSelectPortal }) => {
   return (
     <div className="space-y-10 py-6 max-w-6xl mx-auto">
 
-      {/* Hero Section */}
+        {/* Hero Section */}
       <div className="text-center space-y-3 px-4 pt-4">
         <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
           TrustFin AI Credit Intelligence System
         </h1>
         <p className="text-base text-gray-600 max-w-2xl mx-auto leading-relaxed">
-          A dual-stakeholder framework that combines Machine Learning with mathematical explanation validation and deterministic solvency guardrails for transparent retail credit.
+          A dual-stakeholder framework that combines Machine Learning with mathematical explanation validation and repayment safety checks for transparent retail credit.
         </p>
       </div>
 
@@ -46,7 +46,7 @@ const LandingPage = ({ onSelectPortal }) => {
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-4 h-4 text-green-700 shrink-0 mt-0.5" />
-                <span><strong>Dual-XAI Consensus:</strong> Side-by-side SHAP & LIME Concordance Check.</span>
+                <span><strong>Dual-XAI Consensus:</strong> Side-by-side SHAP & LIME agreement check.</span>
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-4 h-4 text-green-700 shrink-0 mt-0.5" />
@@ -54,7 +54,7 @@ const LandingPage = ({ onSelectPortal }) => {
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-4 h-4 text-green-700 shrink-0 mt-0.5" />
-                <span><strong>50% Repayment Safety Guardrail:</strong> Monthly EMI capped at 50% of income for borrower affordability.</span>
+                <span><strong>50% Repayment Safety Limit:</strong> Monthly EMI capped at 50% of income for borrower affordability.</span>
               </li>
             </ul>
           </div>
@@ -99,11 +99,11 @@ const LandingPage = ({ onSelectPortal }) => {
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-4 h-4 text-green-700 shrink-0 mt-0.5" />
-                <span><strong>Clear Adverse Reasons:</strong> Understand exact financial factors if a loan is declined.</span>
+                <span><strong>Clear Decision Reasons:</strong> Understand exact financial factors if a loan is declined.</span>
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-4 h-4 text-green-700 shrink-0 mt-0.5" />
-                <span><strong>"What-If" Recourse Simulator:</strong> Interactive sliders showing how term adjustments qualify you.</span>
+                <span><strong>"What-If" Loan Calculator:</strong> Interactive sliders showing how term adjustments qualify you.</span>
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-4 h-4 text-green-700 shrink-0 mt-0.5" />
@@ -118,7 +118,7 @@ const LandingPage = ({ onSelectPortal }) => {
               onClick={() => onSelectPortal('applicant')}
               className="w-full py-3 px-4 bg-yellow-500 hover:bg-yellow-600 text-blue-950 text-xs font-bold uppercase tracking-wider rounded-sm flex items-center justify-center gap-2 shadow-sm transition-all cursor-pointer"
             >
-              <span>Apply for Loan Facility</span>
+              <span>Apply for a Loan</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
@@ -130,21 +130,21 @@ const LandingPage = ({ onSelectPortal }) => {
       <div className="px-4">
         <div className="bg-white border border-gray-300 rounded-sm p-6 shadow-sm">
           <h3 className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-4 text-center">
-            Key Architectural Capabilities of TrustFin AI
+            Key Capabilities of TrustFin AI
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-center">
             <div className="p-3 bg-gray-50 border border-gray-200 rounded-sm">
               <Scale className="w-5 h-5 text-gov-blue mx-auto mb-1.5" />
-              <h4 className="text-xs font-bold text-gray-900 uppercase">50% Solvency Guardrail</h4>
+              <h4 className="text-xs font-bold text-gray-900 uppercase">50% Repayment Safety Limit</h4>
               <p className="text-[11px] text-gray-600 mt-1">
-                Pre-ML statutory barrier capping monthly EMI to 50% of income.
+                Automatic safety rule capping monthly EMI to 50% of income.
               </p>
             </div>
             <div className="p-3 bg-gray-50 border border-gray-200 rounded-sm">
               <Zap className="w-5 h-5 text-gov-blue mx-auto mb-1.5" />
-              <h4 className="text-xs font-bold text-gray-900 uppercase">Dual-XAI Consensus</h4>
+              <h4 className="text-xs font-bold text-gray-900 uppercase">Dual Explanation Agreement</h4>
               <p className="text-[11px] text-gray-600 mt-1">
-                Cross-audits SHAP and LIME to eliminate single-explainer bias.
+                Cross-checks SHAP and LIME to verify explanation agreement.
               </p>
             </div>
             <div className="p-3 bg-gray-50 border border-gray-200 rounded-sm">
@@ -156,9 +156,9 @@ const LandingPage = ({ onSelectPortal }) => {
             </div>
             <div className="p-3 bg-gray-50 border border-gray-200 rounded-sm">
               <Sliders className="w-5 h-5 text-gov-blue mx-auto mb-1.5" />
-              <h4 className="text-xs font-bold text-gray-900 uppercase">Actionable Recourse</h4>
+              <h4 className="text-xs font-bold text-gray-900 uppercase">What-If Loan Calculator</h4>
               <p className="text-[11px] text-gray-600 mt-1">
-                Counterfactual "What-If" simulator turning denials into approvals.
+                Interactive simulator showing how term adjustments qualify you.
               </p>
             </div>
           </div>

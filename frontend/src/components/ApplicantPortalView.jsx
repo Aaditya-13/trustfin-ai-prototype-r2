@@ -121,12 +121,12 @@ const ApplicantPortalView = ({ result, applicantData, onNewApplication }) => {
                             {isApproved ? 'Credit Assessment Report' : 'Credit Assessment Report'}
                         </h2>
                         <p className="text-xs text-gray-500 mt-0.5">
-                            Credit Assessment Dossier • Issued on {new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
+                            Loan Application Assessment • Issued on {new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
                         </p>
                     </div>
                     <div className="flex flex-wrap items-center gap-2">
                         <span className="text-xs font-mono font-bold bg-gray-100 border border-gray-300 px-2 py-1 rounded-sm text-gray-700">
-                            Ref: TF-ASMT-849201
+                            Ref: {result?.dossierId || 'TF-ASMT-849201'}
                         </span>
                         <button
                             type="button"
@@ -270,7 +270,7 @@ const ApplicantPortalView = ({ result, applicantData, onNewApplication }) => {
                                     <li className="flex items-start gap-1.5">
                                         <span className="text-red-600 font-bold">1.</span>
                                         <span>
-                                            <strong>High Debt Burden (DTI Exceeded):</strong> Your proposed monthly EMI of ₹{monthlyEMI.toLocaleString('en-IN')} represents {dtiRatioVal.toFixed(1)}% of your verified income. Prudential banking safety limits cap monthly EMI at 50% of income.
+                                            <strong>High Debt Burden (DTI Exceeded):</strong> Your proposed monthly EMI of ₹{monthlyEMI.toLocaleString('en-IN')} represents {dtiRatioVal.toFixed(1)}% of your verified income. Standard bank safety rules cap monthly EMI at 50% of income.
                                         </span>
                                     </li>
                                 )}
@@ -286,7 +286,7 @@ const ApplicantPortalView = ({ result, applicantData, onNewApplication }) => {
                                     <li className="flex items-start gap-1.5">
                                         <span className="text-red-600 font-bold">3.</span>
                                         <span>
-                                            <strong>Requested Principal vs. Capacity:</strong> The requested loan amount exceeds the threshold for the declared income level.
+                                            <strong>Loan Amount vs. Income:</strong> The requested loan amount exceeds the safe limit for your declared income.
                                         </span>
                                     </li>
                                 )}

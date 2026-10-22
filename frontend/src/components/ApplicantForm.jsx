@@ -95,7 +95,7 @@ const ApplicantForm = ({ onSubmit, isLoading, onBack, userRole = 'bank_officer',
                         Back to Loan Selection
                     </button>
                     <span className="text-[11px] font-mono text-gray-500">
-                        Facility: <strong className="text-gray-800">{productName}</strong>
+                        Loan Product: <strong className="text-gray-800">{productName}</strong>
                     </span>
                 </div>
             )}
@@ -104,12 +104,12 @@ const ApplicantForm = ({ onSubmit, isLoading, onBack, userRole = 'bank_officer',
                 <div>
                     <h2 className="text-base font-bold text-gray-900 uppercase tracking-tight flex items-center gap-2">
                         <FileText className="w-4 h-4 text-gov-blue" />
-                        Loan Application Dossier
+                        Loan Application Form
                     </h2>
                     <p className="text-xs text-gray-500 mt-0.5">
                         {userRole === 'bank_officer' 
-                            ? 'Enter applicant parameters for official credit scoring, solvency verification, and AI explainability audit'
-                            : 'Enter your financial and personal details to evaluate loan eligibility and instant underwriting decision'}
+                            ? 'Enter applicant parameters for credit scoring, repayment safety check, and AI explanation audit'
+                            : 'Enter your financial and personal details to evaluate loan eligibility and instant credit decision'}
                     </p>
                 </div>
                 <span className="text-[11px] font-bold px-2 py-0.5 bg-blue-50 text-gov-blue border border-blue-200 rounded-sm uppercase tracking-wider">

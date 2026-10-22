@@ -1,11 +1,23 @@
-from fastapi import APIRouter, HTTPException, Response
+from fastapi import APIRouter, HTTPException, Response, Depends
+from sqlalchemy.orm import Session
+from typing import List
+from datetime import datetime
 import joblib
 import pandas as pd
 import numpy as np
 import json
 import os
 import hashlib
-from backend.app.api.schemas import LoanApplicationRequest, LoanPredictionResponse, SolvencyCheckResult, GenerateReportRequest
+from backend.app.api.schemas import (
+    LoanApplicationRequest, 
+    LoanPredictionResponse, 
+    SolvencyCheckResult, 
+    GenerateReportRequest,
+    EvaluationSummaryItem,
+    EvaluationDetailResponse
+)
+from backend.app.db.session import get_db
+from backend.app.db.models import PredictionLog
 from backend.app.reporting.pdf_generator import generate_loan_report_pdf
 from backend.app.ml.preprocessing import add_financial_features
 from backend.app.explainability.shap_explainer import SHAPExplainer
@@ -17,6 +29,17 @@ from backend.app.validation.fairness import calculate_counterfactual_fairness
 from backend.app.trust.trust_score import calculate_trust_score
 
 router = APIRouter()
+
+def generate_dossier_id(input_data: dict) -> str:
+    """
+    Generates an institutional dossier tracking code: TF-YYYYMMDD-XXXX
+    Combines today's date with a 4-character deterministic applicant hash.
+    """
+    today_str = datetime.now().strftime("%Y%m%d")
+    serialized = json.dumps(input_data, sort_keys=True, default=str)
+    hash_hex = hashlib.sha256(serialized.encode("utf-8")).hexdigest()[:4].upper()
+    return f"TF-{today_str}-{hash_hex}"
+
 
 def generate_applicant_seed(input_data: dict) -> int:
     """
@@ -53,7 +76,7 @@ except Exception as e:
     model = None
 
 @router.post("/predict", response_model=LoanPredictionResponse)
-async def predict_loan(request: LoanApplicationRequest):
+async def predict_loan(request: LoanApplicationRequest, db: Session = Depends(get_db)):
     if model is None:
         raise HTTPException(status_code=500, detail="Models not loaded properly.")
         
@@ -143,47 +166,169 @@ async def predict_loan(request: LoanApplicationRequest):
         # 6. Trust Score (4 Equal Pillars of 25% each)
         trust_eval = calculate_trust_score(faithfulness_score, stability_score, consistency_score, fairness_score)
         
-        # 7. Save to Database
+        dossier_id = generate_dossier_id(input_data)
+        confidence_score = float(prob) if pred == 1 else float(1 - prob)
+        
+        # 7. Construct Response Object
+        response_obj = LoanPredictionResponse(
+            prediction=prediction_str,
+            probability=float(prob),
+            confidenceScore=confidence_score,
+            modelVersion="v1",
+            shap=shap_exp,
+            lime=lime_exp,
+            trustScore=trust_eval,
+            solvencyCheck=solvency_check,
+            dossierId=dossier_id
+        )
+        
+        # Derive rating label from score
+        if trust_eval.overallTrustScore >= 0.75:
+            trust_rating = "HIGH TRUST"
+        elif trust_eval.overallTrustScore >= 0.50:
+            trust_rating = "MODERATE TRUST"
+        else:
+            trust_rating = "LOW TRUST"
+
+        # 8. Save to Database (PostgreSQL with SQLite fallback)
         try:
-            from backend.app.db.session import SessionLocal
-            from backend.app.db.models import PredictionLog
-            
-            db = SessionLocal()
             log_entry = PredictionLog(
+                dossier_id=dossier_id,
                 applicant_age=input_data.get('Age'),
                 applicant_income=input_data.get('Applicant_Income'),
                 loan_amount=input_data.get('Loan_Amount'),
                 raw_input_data=input_data,
                 prediction=prediction_str,
                 probability=float(prob),
+                confidence_score=confidence_score,
+                solvency_status=solvency_status,
+                dti_ratio=float(dti_ratio),
+                monthly_emi=float(monthly_emi),
                 shap_explanation=shap_exp.model_dump(),
                 lime_explanation=lime_exp.model_dump(),
                 faithfulness_score=faithfulness_score,
                 stability_score=stability_score,
                 consistency_score=consistency_score,
                 fairness_score=fairness_score,
-                trust_score=trust_eval.overallTrustScore
+                trust_score=trust_eval.overallTrustScore,
+                trust_rating=trust_rating,
+                full_response=response_obj.model_dump()
             )
             db.add(log_entry)
             db.commit()
-            db.close()
+            db.refresh(log_entry)
+            response_obj.evaluationId = log_entry.id
         except Exception as db_err:
             print(f"Warning: Failed to save to database: {db_err}")
+            try:
+                db.rollback()
+            except Exception:
+                pass
         
-        # 8. Response
-        return LoanPredictionResponse(
-            prediction=prediction_str,
-            probability=float(prob),
-            confidenceScore=float(prob) if pred == 1 else float(1 - prob),
-            modelVersion="v1",
-            shap=shap_exp,
-            lime=lime_exp,
-            trustScore=trust_eval,
-            solvencyCheck=solvency_check
-        )
+        return response_obj
         
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Prediction failed: {str(e)}")
+
+@router.get("/evaluations", response_model=List[EvaluationSummaryItem])
+def list_evaluations(limit: int = 50, db: Session = Depends(get_db)):
+    """
+    Returns recent loan evaluation audit records stored in the database.
+    """
+    try:
+        records = db.query(PredictionLog).order_by(PredictionLog.id.desc()).limit(limit).all()
+        
+        summary_list = []
+        for r in records:
+            timestamp_str = r.timestamp.strftime("%Y-%m-%d %H:%M:%S") if r.timestamp else ""
+            summary_list.append(EvaluationSummaryItem(
+                id=r.id,
+                dossierId=r.dossier_id or f"TF-EVAL-{r.id:04d}",
+                timestamp=timestamp_str,
+                applicantAge=r.applicant_age,
+                applicantIncome=r.applicant_income,
+                loanAmount=r.loan_amount,
+                prediction=r.prediction or "Unknown",
+                probability=r.probability or 0.0,
+                confidenceScore=r.confidence_score,
+                solvencyStatus=r.solvency_status,
+                dtiRatio=r.dti_ratio,
+                monthlyEMI=r.monthly_emi,
+                trustScore=r.trust_score or 0.0,
+                trustRating=r.trust_rating
+            ))
+        return summary_list
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to fetch evaluations: {str(e)}")
+
+@router.get("/evaluations/{evaluation_id}", response_model=EvaluationDetailResponse)
+def get_evaluation_detail(evaluation_id: int, db: Session = Depends(get_db)):
+    """
+    Retrieves full evaluation details (input dossier + explanation output) for a past assessment.
+    """
+    try:
+        record = db.query(PredictionLog).filter(PredictionLog.id == evaluation_id).first()
+        if not record:
+            raise HTTPException(status_code=404, detail=f"Evaluation record #{evaluation_id} not found.")
+            
+        timestamp_str = record.timestamp.strftime("%Y-%m-%d %H:%M:%S") if record.timestamp else ""
+        
+        # If full_response is stored, reconstitute it
+        if record.full_response:
+            pred_result = LoanPredictionResponse.model_validate(record.full_response)
+            pred_result.evaluationId = record.id
+            if record.dossier_id:
+                pred_result.dossierId = record.dossier_id
+        else:
+            # Fallback reconstruction
+            pred_result = LoanPredictionResponse(
+                prediction=record.prediction,
+                probability=record.probability or 0.5,
+                confidenceScore=record.confidence_score or record.probability or 0.5,
+                modelVersion="v1",
+                shap=record.shap_explanation,
+                lime=record.lime_explanation,
+                trustScore={
+                    "overallTrustScore": record.trust_score or 0.0,
+                    "rating": record.trust_rating or "N/A",
+                    "rationale": "Retrieved from stored audit log",
+                    "faithfulness": record.faithfulness_score or 0.0,
+                    "stability": record.stability_score or 0.0,
+                    "consistency": record.consistency_score or 0.0,
+                    "fairness": record.fairness_score or 0.0
+                },
+                evaluationId=record.id,
+                dossierId=record.dossier_id
+            )
+            
+        return EvaluationDetailResponse(
+            id=record.id,
+            dossierId=record.dossier_id or f"TF-EVAL-{record.id:04d}",
+            timestamp=timestamp_str,
+            applicantData=record.raw_input_data or {},
+            predictionResult=pred_result
+        )
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to load evaluation detail: {str(e)}")
+
+@router.delete("/evaluations/{evaluation_id}")
+def delete_evaluation_record(evaluation_id: int, db: Session = Depends(get_db)):
+    """
+    Deletes an evaluation record from the database.
+    """
+    try:
+        record = db.query(PredictionLog).filter(PredictionLog.id == evaluation_id).first()
+        if not record:
+            raise HTTPException(status_code=404, detail=f"Evaluation record #{evaluation_id} not found.")
+        db.delete(record)
+        db.commit()
+        return {"status": "success", "message": f"Dossier #{evaluation_id} deleted successfully."}
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to delete evaluation record: {str(e)}")
 
 @router.post("/generate-pdf")
 async def generate_pdf_report(request: GenerateReportRequest):
@@ -204,4 +349,5 @@ async def generate_pdf_report(request: GenerateReportRequest):
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"PDF generation failed: {str(e)}")
+
 

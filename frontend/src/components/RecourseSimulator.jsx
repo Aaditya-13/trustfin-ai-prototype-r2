@@ -98,10 +98,10 @@ const RecourseSimulator = ({ applicantData, result }) => {
                     </div>
                     <div>
                         <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide">
-                            Interactive "What-If" Eligibility Sandbox
+                            Interactive "What-If" Loan Calculator
                         </h3>
                         <p className="text-xs text-gray-600 mt-0.5">
-                            Adjust financial levers below to simulate how loan term modifications can restore approval eligibility.
+                            Adjust the sliders below to see how loan amount or tenure changes can help you qualify.
                         </p>
                     </div>
                 </div>
@@ -122,7 +122,7 @@ const RecourseSimulator = ({ applicantData, result }) => {
                 {/* Quick Fast-Track Preset Buttons */}
                 <div>
                     <span className="text-[11px] font-bold text-gray-600 uppercase tracking-wider block mb-2">
-                        Quick Fast-Track Options (One-Click Simulations):
+                        Quick Options (One-Click Adjustments):
                     </span>
                     <div className="flex flex-wrap gap-2">
                         <button
@@ -181,7 +181,7 @@ const RecourseSimulator = ({ applicantData, result }) => {
                     {/* Slider 2: Loan Term */}
                     <div className="space-y-2">
                         <div className="flex justify-between items-center text-xs">
-                            <span className="font-bold text-gray-800 uppercase">Repayment Duration</span>
+                            <span className="font-bold text-gray-800 uppercase">Loan Tenure</span>
                             <span className="font-mono font-bold text-gov-blue text-sm">
                                 {revisedTerm} Mo ({(revisedTerm / 12).toFixed(1)} Yrs)
                             </span>

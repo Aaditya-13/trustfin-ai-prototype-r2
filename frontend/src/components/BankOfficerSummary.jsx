@@ -82,10 +82,10 @@ const BankOfficerSummary = ({
                         <span className="text-[11px] font-bold px-2 py-0.5 bg-blue-50 text-gov-blue border border-blue-200 rounded-sm uppercase tracking-wider">
                             Bank Officer Console
                         </span>
-                        <span className="text-xs text-gray-500 font-mono">Dossier #TF-2026-891</span>
+                        <span className="text-xs text-gray-500 font-mono">Application #{result?.dossierId || 'TF-2026-891'}</span>
                     </div>
                     <h2 className="text-base font-bold text-gray-900 mt-1 uppercase tracking-tight">
-                        Executive Underwriting Assessment
+                        Loan Credit Evaluation
                     </h2>
                     <p className="text-xs text-gray-600">
                         Applicant: {applicantData?.Employment_Status || 'Salaried'} • Age {applicantData?.Age || '30'} • Principal Requested: ₹{(applicantData?.Loan_Amount || 0).toLocaleString('en-IN')}
@@ -116,7 +116,7 @@ const BankOfficerSummary = ({
                         ) : (
                             <>
                                 <Download className="w-3.5 h-3.5" />
-                                Export Dossier PDF
+                                Download Application PDF
                             </>
                         )}
                     </button>
@@ -138,7 +138,7 @@ const BankOfficerSummary = ({
                 <div>
                     <div className="flex items-center gap-2">
                         <span className="text-[11px] font-bold px-2 py-0.5 bg-white border border-gray-300 text-gray-700 rounded-sm uppercase tracking-wider">
-                            Primary Model Assessment
+                            Loan Decision Assessment
                         </span>
                         <span className="text-xs text-gray-500">Retail Credit Engine</span>
                     </div>
@@ -212,7 +212,7 @@ const BankOfficerSummary = ({
                                 )}
                                 Income & Debt Repayment Capacity Check
                             </h3>
-                            <p className="text-xs text-gray-600">Prudential Limit: Proposed monthly EMI must not exceed 50.0% of total income</p>
+                            <p className="text-xs text-gray-600">Standard Bank Limit: Proposed monthly EMI must not exceed 50.0% of total income</p>
                         </div>
                         <span className={`px-2.5 py-1 text-xs font-bold uppercase rounded-sm border ${
                             result.solvencyCheck.status === 'INSOLVENT' 
@@ -344,7 +344,7 @@ const BankOfficerSummary = ({
                                     <BarChart3 className="w-4 h-4 text-gov-blue" />
                                     Top Decision Drivers
                                 </h3>
-                                <p className="text-xs text-gray-500">Primary Local Attribution Factors</p>
+                                <p className="text-xs text-gray-500">Primary Key Factors Driving Decision</p>
                             </div>
                             <span className="text-[11px] font-semibold text-gray-600 bg-gray-100 px-2 py-0.5 rounded-sm">
                                 SHAP Summary

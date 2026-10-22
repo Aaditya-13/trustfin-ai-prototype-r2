@@ -7,6 +7,7 @@ import BankOfficerSummary from './components/BankOfficerSummary';
 import BankOfficerAudit from './components/BankOfficerAudit';
 import ApplicantPortalView from './components/ApplicantPortalView';
 import CustomerNoticeModal from './components/CustomerNoticeModal';
+import AuditHistoryModal from './components/AuditHistoryModal';
 import { predictLoan } from './services/api';
 
 function App() {
@@ -29,6 +30,10 @@ function App() {
   // Bank Officer Customer Notice Preview Modal
   const [showCustomerModal, setShowCustomerModal] = useState(false);
 
+  // Persistent Audit History / Stored Ledger Modal
+  const [showHistoryModal, setShowHistoryModal] = useState(false);
+
+
   // Step 1: User selects Role on Landing Page
   const handleSelectRole = (role) => {
     setUserRole(role);
@@ -40,7 +45,7 @@ function App() {
   const handleSelectLoan = (loanTypeId) => {
     setSelectedLoanType({
       id: loanTypeId,
-      title: loanTypeId === 'home_loan' ? 'Residential Home Loan' : 'Retail Credit Facility',
+      title: loanTypeId === 'home_loan' ? 'Residential Home Loan' : 'Retail Loan Product',
       category: 'Retail Secured'
     });
     setCurrentScreen('APPLICATION_FORM');
@@ -59,7 +64,7 @@ function App() {
       setOfficerSubView('SUMMARY');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err) {
-      setError("Failed to reach the credit underwriting engine. Please verify that the backend service is running on port 8000.");
+      setError("Failed to reach the loan evaluation service. Please verify that the backend service is running on port 8000.");
       console.error("Prediction API error:", err);
     } finally {
       setLoading(false);
@@ -87,6 +92,18 @@ function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  // Handler to load any stored evaluation from database directly into active dashboard
+  const handleLoadEvaluation = (evalDetail) => {
+    setCurrentApplicantData(evalDetail.applicantData);
+    setResult(evalDetail.predictionResult);
+    if (!userRole) {
+      setUserRole('bank_officer'); // Default to Bank Officer view for full audit visibility
+    }
+    setCurrentScreen('RESULTS');
+    setOfficerSubView('SUMMARY');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <div className="min-h-screen bg-gov-gray flex flex-col font-sans">
       
@@ -96,7 +113,9 @@ function App() {
         userRole={userRole}
         onNavigateHome={handleNavigateHome}
         selectedLoanType={selectedLoanType}
+        onOpenHistory={() => setShowHistoryModal(true)}
       />
+
 
       {/* Main Responsive Body Canvas */}
       <div className="flex-1 w-full">
@@ -192,8 +211,16 @@ function App() {
 
       </div>
 
+      {/* Global Audit Ledger / Stored Evaluations Modal */}
+      <AuditHistoryModal 
+        isOpen={showHistoryModal}
+        onClose={() => setShowHistoryModal(false)}
+        onLoadEvaluation={handleLoadEvaluation}
+      />
+
       {/* Institutional Legal & Regulatory Footer */}
       <footer className="bg-white border-t border-gray-300 py-4 px-6 text-center text-xs text-gray-500 mt-auto">
+
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
           <span>&copy; 2026 TrustFin AI • Explainable Loan Intelligence & Explanation Reliability Framework.</span>
           <span className="text-[11px] text-gray-400">Strict Separation of Consumer Notice & Model Internal Attributions</span>

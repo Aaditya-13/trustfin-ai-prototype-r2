@@ -129,7 +129,7 @@ const BankOfficerAudit = ({ result, applicantData, onBackToSummary }) => {
                     </div>
                     <div className="space-y-1.5">
                         <div className="flex justify-between items-center gap-3">
-                            <span className="text-gray-600 font-medium">Actual Dossier Value:</span>
+                            <span className="text-gray-600 font-medium">Applicant's Value:</span>
                             <span className="font-mono font-bold text-gray-900 bg-gray-100 px-2 py-0.5 rounded-xs border border-gray-200">
                                 {data.actualValue || 'N/A'}
                             </span>
@@ -193,10 +193,10 @@ const BankOfficerAudit = ({ result, applicantData, onBackToSummary }) => {
                     <div>
                         <h3 className="text-sm font-bold text-gray-900 uppercase flex items-center gap-2">
                             <BarChart2 className="w-4 h-4 text-gov-blue" />
-                            Local Feature Attribution (SHAP vs. LIME)
+                            Key Decision Factors (SHAP vs. LIME)
                         </h3>
                         <p className="text-xs text-gray-600">
-                            Quantified impact of individual applicant characteristics on the credit scoring model (hover any bar to view real dossier amounts)
+                            Quantified impact of individual applicant details on the credit scoring model (hover any bar to view applicant's actual input)
                         </p>
                     </div>
 
@@ -276,15 +276,15 @@ const BankOfficerAudit = ({ result, applicantData, onBackToSummary }) => {
                     <div>
                         <h3 className="text-sm font-bold text-gray-900 uppercase flex items-center gap-2">
                             <Layers className="w-4 h-4 text-gov-blue" />
-                            Cross-Explainer Concordance Matrix
+                            Explanation Agreement Comparison
                         </h3>
                         <p className="text-xs text-gray-600">
-                            Evaluating alignment between independent post-hoc explainers to detect algorithmic hallucinations
+                            Evaluating agreement between independent explanation methods to ensure reliability
                         </p>
                     </div>
                     <div className="flex flex-wrap gap-2">
                         <span className="px-2.5 py-1 text-xs bg-slate-100 border border-slate-300 text-slate-800 font-semibold rounded-sm">
-                            Directional Concordance: <strong>{directionalConcordance}%</strong>
+                            Direction Agreement: <strong>{directionalConcordance}%</strong>
                         </span>
                         <span className="px-2.5 py-1 text-xs bg-slate-100 border border-slate-300 text-slate-800 font-semibold rounded-sm">
                             Top Factors Agreement: <strong>{(result.trustScore.consistency * 100).toFixed(0)}%</strong>
@@ -296,11 +296,11 @@ const BankOfficerAudit = ({ result, applicantData, onBackToSummary }) => {
                     <table className="w-full text-xs text-left border-collapse">
                         <thead>
                             <tr className="bg-gray-100 border-b border-gray-300 text-gray-800 uppercase tracking-wider font-semibold">
-                                <th className="py-2.5 px-3">Feature Parameter</th>
-                                <th className="py-2.5 px-3 text-center">Actual Dossier Value</th>
+                                <th className="py-2.5 px-3">Application Factor</th>
+                                <th className="py-2.5 px-3 text-center">Applicant's Value</th>
                                 <th className="py-2.5 px-3 text-right">SHAP Contribution</th>
                                 <th className="py-2.5 px-3 text-right">LIME Contribution</th>
-                                <th className="py-2.5 px-3 text-center">Concordance Assessment</th>
+                                <th className="py-2.5 px-3 text-center">Agreement Status</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-200">
@@ -336,7 +336,7 @@ const BankOfficerAudit = ({ result, applicantData, onBackToSummary }) => {
                 <div className="mt-3 p-3 bg-blue-50 border border-blue-200 rounded-sm text-xs text-blue-900 flex items-start gap-2">
                     <Info className="w-4 h-4 text-blue-700 shrink-0 mt-0.5" />
                     <span>
-                        <strong>Auditor Guidance:</strong> High concordance between SHAP and LIME gives mathematical certainty that both local and cooperative game-theoretic formulations corroborate the same underwriting rationale.
+                        <strong>Auditor Guidance:</strong> Strong agreement between SHAP and LIME confirms that both explanation methods point to the same loan decision rationale.
                     </span>
                 </div>
             </div>
@@ -477,7 +477,7 @@ const BankOfficerAudit = ({ result, applicantData, onBackToSummary }) => {
                     className="px-4 py-2 bg-gov-blue hover:bg-blue-900 text-white rounded-sm text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer transition-colors shadow-xs"
                 >
                     <ArrowLeft className="w-4 h-4" />
-                    Return to Underwriting Summary
+                    Return to Evaluation Summary
                 </button>
             </div>
 

@@ -35,8 +35,34 @@ class LoanPredictionResponse(BaseModel):
     lime: StandardExplanation
     trustScore: TrustEvaluation
     solvencyCheck: Optional[SolvencyCheckResult] = None
+    evaluationId: Optional[int] = Field(None, description="Database record ID in SQLite")
+    dossierId: Optional[str] = Field(None, description="Unique institutional dossier reference code (e.g. TF-20261022-8492)")
 
 class GenerateReportRequest(BaseModel):
     applicantData: LoanApplicationRequest
     predictionResult: LoanPredictionResponse
+
+class EvaluationSummaryItem(BaseModel):
+    id: int
+    dossierId: Optional[str] = None
+    timestamp: str
+    applicantAge: Optional[float] = None
+    applicantIncome: Optional[float] = None
+    loanAmount: Optional[float] = None
+    prediction: str
+    probability: float
+    confidenceScore: Optional[float] = None
+    solvencyStatus: Optional[str] = None
+    dtiRatio: Optional[float] = None
+    monthlyEMI: Optional[float] = None
+    trustScore: float
+    trustRating: Optional[str] = None
+
+class EvaluationDetailResponse(BaseModel):
+    id: int
+    dossierId: Optional[str] = None
+    timestamp: str
+    applicantData: dict
+    predictionResult: LoanPredictionResponse
+
 

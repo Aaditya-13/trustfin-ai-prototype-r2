@@ -25,15 +25,15 @@ const LoanTypeSelection = ({ userRole, onSelectLoan, onBack }) => {
             {/* Page Header */}
             <div className="text-center space-y-1.5">
                 <span className="text-[11px] font-bold uppercase tracking-widest text-gov-blue">
-                    {isOfficer ? 'Underwriting Origination Engine' : 'Retail Borrowing Services'}
+                    {isOfficer ? 'Loan Evaluation System' : 'Retail Loan Services'}
                 </span>
                 <h2 className="text-2xl font-extrabold text-gray-900 tracking-tight">
-                    Select Credit Facility Category
+                    Select Loan Type
                 </h2>
                 <p className="text-xs text-gray-600 max-w-xl mx-auto">
                     {isOfficer 
-                        ? 'Select the credit facility category to proceed with underwriting.'
-                        : 'Choose the type of credit facility you wish to apply for today.'}
+                        ? 'Select the loan type to proceed with evaluation.'
+                        : 'Choose the type of loan you wish to apply for today.'}
                 </p>
             </div>
 
@@ -59,13 +59,13 @@ const LoanTypeSelection = ({ userRole, onSelectLoan, onBack }) => {
                                     Residential Home Loan
                                 </h3>
                                 <span className="text-[11px] text-gray-500 font-mono">
-                                    Pipeline: XGBoost v1.2 • DTI Guardrail
+                                    Pipeline: XGBoost v1.2 • Repayment Safety Limit
                                 </span>
                             </div>
                         </div>
 
                         <p className="text-xs text-gray-600 leading-relaxed">
-                            Long-term residential mortgage credit with full property area classification, co-borrower pooling, and deterministic 50% Solvency Guardrail.
+                            Long-term residential mortgage credit with full property area classification, co-borrower pooling, and 50% Repayment Safety Check.
                         </p>
 
                         <div className="flex flex-wrap gap-2 text-[10px] font-semibold text-gray-600 pt-1">

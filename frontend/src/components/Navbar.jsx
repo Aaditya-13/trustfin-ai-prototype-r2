@@ -1,7 +1,7 @@
 import React from 'react';
-import { Landmark, Building2, User, Home, ArrowLeft } from 'lucide-react';
+import { Landmark, Building2, User, Home, ArrowLeft, Database } from 'lucide-react';
 
-const Navbar = ({ currentScreen, userRole, onNavigateHome, onNavigateBack, selectedLoanType }) => {
+const Navbar = ({ currentScreen, userRole, onNavigateHome, onNavigateBack, selectedLoanType, onOpenHistory }) => {
     return (
         <header className="bg-gov-blue text-white p-3.5 shadow-sm border-b-4 border-yellow-500 sticky top-0 z-40">
             <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2.5">
@@ -30,6 +30,18 @@ const Navbar = ({ currentScreen, userRole, onNavigateHome, onNavigateBack, selec
 
                 {/* Right Side: Role Badge & Quick Navigation */}
                 <div className="flex items-center gap-2">
+                    
+                    {/* Persistent Application History Button */}
+                    <button
+                        type="button"
+                        onClick={onOpenHistory}
+                        className="px-2.5 py-1 bg-yellow-500 hover:bg-yellow-400 text-blue-950 font-bold text-xs flex items-center gap-1.5 cursor-pointer transition-colors shadow-xs"
+                        title="View Saved Loan Applications in Database"
+                    >
+                        <Database className="w-3.5 h-3.5" />
+                        <span>Application History</span>
+                    </button>
+
                     {userRole && currentScreen !== 'LANDING' && (
                         <div className="flex items-center gap-2">
                             {/* Role Badge */}

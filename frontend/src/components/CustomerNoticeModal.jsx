@@ -49,7 +49,7 @@ const CustomerNoticeModal = ({ isOpen, onClose, result, applicantData, onOpenPdf
                                 {isApproved ? 'Loan Sanction Advice Letter' : 'Credit Decision & Advisory Notice'}
                             </h2>
                             <p className="text-[11px] text-gray-500">
-                                Applicant Reference: #TF-2026-891 • Issued on {new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
+                                Application Reference: #{result?.dossierId || 'TF-2026-891'} • Issued on {new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
                             </p>
                         </div>
                         <span className={`text-[10px] font-bold px-2 py-0.5 rounded-sm border uppercase ${
@@ -75,7 +75,7 @@ const CustomerNoticeModal = ({ isOpen, onClose, result, applicantData, onOpenPdf
                             <p className="text-xs mt-0.5 leading-relaxed">
                                 {isApproved 
                                     ? 'We are pleased to inform you that your residential mortgage application has been approved based on your income, credit history, and debt-to-income limits.' 
-                                    : 'Thank you for your application. Based on statutory solvency limits and credit risk criteria, we are unable to approve the requested terms at this time.'}
+                                    : 'Thank you for your application. Based on standard banking safety limits and credit criteria, we are unable to approve the requested terms at this time.'}
                             </p>
                         </div>
                     </div>
@@ -101,11 +101,11 @@ const CustomerNoticeModal = ({ isOpen, onClose, result, applicantData, onOpenPdf
 
                     {/* Notice Bottom Note */}
                     <div className="p-3 bg-slate-50 border border-slate-200 rounded-sm text-xs text-gray-600">
-                        <span className="font-bold text-gray-800">Borrower Recourse Availability:</span>
+                        <span className="font-bold text-gray-800">Next Steps for Applicant:</span>
                         <p className="text-[11px] mt-0.5">
                             {isApproved 
                                 ? 'The borrower can proceed to download their official Sanction Letter or complete KYC verification.' 
-                                : 'In the applicant portal, the borrower has access to the Interactive "What-If" Recourse Simulator to simulate term adjustments and re-qualify.'}
+                                : 'In the applicant portal, the borrower has access to the Interactive "What-If" Loan Calculator to simulate loan adjustments and re-qualify.'}
                         </p>
                     </div>
 

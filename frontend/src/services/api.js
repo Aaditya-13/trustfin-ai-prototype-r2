@@ -49,3 +49,33 @@ export const downloadLoanReportPdf = async (applicantData, predictionResult) => 
         throw error;
     }
 };
+
+export const fetchEvaluations = async () => {
+    try {
+        const response = await axios.get(`${API_URL}/evaluations`);
+        return response.data;
+    } catch (error) {
+        console.error("Fetch Evaluations Error:", error);
+        throw error;
+    }
+};
+
+export const fetchEvaluationById = async (id) => {
+    try {
+        const response = await axios.get(`${API_URL}/evaluations/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error(`Fetch Evaluation #${id} Error:`, error);
+        throw error;
+    }
+};
+
+export const deleteEvaluation = async (id) => {
+    try {
+        const response = await axios.delete(`${API_URL}/evaluations/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error(`Delete Evaluation #${id} Error:`, error);
+        throw error;
+    }
+};

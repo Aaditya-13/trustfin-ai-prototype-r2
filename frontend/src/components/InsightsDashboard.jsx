@@ -77,7 +77,7 @@ const InsightsDashboard = ({ result, applicantData }) => {
 
     const handleDownloadPdf = async () => {
         if (!applicantData || !result) {
-            alert("No applicant dossier available to generate report.");
+            alert("No application data available to generate report.");
             return;
         }
         setDownloadingPdf(true);
@@ -577,7 +577,7 @@ const InsightsDashboard = ({ result, applicantData }) => {
                                                         </div>
                                                         <div className="space-y-1.5">
                                                             <div className="flex justify-between items-center gap-3">
-                                                                <span className="text-gray-600 font-medium">Actual Dossier Value:</span>
+                                                                <span className="text-gray-600 font-medium">Applicant's Value:</span>
                                                                 <span className="font-mono font-bold text-gray-900 bg-gray-100 px-2 py-0.5 rounded-xs border border-gray-200">
                                                                     {data.actualValue || 'N/A'}
                                                                 </span>

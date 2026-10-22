@@ -52,7 +52,7 @@ export const getBankingDescription = (featureKey) => {
 
 /**
  * Extracts and formats the real applicant input value for a given feature key.
- * Used in tooltips and concordance tables to display actual dossier amounts.
+ * Used in tooltips and comparison tables to display applicant's actual input amounts.
  */
 export const getFeatureActualValue = (featureKey, applicantData, result, featureValue) => {
     if (!applicantData && !result) {
