@@ -1,0 +1,12 @@
+{
+  "model_type": "XGBClassifier",
+  "product": "Home Loan",
+  "n_samples": 3000,
+  "accuracy": 0.97,
+  "roc_auc": 0.9978102352051932,
+  "precision": 0.9615384615384616,
+  "recall": 0.9803921568627451,
+  "f1": 0.970873786407767,
+  "disparate_impact": 0.905840209812576,
+  "feature_count": 20
+}

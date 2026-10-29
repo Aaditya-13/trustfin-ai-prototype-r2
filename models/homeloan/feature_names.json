@@ -1,0 +1,22 @@
+[
+  "Gender_Male",
+  "Married_Yes",
+  "Education_Not Graduate",
+  "Employment_Status_Self-Employed",
+  "Property_Area_Semiurban",
+  "Property_Area_Urban",
+  "Age",
+  "Dependents",
+  "Work_Experience",
+  "Applicant_Income",
+  "Coapplicant_Income",
+  "Existing_EMI",
+  "Loan_Amount",
+  "Loan_Term",
+  "Property_Value",
+  "CIBIL_Score",
+  "Missed_Payments_12M",
+  "Monthly_EMI",
+  "FOIR",
+  "LTV_Ratio"
+]

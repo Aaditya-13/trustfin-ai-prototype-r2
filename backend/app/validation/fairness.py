@@ -36,14 +36,15 @@ def calculate_equal_opportunity_ratio(y_true: np.ndarray, y_pred: np.ndarray, se
         print(f"Error calculating fairness: {e}")
         return 0.0
 
-def calculate_counterfactual_fairness(model, preprocessor, raw_input_dict: dict, raw_features: list, sensitive_col: str = 'Gender') -> float:
+def calculate_counterfactual_fairness(model, preprocessor, raw_input_dict: dict, raw_features: list, sensitive_col: str = 'Gender', feature_fn = None) -> float:
     """
     Evaluates individual counterfactual fairness by flipping the protected attribute
     and computing 1.0 - |P(original) - P(flipped)|.
     """
     try:
+        fn = feature_fn if feature_fn is not None else add_financial_features
         df_orig = pd.DataFrame([raw_input_dict])
-        df_orig = add_financial_features(df_orig)[raw_features]
+        df_orig = fn(df_orig)
         prob_orig = float(model.predict_proba(preprocessor.transform(df_orig))[0][1])
         
         flipped_dict = raw_input_dict.copy()
@@ -51,7 +52,7 @@ def calculate_counterfactual_fairness(model, preprocessor, raw_input_dict: dict,
         flipped_dict[sensitive_col] = 'Female' if current_val == 'Male' else 'Male'
         
         df_flipped = pd.DataFrame([flipped_dict])
-        df_flipped = add_financial_features(df_flipped)[raw_features]
+        df_flipped = fn(df_flipped)
         prob_flipped = float(model.predict_proba(preprocessor.transform(df_flipped))[0][1])
         
         delta = abs(prob_orig - prob_flipped)

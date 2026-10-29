@@ -28,6 +28,7 @@ from backend.app.db.session import get_db
 from backend.app.db.models import PredictionLog, BatchUpload
 from backend.app.reporting.pdf_generator import generate_loan_report_pdf
 from backend.app.ml.preprocessing import add_financial_features
+from backend.app.ml.registry import registry
 from backend.app.explainability.shap_explainer import SHAPExplainer
 from backend.app.explainability.lime_explainer import LIMEExplainer
 from backend.app.validation.faithfulness import calculate_faithfulness
@@ -55,7 +56,13 @@ def generate_applicant_seed(input_data: dict) -> int:
     Ensures identical inputs always produce identical random sequences for LIME
     sampling and stability perturbations, preventing artificial score drift on re-evaluations.
     """
-    serialized = json.dumps(input_data, sort_keys=True, default=str)
+    filtered = {k: v for k, v in input_data.items() if v is not None}
+    legacy_core_keys = ['Age', 'Applicant_Income', 'Coapplicant_Income', 'Credit_History', 'Dependents', 'Education', 'Employment_Status', 'Gender', 'Loan_Amount', 'Loan_Term', 'Married', 'Property_Area']
+    if all(k in filtered for k in legacy_core_keys) and not filtered.get('CIBIL_Score'):
+        core = {k: filtered[k] for k in legacy_core_keys}
+        serialized = json.dumps(core, sort_keys=True, default=str)
+    else:
+        serialized = json.dumps(filtered, sort_keys=True, default=str)
     hash_hex = hashlib.sha256(serialized.encode("utf-8")).hexdigest()
     return int(hash_hex[:8], 16) % (2**31 - 1)
 
@@ -270,6 +277,33 @@ def validate_batch_record(raw_row: dict, row_idx: int):
         "Property_Area": property_area,
         "Age": age
     }
+
+    # Optional Multi-Product Fields (Home & Personal Loan)
+    cibil_val = get_val("CIBIL_Score", "CIBIL", "cibil")
+    if cibil_val is not None:
+        try:
+            cleaned["CIBIL_Score"] = int(float(cibil_val))
+        except (ValueError, TypeError):
+            pass
+
+    cc_val = get_val("Credit_Card_Utilization", "CreditCardUtilization", "Credit_Card_Usage", "CC_Utilization")
+    if cc_val is not None:
+        try:
+            cc_num = float(cc_val)
+            if cc_num > 1.0 and cc_num <= 100.0:
+                cc_num = cc_num / 100.0
+            cleaned["Credit_Card_Utilization"] = max(0.0, min(1.0, cc_num))
+        except (ValueError, TypeError):
+            pass
+
+    loan_purpose_val = get_val("Loan_Purpose", "LoanPurpose", "Purpose")
+    if loan_purpose_val is not None:
+        cleaned["Loan_Purpose"] = str(loan_purpose_val)
+
+    loan_type_val = get_val("loan_type", "Loan_Type", "Product")
+    if loan_type_val is not None:
+        cleaned["loan_type"] = str(loan_type_val)
+
     return True, cleaned, None
 
 
@@ -277,25 +311,51 @@ def evaluate_single_record(input_data: dict):
     """
     Core end-to-end evaluation: Solvency check, ML prediction, SHAP, LIME,
     4-Pillar Trust Scores, and database dictionary preparation.
+    Supports multi-product routing (Home Loan vs Personal Loan).
     """
-    # 1. Enrich with Financial Features
-    input_df = pd.DataFrame([input_data])
-    input_df_enriched = add_financial_features(input_df)[raw_features]
-    transformed_instance = preprocessor.transform(input_df_enriched)[0]
+    product_id = input_data.get('loan_type')
+    if not product_id:
+        if 'CIBIL_Score' in input_data and input_data['CIBIL_Score'] is not None:
+            product_id = 'home_loan'
+        else:
+            product_id = 'legacy' if 'legacy' in registry.pipelines else 'home_loan'
+        
+    pipe = registry.get_pipeline(product_id)
+    
+    # 1. Normalize and Enrich
+    normalized_data = registry.normalize_input(pipe.product_id, input_data)
+    input_df = pd.DataFrame([normalized_data])
+    
+    if pipe.product_id == 'legacy':
+        input_df_enriched = pipe.feature_fn(input_df)[pipe.raw_features]
+        monthly_emi = float(normalized_data.get('Loan_Amount', 0)) / max(1.0, float(normalized_data.get('Loan_Term', 1)))
+        total_income = float(normalized_data.get('Applicant_Income', 0) + normalized_data.get('Coapplicant_Income', 0))
+        dti_ratio = monthly_emi / max(1.0, total_income)
+        dti_status_ratio = dti_ratio
+        orig_values = input_data.copy()
+        orig_values['Monthly_EMI'] = monthly_emi
+        orig_values['DTI_Ratio'] = dti_ratio
+    else:
+        input_df_enriched = pipe.feature_fn(input_df)
+        monthly_emi = float(input_df_enriched['Monthly_EMI'].iloc[0])
+        total_income = float(normalized_data['Applicant_Income'] + normalized_data.get('Coapplicant_Income', 0))
+        dti_ratio = float(input_df_enriched['FOIR'].iloc[0])
+        dti_status_ratio = dti_ratio
+        orig_values = normalized_data.copy()
+        orig_values['Monthly_EMI'] = monthly_emi
+        orig_values['DTI_Ratio'] = dti_ratio
+        orig_values['FOIR'] = dti_ratio
 
-    # 2. Solvency Guardrail Calculation (Deterministic Banking Limit)
-    loan_amount = float(input_data.get('Loan_Amount', 0))
-    loan_term = float(input_data.get('Loan_Term', 1))
-    monthly_emi = loan_amount / max(1.0, loan_term)
-    total_income = float(input_data.get('Applicant_Income', 0) + input_data.get('Coapplicant_Income', 0))
-    dti_ratio = monthly_emi / max(1.0, total_income)
-    dti_percent = f"{dti_ratio * 100:.1f}%"
+    transformed_instance = pipe.preprocessor.transform(input_df_enriched)[0]
 
-    if dti_ratio <= 0.35:
+    # 2. Solvency / FOIR Guardrail Calculation (Deterministic Banking Limit)
+    dti_percent = f"{dti_status_ratio * 100:.1f}%"
+
+    if dti_status_ratio <= 0.35:
         solvency_status = "OPTIMAL"
         is_solvent = True
         override_warning = None
-    elif dti_ratio <= 0.50:
+    elif dti_status_ratio <= 0.50:
         solvency_status = "MODERATE"
         is_solvent = True
         override_warning = "Moderate Debt Burden: Repayment represents 35%–50% of monthly income."
@@ -316,53 +376,50 @@ def evaluate_single_record(input_data: dict):
 
     # 3. ML Model Prediction
     transformed_2d = transformed_instance.reshape(1, -1)
-    pred = model.predict(transformed_2d)[0]
-    prob = model.predict_proba(transformed_2d)[0][1]
+    pred = pipe.model.predict(transformed_2d)[0]
+    prob = pipe.model.predict_proba(transformed_2d)[0][1]
     prediction_str = "Approved" if pred == 1 else "Rejected"
 
     # 4. Explainability (SHAP & LIME)
-    orig_values = input_data.copy()
-    orig_values['Monthly_EMI'] = monthly_emi
-    orig_values['DTI_Ratio'] = dti_ratio
-
     applicant_seed = generate_applicant_seed(input_data)
-    shap_exp = shap_explainer.explain_instance(transformed_instance, original_values=orig_values)
-    lime_exp = lime_explainer.explain_instance(
-        model.predict_proba, 
+    shap_exp = pipe.shap_explainer.explain_instance(transformed_instance, original_values=orig_values)
+    lime_exp = pipe.lime_explainer.explain_instance(
+        pipe.model.predict_proba, 
         transformed_instance, 
         original_values=orig_values,
         seed=applicant_seed
     )
 
     # 5. 4-Pillar Validation Suite
-    directional_mask = {}
-    for feat in shap_exp.features:
-        if feat.contribution > 0:
-            directional_mask[feat.feature] = 0.0
-        else:
-            directional_mask[feat.feature] = 1.0 if feat.feature == 'Credit_History' else 0.0
-
-    faithfulness_score = calculate_faithfulness(model, transformed_instance, shap_exp, feature_names, directional_mask, top_k=3)
-    faithfulness_score = max(0.0, min(1.0, faithfulness_score))
+    faithfulness_score = calculate_faithfulness(pipe.model, transformed_instance, shap_exp, pipe.feature_names)
 
     stability_rng = np.random.RandomState(applicant_seed)
     noise = stability_rng.normal(0, 0.01, size=transformed_instance.shape)
     perturbed_instance = transformed_instance + noise
-    shap_exp_perturbed = shap_explainer.explain_instance(perturbed_instance, original_values=orig_values)
+    shap_exp_perturbed = pipe.shap_explainer.explain_instance(perturbed_instance, original_values=orig_values)
     stability_score = calculate_stability(shap_exp, shap_exp_perturbed)
 
     consistency_score = calculate_consistency(shap_exp, lime_exp, top_k=3)
-    fairness_score = calculate_counterfactual_fairness(model, preprocessor, input_data, raw_features, sensitive_col='Gender')
+    fairness_score = calculate_counterfactual_fairness(
+        pipe.model, 
+        pipe.preprocessor, 
+        normalized_data if pipe.product_id != 'legacy' else input_data, 
+        pipe.raw_features, 
+        sensitive_col='Gender',
+        feature_fn=pipe.feature_fn
+    )
 
     trust_eval = calculate_trust_score(faithfulness_score, stability_score, consistency_score, fairness_score)
-    dossier_id = generate_dossier_id(input_data)
+    dossier_id = generate_dossier_id(normalized_data)
     confidence_score = float(prob) if pred == 1 else float(1 - prob)
+
+    model_version_str = "v1" if pipe.product_id == 'legacy' else f"{pipe.product_id}_v2"
 
     response_obj = LoanPredictionResponse(
         prediction=prediction_str,
         probability=float(prob),
         confidenceScore=confidence_score,
-        modelVersion="v1",
+        modelVersion=model_version_str,
         shap=shap_exp,
         lime=lime_exp,
         trustScore=trust_eval,
@@ -379,10 +436,12 @@ def evaluate_single_record(input_data: dict):
 
     db_fields = {
         "dossier_id": dossier_id,
-        "applicant_age": input_data.get('Age'),
-        "applicant_income": input_data.get('Applicant_Income'),
-        "loan_amount": input_data.get('Loan_Amount'),
-        "raw_input_data": input_data,
+        "loan_type": pipe.product_id,
+        "cibil_score": normalized_data.get('CIBIL_Score'),
+        "applicant_age": normalized_data.get('Age'),
+        "applicant_income": normalized_data.get('Applicant_Income'),
+        "loan_amount": normalized_data.get('Loan_Amount'),
+        "raw_input_data": normalized_data,
         "prediction": prediction_str,
         "probability": float(prob),
         "confidence_score": confidence_score,
@@ -767,6 +826,8 @@ def list_evaluations(limit: int = 50, db: Session = Depends(get_db)):
                 id=r.id,
                 dossierId=r.dossier_id or f"TF-EVAL-{r.id:04d}",
                 timestamp=timestamp_str,
+                loanType=getattr(r, 'loan_type', 'home_loan') or 'home_loan',
+                cibilScore=getattr(r, 'cibil_score', None),
                 applicantAge=r.applicant_age,
                 applicantIncome=r.applicant_income,
                 loanAmount=r.loan_amount,

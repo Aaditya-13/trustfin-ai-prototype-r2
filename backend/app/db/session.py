@@ -45,6 +45,8 @@ def init_db(target_engine=None):
             existing_columns = {c["name"] for c in inspector.get_columns("prediction_logs")}
             column_definitions = {
                 "dossier_id": "VARCHAR(32)",
+                "loan_type": "VARCHAR(32)",
+                "cibil_score": "INTEGER",
                 "confidence_score": "FLOAT",
                 "solvency_status": "VARCHAR(32)",
                 "dti_ratio": "FLOAT",

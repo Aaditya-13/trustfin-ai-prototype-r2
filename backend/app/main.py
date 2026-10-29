@@ -1,5 +1,7 @@
 from contextlib import asynccontextmanager
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from backend.app.api.routes import prediction
 
@@ -23,6 +25,21 @@ app = FastAPI(
     version="1.0.0",
     lifespan=lifespan
 )
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    print("\n" + "=" * 60)
+    print(f"[FASTAPI 422 VALIDATION ERROR on {request.url.path}]")
+    for err in exc.errors():
+        field = " -> ".join(str(loc) for loc in err.get("loc", []))
+        msg = err.get("msg")
+        val = err.get("input")
+        print(f"  Field: {field} | Error: {msg} | Value: {repr(val)}")
+    print("=" * 60 + "\n")
+    return JSONResponse(
+        status_code=422,
+        content={"detail": exc.errors()}
+    )
 
 # CORS for React frontend
 app.add_middleware(

@@ -45,8 +45,8 @@ function App() {
   const handleSelectLoan = (loanTypeId) => {
     setSelectedLoanType({
       id: loanTypeId,
-      title: loanTypeId === 'home_loan' ? 'Residential Home Loan' : 'Retail Loan Product',
-      category: 'Retail Secured'
+      title: loanTypeId === 'home_loan' ? 'Residential Home Loan' : 'Personal & Retail Credit',
+      category: loanTypeId === 'home_loan' ? 'Secured Mortgage' : 'Unsecured Credit'
     });
     setCurrentScreen('APPLICATION_FORM');
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -56,9 +56,13 @@ function App() {
   const handleEvaluate = async (formData) => {
     setLoading(true);
     setError(null);
-    setCurrentApplicantData(formData);
+    const enrichedFormData = {
+      ...formData,
+      loan_type: selectedLoanType.id
+    };
+    setCurrentApplicantData(enrichedFormData);
     try {
-      const data = await predictLoan(formData);
+      const data = await predictLoan(enrichedFormData);
       setResult(data);
       setCurrentScreen('RESULTS');
       setOfficerSubView('SUMMARY');

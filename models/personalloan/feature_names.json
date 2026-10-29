@@ -1,0 +1,23 @@
+[
+  "Gender_Male",
+  "Married_Yes",
+  "Education_Not Graduate",
+  "Employment_Status_Self-Employed",
+  "Loan_Purpose_Education",
+  "Loan_Purpose_Home_Renovation",
+  "Loan_Purpose_Medical_Emergency",
+  "Loan_Purpose_Travel",
+  "Loan_Purpose_Wedding",
+  "Age",
+  "Dependents",
+  "Work_Experience",
+  "Applicant_Income",
+  "Existing_EMI",
+  "Loan_Amount",
+  "Loan_Term",
+  "Credit_Card_Utilization",
+  "CIBIL_Score",
+  "Missed_Payments_12M",
+  "Monthly_EMI",
+  "FOIR"
+]

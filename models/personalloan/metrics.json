@@ -1,0 +1,12 @@
+{
+  "model_type": "XGBClassifier",
+  "product": "Personal Loan",
+  "n_samples": 3000,
+  "accuracy": 0.9733333333333334,
+  "roc_auc": 0.9963375672095379,
+  "precision": 0.9744408945686901,
+  "recall": 0.9744408945686901,
+  "f1": 0.9744408945686901,
+  "disparate_impact": 0.8648188518633864,
+  "feature_count": 21
+}

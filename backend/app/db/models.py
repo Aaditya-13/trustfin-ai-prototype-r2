@@ -9,6 +9,10 @@ class PredictionLog(Base):
     dossier_id = Column(String(32), unique=True, index=True, nullable=True) # e.g. "TF-20261022-8492"
     timestamp = Column(DateTime, default=lambda: datetime.now(timezone.utc))
     
+    # Product and Credit Bureau Details
+    loan_type = Column(String(32), default="home_loan", nullable=True) # "home_loan" or "personal_loan"
+    cibil_score = Column(Integer, nullable=True) # Continuous CIBIL score (300 to 900)
+    
     # Applicant details (basic searchability & display)
     applicant_age = Column(Float, nullable=True)
     applicant_income = Column(Float, nullable=True)

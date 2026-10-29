@@ -1,5 +1,5 @@
 import React from 'react';
-import { Home, Car, ArrowRight, ArrowLeft, Lock } from 'lucide-react';
+import { Home, CreditCard, ArrowRight, ArrowLeft } from 'lucide-react';
 
 const LoanTypeSelection = ({ userRole, onSelectLoan, onBack }) => {
     const isOfficer = userRole === 'bank_officer';
@@ -83,40 +83,46 @@ const LoanTypeSelection = ({ userRole, onSelectLoan, onBack }) => {
                     </div>
                 </div>
 
-                {/* Product 2: Vehicle Loan (COMING SOON) */}
-                <div className="bg-gray-50 border border-gray-300 rounded-sm p-6 opacity-85 relative flex flex-col justify-between">
-                    <div className="absolute top-0 right-0 bg-gray-200 text-gray-700 text-[10px] font-bold px-3 py-0.5 rounded-bl-sm uppercase tracking-wider">
-                        Coming Soon
+                {/* Product 2: Personal & Retail Credit (ACTIVE) */}
+                <div 
+                    onClick={() => onSelectLoan('personal_loan')}
+                    className="bg-white border-2 border-gov-blue rounded-sm p-6 shadow-sm hover:shadow-md transition-all cursor-pointer group flex flex-col justify-between relative overflow-hidden"
+                >
+                    <div className="absolute top-0 right-0 bg-gov-blue text-white text-[10px] font-bold px-3 py-0.5 rounded-bl-sm uppercase tracking-wider">
+                        Active & Deployed
                     </div>
 
                     <div className="space-y-3 pt-2">
                         <div className="flex items-center gap-3">
-                            <div className="p-3 bg-gray-100 border border-gray-300 text-gray-500 rounded-sm">
-                                <Car className="w-6 h-6" />
+                            <div className="p-3 bg-blue-50 border border-blue-200 text-gov-blue rounded-sm group-hover:bg-gov-blue group-hover:text-white transition-colors">
+                                <CreditCard className="w-6 h-6" />
                             </div>
                             <div>
-                                <h3 className="text-base font-bold text-gray-700">
-                                    Vehicle Loan
+                                <h3 className="text-base font-bold text-gray-900 group-hover:text-gov-blue transition-colors">
+                                    Personal & Retail Credit
                                 </h3>
                                 <span className="text-[11px] text-gray-500 font-mono">
-                                    Auto & Two-Wheeler Financing
+                                    Pipeline: XGBoost v2.0 • Unsecured FOIR Limit
                                 </span>
                             </div>
                         </div>
 
-                        <p className="text-xs text-gray-500 leading-relaxed">
-                            Secured financing for personal and commercial four-wheelers and two-wheelers with automated residual valuation.
+                        <p className="text-xs text-gray-600 leading-relaxed">
+                            Unsecured instant retail credit with purpose risk weighting, credit card utilization monitoring, and cash flow solvency guardrails.
                         </p>
 
-                        <div className="flex flex-wrap gap-2 text-[10px] font-semibold text-gray-400 pt-1">
-                            <span className="px-2 py-0.5 bg-gray-100 border border-gray-200 rounded-xs">Tenor: 1 to 7 Years</span>
-                            <span className="px-2 py-0.5 bg-gray-100 border border-gray-200 rounded-xs">₹50K to ₹25L</span>
+                        <div className="flex flex-wrap gap-2 text-[10px] font-semibold text-gray-600 pt-1">
+                            <span className="px-2 py-0.5 bg-gray-100 border border-gray-200 rounded-xs">Tenor: 6 to 60 Months</span>
+                            <span className="px-2 py-0.5 bg-gray-100 border border-gray-200 rounded-xs">₹30K to ₹10L</span>
+                            <span className="px-2 py-0.5 bg-green-50 border border-green-200 text-green-800 rounded-xs">CIBIL 300–900</span>
                         </div>
                     </div>
 
-                    <div className="pt-5 border-t border-gray-200 mt-4 flex items-center gap-1.5 text-xs text-gray-500 font-medium">
-                        <Lock className="w-3.5 h-3.5 text-gray-400" />
-                        <span>Coming Soon • Under Development</span>
+                    <div className="pt-5 border-t border-gray-100 mt-4 flex items-center justify-between">
+                        <span className="text-xs font-bold text-gov-blue flex items-center gap-1 group-hover:underline">
+                            Proceed to Application
+                        </span>
+                        <ArrowRight className="w-4 h-4 text-gov-blue group-hover:translate-x-1 transition-transform" />
                     </div>
                 </div>
 

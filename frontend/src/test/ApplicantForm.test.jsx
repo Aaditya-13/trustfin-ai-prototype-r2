@@ -49,4 +49,26 @@ describe('ApplicantForm Component (Modular Test)', () => {
     expect(submittedData).toHaveProperty('Loan_Amount');
     expect(submittedData).toHaveProperty('Credit_History');
   });
+
+  it('allows setting credit card utilization to 0% for personal loan', () => {
+    const handleSubmit = vi.fn();
+    const personalProduct = { id: 'personal_loan', title: 'Personal & Retail Credit' };
+    render(<ApplicantForm onSubmit={handleSubmit} isLoading={false} userRole="bank_officer" loanProduct={personalProduct} />);
+    
+    // Check that credit card utilization controls exist
+    expect(screen.getByText(/Credit Card Utilization/i)).toBeInTheDocument();
+    expect(screen.getByText(/0% \(Zero Revolving Debt\)/i)).toBeInTheDocument();
+
+    // Load Ananya Rao (profile 1 has Credit_Card_Utilization: 0.0)
+    const profileBtn = screen.getByText(/Ananya Rao/i);
+    fireEvent.click(profileBtn);
+
+    // Submit and assert Credit_Card_Utilization is exactly 0
+    const submitBtn = screen.getByRole('button', { name: /Evaluate Loan/i });
+    fireEvent.click(submitBtn);
+
+    expect(handleSubmit).toHaveBeenCalledTimes(1);
+    const submittedData = handleSubmit.mock.calls[0][0];
+    expect(submittedData.Credit_Card_Utilization).toBe(0);
+  });
 });
