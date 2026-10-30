@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { 
-    CheckCircle, AlertCircle, Check, X, Wallet, Download, 
+    CheckCircle, AlertCircle, Check, X, Wallet, Download, FileText,
     Eye, Loader2, ArrowLeft, RefreshCw, Printer, ShieldCheck
 } from 'lucide-react';
 import RecourseSimulator from './RecourseSimulator';
+import SubmittedApplicationFormModal from './SubmittedApplicationFormModal';
 import { downloadLoanReportPdf, fetchLoanReportPdfBlob } from '../services/api';
 
 const ApplicantPortalView = ({ result, applicantData, onNewApplication }) => {
     const [downloadingPdf, setDownloadingPdf] = useState(false);
+    const [showApplicationForm, setShowApplicationForm] = useState(false);
     const [showPdfModal, setShowPdfModal] = useState(false);
     const [pdfBlobUrl, setPdfBlobUrl] = useState(null);
     const [loadingPdfPreview, setLoadingPdfPreview] = useState(false);
@@ -138,6 +140,15 @@ const ApplicantPortalView = ({ result, applicantData, onNewApplication }) => {
                         >
                             <Eye className="w-3.5 h-3.5 text-gov-blue" />
                             Preview
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => setShowApplicationForm(true)}
+                            className="px-2.5 py-1 bg-white hover:bg-gray-100 text-gray-800 border border-gray-300 rounded-sm text-xs font-semibold flex items-center gap-1 cursor-pointer transition-colors shadow-xs"
+                            title="View submitted application form"
+                        >
+                            <FileText className="w-3.5 h-3.5 text-gov-blue" />
+                            View Application Form
                         </button>
                         <button
                             type="button"
@@ -312,6 +323,13 @@ const ApplicantPortalView = ({ result, applicantData, onNewApplication }) => {
                 </div>
 
             </div>
+
+            <SubmittedApplicationFormModal
+                isOpen={showApplicationForm}
+                onClose={() => setShowApplicationForm(false)}
+                applicantData={applicantData}
+                applicationReference={result?.dossierId || 'TF-ASMT-849201'}
+            />
 
             {/* In-App PDF Preview Modal */}
             {showPdfModal && (

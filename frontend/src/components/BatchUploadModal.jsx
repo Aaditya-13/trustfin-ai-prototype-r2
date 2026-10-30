@@ -14,6 +14,7 @@ import {
 
 const BatchUploadModal = ({ isOpen, onClose, onInspectEvaluation, onViewInHistory }) => {
     const [activeTab, setActiveTab] = useState('upload'); // 'upload' | 'results'
+    const [selectedLoanType, setSelectedLoanType] = useState('home_loan');
     const [selectedFile, setSelectedFile] = useState(null);
     const [isProcessing, setIsProcessing] = useState(false);
     const [batchResult, setBatchResult] = useState(null);
@@ -55,7 +56,7 @@ const BatchUploadModal = ({ isOpen, onClose, onInspectEvaluation, onViewInHistor
         setIsProcessing(true);
         setError(null);
         try {
-            const data = await uploadBatchFile(selectedFile);
+            const data = await uploadBatchFile(selectedFile, selectedLoanType);
             setBatchResult(data);
             setActiveTab('results');
         } catch (err) {
@@ -70,7 +71,7 @@ const BatchUploadModal = ({ isOpen, onClose, onInspectEvaluation, onViewInHistor
         setError(null);
         try {
             const preset = await fetchBatchPreset(presetId);
-            const data = await submitBatchJson(preset.rows, label);
+            const data = await submitBatchJson(preset.rows, label, selectedLoanType);
             setBatchResult(data);
             setActiveTab('results');
         } catch (err) {
@@ -83,7 +84,7 @@ const BatchUploadModal = ({ isOpen, onClose, onInspectEvaluation, onViewInHistor
     const handleDownloadSample = async () => {
         setDownloadingSample(true);
         try {
-            await downloadSampleBatchCsv();
+            await downloadSampleBatchCsv(selectedLoanType);
         } catch (err) {
             alert("Failed to download sample CSV template.");
         } finally {
@@ -182,67 +183,75 @@ const BatchUploadModal = ({ isOpen, onClose, onInspectEvaluation, onViewInHistor
                     {activeTab === 'upload' && (
                         <div className="space-y-6">
 
-                            {/* Section A: Ready Demo Presets */}
+                            {/* Section A: Product-specific demo data */}
                             <div className="bg-slate-50 border border-slate-200 p-4 rounded-sm">
-                                <div className="flex items-center justify-between mb-2">
+                                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-2">
                                     <h3 className="text-xs font-bold text-gray-800 uppercase tracking-wide flex items-center gap-1.5">
                                         <Play className="w-4 h-4 text-gov-blue" />
-                                        Option 1: Quick Demo Batches (Instant One-Click Evaluation)
+                                        Option 1: Product-specific demo portfolio
                                     </h3>
-                                    <span className="text-[10px] text-gray-500">Includes intentional errors to demo handling</span>
+                                    <div className="flex gap-1 border border-gray-300 bg-white p-1">
+                                        <button
+                                            type="button"
+                                            onClick={() => setSelectedLoanType('home_loan')}
+                                            className={`px-3 py-1.5 text-[10px] font-bold uppercase tracking-wide cursor-pointer ${selectedLoanType === 'home_loan' ? 'bg-gov-blue text-white' : 'text-gray-600 hover:bg-gray-100'}`}
+                                        >
+                                            Home Loan
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={() => setSelectedLoanType('personal_loan')}
+                                            className={`px-3 py-1.5 text-[10px] font-bold uppercase tracking-wide cursor-pointer ${selectedLoanType === 'personal_loan' ? 'bg-gov-blue text-white' : 'text-gray-600 hover:bg-gray-100'}`}
+                                        >
+                                            Personal Loan
+                                        </button>
+                                    </div>
                                 </div>
                                 <p className="text-xs text-gray-600 mb-3">
-                                    Test the batch pipeline immediately using curated portfolios with deliberate data flaws (missing credit scores, blank incomes, invalid amounts).
+                                    Use a portfolio built for {selectedLoanType === 'home_loan' ? 'home loans, including property value and area' : 'personal loans, including purpose and card utilization'}.
                                 </p>
 
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                    {/* Preset 1 */}
                                     <button
                                         type="button"
                                         disabled={isProcessing}
-                                        onClick={() => handleRunPreset('batch_1', 'Demo Batch 1 (10 Records)')}
+                                        onClick={() => handleRunPreset(selectedLoanType, `${selectedLoanType === 'home_loan' ? 'Home Loan' : 'Personal Loan'} Portfolio`)}
                                         className="p-3.5 bg-white hover:bg-blue-50/70 border-2 border-gray-300 hover:border-gov-blue rounded-sm text-left transition-all cursor-pointer group disabled:opacity-50"
                                     >
                                         <div className="flex items-center justify-between">
                                             <span className="text-xs font-bold text-gray-900 group-hover:text-gov-blue">
-                                                Demo Batch 1 (10 Records)
+                                                {selectedLoanType === 'home_loan' ? 'Home Loan Portfolio' : 'Personal Loan Portfolio'}
                                             </span>
                                             <span className="text-[10px] font-bold px-1.5 py-0.5 bg-blue-100 text-blue-900 rounded-xs">
-                                                10 Applications
+                                                4 Applications
                                             </span>
                                         </div>
-                                        <p className="text-[11px] text-gray-500 mt-1">
-                                            <strong>7 Valid</strong> (Approved & Rejected) • <strong>3 Flawed</strong> (Missing CIBIL, blank income, 0 loan)
+                                        <p className="text-[11px] text-gray-600 mt-1">
+                                            {selectedLoanType === 'home_loan'
+                                                ? 'Property-backed cases with co-applicant income, property valuation, and CIBIL details.'
+                                                : 'Unsecured credit cases with loan purpose, existing EMI, and card utilization.'}
                                         </p>
                                         <div className="mt-2.5 flex items-center gap-1 text-[11px] font-bold text-gov-blue group-hover:underline">
-                                            <span>Run Batch 1</span>
+                                            <span>Run {selectedLoanType === 'home_loan' ? 'Home' : 'Personal'} Loan Portfolio</span>
                                             <ArrowRight className="w-3.5 h-3.5" />
                                         </div>
                                     </button>
 
-                                    {/* Preset 2 */}
-                                    <button
-                                        type="button"
-                                        disabled={isProcessing}
-                                        onClick={() => handleRunPreset('batch_2', 'Demo Batch 2 (30 Records)')}
-                                        className="p-3.5 bg-white hover:bg-blue-50/70 border-2 border-gray-300 hover:border-gov-blue rounded-sm text-left transition-all cursor-pointer group disabled:opacity-50"
-                                    >
-                                        <div className="flex items-center justify-between">
-                                            <span className="text-xs font-bold text-gray-900 group-hover:text-gov-blue">
-                                                Demo Batch 2 (30 Records)
-                                            </span>
-                                            <span className="text-[10px] font-bold px-1.5 py-0.5 bg-blue-100 text-blue-900 rounded-xs">
-                                                30 Applications
-                                            </span>
+                                    <div className="p-3.5 border border-gray-200 bg-white flex flex-col justify-between gap-3">
+                                        <div>
+                                            <p className="text-xs font-semibold text-gray-800">Sample CSV template</p>
+                                            <p className="text-[11px] text-gray-600 mt-1">Columns tailored to the selected loan product.</p>
                                         </div>
-                                        <p className="text-[11px] text-gray-500 mt-1">
-                                            <strong>24 Valid</strong> (Full distribution) • <strong>6 Flawed</strong> (Various data missing)
-                                        </p>
-                                        <div className="mt-2.5 flex items-center gap-1 text-[11px] font-bold text-gov-blue group-hover:underline">
-                                            <span>Run Batch 2</span>
-                                            <ArrowRight className="w-3.5 h-3.5" />
-                                        </div>
-                                    </button>
+                                        <button
+                                            type="button"
+                                            onClick={handleDownloadSample}
+                                            disabled={downloadingSample}
+                                            className="w-fit px-3 py-1.5 bg-yellow-50 hover:bg-yellow-100 text-yellow-900 border border-yellow-300 text-xs font-bold rounded-sm flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+                                        >
+                                            <Download className="w-3.5 h-3.5" />
+                                            Download {selectedLoanType === 'home_loan' ? 'Home' : 'Personal'} Loan CSV
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
 
@@ -255,21 +264,11 @@ const BatchUploadModal = ({ isOpen, onClose, onInspectEvaluation, onViewInHistor
                                             Option 2: Upload Real CSV File
                                         </h3>
                                         <p className="text-xs text-gray-500 mt-0.5">
-                                            Upload your institution's borrower portfolio in standard CSV format
+                                            Upload the selected {selectedLoanType === 'home_loan' ? 'home loan' : 'personal loan'} product's CSV format using the matching template above.
                                         </p>
                                     </div>
 
-                                    {/* Sample Template Download */}
-                                    <button
-                                        type="button"
-                                        onClick={handleDownloadSample}
-                                        disabled={downloadingSample}
-                                        className="px-3 py-1.5 bg-yellow-50 hover:bg-yellow-100 text-yellow-900 border border-yellow-300 text-xs font-bold rounded-sm flex items-center gap-1.5 cursor-pointer transition-colors shadow-xs"
-                                        title="Download a 20-row sample CSV with intentional flaws to test upload"
-                                    >
-                                        <Download className="w-3.5 h-3.5" />
-                                        <span>Download Sample Batch (20 Records)</span>
-                                    </button>
+
                                 </div>
 
                                 {/* Drag and drop dropzone */}
@@ -295,7 +294,7 @@ const BatchUploadModal = ({ isOpen, onClose, onInspectEvaluation, onViewInHistor
                                         </label>
                                     </p>
                                     <p className="text-[11px] text-gray-500 mt-1">
-                                        Accepts standard CSV with 12 application fields. Incomplete/invalid rows are automatically flagged and trashed.
+                                        Product-specific fields are validated for the selected loan type. Incomplete or invalid rows are reported with row-level reasons.
                                     </p>
 
                                     {selectedFile && (

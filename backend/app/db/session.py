@@ -50,9 +50,8 @@ def init_db(target_engine=None):
     try:
         Base.metadata.create_all(bind=eng)
         inspector = inspect(eng)
-        if "prediction_logs" in inspector.get_table_names():
-            existing_columns = {c["name"] for c in inspector.get_columns("prediction_logs")}
-            column_definitions = {
+        table_columns = {
+            "prediction_logs": {
                 "dossier_id": "VARCHAR(32)",
                 "loan_type": "VARCHAR(32)",
                 "cibil_score": "INTEGER",
@@ -63,11 +62,19 @@ def init_db(target_engine=None):
                 "trust_rating": "VARCHAR(32)",
                 "full_response": "JSON",
                 "batch_id": "VARCHAR(32)"
+            },
+            "batch_uploads": {
+                "loan_type": "VARCHAR(32)"
             }
+        }
+        for table_name, column_definitions in table_columns.items():
+            if table_name not in inspector.get_table_names():
+                continue
+            existing_columns = {c["name"] for c in inspector.get_columns(table_name)}
             with eng.connect() as conn:
                 for col_name, col_type in column_definitions.items():
                     if col_name not in existing_columns:
-                        conn.execute(text(f"ALTER TABLE prediction_logs ADD COLUMN {col_name} {col_type}"))
+                        conn.execute(text(f"ALTER TABLE {table_name} ADD COLUMN {col_name} {col_type}"))
                 conn.commit()
     except Exception as e:
         print(f"[DB Notice] init_db warning for {eng.url}: {e}")

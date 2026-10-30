@@ -145,6 +145,7 @@ class BatchUploadResponse(BaseModel):
 class BatchSummaryItem(BaseModel):
     id: int
     batchId: str
+    loanType: Optional[str] = None
     filename: str
     timestamp: str
     totalRecords: int
@@ -157,6 +158,7 @@ class BatchSummaryItem(BaseModel):
 class BatchDetailResponse(BaseModel):
     id: int
     batchId: str
+    loanType: Optional[str] = None
     filename: str
     timestamp: str
     totalRecords: int
@@ -169,6 +171,7 @@ class BatchDetailResponse(BaseModel):
 
 class BatchUploadJsonRequest(BaseModel):
     filename: Optional[str] = "preset_batch.csv"
+    loan_type: Optional[str] = None
     rows: List[dict]
 
 

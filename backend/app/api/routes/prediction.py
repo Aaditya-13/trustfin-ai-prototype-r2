@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Response, Depends, UploadFile, File
+from fastapi import APIRouter, HTTPException, Response, Depends, UploadFile, File, Form
 from sqlalchemy.orm import Session
 from typing import List, Optional
 from datetime import datetime, timezone
@@ -39,14 +39,17 @@ from backend.app.trust.trust_score import calculate_trust_score
 
 router = APIRouter()
 
-def generate_dossier_id(input_data: dict) -> str:
+def generate_dossier_id(input_data: dict, is_batch: bool = False) -> str:
     """
-    Generates an institutional dossier tracking code: TF-YYYYMMDD-XXXXXX
+    Generates H-/P- references for individual applications and BH-/BP- for batch rows.
     Combines today's date with a unique hex suffix to ensure database record uniqueness.
     """
     today_str = datetime.now().strftime("%Y%m%d")
     unique_suffix = uuid.uuid4().hex[:6].upper()
-    return f"TF-{today_str}-{unique_suffix}"
+    loan_type = str(input_data.get("loan_type", "home_loan")).lower()
+    product_prefix = "P" if "personal" in loan_type else "H"
+    source_prefix = "B" if is_batch else ""
+    return f"{source_prefix}{product_prefix}-{today_str}-{unique_suffix}"
 
 
 def generate_applicant_seed(input_data: dict) -> int:
@@ -89,225 +92,169 @@ except Exception as e:
     print(f"Error loading models: {e}")
     model = None
 
-def generate_batch_id() -> str:
+def generate_batch_id(loan_type: Optional[str] = None) -> str:
     """
-    Generates an institutional batch tracking identifier: BATCH-YYYYMMDD-XXXX
+    Generates BH-/BP- product-specific batch tracking identifiers.
     """
     today_str = datetime.now().strftime("%Y%m%d")
     rnd_suffix = uuid.uuid4().hex[:4].upper()
-    return f"BATCH-{today_str}-{rnd_suffix}"
+    product_prefix = "P" if loan_type and "personal" in loan_type.lower() else "H"
+    return f"B{product_prefix}-{today_str}-{rnd_suffix}"
 
 
-def validate_batch_record(raw_row: dict, row_idx: int):
-    """
-    Validates a raw row from CSV or JSON against required credit scoring schema.
-    Trashes flawed or incomplete records and explains exact failure reasons.
-    Returns: (is_valid: bool, cleaned_data: dict or None, error_reason: str or None)
-    """
-    normalized = {}
-    for k, v in raw_row.items():
-        if k is not None:
-            normalized[str(k).strip().lower()] = v
-
-    missing_fields = []
+def validate_batch_record(raw_row: dict, row_idx: int, default_loan_type: Optional[str] = None):
+    """Validate and normalize one product-specific batch row."""
+    normalized = {
+        str(key).strip().lower(): value
+        for key, value in raw_row.items()
+        if key is not None
+    }
+    errors = []
 
     def get_val(*aliases):
         for alias in aliases:
-            al = alias.lower()
-            if al in normalized and normalized[al] is not None:
-                val = normalized[al]
-                if isinstance(val, str):
-                    val = val.strip()
-                    if val == "" or val.lower() == "nan" or val.lower() == "null" or val.lower() == "none":
-                        continue
-                elif pd.isna(val):
+            value = normalized.get(alias.lower())
+            if value is None:
+                continue
+            if isinstance(value, str):
+                value = value.strip()
+                if value.lower() in {"", "nan", "null", "none"}:
                     continue
-                return val
+            else:
+                try:
+                    if pd.isna(value):
+                        continue
+                except (TypeError, ValueError):
+                    pass
+            return value
         return None
 
-    # 1. Gender
-    gender_val = get_val("Gender")
-    if not gender_val:
-        missing_fields.append("Gender is required")
+    raw_type = get_val("loan_type", "loan type", "product") or default_loan_type
+    if raw_type is None:
+        raw_type = "personal_loan" if get_val("Loan_Purpose", "Purpose") is not None else "home_loan"
+    type_key = str(raw_type).strip().lower().replace("-", "_").replace(" ", "_")
+    if "personal" in type_key:
+        loan_type = "personal_loan"
+    elif "home" in type_key or type_key in {"mortgage", "housing"}:
+        loan_type = "home_loan"
     else:
-        g_str = str(gender_val).capitalize()
-        gender = "Female" if g_str.startswith("F") else "Male"
+        return False, None, f"Row #{row_idx}: loan_type must be home_loan or personal_loan"
 
-    # 2. Married
-    married_val = get_val("Married")
-    if not married_val:
-        missing_fields.append("Married status is required")
-    else:
-        m_str = str(married_val).capitalize()
-        married = "Yes" if m_str in ["Yes", "Y", "True", "1"] else "No"
-
-    # 3. Dependents
-    dep_val = get_val("Dependents")
-    if dep_val is None:
-        missing_fields.append("Dependents count is required")
-    else:
+    def number(label, aliases, *, default=None, minimum=None, maximum=None, integer=False):
+        value = get_val(*aliases)
+        if value is None:
+            if default is not None:
+                return default
+            errors.append(f"{label} is required")
+            return None
         try:
-            dep_int = int(float(str(dep_val).replace("+", "")))
-            dependents = max(0, min(10, dep_int))
+            parsed = float(value)
+            if minimum is not None and parsed < minimum:
+                errors.append(f"{label} must be at least {minimum}")
+            if maximum is not None and parsed > maximum:
+                errors.append(f"{label} must be at most {maximum}")
+            return int(parsed) if integer else parsed
         except (ValueError, TypeError):
-            missing_fields.append("Dependents must be a valid number")
+            errors.append(f"{label} must be a valid number")
+            return None
 
-    # 4. Education
-    edu_val = get_val("Education")
-    if not edu_val:
-        missing_fields.append("Education level is required")
-    else:
-        e_str = str(edu_val)
-        education = "Graduate" if "grad" in e_str.lower() and "not" not in e_str.lower() else "Not Graduate"
+    def text_value(label, aliases, *, default=None):
+        value = get_val(*aliases)
+        if value is None:
+            if default is not None:
+                return default
+            errors.append(f"{label} is required")
+            return None
+        return str(value).strip()
 
-    # 5. Employment_Status
-    emp_val = get_val("Employment_Status", "EmploymentStatus", "Self_Employed")
-    if not emp_val:
-        missing_fields.append("Employment_Status is required")
-    else:
-        emp_str = str(emp_val).capitalize()
-        if emp_str in ["Salaried", "Self-Employed", "Unemployed"]:
-            employment = emp_str
-        elif "self" in emp_str.lower():
-            employment = "Self-Employed"
+    gender_value = text_value("Gender", ("Gender",))
+    gender = None
+    if gender_value:
+        if gender_value.lower().startswith("f"):
+            gender = "Female"
+        elif gender_value.lower().startswith("m"):
+            gender = "Male"
         else:
-            employment = "Salaried"
+            errors.append("Gender must be Male or Female")
 
-    # 6. Applicant_Income
-    inc_val = get_val("Applicant_Income", "ApplicantIncome", "Income")
-    if inc_val is None:
-        missing_fields.append("Applicant_Income is required")
-    else:
-        try:
-            app_income = float(inc_val)
-            if app_income <= 0:
-                missing_fields.append("Applicant_Income must be greater than 0")
-        except (ValueError, TypeError):
-            missing_fields.append("Applicant_Income must be a valid number")
+    married_value = text_value("Married", ("Married",), default="No")
+    married = "Yes" if married_value and married_value.lower() in {"yes", "y", "true", "1"} else "No"
 
-    # 7. Coapplicant_Income
-    co_inc_val = get_val("Coapplicant_Income", "CoapplicantIncome", "Coapplicant")
-    if co_inc_val is None:
-        coapplicant_income = 0.0
-    else:
-        try:
-            coapplicant_income = float(co_inc_val)
-            if coapplicant_income < 0:
-                missing_fields.append("Coapplicant_Income cannot be negative")
-        except (ValueError, TypeError):
-            missing_fields.append("Coapplicant_Income must be a valid number")
+    dependents = number("Dependents", ("Dependents",), default=0, minimum=0, maximum=10, integer=True)
+    education_value = text_value("Education", ("Education",), default="Graduate")
+    education = "Not Graduate" if education_value and "not" in education_value.lower() else "Graduate"
 
-    # 8. Loan_Amount
-    amt_val = get_val("Loan_Amount", "LoanAmount", "Amount")
-    if amt_val is None:
-        missing_fields.append("Loan_Amount is required")
-    else:
-        try:
-            loan_amount = float(amt_val)
-            if loan_amount <= 0:
-                missing_fields.append("Loan_Amount must be greater than 0")
-        except (ValueError, TypeError):
-            missing_fields.append("Loan_Amount must be a valid number")
+    employment_value = text_value("Employment_Status", ("Employment_Status", "EmploymentStatus", "Self_Employed"), default="Salaried")
+    employment = "Self-Employed" if employment_value and "self" in employment_value.lower() else (
+        "Unemployed" if employment_value and "unemploy" in employment_value.lower() else "Salaried"
+    )
 
-    # 9. Loan_Term
-    term_val = get_val("Loan_Term", "LoanTerm", "Term", "Loan_Amount_Term")
-    if term_val is None:
-        missing_fields.append("Loan_Term is required")
-    else:
-        try:
-            loan_term = float(term_val)
-            if loan_term <= 0:
-                missing_fields.append("Loan_Term must be greater than 0")
-        except (ValueError, TypeError):
-            missing_fields.append("Loan_Term must be a valid number")
+    applicant_income = number("Applicant_Income", ("Applicant_Income", "ApplicantIncome", "Income"), minimum=0.01)
+    loan_amount = number("Loan_Amount", ("Loan_Amount", "LoanAmount", "Amount"), minimum=0.01)
+    loan_term = number("Loan_Term", ("Loan_Term", "LoanTerm", "Term", "Loan_Amount_Term"), minimum=1, integer=True)
+    age = number("Age", ("Age",), default=32, minimum=18, maximum=100)
+    work_experience = number("Work_Experience", ("Work_Experience", "WorkExperience"), default=max(1, int((age or 32) - 22)), minimum=0, maximum=60, integer=True)
+    existing_emi = number("Existing_EMI", ("Existing_EMI", "ExistingEMI"), default=0, minimum=0)
+    missed_payments = number("Missed_Payments_12M", ("Missed_Payments_12M", "MissedPayments12M"), default=0, minimum=0, maximum=12, integer=True)
 
-    # 10. Credit_History
-    ch_val = get_val("Credit_History", "CreditHistory", "Credit")
-    if ch_val is None:
-        missing_fields.append("Credit_History is required (0 or 1)")
-    else:
-        try:
-            ch_num = float(ch_val)
-            if ch_num not in [0.0, 1.0]:
-                missing_fields.append("Credit_History must be 0 (Poor) or 1 (Good)")
-            else:
-                credit_history = ch_num
-        except (ValueError, TypeError):
-            missing_fields.append("Credit_History must be 0 or 1")
-
-    # 11. Property_Area
-    prop_val = get_val("Property_Area", "PropertyArea", "Area")
-    if not prop_val:
-        missing_fields.append("Property_Area is required")
-    else:
-        p_str = str(prop_val).capitalize()
-        if "semi" in p_str.lower():
-            property_area = "Semiurban"
-        elif "rur" in p_str.lower():
-            property_area = "Rural"
-        else:
-            property_area = "Urban"
-
-    # 12. Age
-    age_val = get_val("Age")
-    if age_val is None:
-        age = 35.0
-    else:
-        try:
-            age = float(age_val)
-            if age < 18 or age > 100:
-                missing_fields.append("Age must be between 18 and 100")
-        except (ValueError, TypeError):
-            missing_fields.append("Age must be a valid number")
-
-    if missing_fields:
-        return False, None, f"Row #{row_idx}: {'; '.join(missing_fields)}"
+    cibil_value = get_val("CIBIL_Score", "CIBIL", "cibil")
+    if cibil_value is None:
+        legacy_history = get_val("Credit_History", "CreditHistory")
+        if legacy_history is not None:
+            cibil_value = 750 if str(legacy_history).strip() in {"1", "1.0"} else 480
+    cibil_score = number("CIBIL_Score", ("CIBIL_Score", "CIBIL", "cibil"), default=cibil_value, minimum=300, maximum=900, integer=True)
+    if cibil_value is not None and cibil_score is None and not any("CIBIL_Score" in error for error in errors):
+        errors.append("CIBIL_Score must be a valid score from 300 to 900")
 
     cleaned = {
+        "loan_type": loan_type,
         "Gender": gender,
         "Married": married,
         "Dependents": dependents,
         "Education": education,
         "Employment_Status": employment,
-        "Applicant_Income": app_income,
-        "Coapplicant_Income": coapplicant_income,
+        "Age": age,
+        "Work_Experience": work_experience,
+        "Applicant_Income": applicant_income,
+        "Coapplicant_Income": 0.0,
+        "Existing_EMI": existing_emi,
         "Loan_Amount": loan_amount,
         "Loan_Term": loan_term,
-        "Credit_History": credit_history,
-        "Property_Area": property_area,
-        "Age": age
+        "CIBIL_Score": cibil_score,
+        "Missed_Payments_12M": missed_payments,
     }
 
-    # Optional Multi-Product Fields (Home & Personal Loan)
-    cibil_val = get_val("CIBIL_Score", "CIBIL", "cibil")
-    if cibil_val is not None:
-        try:
-            cleaned["CIBIL_Score"] = int(float(cibil_val))
-        except (ValueError, TypeError):
-            pass
+    if loan_type == "home_loan":
+        coapplicant_income = number("Coapplicant_Income", ("Coapplicant_Income", "CoapplicantIncome", "Coapplicant"), default=0, minimum=0)
+        property_value = number("Property_Value", ("Property_Value", "PropertyValue"), default=(loan_amount / 0.75 if loan_amount else None), minimum=0.01)
+        area_value = text_value("Property_Area", ("Property_Area", "PropertyArea", "Area"), default="Urban")
+        if area_value and "semi" in area_value.lower():
+            property_area = "Semiurban"
+        elif area_value and "rur" in area_value.lower():
+            property_area = "Rural"
+        else:
+            property_area = "Urban"
+        cleaned.update({
+            "Coapplicant_Income": coapplicant_income,
+            "Property_Value": property_value,
+            "Property_Area": property_area,
+        })
+    else:
+        purpose = text_value("Loan_Purpose", ("Loan_Purpose", "LoanPurpose", "Purpose"), default="Medical_Emergency")
+        utilization = number("Credit_Card_Utilization", ("Credit_Card_Utilization", "CreditCardUtilization", "Credit_Card_Usage", "CC_Utilization"), default=0.3, minimum=0, maximum=100)
+        if utilization is not None and utilization > 1:
+            utilization /= 100
+        cleaned.update({
+            "Loan_Purpose": purpose,
+            "Credit_Card_Utilization": utilization,
+        })
 
-    cc_val = get_val("Credit_Card_Utilization", "CreditCardUtilization", "Credit_Card_Usage", "CC_Utilization")
-    if cc_val is not None:
-        try:
-            cc_num = float(cc_val)
-            if cc_num > 1.0 and cc_num <= 100.0:
-                cc_num = cc_num / 100.0
-            cleaned["Credit_Card_Utilization"] = max(0.0, min(1.0, cc_num))
-        except (ValueError, TypeError):
-            pass
-
-    loan_purpose_val = get_val("Loan_Purpose", "LoanPurpose", "Purpose")
-    if loan_purpose_val is not None:
-        cleaned["Loan_Purpose"] = str(loan_purpose_val)
-
-    loan_type_val = get_val("loan_type", "Loan_Type", "Product")
-    if loan_type_val is not None:
-        cleaned["loan_type"] = str(loan_type_val)
-
+    if errors:
+        return False, None, f"Row #{row_idx}: {'; '.join(errors)}"
     return True, cleaned, None
 
 
-def evaluate_single_record(input_data: dict):
+def evaluate_single_record(input_data: dict, is_batch: bool = False):
     """
     Core end-to-end evaluation: Solvency check, ML prediction, SHAP, LIME,
     4-Pillar Trust Scores, and database dictionary preparation.
@@ -419,7 +366,7 @@ def evaluate_single_record(input_data: dict):
     )
 
     trust_eval = calculate_trust_score(faithfulness_score, stability_score, consistency_score, fairness_score)
-    dossier_id = generate_dossier_id(normalized_data)
+    dossier_id = generate_dossier_id(normalized_data, is_batch=is_batch)
     confidence_score = float(prob) if pred == 1 else float(1 - prob)
 
     model_version_str = "v1" if pipe.product_id == 'legacy' else f"{pipe.product_id}_v2"
@@ -470,7 +417,7 @@ def evaluate_single_record(input_data: dict):
     return response_obj, db_fields
 
 
-def process_rows_into_batch(rows: list, filename: str, db: Session) -> BatchUploadResponse:
+def process_rows_into_batch(rows: list, filename: str, db: Session, default_loan_type: Optional[str] = None) -> BatchUploadResponse:
     """
     Ingests raw rows, trashes flawed rows with explicit errors, processes valid rows
     through ML/XAI pipeline, persists to database, and creates a BatchUpload log.
@@ -478,7 +425,13 @@ def process_rows_into_batch(rows: list, filename: str, db: Session) -> BatchUplo
     if model is None:
         raise HTTPException(status_code=500, detail="Models not loaded properly.")
 
-    batch_id = generate_batch_id()
+    inferred_loan_type = default_loan_type
+    if inferred_loan_type is None and rows:
+        first_row = {str(key).strip().lower(): value for key, value in rows[0].items() if key is not None}
+        inferred_loan_type = first_row.get("loan_type") or first_row.get("loan type")
+        if inferred_loan_type is None:
+            inferred_loan_type = "personal_loan" if first_row.get("loan_purpose") else "home_loan"
+    batch_id = generate_batch_id(inferred_loan_type)
     now_ts = datetime.now(timezone.utc)
     now_str = now_ts.strftime("%Y-%m-%d %H:%M:%S")
 
@@ -488,13 +441,14 @@ def process_rows_into_batch(rows: list, filename: str, db: Session) -> BatchUplo
 
     flawed_list: List[FlawedRecordItem] = []
     processed_list: List[LoanPredictionResponse] = []
+    loan_types = set()
 
     approved_count = 0
     rejected_count = 0
     trust_scores = []
 
     for idx, raw_row in enumerate(rows, start=1):
-        is_valid, cleaned_data, err_reason = validate_batch_record(raw_row, idx)
+        is_valid, cleaned_data, err_reason = validate_batch_record(raw_row, idx, default_loan_type)
 
         if not is_valid:
             flawed_count += 1
@@ -506,7 +460,8 @@ def process_rows_into_batch(rows: list, filename: str, db: Session) -> BatchUplo
             continue
 
         try:
-            response_obj, db_fields = evaluate_single_record(cleaned_data)
+            response_obj, db_fields = evaluate_single_record(cleaned_data, is_batch=True)
+            loan_types.add(db_fields["loan_type"])
             db_fields["batch_id"] = batch_id
 
             log_entry = PredictionLog(**db_fields)
@@ -532,6 +487,7 @@ def process_rows_into_batch(rows: list, filename: str, db: Session) -> BatchUplo
             ))
 
     avg_trust = round(float(np.mean(trust_scores)), 4) if trust_scores else 0.0
+    batch_loan_type = next(iter(loan_types)) if len(loan_types) == 1 else ("mixed" if loan_types else default_loan_type or "unknown")
     summary_dict = {
         "approvedCount": approved_count,
         "rejectedCount": rejected_count,
@@ -541,6 +497,7 @@ def process_rows_into_batch(rows: list, filename: str, db: Session) -> BatchUplo
     try:
         batch_record = BatchUpload(
             batch_id=batch_id,
+            loan_type=batch_loan_type,
             filename=filename,
             timestamp=now_ts,
             total_records=total_records,
@@ -598,7 +555,11 @@ async def predict_loan(request: LoanApplicationRequest, db: Session = Depends(ge
 
 
 @router.post("/predict-batch", response_model=BatchUploadResponse)
-async def predict_batch_file(file: UploadFile = File(...), db: Session = Depends(get_db)):
+async def predict_batch_file(
+    file: UploadFile = File(...),
+    loan_type: Optional[str] = Form(None),
+    db: Session = Depends(get_db)
+):
     """
     Ingests an uploaded CSV file, filters flawed records, and executes full ML/XAI pipeline on valid rows.
     """
@@ -609,7 +570,7 @@ async def predict_batch_file(file: UploadFile = File(...), db: Session = Depends
         rows = [row for row in reader]
         if not rows:
             raise HTTPException(status_code=400, detail="The uploaded CSV file is empty.")
-        return process_rows_into_batch(rows, file.filename or "uploaded_applications.csv", db)
+        return process_rows_into_batch(rows, file.filename or "uploaded_applications.csv", db, loan_type)
     except HTTPException:
         raise
     except Exception as e:
@@ -623,7 +584,7 @@ def predict_batch_json(request: BatchUploadJsonRequest, db: Session = Depends(ge
     """
     if not request.rows:
         raise HTTPException(status_code=400, detail="No application records provided in batch request.")
-    return process_rows_into_batch(request.rows, request.filename or "preset_batch.csv", db)
+    return process_rows_into_batch(request.rows, request.filename or "preset_batch.csv", db, request.loan_type)
 
 
 @router.get("/batches", response_model=List[BatchSummaryItem])
@@ -640,6 +601,7 @@ def list_batches(limit: int = 50, db: Session = Depends(get_db)):
             items.append(BatchSummaryItem(
                 id=b.id,
                 batchId=b.batch_id,
+                loanType=b.loan_type,
                 filename=b.filename,
                 timestamp=ts_str,
                 totalRecords=b.total_records,
@@ -690,6 +652,7 @@ def get_batch_detail(batch_id: str, db: Session = Depends(get_db)):
         return BatchDetailResponse(
             id=b.id,
             batchId=b.batch_id,
+            loanType=b.loan_type,
             filename=b.filename,
             timestamp=ts_str,
             totalRecords=b.total_records,
@@ -725,100 +688,48 @@ def delete_batch(batch_id: str, db: Session = Depends(get_db)):
         raise HTTPException(status_code=500, detail=f"Failed to delete batch: {str(e)}")
 
 
+def get_product_batch_rows(loan_type: str):
+    if loan_type == "home_loan":
+        return [
+            {"loan_type": "home_loan", "Gender": "Female", "Married": "Yes", "Dependents": 1, "Education": "Graduate", "Employment_Status": "Salaried", "Age": 35, "Work_Experience": 10, "Applicant_Income": 80000, "Coapplicant_Income": 20000, "Existing_EMI": 6000, "Loan_Amount": 3500000, "Loan_Term": 240, "Property_Value": 5000000, "Property_Area": "Urban", "CIBIL_Score": 810, "Missed_Payments_12M": 0},
+            {"loan_type": "home_loan", "Gender": "Male", "Married": "No", "Dependents": 2, "Education": "Not Graduate", "Employment_Status": "Self-Employed", "Age": 42, "Work_Experience": 6, "Applicant_Income": 40000, "Coapplicant_Income": 0, "Existing_EMI": 8000, "Loan_Amount": 2200000, "Loan_Term": 240, "Property_Value": 2800000, "Property_Area": "Rural", "CIBIL_Score": 535, "Missed_Payments_12M": 2},
+            {"loan_type": "home_loan", "Gender": "Male", "Married": "Yes", "Dependents": 1, "Education": "Graduate", "Employment_Status": "Salaried", "Age": 30, "Work_Experience": 7, "Applicant_Income": 38000, "Coapplicant_Income": 0, "Existing_EMI": 7000, "Loan_Amount": 3200000, "Loan_Term": 180, "Property_Value": 4200000, "Property_Area": "Semiurban", "CIBIL_Score": 785, "Missed_Payments_12M": 0},
+            {"loan_type": "home_loan", "Gender": "Female", "Married": "Yes", "Dependents": 1, "Education": "Graduate", "Employment_Status": "Salaried", "Age": 31, "Work_Experience": 6, "Applicant_Income": 62000, "Coapplicant_Income": 18000, "Existing_EMI": 5000, "Loan_Amount": 2800000, "Loan_Term": 240, "Property_Value": 3800000, "Property_Area": "Urban", "CIBIL_Score": 665, "Missed_Payments_12M": 1},
+        ]
+
+    if loan_type == "personal_loan":
+        return [
+            {"loan_type": "personal_loan", "Gender": "Female", "Married": "No", "Dependents": 0, "Education": "Graduate", "Employment_Status": "Salaried", "Age": 29, "Work_Experience": 6, "Applicant_Income": 85000, "Existing_EMI": 4000, "Loan_Amount": 350000, "Loan_Term": 24, "Loan_Purpose": "Medical_Emergency", "Credit_Card_Utilization": 0.10, "CIBIL_Score": 795, "Missed_Payments_12M": 0},
+            {"loan_type": "personal_loan", "Gender": "Male", "Married": "Yes", "Dependents": 2, "Education": "Not Graduate", "Employment_Status": "Self-Employed", "Age": 44, "Work_Experience": 12, "Applicant_Income": 38000, "Existing_EMI": 11000, "Loan_Amount": 450000, "Loan_Term": 36, "Loan_Purpose": "Debt_Consolidation", "Credit_Card_Utilization": 0.89, "CIBIL_Score": 565, "Missed_Payments_12M": 3},
+            {"loan_type": "personal_loan", "Gender": "Female", "Married": "No", "Dependents": 0, "Education": "Graduate", "Employment_Status": "Salaried", "Age": 27, "Work_Experience": 4, "Applicant_Income": 52000, "Existing_EMI": 3500, "Loan_Amount": 250000, "Loan_Term": 36, "Loan_Purpose": "Home_Renovation", "Credit_Card_Utilization": 0.42, "CIBIL_Score": 675, "Missed_Payments_12M": 0},
+            {"loan_type": "personal_loan", "Gender": "Male", "Married": "Yes", "Dependents": 1, "Education": "Graduate", "Employment_Status": "Salaried", "Age": 36, "Work_Experience": 11, "Applicant_Income": 110000, "Existing_EMI": 8000, "Loan_Amount": 700000, "Loan_Term": 48, "Loan_Purpose": "Education", "Credit_Card_Utilization": 0.28, "CIBIL_Score": 770, "Missed_Payments_12M": 0},
+        ]
+
+    raise HTTPException(status_code=404, detail="Unknown loan product. Use home_loan or personal_loan.")
+
+
 @router.get("/batch-sample-csv")
-def download_sample_batch_csv():
-    """
-    Generates and returns an institutional 20-record sample CSV template with 15 valid
-    applications and 5 flawed records (missing fields, invalid values) for testing file uploads.
-    """
-    sample_csv_content = (
-        "Gender,Married,Dependents,Education,Employment_Status,Applicant_Income,Coapplicant_Income,Loan_Amount,Loan_Term,Credit_History,Property_Area,Age\n"
-        "Male,Yes,1,Graduate,Salaried,55000,15000,160000,360,1,Urban,32\n"
-        "Female,No,0,Graduate,Salaried,80000,0,120000,360,1,Urban,29\n"
-        "Male,Yes,2,Not Graduate,Salaried,22000,0,150000,180,,Rural,41\n"
-        "Female,Yes,1,Graduate,Self-Employed,65000,25000,200000,240,1,Semiurban,38\n"
-        "Male,No,0,Graduate,Salaried,,0,80000,360,1,Urban,26\n"
-        "Male,No,3,Not Graduate,Unemployed,12000,0,350000,360,0,Rural,24\n"
-        "Female,Yes,0,Graduate,Salaried,72000,18000,140000,360,1,Urban,35\n"
-        "Male,Yes,1,Graduate,Salaried,45000,0,0,360,1,Semiurban,33\n"
-        "Male,Yes,2,Graduate,Salaried,95000,40000,250000,360,1,Urban,44\n"
-        "Female,No,0,Graduate,Salaried,38000,0,90000,-120,1,Rural,30\n"
-        "Male,No,1,Graduate,Self-Employed,52000,0,110000,360,1,Semiurban,37\n"
-        "Female,Yes,2,Graduate,Salaried,60000,30000,130000,360,1,Urban,40\n"
-        "Male,Yes,0,Not Graduate,Self-Employed,30000,10000,160000,360,0,Rural,48\n"
-        "Female,No,0,Graduate,Salaried,85000,0,175000,360,1,Urban,31\n"
-        "Male,Yes,1,Graduate,Salaried,,20000,120000,360,1,Semiurban,28\n"
-        "Female,Yes,1,Graduate,Salaried,58000,12000,150000,360,1,Rural,36\n"
-        "Male,No,0,Graduate,Salaried,48000,0,105000,360,1,Urban,34\n"
-        "Female,Yes,0,Not Graduate,Self-Employed,28000,0,95000,240,1,Rural,45\n"
-        "Male,Yes,3,Graduate,Salaried,110000,50000,300000,360,1,Urban,46\n"
-        "Male,No,2,Graduate,Salaried,35000,0,80000,360,0,Semiurban,27\n"
-    )
+def download_sample_batch_csv(loan_type: str = "home_loan"):
+    loan_type = loan_type.strip().lower().replace("-", "_").replace(" ", "_")
+    rows = get_product_batch_rows(loan_type)
+    output = io.StringIO()
+    writer = csv.DictWriter(output, fieldnames=list(rows[0].keys()))
+    writer.writeheader()
+    writer.writerows(rows)
+    filename = f"trustfin_{loan_type}_sample.csv"
     return Response(
-        content=sample_csv_content,
+        content=output.getvalue(),
         media_type="text/csv",
-        headers={
-            "Content-Disposition": "attachment; filename=trustfin_sample_batch_20.csv"
-        }
+        headers={"Content-Disposition": f"attachment; filename={filename}"}
     )
 
 
 @router.get("/batch-presets/{preset_id}")
 def get_batch_preset(preset_id: str):
-    """
-    Returns preset rows for Demo Batch 1 (10 records: 7 valid, 3 flawed)
-    or Demo Batch 2 (30 records: 24 valid, 6 flawed).
-    """
-    if preset_id in ["batch_1", "1", "10"]:
-        rows = [
-            {"Gender": "Male", "Married": "Yes", "Dependents": 1, "Education": "Graduate", "Employment_Status": "Salaried", "Applicant_Income": 60000, "Coapplicant_Income": 15000, "Loan_Amount": 150000, "Loan_Term": 360, "Credit_History": 1, "Property_Area": "Urban", "Age": 32},
-            {"Gender": "Female", "Married": "No", "Dependents": 0, "Education": "Graduate", "Employment_Status": "Salaried", "Applicant_Income": 85000, "Coapplicant_Income": 0, "Loan_Amount": 120000, "Loan_Term": 360, "Credit_History": 1, "Property_Area": "Urban", "Age": 29},
-            {"Gender": "Male", "Married": "Yes", "Dependents": 2, "Education": "Not Graduate", "Employment_Status": "Salaried", "Applicant_Income": 22000, "Coapplicant_Income": 0, "Loan_Amount": 180000, "Loan_Term": 180, "Credit_History": None, "Property_Area": "Rural", "Age": 41}, # FLAWED: No Credit_History
-            {"Gender": "Female", "Married": "Yes", "Dependents": 1, "Education": "Graduate", "Employment_Status": "Self-Employed", "Applicant_Income": 70000, "Coapplicant_Income": 25000, "Loan_Amount": 210000, "Loan_Term": 240, "Credit_History": 1, "Property_Area": "Semiurban", "Age": 38},
-            {"Gender": "Male", "Married": "No", "Dependents": 0, "Education": "Graduate", "Employment_Status": "Salaried", "Applicant_Income": None, "Coapplicant_Income": 0, "Loan_Amount": 80000, "Loan_Term": 360, "Credit_History": 1, "Property_Area": "Urban", "Age": 26}, # FLAWED: Missing Income
-            {"Gender": "Male", "Married": "No", "Dependents": 3, "Education": "Not Graduate", "Employment_Status": "Unemployed", "Applicant_Income": 12000, "Coapplicant_Income": 0, "Loan_Amount": 350000, "Loan_Term": 360, "Credit_History": 0, "Property_Area": "Rural", "Age": 24},
-            {"Gender": "Female", "Married": "Yes", "Dependents": 0, "Education": "Graduate", "Employment_Status": "Salaried", "Applicant_Income": 72000, "Coapplicant_Income": 18000, "Loan_Amount": 140000, "Loan_Term": 360, "Credit_History": 1, "Property_Area": "Urban", "Age": 35},
-            {"Gender": "Male", "Married": "Yes", "Dependents": 1, "Education": "Graduate", "Employment_Status": "Salaried", "Applicant_Income": 45000, "Coapplicant_Income": 0, "Loan_Amount": 0, "Loan_Term": 360, "Credit_History": 1, "Property_Area": "Semiurban", "Age": 33}, # FLAWED: Loan Amount 0
-            {"Gender": "Male", "Married": "Yes", "Dependents": 2, "Education": "Graduate", "Employment_Status": "Salaried", "Applicant_Income": 95000, "Coapplicant_Income": 40000, "Loan_Amount": 250000, "Loan_Term": 360, "Credit_History": 1, "Property_Area": "Urban", "Age": 44},
-            {"Gender": "Female", "Married": "No", "Dependents": 1, "Education": "Graduate", "Employment_Status": "Salaried", "Applicant_Income": 52000, "Coapplicant_Income": 0, "Loan_Amount": 110000, "Loan_Term": 360, "Credit_History": 1, "Property_Area": "Semiurban", "Age": 31}
-        ]
-        return {"presetId": "batch_1", "name": "Demo Batch 1 (10 Records)", "rows": rows}
-    else:
-        # Batch 2: 30 records (24 valid, 6 flawed)
-        rows = [
-            {"Gender": "Male", "Married": "Yes", "Dependents": 0, "Education": "Graduate", "Employment_Status": "Salaried", "Applicant_Income": 50000, "Coapplicant_Income": 20000, "Loan_Amount": 150000, "Loan_Term": 360, "Credit_History": 1, "Property_Area": "Urban", "Age": 30},
-            {"Gender": "Female", "Married": "Yes", "Dependents": 1, "Education": "Graduate", "Employment_Status": "Salaried", "Applicant_Income": 65000, "Coapplicant_Income": 15000, "Loan_Amount": 180000, "Loan_Term": 360, "Credit_History": 1, "Property_Area": "Semiurban", "Age": 34},
-            {"Gender": "Male", "Married": "No", "Dependents": 2, "Education": "Not Graduate", "Employment_Status": "Salaried", "Applicant_Income": 25000, "Coapplicant_Income": 0, "Loan_Amount": 120000, "Loan_Term": 180, "Credit_History": None, "Property_Area": "Rural", "Age": 39}, # FLAWED 1: Missing Credit_History
-            {"Gender": "Female", "Married": "No", "Dependents": 0, "Education": "Graduate", "Employment_Status": "Self-Employed", "Applicant_Income": 90000, "Coapplicant_Income": 0, "Loan_Amount": 220000, "Loan_Term": 240, "Credit_History": 1, "Property_Area": "Urban", "Age": 28},
-            {"Gender": "Male", "Married": "Yes", "Dependents": 3, "Education": "Graduate", "Employment_Status": "Salaried", "Applicant_Income": 110000, "Coapplicant_Income": 35000, "Loan_Amount": 300000, "Loan_Term": 360, "Credit_History": 1, "Property_Area": "Urban", "Age": 45},
-            {"Gender": "Female", "Married": "Yes", "Dependents": 0, "Education": "Graduate", "Employment_Status": "Salaried", "Applicant_Income": None, "Coapplicant_Income": 10000, "Loan_Amount": 90000, "Loan_Term": 360, "Credit_History": 1, "Property_Area": "Semiurban", "Age": 27}, # FLAWED 2: Missing Income
-            {"Gender": "Male", "Married": "No", "Dependents": 0, "Education": "Graduate", "Employment_Status": "Salaried", "Applicant_Income": 48000, "Coapplicant_Income": 0, "Loan_Amount": 110000, "Loan_Term": 360, "Credit_History": 1, "Property_Area": "Rural", "Age": 33},
-            {"Gender": "Female", "Married": "Yes", "Dependents": 2, "Education": "Not Graduate", "Employment_Status": "Self-Employed", "Applicant_Income": 32000, "Coapplicant_Income": 12000, "Loan_Amount": 140000, "Loan_Term": 240, "Credit_History": 1, "Property_Area": "Semiurban", "Age": 42},
-            {"Gender": "Male", "Married": "Yes", "Dependents": 1, "Education": "Graduate", "Employment_Status": "Salaried", "Applicant_Income": 75000, "Coapplicant_Income": 25000, "Loan_Amount": -50000, "Loan_Term": 360, "Credit_History": 1, "Property_Area": "Urban", "Age": 36}, # FLAWED 3: Negative Loan Amount
-            {"Gender": "Male", "Married": "No", "Dependents": 0, "Education": "Graduate", "Employment_Status": "Salaried", "Applicant_Income": 58000, "Coapplicant_Income": 0, "Loan_Amount": 130000, "Loan_Term": 360, "Credit_History": 1, "Property_Area": "Urban", "Age": 31},
-            {"Gender": "Female", "Married": "Yes", "Dependents": 1, "Education": "Graduate", "Employment_Status": "Salaried", "Applicant_Income": 82000, "Coapplicant_Income": 18000, "Loan_Amount": 190000, "Loan_Term": 360, "Credit_History": 1, "Property_Area": "Semiurban", "Age": 37},
-            {"Gender": "Male", "Married": "Yes", "Dependents": 2, "Education": "Not Graduate", "Employment_Status": "Unemployed", "Applicant_Income": 15000, "Coapplicant_Income": 0, "Loan_Amount": 280000, "Loan_Term": 360, "Credit_History": 0, "Property_Area": "Rural", "Age": 25},
-            {"Gender": "Female", "Married": "No", "Dependents": 0, "Education": "Graduate", "Employment_Status": "Salaried", "Applicant_Income": 40000, "Coapplicant_Income": 0, "Loan_Amount": 85000, "Loan_Term": -60, "Credit_History": 1, "Property_Area": "Urban", "Age": 29}, # FLAWED 4: Negative Loan Term
-            {"Gender": "Male", "Married": "Yes", "Dependents": 0, "Education": "Graduate", "Employment_Status": "Salaried", "Applicant_Income": 62000, "Coapplicant_Income": 22000, "Loan_Amount": 160000, "Loan_Term": 360, "Credit_History": 1, "Property_Area": "Semiurban", "Age": 35},
-            {"Gender": "Female", "Married": "Yes", "Dependents": 1, "Education": "Graduate", "Employment_Status": "Salaried", "Applicant_Income": 77000, "Coapplicant_Income": 0, "Loan_Amount": 170000, "Loan_Term": 360, "Credit_History": 1, "Property_Area": "Urban", "Age": 41},
-            {"Gender": "Male", "Married": "No", "Dependents": 1, "Education": "Not Graduate", "Employment_Status": "Self-Employed", "Applicant_Income": 28000, "Coapplicant_Income": 0, "Loan_Amount": 95000, "Loan_Term": 180, "Credit_History": 0, "Property_Area": "Rural", "Age": 48},
-            {"Gender": "Female", "Married": "No", "Dependents": 0, "Education": "Graduate", "Employment_Status": "Salaried", "Applicant_Income": 98000, "Coapplicant_Income": 0, "Loan_Amount": 240000, "Loan_Term": 360, "Credit_History": 1, "Property_Area": "Urban", "Age": 32},
-            {"Gender": "Male", "Married": "Yes", "Dependents": 2, "Education": "Graduate", "Employment_Status": "Salaried", "Applicant_Income": 54000, "Coapplicant_Income": 16000, "Loan_Amount": 135000, "Loan_Term": 360, "Credit_History": 1, "Property_Area": "Semiurban", "Age": 38},
-            {"Gender": "Female", "Married": "Yes", "Dependents": 0, "Education": None, "Employment_Status": "Salaried", "Applicant_Income": 47000, "Coapplicant_Income": 0, "Loan_Amount": 100000, "Loan_Term": 360, "Credit_History": 1, "Property_Area": "Urban", "Age": 30}, # FLAWED 5: Missing Education
-            {"Gender": "Male", "Married": "Yes", "Dependents": 3, "Education": "Graduate", "Employment_Status": "Salaried", "Applicant_Income": 125000, "Coapplicant_Income": 45000, "Loan_Amount": 350000, "Loan_Term": 360, "Credit_History": 1, "Property_Area": "Urban", "Age": 46},
-            {"Gender": "Female", "Married": "No", "Dependents": 0, "Education": "Graduate", "Employment_Status": "Salaried", "Applicant_Income": 68000, "Coapplicant_Income": 0, "Loan_Amount": 150000, "Loan_Term": 360, "Credit_History": 1, "Property_Area": "Semiurban", "Age": 33},
-            {"Gender": "Male", "Married": "No", "Dependents": 1, "Education": "Not Graduate", "Employment_Status": "Salaried", "Applicant_Income": 36000, "Coapplicant_Income": 0, "Loan_Amount": 90000, "Loan_Term": 360, "Credit_History": 0, "Property_Area": "Rural", "Age": 26},
-            {"Gender": "Female", "Married": "Yes", "Dependents": 2, "Education": "Graduate", "Employment_Status": "Self-Employed", "Applicant_Income": 88000, "Coapplicant_Income": 30000, "Loan_Amount": 260000, "Loan_Term": 360, "Credit_History": 1, "Property_Area": "Urban", "Age": 43},
-            {"Gender": "Male", "Married": "Yes", "Dependents": 1, "Education": "Graduate", "Employment_Status": "Salaried", "Applicant_Income": 0, "Coapplicant_Income": 15000, "Loan_Amount": 110000, "Loan_Term": 360, "Credit_History": 1, "Property_Area": "Semiurban", "Age": 34}, # FLAWED 6: Income 0
-            {"Gender": "Female", "Married": "No", "Dependents": 0, "Education": "Graduate", "Employment_Status": "Salaried", "Applicant_Income": 73000, "Coapplicant_Income": 0, "Loan_Amount": 160000, "Loan_Term": 360, "Credit_History": 1, "Property_Area": "Urban", "Age": 28},
-            {"Gender": "Male", "Married": "Yes", "Dependents": 0, "Education": "Graduate", "Employment_Status": "Salaried", "Applicant_Income": 59000, "Coapplicant_Income": 17000, "Loan_Amount": 145000, "Loan_Term": 360, "Credit_History": 1, "Property_Area": "Rural", "Age": 36},
-            {"Gender": "Female", "Married": "Yes", "Dependents": 1, "Education": "Graduate", "Employment_Status": "Salaried", "Applicant_Income": 81000, "Coapplicant_Income": 22000, "Loan_Amount": 200000, "Loan_Term": 360, "Credit_History": 1, "Property_Area": "Semiurban", "Age": 39},
-            {"Gender": "Male", "Married": "No", "Dependents": 0, "Education": "Graduate", "Employment_Status": "Salaried", "Applicant_Income": 51000, "Coapplicant_Income": 0, "Loan_Amount": 115000, "Loan_Term": 360, "Credit_History": 1, "Property_Area": "Urban", "Age": 30},
-            {"Gender": "Female", "Married": "Yes", "Dependents": 2, "Education": "Not Graduate", "Employment_Status": "Self-Employed", "Applicant_Income": 34000, "Coapplicant_Income": 10000, "Loan_Amount": 125000, "Loan_Term": 240, "Credit_History": 1, "Property_Area": "Rural", "Age": 44},
-            {"Gender": "Male", "Married": "Yes", "Dependents": 1, "Education": "Graduate", "Employment_Status": "Salaried", "Applicant_Income": 92000, "Coapplicant_Income": 38000, "Loan_Amount": 270000, "Loan_Term": 360, "Credit_History": 1, "Property_Area": "Urban", "Age": 42}
-        ]
-        return {"presetId": "batch_2", "name": "Demo Batch 2 (30 Records)", "rows": rows}
-
+    loan_type = preset_id.strip().lower().replace("-", "_").replace(" ", "_")
+    rows = get_product_batch_rows(loan_type)
+    title = "Home Loan Portfolio" if loan_type == "home_loan" else "Personal Loan Portfolio"
+    return {"presetId": loan_type, "name": title, "rows": rows}
 
 @router.get("/evaluations", response_model=List[EvaluationSummaryItem])
 def list_evaluations(limit: int = 50, db: Session = Depends(get_db)):

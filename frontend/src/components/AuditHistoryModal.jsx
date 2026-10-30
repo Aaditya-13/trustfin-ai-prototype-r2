@@ -27,7 +27,7 @@ import {
 
 const AuditHistoryModal = ({ isOpen, onClose, onLoadEvaluation }) => {
     // Navigation tabs
-    const [activeHistoryTab, setActiveHistoryTab] = useState('individual'); // 'individual' | 'batches'
+    const [activeHistoryTab, setActiveHistoryTab] = useState('home_loan'); // 'home_loan' | 'personal_loan' | 'batches'
     
     // Individual applications state
     const [evaluations, setEvaluations] = useState([]);
@@ -142,13 +142,21 @@ const AuditHistoryModal = ({ isOpen, onClose, onLoadEvaluation }) => {
 
     const filteredEvaluations = evaluations.filter(item => {
         const term = searchTerm.toLowerCase();
-        return (
+        const loanType = String(item.loanType || '').toLowerCase();
+        const matchesLoanType = activeHistoryTab === 'all'
+            || (activeHistoryTab === 'home_loan' && loanType.includes('home'))
+            || (activeHistoryTab === 'personal_loan' && loanType.includes('personal'));
+        const matchesSearch = (
             (item.dossierId && item.dossierId.toLowerCase().includes(term)) ||
             (item.prediction && item.prediction.toLowerCase().includes(term)) ||
             (item.solvencyStatus && item.solvencyStatus.toLowerCase().includes(term)) ||
             (item.trustRating && item.trustRating.toLowerCase().includes(term))
         );
+        return matchesLoanType && matchesSearch;
     });
+
+    const homeLoanCount = evaluations.filter(item => String(item.loanType || '').toLowerCase().includes('home')).length;
+    const personalLoanCount = evaluations.filter(item => String(item.loanType || '').toLowerCase().includes('personal')).length;
 
     const filteredBatches = batches.filter(b => {
         const term = searchTerm.toLowerCase();
@@ -203,32 +211,28 @@ const AuditHistoryModal = ({ isOpen, onClose, onLoadEvaluation }) => {
                     </div>
                 </div>
 
-                {/* Top Tabs: Individual Applications vs Batch Upload History */}
-                <div className="bg-gray-100 border-b border-gray-300 px-4 flex items-center justify-between">
-                    <div className="flex gap-2">
-                        <button
-                            type="button"
-                            onClick={() => { setActiveHistoryTab('individual'); setSelectedBatchDetail(null); }}
-                            className={`px-4 py-2.5 text-xs font-bold uppercase tracking-wider border-b-2 cursor-pointer transition-colors ${
-                                activeHistoryTab === 'individual'
-                                    ? 'border-gov-blue text-gov-blue bg-white'
-                                    : 'border-transparent text-gray-600 hover:text-gray-900'
-                            }`}
-                        >
-                            Individual Applications ({evaluations.length})
-                        </button>
-                        <button
-                            type="button"
-                            onClick={() => setActiveHistoryTab('batches')}
-                            className={`px-4 py-2.5 text-xs font-bold uppercase tracking-wider border-b-2 cursor-pointer transition-colors flex items-center gap-1.5 ${
-                                activeHistoryTab === 'batches'
-                                    ? 'border-gov-blue text-gov-blue bg-white'
-                                    : 'border-transparent text-gray-600 hover:text-gray-900'
-                            }`}
-                        >
-                            <Layers className="w-3.5 h-3.5" />
-                            <span>Batch Upload History ({batches.length})</span>
-                        </button>
+                {/* Product tabs include individual applications and evaluated rows from batches. */}
+                <div className="bg-gray-100 border-b border-gray-300 px-4 flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                    <div className="flex flex-wrap gap-1">
+                        {[
+                            { id: 'home_loan', label: `Home Loans (${homeLoanCount})` },
+                            { id: 'personal_loan', label: `Personal Loans (${personalLoanCount})` },
+                            { id: 'batches', label: `Batch History (${batches.length})` },
+                        ].map(tab => (
+                            <button
+                                key={tab.id}
+                                type="button"
+                                onClick={() => { setActiveHistoryTab(tab.id); setSelectedBatchDetail(null); }}
+                                className={`px-3 py-2.5 text-[11px] font-bold uppercase tracking-wide border-b-2 cursor-pointer transition-colors ${
+                                    activeHistoryTab === tab.id
+                                        ? 'border-gov-blue text-gov-blue bg-white'
+                                        : 'border-transparent text-gray-600 hover:text-gray-900'
+                                }`}
+                            >
+                                {tab.id === 'batches' && <Layers className="w-3.5 h-3.5 inline mr-1" />}
+                                {tab.label}
+                            </button>
+                        ))}
                     </div>
 
                     {selectedBatchDetail && activeHistoryTab === 'batches' && (
@@ -250,7 +254,7 @@ const AuditHistoryModal = ({ isOpen, onClose, onLoadEvaluation }) => {
                             <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400" />
                             <input
                                 type="text"
-                                placeholder={activeHistoryTab === 'individual' ? "Filter by Application Ref, Status..." : "Filter by Batch Ref, Filename..."}
+                                placeholder={activeHistoryTab === 'batches' ? "Filter by Batch Ref, Filename..." : "Filter by Application Ref, Status..."}
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                                 className="w-full pl-8 pr-3 py-1.5 bg-white border border-gray-300 text-xs focus:outline-none focus:border-gov-blue"
@@ -258,7 +262,7 @@ const AuditHistoryModal = ({ isOpen, onClose, onLoadEvaluation }) => {
                         </div>
                         <div className="text-gray-600 flex items-center gap-4">
                             <span>
-                                Total {activeHistoryTab === 'individual' ? 'Applications' : 'Batches'}: <strong className="text-gray-900">{activeHistoryTab === 'individual' ? evaluations.length : batches.length}</strong>
+                                Total {activeHistoryTab === 'batches' ? 'Batches' : 'Applications'}: <strong className="text-gray-900">{activeHistoryTab === 'batches' ? batches.length : activeHistoryTab === 'home_loan' ? homeLoanCount : activeHistoryTab === 'personal_loan' ? personalLoanCount : evaluations.length}</strong>
                             </span>
                         </div>
                     </div>
@@ -276,7 +280,7 @@ const AuditHistoryModal = ({ isOpen, onClose, onLoadEvaluation }) => {
                             <AlertCircle className="w-4 h-4 text-red-600 shrink-0" />
                             <span><strong>Database Error:</strong> {error}</span>
                         </div>
-                    ) : activeHistoryTab === 'individual' ? (
+                    ) : activeHistoryTab !== 'batches' ? (
                         
                         /* TAB 1: INDIVIDUAL APPLICATIONS TABLE */
                         filteredEvaluations.length === 0 ? (
@@ -577,6 +581,7 @@ const AuditHistoryModal = ({ isOpen, onClose, onLoadEvaluation }) => {
                                         <tr className="bg-gray-100 text-gray-700 font-bold border-b border-gray-300 text-[11px] uppercase tracking-wider">
                                             <th className="p-2.5 border-r border-gray-300">Batch Reference</th>
                                             <th className="p-2.5 border-r border-gray-300">File / Label</th>
+                                            <th className="p-2.5 border-r border-gray-300">Loan Type</th>
                                             <th className="p-2.5 border-r border-gray-300">Upload Date</th>
                                             <th className="p-2.5 border-r border-gray-300 text-center">Total Rows</th>
                                             <th className="p-2.5 border-r border-gray-300 text-center">Processed</th>
@@ -592,6 +597,11 @@ const AuditHistoryModal = ({ isOpen, onClose, onLoadEvaluation }) => {
                                                 </td>
                                                 <td className="p-2.5 border-r border-gray-200 font-semibold text-gray-800">
                                                     {b.filename}
+                                                </td>
+                                                <td className="p-2.5 border-r border-gray-200">
+                                                    <span className="px-2 py-0.5 bg-blue-50 text-blue-900 border border-blue-200 text-[10px] font-bold uppercase">
+                                                        {b.loanType === 'home_loan' ? 'Home Loan' : b.loanType === 'personal_loan' ? 'Personal Loan' : b.loanType || 'Legacy'}
+                                                    </span>
                                                 </td>
                                                 <td className="p-2.5 border-r border-gray-200 font-mono text-gray-600 text-[11px]">
                                                     {b.timestamp}

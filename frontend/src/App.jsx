@@ -8,7 +8,7 @@ import BankOfficerAudit from './components/BankOfficerAudit';
 import ApplicantPortalView from './components/ApplicantPortalView';
 import CustomerNoticeModal from './components/CustomerNoticeModal';
 import AuditHistoryModal from './components/AuditHistoryModal';
-import { predictLoan } from './services/api';
+import { predictLoan, fetchLoanReportPdfBlob } from './services/api';
 
 function App() {
   // Navigation & Role State Machine
@@ -29,6 +29,10 @@ function App() {
 
   // Bank Officer Customer Notice Preview Modal
   const [showCustomerModal, setShowCustomerModal] = useState(false);
+  const [showPdfPreview, setShowPdfPreview] = useState(false);
+  const [pdfPreviewUrl, setPdfPreviewUrl] = useState(null);
+  const [loadingPdfPreview, setLoadingPdfPreview] = useState(false);
+  const [pdfPreviewError, setPdfPreviewError] = useState(null);
 
   // Persistent Audit History / Stored Ledger Modal
   const [showHistoryModal, setShowHistoryModal] = useState(false);
@@ -106,6 +110,29 @@ function App() {
     setCurrentScreen('RESULTS');
     setOfficerSubView('SUMMARY');
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    return () => {
+      if (pdfPreviewUrl) window.URL.revokeObjectURL(pdfPreviewUrl);
+    };
+  }, [pdfPreviewUrl]);
+
+  const handleOpenPdfPreview = async () => {
+    setShowPdfPreview(true);
+    setPdfPreviewError(null);
+    if (pdfPreviewUrl || loadingPdfPreview) return;
+
+    setLoadingPdfPreview(true);
+    try {
+      const blob = await fetchLoanReportPdfBlob(currentApplicantData, result);
+      setPdfPreviewUrl(window.URL.createObjectURL(blob));
+    } catch (err) {
+      console.error('PDF preview generation error:', err);
+      setPdfPreviewError('Failed to generate the official PDF preview. Please verify that the backend service is running.');
+    } finally {
+      setLoadingPdfPreview(false);
+    }
   };
 
   return (
@@ -202,7 +229,38 @@ function App() {
                   onClose={() => setShowCustomerModal(false)}
                   result={result}
                   applicantData={currentApplicantData}
+                  onOpenPdfPreview={handleOpenPdfPreview}
                 />
+                {showPdfPreview && (
+                  <div className="fixed inset-0 z-[60] bg-black/70 flex items-center justify-center p-4">
+                    <div className="bg-white w-full max-w-5xl h-[90vh] flex flex-col border border-gray-400 shadow-xl rounded-sm overflow-hidden">
+                      <div className="px-4 py-3 bg-gov-blue text-white flex items-center justify-between">
+                        <h3 className="text-xs font-bold uppercase tracking-wider">Official PDF Preview</h3>
+                        <button
+                          type="button"
+                          onClick={() => setShowPdfPreview(false)}
+                          className="px-2 py-1 text-xs hover:bg-blue-800 rounded-sm cursor-pointer"
+                          aria-label="Close PDF preview"
+                        >
+                          Close
+                        </button>
+                      </div>
+                      <div className="flex-1 bg-gray-100 flex items-center justify-center">
+                        {loadingPdfPreview ? (
+                          <p className="text-sm text-gray-700">Generating PDF preview...</p>
+                        ) : pdfPreviewError ? (
+                          <p className="max-w-md p-6 text-sm text-red-700 text-center">{pdfPreviewError}</p>
+                        ) : pdfPreviewUrl ? (
+                          <iframe
+                            src={pdfPreviewUrl}
+                            title="Official loan report PDF preview"
+                            className="w-full h-full border-0"
+                          />
+                        ) : null}
+                      </div>
+                    </div>
+                  </div>
+                )}
               </>
             ) : (
               /* 4-App: Applicant Sanction / Adverse Action & Recourse Sandbox */

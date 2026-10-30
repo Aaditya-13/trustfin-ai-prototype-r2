@@ -82,10 +82,11 @@ export const deleteEvaluation = async (id) => {
 
 // --- Batch Processing APIs ---
 
-export const uploadBatchFile = async (file) => {
+export const uploadBatchFile = async (file, loanType = 'home_loan') => {
     try {
         const formData = new FormData();
         formData.append('file', file);
+        formData.append('loan_type', loanType);
         const response = await axios.post(`${API_URL}/predict-batch`, formData, {
             headers: { 'Content-Type': 'multipart/form-data' }
         });
@@ -96,12 +97,11 @@ export const uploadBatchFile = async (file) => {
     }
 };
 
-export const submitBatchJson = async (rows, filename = "preset_batch.csv") => {
+export const submitBatchJson = async (rows, filename = "preset_batch.csv", loanType = null) => {
     try {
-        const response = await axios.post(`${API_URL}/predict-batch-json`, {
-            filename,
-            rows
-        });
+        const payload = { filename, rows };
+        if (loanType) payload.loan_type = loanType;
+        const response = await axios.post(`${API_URL}/predict-batch-json`, payload);
         return response.data;
     } catch (error) {
         console.error("Batch JSON Submission Error:", error);
@@ -119,15 +119,16 @@ export const fetchBatchPreset = async (presetId) => {
     }
 };
 
-export const downloadSampleBatchCsv = async () => {
+export const downloadSampleBatchCsv = async (loanType = 'home_loan') => {
     try {
         const response = await axios.get(`${API_URL}/batch-sample-csv`, {
+            params: { loan_type: loanType },
             responseType: 'blob'
         });
         const downloadUrl = window.URL.createObjectURL(new Blob([response.data], { type: 'text/csv' }));
         const link = document.createElement('a');
         link.href = downloadUrl;
-        link.download = 'trustfin_sample_batch_20.csv';
+        link.download = `trustfin_${loanType}_sample.csv`;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);

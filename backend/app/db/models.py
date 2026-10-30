@@ -57,6 +57,7 @@ class BatchUpload(Base):
     
     id = Column(Integer, primary_key=True, index=True)
     batch_id = Column(String(32), unique=True, index=True) # e.g. "BATCH-20261022-8F12"
+    loan_type = Column(String(32), nullable=True, index=True)
     filename = Column(String, default="batch_upload.csv")
     timestamp = Column(DateTime, default=lambda: datetime.now(timezone.utc))
     
