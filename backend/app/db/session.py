@@ -1,16 +1,25 @@
 import os
+import sys
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 from dotenv import load_dotenv
 
 load_dotenv()
 
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./trustfin_local.db")
-
 # Resolve local SQLite database path relative to project root
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
 local_sqlite_path = os.path.join(project_root, "trustfin_local.db").replace("\\", "/")
 LOCAL_SQLITE_URL = f"sqlite:///{local_sqlite_path}"
+
+# Ensure matplotlib has a local writable cache in the workspace for fast sandboxed execution
+os.environ.setdefault("MPLCONFIGDIR", os.path.join(project_root, ".matplotlib_cache"))
+
+# During automated test runs or offline work, isolate with local SQLite to avoid remote network latency
+is_test_env = any("pytest" in a.lower() for a in sys.argv) or "PYTEST_CURRENT_TEST" in os.environ or os.getenv("TESTING") == "1" or os.getenv("USE_LOCAL_SQLITE") == "1"
+if is_test_env:
+    DATABASE_URL = LOCAL_SQLITE_URL
+else:
+    DATABASE_URL = os.getenv("DATABASE_URL", LOCAL_SQLITE_URL)
 
 if DATABASE_URL.startswith("sqlite:///./") or DATABASE_URL == "sqlite:///trustfin_local.db":
     DATABASE_URL = LOCAL_SQLITE_URL
@@ -18,8 +27,8 @@ if DATABASE_URL.startswith("sqlite:///./") or DATABASE_URL == "sqlite:///trustfi
 if DATABASE_URL.startswith("sqlite"):
     engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 else:
-    # Neon DB / PostgreSQL connection
-    engine = create_engine(DATABASE_URL, pool_pre_ping=True, pool_size=5, max_overflow=10)
+    # Neon DB / PostgreSQL connection with fast 3s failover to local SQLite if offline
+    engine = create_engine(DATABASE_URL, pool_pre_ping=True, pool_size=5, max_overflow=10, connect_args={"connect_timeout": 3})
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 

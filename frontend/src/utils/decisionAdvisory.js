@@ -1,8 +1,8 @@
-// Decision Advisory & Explanation Verification Engine
-// Evaluates ML prediction confidence, repayment capacity (DTI), and explanation reliability
+// Decision Advisory Engine
+// Evaluates credit risk, repayment capacity (DTI), and algorithmic reliability for bank loan officers
 
 /**
- * Evaluates model prediction, repayment safety, and explanation trust metrics
+ * Evaluates model prediction, repayment safety, and reliability metrics
  * to produce practical, plain-English guidance for the bank loan officer.
  * 
  * @param {Object} result - API response containing prediction, solvencyCheck, trustScore, shap, lime
@@ -20,98 +20,105 @@ export const getUnderwritingAction = (result, applicantData) => {
     const isSolvent = result.solvencyCheck?.isSolvent ?? true;
     const solvencyStatus = result.solvencyCheck?.status ?? 'OPTIMAL';
     const consistencyScore = result.trustScore?.consistency ?? 1.0;
+    const existingEMI = result.solvencyCheck?.existingEMI ?? (Number(applicantData?.Existing_EMI) || 0);
+    const totalObligation = result.solvencyCheck?.totalMonthlyObligation ?? ((result.solvencyCheck?.monthlyEMI || 0) + existingEMI);
 
     // =========================================================================
-    // CASE 3: DECLINE RECOMMENDED / FAILED FINANCIAL CHECKS (Red)
-    // Triggers if: Unaffordable EMI (DTI > 50%), Low Explanation Trust (< 50%), or Confident Rejection
+    // CASE 3: DECLINE RECOMMENDED (Red)
+    // Triggers if: Unaffordable EMI (DTI > 50%) or Model Rejection
     // =========================================================================
-    if (!isSolvent || solvencyStatus === 'INSOLVENT' || trustPercent < 70 || (!isApproved && confidencePercent >= 75)) {
+    if (!isSolvent || solvencyStatus === 'INSOLVENT' || (!isApproved && confidencePercent >= 65)) {
         const reasons = [];
 
         if (!isSolvent || solvencyStatus === 'INSOLVENT') {
-            reasons.push(`Monthly EMI requires ${dtiPercent} of total income, which exceeds the safe 50% repayment limit.`);
-        }
-        if (trustPercent < 70) {
-            reasons.push(`The AI explanation is unstable or explainers disagree (Explanation Trust: ${trustPercent}%).`);
+            if (existingEMI > 0) {
+                reasons.push(`Total monthly debt of ₹${Math.round(totalObligation).toLocaleString('en-IN')} (including ₹${Math.round(existingEMI).toLocaleString('en-IN')} existing EMIs) consumes ${dtiPercent} of income, exceeding the 50% ceiling.`);
+            } else {
+                reasons.push(`Monthly EMI requires ${dtiPercent} of total income, which exceeds the safe 50% repayment ceiling.`);
+            }
         }
         if (!isApproved) {
             if (applicantData?.Credit_History === 0 || applicantData?.Credit_History === '0') {
                 reasons.push('Past credit bureau record indicates defaults or irregular repayment history.');
-            } else if (reasons.length === 0) {
-                reasons.push(`The model identified high risk with ${confidencePercent}% confidence.`);
+            } else {
+                reasons.push(`Credit risk assessment identified elevated default probability (${confidencePercent}% confidence).`);
             }
         }
 
         return {
             tier: 'HIGH_RISK',
-            badgeText: 'DECLINE RECOMMENDED: HIGH RISK / FAILED CHECKS',
+            badgeText: 'DECLINE RECOMMENDED: HIGH RISK',
             badgeClass: 'bg-red-700 text-white border-red-800',
             cardBgClass: 'bg-red-50/70 border-red-300',
             indicatorClass: 'bg-red-600',
             textColor: 'text-red-900',
             accentColor: 'text-red-700',
             headline: isSolvent 
-                ? 'High Risk: Model indicates elevated risk factors or unverified explanations.'
+                ? 'Decline Recommended: Credit model flags elevated default risk or irregular bureau track record.'
                 : 'Safety Limit Exceeded: Monthly loan repayment is unaffordable on current income.',
-            reasons: reasons.length > 0 ? reasons : ['High risk identified across past credit history or debt burden.'],
-            nextStep: 'Issue adverse action notice with recourse recommendations or perform manual verification.'
+            reasons: reasons.length > 0 ? reasons : ['High credit risk identified across repayment capacity and bureau history.'],
+            nextStep: 'Issue adverse action notice or consider restructuring with a smaller loan principal.'
         };
     }
 
     // =========================================================================
-    // CASE 1: CONFIDENT APPROVAL: EXPLANATIONS VERIFIED (Green)
-    // Triggers if: Approved AND High Confidence (>= 75%) AND High Trust (>= 75%) AND Solvent
+    // CASE 1: RECOMMENDED FOR SANCTION (Green)
+    // Triggers if: Approved AND High Confidence (>= 70%) AND Safe Solvency (DTI <= 35%) AND High Reliability (>= 70%)
     // =========================================================================
-    if (isApproved && confidencePercent >= 75 && trustPercent >= 85 && isSolvent) {
+    if (isApproved && confidencePercent >= 70 && trustPercent >= 70 && isSolvent && dtiRatio <= 0.35) {
         const reasons = [
-            `Both SHAP and LIME confirm positive credit factors with ${(consistencyScore * 100).toFixed(0)}% agreement.`,
-            `Monthly EMI is very comfortable at ${dtiPercent} of income (well within the 50% safety limit).`,
-            `The explanation demonstrates high mathematical stability (${(result.trustScore.stability * 100).toFixed(0)}%) with no demographic bias.`
+            `Monthly EMI is very comfortable at ${dtiPercent} of income (well within the safe 35% threshold).`,
+            `Credit assessment confirms high repayment probability (${confidencePercent}% confidence).`,
+            `Key decision factors independently verified with ${(consistencyScore * 100).toFixed(0)}% consensus across underwriting checks.`
         ];
 
         return {
             tier: 'AUTO_APPROVE',
-            badgeText: 'RECOMMENDED FOR SANCTION: HIGH EXPLANATION TRUST',
+            badgeText: 'RECOMMENDED FOR SANCTION',
             badgeClass: 'bg-green-700 text-white border-green-800',
             cardBgClass: 'bg-green-50/70 border-green-300',
             indicatorClass: 'bg-green-600',
             textColor: 'text-green-900',
             accentColor: 'text-green-700',
-            headline: 'Clear Approval: Strong model confidence and verified explanation trust.',
+            headline: 'Eligible for Sanction: Strong financial capacity and verified credit standing.',
             reasons,
-            nextStep: 'All financial checks and explanation tests passed. Safe to generate sanction letter.'
+            nextStep: 'All financial checks and reliability benchmarks passed. Safe to generate sanction letter.'
         };
     }
 
     // =========================================================================
-    // CASE 2: OFFICER REVIEW ADVISED (Amber / Yellow)
-    // Triggers for borderline confidence, moderate trust, moderate DTI, or mild divergence
+    // CASE 2: OFFICER REVIEW REQUIRED (Amber / Yellow)
+    // Triggers for moderate debt burden (35% to 50%), borderline confidence, or review needed
     // =========================================================================
     const reasons = [];
 
     if (dtiRatio > 0.35 && dtiRatio <= 0.50) {
-        reasons.push(`Monthly EMI takes ${dtiPercent} of income (moderate debt burden between 35% and 50%).`);
+        if (existingEMI > 0) {
+            reasons.push(`Total monthly debt (₹${Math.round(totalObligation).toLocaleString('en-IN')} including ₹${Math.round(existingEMI).toLocaleString('en-IN')} existing EMIs) takes ${dtiPercent} of income.`);
+        } else {
+            reasons.push(`Monthly EMI takes ${dtiPercent} of income (moderate debt burden between 35% and 50%).`);
+        }
     }
-    if (trustPercent >= 70 && trustPercent < 85) {
-        reasons.push(`SHAP and LIME show slight variation in feature rankings (Trust Score: ${trustPercent}%).`);
-    }
-    if (confidencePercent >= 50 && confidencePercent < 75) {
+    if (confidencePercent < 70) {
         reasons.push(`Model confidence is moderate at ${confidencePercent}%, indicating a borderline applicant.`);
     }
+    if (trustPercent < 70) {
+        reasons.push(`Underwriting factors show moderate consensus (${trustPercent}%); loan officer verification advised.`);
+    }
     if (reasons.length === 0) {
-        reasons.push('Application has balanced parameters requiring standard loan officer review.');
+        reasons.push('Application has balanced parameters requiring standard loan officer verification.');
     }
 
     return {
         tier: 'OFFICER_REVIEW',
-        badgeText: 'OFFICER REVIEW ADVISED: BORDERLINE CASE',
+        badgeText: 'OFFICER REVIEW REQUIRED: BORDERLINE CASE',
         badgeClass: 'bg-amber-600 text-white border-amber-700',
         cardBgClass: 'bg-amber-50/70 border-amber-300',
         indicatorClass: 'bg-amber-500',
         textColor: 'text-amber-900',
         accentColor: 'text-amber-700',
-        headline: 'Borderline Profile: Model leans favorable, but officer review is suggested.',
+        headline: 'Manual Review Suggested: Moderate debt burden or borderline credit profile requires officer approval.',
         reasons,
-        nextStep: 'Verify applicant income documents, employer details, and tenure before sanction.'
+        nextStep: 'Verify applicant income documents, employer details, and existing liabilities before sanction.'
     };
 };

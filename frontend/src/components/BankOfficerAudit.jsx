@@ -172,10 +172,10 @@ const BankOfficerAudit = ({ result, applicantData, onBackToSummary }) => {
                     <div>
                         <h2 className="text-base font-extrabold text-gray-900 uppercase tracking-tight flex items-center gap-1.5">
                             <Cpu className="w-5 h-5 text-gov-blue" />
-                            In-Depth XAI & Trust Audit Suite
+                            Credit Decision & Explainability Verification
                         </h2>
                         <p className="text-xs text-gray-500 mt-0.5">
-                            Algorithmic Accountability, Explainer Concordance, and Mathematical Robustness
+                            Dual-Method Factor Analysis, Decision Consistency, and Compliance Verification
                         </p>
                     </div>
                 </div>
@@ -193,10 +193,10 @@ const BankOfficerAudit = ({ result, applicantData, onBackToSummary }) => {
                     <div>
                         <h3 className="text-sm font-bold text-gray-900 uppercase flex items-center gap-2">
                             <BarChart2 className="w-4 h-4 text-gov-blue" />
-                            Key Decision Factors (SHAP vs. LIME)
+                            Key Decision Drivers (Primary vs. Cross-Check)
                         </h3>
                         <p className="text-xs text-gray-600">
-                            Quantified impact of individual applicant details on the credit scoring model (hover any bar to view applicant's actual input)
+                            Quantified impact of individual credit details on the loan decision (hover any bar to view applicant's actual input)
                         </p>
                     </div>
 
@@ -210,7 +210,7 @@ const BankOfficerAudit = ({ result, applicantData, onBackToSummary }) => {
                                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                             }`}
                         >
-                            SHAP (Shapley Values)
+                            Primary Factors (Explainer 1: SHAP)
                         </button>
                         <button
                             onClick={() => setActiveExplainerTab('lime')}
@@ -220,7 +220,7 @@ const BankOfficerAudit = ({ result, applicantData, onBackToSummary }) => {
                                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                             }`}
                         >
-                            LIME (Local Surrogates)
+                            Cross-Validation (Explainer 2: LIME)
                         </button>
                     </div>
                 </div>
@@ -228,11 +228,11 @@ const BankOfficerAudit = ({ result, applicantData, onBackToSummary }) => {
                 <div className="p-3 bg-slate-50 border border-slate-200 rounded-sm text-xs text-gray-700 mb-4">
                     {activeExplainerTab === 'shap' ? (
                         <span>
-                            <strong>SHAP (Shapley Additive Explanations):</strong> Grounded in cooperative game theory. Computes the exact marginal contribution of each variable across all possible feature combinations.
+                            <strong>Primary Attribution Model (Explainer 1 - SHAP):</strong> Evaluates the quantified credit contribution of each financial variable towards loan approval or rejection across historical portfolio benchmarks.
                         </span>
                     ) : (
                         <span>
-                            <strong>LIME (Local Interpretable Model-agnostic Explanations):</strong> Trains an interpretable sparse linear surrogate model locally around the applicant's specific feature vector.
+                            <strong>Secondary Cross-Check Model (Explainer 2 - LIME):</strong> Independently tests local sensitivity around this specific applicant's parameters to cross-verify that the primary decision factors remain reliable.
                         </span>
                     )}
                 </div>
@@ -298,8 +298,8 @@ const BankOfficerAudit = ({ result, applicantData, onBackToSummary }) => {
                             <tr className="bg-gray-100 border-b border-gray-300 text-gray-800 uppercase tracking-wider font-semibold">
                                 <th className="py-2.5 px-3">Application Factor</th>
                                 <th className="py-2.5 px-3 text-center">Applicant's Value</th>
-                                <th className="py-2.5 px-3 text-right">SHAP Contribution</th>
-                                <th className="py-2.5 px-3 text-right">LIME Contribution</th>
+                                <th className="py-2.5 px-3 text-right">Primary (Explainer 1: SHAP)</th>
+                                <th className="py-2.5 px-3 text-right">Cross-Check (Explainer 2: LIME)</th>
                                 <th className="py-2.5 px-3 text-center">Agreement Status</th>
                             </tr>
                         </thead>
@@ -336,7 +336,7 @@ const BankOfficerAudit = ({ result, applicantData, onBackToSummary }) => {
                 <div className="mt-3 p-3 bg-blue-50 border border-blue-200 rounded-sm text-xs text-blue-900 flex items-start gap-2">
                     <Info className="w-4 h-4 text-blue-700 shrink-0 mt-0.5" />
                     <span>
-                        <strong>Auditor Guidance:</strong> Strong agreement between SHAP and LIME confirms that both explanation methods point to the same loan decision rationale.
+                        <strong>Underwriter Guidance:</strong> Strong agreement between Explainer 1 (SHAP) and Explainer 2 (LIME) confirms consistent credit rationale across both independent models.
                     </span>
                 </div>
             </div>
@@ -347,10 +347,10 @@ const BankOfficerAudit = ({ result, applicantData, onBackToSummary }) => {
                     <div>
                         <h3 className="text-sm font-bold text-gray-900 uppercase flex items-center gap-2">
                             <ShieldCheck className="w-4 h-4 text-gov-blue" />
-                            4-Pillar Quantitative Validation Framework
+                            4-Pillar Decision Reliability Framework
                         </h3>
                         <p className="text-xs text-gray-600">
-                            Mathematical validation of explanation fidelity, perturbation invariance, cross-method agreement, and demographic fairness
+                            Institutional verification of decision fidelity, input robustness, multi-model consensus, and regulatory parity
                         </p>
                     </div>
                     <div className={`px-3 py-1 text-xs font-bold uppercase rounded-sm border flex items-center gap-1.5 ${trustLevel.color}`}>
@@ -365,52 +365,52 @@ const BankOfficerAudit = ({ result, applicantData, onBackToSummary }) => {
                     {/* Pillar 1: Faithfulness */}
                     <div className="p-4 bg-gray-50 border border-gray-200 rounded-sm">
                         <div className="flex justify-between items-center mb-1">
-                            <span className="text-xs font-bold text-gray-700 uppercase">1. Faithfulness</span>
-                            <span className="text-[10px] font-semibold text-gray-500 bg-white px-1.5 py-0.5 border border-gray-200 rounded-xs">Weight: 25%</span>
+                            <span className="text-xs font-bold text-gray-700 uppercase">1. Decision Fidelity</span>
+                            <span className="text-[10px] font-semibold text-gray-500 bg-white px-1.5 py-0.5 border border-gray-200 rounded-xs">Weight: 35%</span>
                         </div>
                         <p className="text-2xl font-black text-gray-900 font-mono mt-1">{(result.trustScore.faithfulness * 100).toFixed(1)}%</p>
-                        <p className="text-xs text-gray-700 font-semibold mt-1">Feature Masking Test</p>
+                        <p className="text-xs text-gray-700 font-semibold mt-1">Model Truthfulness (Faithfulness)</p>
                         <p className="text-[11px] text-gray-500 mt-1 leading-relaxed">
-                            Validates that masking top-ranked features causes a significant drop in prediction probability, proving truthfulness.
+                            Validates that removing key decision drivers genuinely changes the model's decision, confirming the explanation is truthful.
                         </p>
                     </div>
 
                     {/* Pillar 2: Stability */}
                     <div className="p-4 bg-gray-50 border border-gray-200 rounded-sm">
                         <div className="flex justify-between items-center mb-1">
-                            <span className="text-xs font-bold text-gray-700 uppercase">2. Stability</span>
+                            <span className="text-xs font-bold text-gray-700 uppercase">2. Assessment Stability</span>
                             <span className="text-[10px] font-semibold text-gray-500 bg-white px-1.5 py-0.5 border border-gray-200 rounded-xs">Weight: 25%</span>
                         </div>
                         <p className="text-2xl font-black text-gray-900 font-mono mt-1">{(result.trustScore.stability * 100).toFixed(1)}%</p>
-                        <p className="text-xs text-gray-700 font-semibold mt-1">Noise Perturbation Test</p>
+                        <p className="text-xs text-gray-700 font-semibold mt-1">Input Robustness (Stability)</p>
                         <p className="text-[11px] text-gray-500 mt-1 leading-relaxed">
-                            Injects 1% Gaussian noise into numerical features to ensure top explanation ranks remain robust and invariant.
+                            Ensures minor, routine variations in financial inputs do not arbitrarily reorder the critical credit factors.
                         </p>
                     </div>
 
                     {/* Pillar 3: Consistency */}
                     <div className="p-4 bg-gray-50 border border-gray-200 rounded-sm">
                         <div className="flex justify-between items-center mb-1">
-                            <span className="text-xs font-bold text-gray-700 uppercase">3. Consistency</span>
-                            <span className="text-[10px] font-semibold text-gray-500 bg-white px-1.5 py-0.5 border border-gray-200 rounded-xs">Weight: 25%</span>
+                            <span className="text-xs font-bold text-gray-700 uppercase">3. Multi-Model Consensus</span>
+                            <span className="text-[10px] font-semibold text-gray-500 bg-white px-1.5 py-0.5 border border-gray-200 rounded-xs">Weight: 30%</span>
                         </div>
                         <p className="text-2xl font-black text-gray-900 font-mono mt-1">{(result.trustScore.consistency * 100).toFixed(1)}%</p>
-                        <p className="text-xs text-gray-700 font-semibold mt-1">Jaccard Top-K Similarity</p>
+                        <p className="text-xs text-gray-700 font-semibold mt-1">Cross-Explainer Agreement (Consistency)</p>
                         <p className="text-[11px] text-gray-500 mt-1 leading-relaxed">
-                            Measures the intersection over union (IoU) of the top 3 critical features selected by SHAP versus LIME.
+                            Measures consensus between Explainer 1 (SHAP) and Explainer 2 (LIME) on the top 3 critical credit drivers.
                         </p>
                     </div>
 
                     {/* Pillar 4: Fairness */}
                     <div className="p-4 bg-gray-50 border border-gray-200 rounded-sm">
                         <div className="flex justify-between items-center mb-1">
-                            <span className="text-xs font-bold text-gray-700 uppercase">4. Fairness</span>
-                            <span className="text-[10px] font-semibold text-gray-500 bg-white px-1.5 py-0.5 border border-gray-200 rounded-xs">Weight: 25%</span>
+                            <span className="text-xs font-bold text-gray-700 uppercase">4. Regulatory Parity</span>
+                            <span className="text-[10px] font-semibold text-gray-500 bg-white px-1.5 py-0.5 border border-gray-200 rounded-xs">Weight: 10%</span>
                         </div>
                         <p className="text-2xl font-black text-gray-900 font-mono mt-1">{((result.trustScore.fairness ?? 1.0) * 100).toFixed(1)}%</p>
-                        <p className="text-xs text-gray-700 font-semibold mt-1">Protected Attribute Parity</p>
+                        <p className="text-xs text-gray-700 font-semibold mt-1">Fair Lending Compliance (Fairness)</p>
                         <p className="text-[11px] text-gray-500 mt-1 leading-relaxed">
-                            Tests whether perturbing demographic indicators (e.g. Gender, Marital Status) shifts the credit determination.
+                            Confirms that non-credit protected attributes (e.g. Gender) have zero discriminatory impact on the outcome.
                         </p>
                     </div>
 
@@ -431,10 +431,10 @@ const BankOfficerAudit = ({ result, applicantData, onBackToSummary }) => {
                             <p className="font-bold text-gray-900 uppercase tracking-wider">Composite Trust Index Formulation:</p>
                             <div className="bg-white p-2.5 border border-gray-300 rounded-sm text-gray-900">
                                 <p className="font-mono font-semibold text-center leading-relaxed">
-                                    <strong>Trust Score (T)</strong> = (25% × Faithfulness) + (25% × Stability) + (25% × Consistency) + (25% × Fairness)
+                                    <strong>Trust Score (T)</strong> = (35% × Faithfulness) + (30% × Consistency) + (25% × Stability) + (10% × Fairness)
                                 </p>
                                 <p className="text-[11px] text-gray-500 text-center mt-1">
-                                    In simple terms: each of the 4 pillars contributes equally (25%) to the overall Trust Score.
+                                    Calibrated institutional weighting: Prioritizes causal truth (35%) and multi-model consensus (30%) while verifying input stability (25%) and fair lending parity (10%).
                                 </p>
                             </div>
                             
@@ -452,12 +452,12 @@ const BankOfficerAudit = ({ result, applicantData, onBackToSummary }) => {
                                     </p>
                                 </div>
                                 <div className="bg-white p-3 border border-gray-200 rounded-sm">
-                                    <p className="font-bold text-gray-800 mb-1">Consistency: Do SHAP and LIME agree?</p>
+                                    <p className="font-bold text-gray-800 mb-1">Consistency: Do Explainer 1 (SHAP) and Explainer 2 (LIME) agree?</p>
                                     <p className="text-[11px] text-gray-700 leading-relaxed">
-                                        We compare the most important features identified by SHAP and LIME and count how many features both methods have in common.
+                                        We compare the key credit drivers identified by both explainer models and calculate their factor overlap.
                                     </p>
                                     <div className="mt-2 p-2 bg-gray-50 border border-gray-200 rounded-sm text-[11px] text-gray-700 leading-relaxed">
-                                        <strong>Example:</strong> If SHAP and LIME identify the same 3 features, consistency is <strong>100%</strong>. If they identify 4 unique features in total and 2 are shared, consistency is <strong>50%</strong>.
+                                        <strong>Example:</strong> If both explainer models identify the same 3 top features, consistency is <strong>100%</strong>. If they identify 4 unique features in total and 2 are shared, consistency is <strong>50%</strong>.
                                     </div>
                                     <p className="text-[10px] text-gray-500 mt-1.5">
                                         <strong>Higher score =</strong> both explanation methods identify more of the same important factors.

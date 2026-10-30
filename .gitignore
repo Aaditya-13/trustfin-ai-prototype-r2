@@ -68,6 +68,7 @@ venv.bak/
 
 # --- Testing, Coverage & Profiling ---
 .pytest_cache/
+.matplotlib_cache/
 .coverage
 .coverage.*
 .cache

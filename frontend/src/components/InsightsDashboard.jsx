@@ -192,10 +192,12 @@ const InsightsDashboard = ({ result, applicantData }) => {
         return <Info className="w-3 h-3 text-gray-500 shrink-0" />;
     };
 
-    // Financial surplus calculations
+    // Financial calculations
     const monthlyIncome = result.solvencyCheck ? result.solvencyCheck.totalIncome : 0;
     const monthlyEMI = result.solvencyCheck ? result.solvencyCheck.monthlyEMI : 0;
-    const netSurplus = monthlyIncome - monthlyEMI;
+    const existingEMI = result.solvencyCheck?.existingEMI ?? (Number(applicantData?.Existing_EMI) || 0);
+    const totalObligation = result.solvencyCheck?.totalMonthlyObligation ?? (monthlyEMI + existingEMI);
+    const netSurplus = result.solvencyCheck?.netDisposableIncome ?? (monthlyIncome - totalObligation);
     const dtiRatioVal = result.solvencyCheck ? (result.solvencyCheck.dtiRatio * 100) : 0;
 
     // Dedicated Component: Official Bank PDF Report Card (Clean UIDAI Enterprise Style)
@@ -392,27 +394,50 @@ const InsightsDashboard = ({ result, applicantData }) => {
                                 </span>
                             </div>
 
-                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center mb-1">
+                            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2.5 text-center mb-3">
                                 <div className="p-2.5 bg-gray-50 border border-gray-200 rounded-sm">
-                                    <p className="text-[11px] font-semibold text-gray-500 uppercase">Monthly EMI</p>
-                                    <p className="text-base font-bold text-gray-900 font-mono">₹{result.solvencyCheck.monthlyEMI.toLocaleString('en-IN')}</p>
+                                    <p className="text-[10px] font-bold text-gray-500 uppercase tracking-tight">Proposed EMI</p>
+                                    <p className="text-sm font-bold text-gray-900 font-mono mt-0.5">₹{Math.round(monthlyEMI).toLocaleString('en-IN')}</p>
+                                    <span className="text-[9px] text-gray-400 font-mono">New Facility</span>
                                 </div>
                                 <div className="p-2.5 bg-gray-50 border border-gray-200 rounded-sm">
-                                    <p className="text-[11px] font-semibold text-gray-500 uppercase">Total Monthly Income</p>
-                                    <p className="text-base font-bold text-gray-900 font-mono">₹{result.solvencyCheck.totalIncome.toLocaleString('en-IN')}</p>
+                                    <p className="text-[10px] font-bold text-gray-500 uppercase tracking-tight">Existing EMIs</p>
+                                    <p className="text-sm font-bold text-gray-900 font-mono mt-0.5">₹{Math.round(existingEMI).toLocaleString('en-IN')}</p>
+                                    <span className="text-[9px] text-gray-400 font-mono">{existingEMI > 0 ? 'Bureau Debt' : 'Clean Sheet'}</span>
+                                </div>
+                                <div className="p-2.5 bg-blue-50/60 border border-blue-200 rounded-sm">
+                                    <p className="text-[10px] font-bold text-blue-900 uppercase tracking-tight">Total Monthly Debt</p>
+                                    <p className="text-sm font-extrabold text-blue-950 font-mono mt-0.5">₹{Math.round(totalObligation).toLocaleString('en-IN')}</p>
+                                    <span className="text-[9px] text-blue-700 font-mono">Existing + Proposed</span>
                                 </div>
                                 <div className="p-2.5 bg-gray-50 border border-gray-200 rounded-sm">
-                                    <p className="text-[11px] font-semibold text-gray-500 uppercase">Debt-to-Income (DTI)</p>
-                                    <p className={`text-base font-bold font-mono ${result.solvencyCheck.isSolvent ? 'text-green-700' : 'text-red-700'}`}>
+                                    <p className="text-[10px] font-bold text-gray-500 uppercase tracking-tight">Monthly Income</p>
+                                    <p className="text-sm font-bold text-gray-900 font-mono mt-0.5">₹{Math.round(monthlyIncome).toLocaleString('en-IN')}</p>
+                                    <span className="text-[9px] text-gray-400 font-mono">Total Household</span>
+                                </div>
+                                <div className={`p-2.5 rounded-sm border ${dtiRatioVal > 50 ? 'bg-red-50 border-red-300' : dtiRatioVal > 35 ? 'bg-amber-50 border-amber-300' : 'bg-green-50 border-green-300'}`}>
+                                    <p className="text-[10px] font-bold text-gray-700 uppercase tracking-tight">FOIR / DTI</p>
+                                    <p className={`text-sm font-extrabold font-mono mt-0.5 ${dtiRatioVal > 50 ? 'text-red-700' : dtiRatioVal > 35 ? 'text-amber-700' : 'text-green-700'}`}>
                                         {result.solvencyCheck.dtiPercent}
                                     </p>
+                                    <span className="text-[9px] font-mono text-gray-500">Max Limit: 50.0%</span>
                                 </div>
-                                <div className="p-2.5 bg-gray-50 border border-gray-200 rounded-sm">
-                                    <p className="text-[11px] font-semibold text-gray-500 uppercase">Net Monthly Balance</p>
-                                    <p className={`text-base font-bold font-mono ${netSurplus >= 0 ? 'text-green-700' : 'text-red-700'}`}>
-                                        ₹{netSurplus.toLocaleString('en-IN')}
+                                <div className={`p-2.5 rounded-sm border ${netSurplus >= 0 ? 'bg-green-50/80 border-green-300' : 'bg-red-50/80 border-red-300'}`}>
+                                    <p className="text-[10px] font-bold text-gray-700 uppercase tracking-tight">Net Cashflow</p>
+                                    <p className={`text-sm font-extrabold font-mono mt-0.5 ${netSurplus >= 0 ? 'text-green-700' : 'text-red-700'}`}>
+                                        {netSurplus >= 0 ? `+₹${Math.round(netSurplus).toLocaleString('en-IN')}` : `-₹${Math.abs(Math.round(netSurplus)).toLocaleString('en-IN')}`}
                                     </p>
+                                    <span className={`text-[9px] font-bold uppercase font-mono ${netSurplus >= 0 ? 'text-green-700' : 'text-red-700'}`}>
+                                        {netSurplus >= 0 ? 'Surplus' : 'Deficit'}
+                                    </span>
                                 </div>
+                            </div>
+
+                            <div className="p-2.5 bg-blue-50/40 border border-blue-200 rounded-sm mb-3 flex flex-col sm:flex-row justify-between items-start sm:items-center text-[11px] gap-1 font-mono text-gray-700">
+                                <span>Solvency Formula: FOIR = (Existing ₹{Math.round(existingEMI).toLocaleString('en-IN')} + Proposed ₹{Math.round(monthlyEMI).toLocaleString('en-IN')}) / Income ₹{Math.round(monthlyIncome).toLocaleString('en-IN')} = <strong>{result.solvencyCheck.dtiPercent}</strong></span>
+                                <span className={`font-semibold text-[10px] px-1.5 py-0.5 rounded-xs border ${netSurplus >= 0 ? 'bg-emerald-50 text-emerald-800 border-emerald-300' : 'bg-rose-50 text-rose-800 border-rose-300'}`}>
+                                    {netSurplus >= 0 ? `Surplus: +₹${Math.round(netSurplus).toLocaleString('en-IN')}` : `Shortfall: -₹${Math.abs(Math.round(netSurplus)).toLocaleString('en-IN')}`}
+                                </span>
                             </div>
 
                             {result.solvencyCheck.overrideWarning && (
@@ -448,7 +473,7 @@ const InsightsDashboard = ({ result, applicantData }) => {
                         <div className="flex flex-col md:flex-row items-center gap-6">
                             <div className="flex-1 w-full">
                                 <div className="flex justify-between text-sm text-gray-800 mb-1.5 font-semibold">
-                                    <span>Overall Trust Score (4 Pillars: 25% each)</span>
+                                    <span>Overall Trust Score (Calibrated Multi-Pillar Index)</span>
                                     <span className="font-mono">{trustPercent.toFixed(1)}%</span>
                                 </div>
                                 <div className="w-full bg-gray-200 h-5 rounded-sm border border-gray-300 relative overflow-hidden">
@@ -464,27 +489,27 @@ const InsightsDashboard = ({ result, applicantData }) => {
                             </div>
                         </div>
 
-                        {/* 4 Component Breakdown Cards (Equal Weighting: 25% each) */}
+                        {/* 4 Component Breakdown Cards (Calibrated Weights: 35/30/25/10) */}
                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-5">
                             <div className="p-3 bg-gray-50 border border-gray-200 rounded-sm text-center">
                                 <p className="text-xs font-semibold text-gray-600 uppercase tracking-wider">Faithfulness</p>
                                 <p className="text-xl font-bold text-gray-900 mt-0.5 font-mono">{(result.trustScore.faithfulness * 100).toFixed(1)}%</p>
-                                <p className="text-[11px] text-gray-500 mt-1">Weight: 25% • Truthfulness (Feature Removal Test)</p>
+                                <p className="text-[11px] text-gray-500 mt-1">Weight: 35% • Decision Truthfulness</p>
                             </div>
                             <div className="p-3 bg-gray-50 border border-gray-200 rounded-sm text-center">
                                 <p className="text-xs font-semibold text-gray-600 uppercase tracking-wider">Stability</p>
                                 <p className="text-xl font-bold text-gray-900 mt-0.5 font-mono">{(result.trustScore.stability * 100).toFixed(1)}%</p>
-                                <p className="text-[11px] text-gray-500 mt-1">Weight: 25% • Robustness (Noise Test)</p>
+                                <p className="text-[11px] text-gray-500 mt-1">Weight: 25% • Input Robustness</p>
                             </div>
                             <div className="p-3 bg-gray-50 border border-gray-200 rounded-sm text-center">
                                 <p className="text-xs font-semibold text-gray-600 uppercase tracking-wider">Consistency</p>
                                 <p className="text-xl font-bold text-gray-900 mt-0.5 font-mono">{(result.trustScore.consistency * 100).toFixed(1)}%</p>
-                                <p className="text-[11px] text-gray-500 mt-1">Weight: 25% • Method Agreement (SHAP vs LIME)</p>
+                                <p className="text-[11px] text-gray-500 mt-1">Weight: 30% • Multi-Model Consensus</p>
                             </div>
                             <div className="p-3 bg-gray-50 border border-gray-200 rounded-sm text-center">
                                 <p className="text-xs font-semibold text-gray-600 uppercase tracking-wider">Fairness</p>
                                 <p className="text-xl font-bold text-gray-900 mt-0.5 font-mono">{((result.trustScore.fairness ?? 1.0) * 100).toFixed(1)}%</p>
-                                <p className="text-[11px] text-gray-500 mt-1">Weight: 25% • Demographic Fairness (Gender Test)</p>
+                                <p className="text-[11px] text-gray-500 mt-1">Weight: 10% • Regulatory Parity</p>
                             </div>
                         </div>
 
@@ -500,17 +525,17 @@ const InsightsDashboard = ({ result, applicantData }) => {
                             </button>
                             {showFormula && (
                                 <div className="mt-2.5 p-3.5 bg-slate-50 border border-slate-200 rounded-sm text-xs text-gray-700 space-y-2">
-                                    <p className="font-bold text-gray-900 font-sans uppercase tracking-wider">Trust Score Formula (4 Pillars):</p>
+                                    <p className="font-bold text-gray-900 font-sans uppercase tracking-wider">Trust Score Formula (Calibrated 4 Pillars):</p>
                                     <p className="bg-white p-2 border border-gray-300 rounded-sm font-mono text-gray-900">
-                                        <strong>Overall Trust Score</strong> = (0.25 × Faithfulness) + (0.25 × Stability) + (0.25 × Consistency) + (0.25 × Fairness)
+                                        <strong>Overall Trust Score</strong> = (0.35 × Faithfulness) + (0.30 × Consistency) + (0.25 × Stability) + (0.10 × Fairness)
                                     </p>
                                     <div className="text-gray-600 space-y-1 pt-1">
-                                        <p>• <strong>Faithfulness (25%)</strong>: Checks whether the identified features genuinely impact the model's prediction when masked.</p>
-                                        <p>• <strong>Stability (25%)</strong>: Measures if the explanation remains consistent when a small 1% noise is added.</p>
-                                        <p>• <strong>Consistency (25%)</strong>: Measures the agreement (Jaccard similarity) between SHAP and LIME on top features.</p>
-                                        <p>• <strong>Fairness (25%)</strong>: Checks whether the decision remains unbiased across demographic groups (e.g., gender).</p>
+                                        <p>• <strong>Faithfulness (35%)</strong>: Validates that removing key decision drivers genuinely changes the model's decision, confirming explanation truthfulness.</p>
+                                        <p>• <strong>Stability (25%)</strong>: Confirms the explanation remains robust and invariant under minor, routine input variations.</p>
+                                        <p>• <strong>Consistency (30%)</strong>: Measures agreement between Explainer 1 (SHAP) and Explainer 2 (LIME) on the top critical credit factors.</p>
+                                        <p>• <strong>Fairness (10%)</strong>: Verifies that protected demographic attributes (e.g., gender) have zero discriminatory impact on the loan decision.</p>
                                         <p className="text-[11px] text-gray-500 italic pt-1 border-t border-gray-200">
-                                            * Equal Weighting (25% each): Standard multi-criteria evaluation approach ensuring balanced assessment across all four reliability dimensions.
+                                            * Calibrated institutional weighting isolates explanation fidelity while demographic parity provides compliance monitoring without distorting conflicting explanations.
                                         </p>
                                     </div>
                                 </div>
@@ -522,8 +547,8 @@ const InsightsDashboard = ({ result, applicantData }) => {
                     <div className="bg-white p-6 border border-gray-300 shadow-sm rounded-sm">
                         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-gray-300 pb-3 mb-4 gap-2">
                             <div>
-                                <h3 className="text-sm font-bold text-gray-900 uppercase">Key Decision Factors (Feature Impact)</h3>
-                                <p className="text-xs text-gray-600">Impact of each feature on the decision calculated using SHAP and LIME</p>
+                                <h3 className="text-sm font-bold text-gray-900 uppercase">Key Decision Drivers (Primary vs. Cross-Check)</h3>
+                                <p className="text-xs text-gray-600">Quantified factor contribution evaluated using dual independent explainer models</p>
                             </div>
                             {/* Explainer Tab Switcher */}
                             <div className="flex border border-gray-300 rounded-sm overflow-hidden text-xs font-semibold">
@@ -531,22 +556,22 @@ const InsightsDashboard = ({ result, applicantData }) => {
                                     onClick={() => setActiveExplainerTab('shap')}
                                     className={`px-3 py-1.5 transition-colors cursor-pointer ${activeExplainerTab === 'shap' ? 'bg-gov-blue text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
                                 >
-                                    SHAP Analysis
+                                    Primary Factors (Explainer 1: SHAP)
                                 </button>
                                 <button
                                     onClick={() => setActiveExplainerTab('lime')}
                                     className={`px-3 py-1.5 transition-colors cursor-pointer ${activeExplainerTab === 'lime' ? 'bg-gov-blue text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
                                 >
-                                    LIME Analysis
+                                    Cross-Validation (Explainer 2: LIME)
                                 </button>
                             </div>
                         </div>
 
                         <p className="text-xs text-gray-600 mb-3">
                             {activeExplainerTab === 'shap' ? (
-                                <span><strong>SHAP (Shapley Additive Explanations)</strong>: Computes how much each feature contributed towards approval or rejection.</span>
+                                <span><strong>Primary Attribution Model (Explainer 1 - SHAP)</strong>: Evaluates the exact credit weight of each financial factor towards approval or rejection across historical portfolio benchmarks.</span>
                             ) : (
-                                <span><strong>LIME (Local Interpretable Model-agnostic Explanations)</strong>: Explains the decision by testing small variations around the applicant's profile.</span>
+                                <span><strong>Secondary Cross-Check Model (Explainer 2 - LIME)</strong>: Independently tests local sensitivity around this applicant's profile to confirm factor directions.</span>
                             )}
                         </p>
 

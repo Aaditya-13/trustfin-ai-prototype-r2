@@ -122,6 +122,12 @@ const ApplicantForm = ({
 
     const activeProfiles = isHomeLoan ? homeLoanProfiles : personalLoanProfiles;
 
+    const handleFocus = (e) => {
+        e.target.select();
+    };
+
+    const formatInputValue = (val) => (val === undefined || val === null ? '' : val);
+
     const handleLoadProfile = (profileData) => {
         setFormData(profileData);
     };
@@ -130,18 +136,30 @@ const ApplicantForm = ({
         const { name, value, type } = e.target;
         setFormData(prev => ({
             ...prev,
-            [name]: type === 'number' ? (value === '' ? '' : Number(value)) : value
+            [name]: type === 'number' 
+                ? (value === '' ? '' : (isNaN(Number(value)) ? value : Number(value)))
+                : value
         }));
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        const rawLoan = Number(formData.Loan_Amount);
+        const minLoan = isHomeLoan ? 300000 : 30000;
+        const validLoanAmount = (!rawLoan || rawLoan < minLoan)
+            ? (rawLoan > 0 ? minLoan : (isHomeLoan ? 3000000 : 250000))
+            : rawLoan;
+
+        if (rawLoan > 0 && rawLoan < minLoan) {
+            setFormData(prev => ({ ...prev, Loan_Amount: validLoanAmount }));
+        }
+
         const payload = {
             ...formData,
             loan_type: isHomeLoan ? 'home_loan' : 'personal_loan',
             Applicant_Income: Number(formData.Applicant_Income) || 50000,
             Coapplicant_Income: isHomeLoan ? (Number(formData.Coapplicant_Income) || 0) : 0,
-            Loan_Amount: Number(formData.Loan_Amount) || (isHomeLoan ? 3000000 : 250000),
+            Loan_Amount: validLoanAmount,
             Loan_Term: Number(formData.Loan_Term) || (isHomeLoan ? 240 : 36),
             Age: Number(formData.Age) || 30,
             Dependents: Number(formData.Dependents) || 0,
@@ -254,12 +272,30 @@ const ApplicantForm = ({
 
                         <div className="flex flex-col">
                             <label className="text-[11px] font-semibold text-gray-700 mb-1 uppercase">Dependents</label>
-                            <input type="number" name="Dependents" value={formData.Dependents} onChange={handleChange} className="border border-gray-300 p-2 text-gray-900 rounded-sm focus:outline-none focus:border-gov-blue text-xs font-mono" min="0" max="8" />
+                            <input 
+                                type="number" 
+                                name="Dependents" 
+                                value={formatInputValue(formData.Dependents)} 
+                                onChange={handleChange} 
+                                onFocus={handleFocus}
+                                className="border border-gray-300 p-2 text-gray-900 rounded-sm focus:outline-none focus:border-gov-blue text-xs font-mono" 
+                                min="0" 
+                                max="8" 
+                            />
                         </div>
 
                         <div className="flex flex-col">
                             <label className="text-[11px] font-semibold text-gray-700 mb-1 uppercase">Age (Years)</label>
-                            <input type="number" name="Age" value={formData.Age} onChange={handleChange} className="border border-gray-300 p-2 text-gray-900 rounded-sm focus:outline-none focus:border-gov-blue text-xs font-mono" min="18" max="75" />
+                            <input 
+                                type="number" 
+                                name="Age" 
+                                value={formatInputValue(formData.Age)} 
+                                onChange={handleChange} 
+                                onFocus={handleFocus}
+                                className="border border-gray-300 p-2 text-gray-900 rounded-sm focus:outline-none focus:border-gov-blue text-xs font-mono" 
+                                min="18" 
+                                max="75" 
+                            />
                         </div>
 
                         <div className="flex flex-col">
@@ -280,7 +316,16 @@ const ApplicantForm = ({
 
                         <div className="flex flex-col">
                             <label className="text-[11px] font-semibold text-gray-700 mb-1 uppercase">Work Experience (Years)</label>
-                            <input type="number" name="Work_Experience" value={formData.Work_Experience || 5} onChange={handleChange} className="border border-gray-300 p-2 text-gray-900 rounded-sm focus:outline-none focus:border-gov-blue text-xs font-mono" min="0" max="45" />
+                            <input 
+                                type="number" 
+                                name="Work_Experience" 
+                                value={formatInputValue(formData.Work_Experience)} 
+                                onChange={handleChange} 
+                                onFocus={handleFocus}
+                                className="border border-gray-300 p-2 text-gray-900 rounded-sm focus:outline-none focus:border-gov-blue text-xs font-mono" 
+                                min="0" 
+                                max="45" 
+                            />
                         </div>
 
                         {/* Product Specific Field */}
@@ -319,13 +364,29 @@ const ApplicantForm = ({
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                         <div className="flex flex-col">
                             <label className="text-[11px] font-semibold text-gray-700 mb-1 uppercase">Applicant Monthly Income (₹)</label>
-                            <input type="number" name="Applicant_Income" value={formData.Applicant_Income} onChange={handleChange} className="border border-gray-300 p-2 text-gray-900 rounded-sm focus:outline-none focus:border-gov-blue text-xs font-mono font-medium" min="1000" />
+                            <input 
+                                type="number" 
+                                name="Applicant_Income" 
+                                value={formatInputValue(formData.Applicant_Income)} 
+                                onChange={handleChange} 
+                                onFocus={handleFocus}
+                                className="border border-gray-300 p-2 text-gray-900 rounded-sm focus:outline-none focus:border-gov-blue text-xs font-mono font-medium" 
+                                min="1000" 
+                            />
                         </div>
 
                         {isHomeLoan ? (
                             <div className="flex flex-col">
                                 <label className="text-[11px] font-semibold text-gray-700 mb-1 uppercase">Co-Applicant Monthly Income (₹)</label>
-                                <input type="number" name="Coapplicant_Income" value={formData.Coapplicant_Income} onChange={handleChange} className="border border-gray-300 p-2 text-gray-900 rounded-sm focus:outline-none focus:border-gov-blue text-xs font-mono font-medium" min="0" />
+                                <input 
+                                    type="number" 
+                                    name="Coapplicant_Income" 
+                                    value={formatInputValue(formData.Coapplicant_Income)} 
+                                    onChange={handleChange} 
+                                    onFocus={handleFocus}
+                                    className="border border-gray-300 p-2 text-gray-900 rounded-sm focus:outline-none focus:border-gov-blue text-xs font-mono font-medium" 
+                                    min="0" 
+                                />
                             </div>
                         ) : (
                             <div className="flex flex-col">
@@ -337,12 +398,17 @@ const ApplicantForm = ({
                                         <input 
                                             type="number" 
                                             name="Credit_Card_Utilization_Percent" 
-                                            value={Math.round((formData.Credit_Card_Utilization ?? 0) * 100)} 
+                                            value={formData.Credit_Card_Utilization === '' ? '' : Math.round((formData.Credit_Card_Utilization ?? 0) * 100)} 
                                             onChange={(e) => {
-                                                const val = e.target.value === '' ? 0 : Number(e.target.value);
-                                                const pct = Math.max(0, Math.min(100, val));
-                                                setFormData(prev => ({ ...prev, Credit_Card_Utilization: Math.round(pct) / 100 }));
+                                                const val = e.target.value === '' ? '' : Number(e.target.value);
+                                                if (val === '') {
+                                                    setFormData(prev => ({ ...prev, Credit_Card_Utilization: '' }));
+                                                } else {
+                                                    const pct = Math.max(0, Math.min(100, val));
+                                                    setFormData(prev => ({ ...prev, Credit_Card_Utilization: Math.round(pct) / 100 }));
+                                                }
                                             }}
+                                            onFocus={handleFocus}
                                             min="0" 
                                             max="100" 
                                             step="1"
@@ -373,7 +439,15 @@ const ApplicantForm = ({
 
                         <div className="flex flex-col">
                             <label className="text-[11px] font-semibold text-gray-700 mb-1 uppercase">Existing Running EMIs (₹/Month)</label>
-                            <input type="number" name="Existing_EMI" value={formData.Existing_EMI || 0} onChange={handleChange} className="border border-gray-300 p-2 text-gray-900 rounded-sm focus:outline-none focus:border-gov-blue text-xs font-mono font-medium" min="0" />
+                            <input 
+                                type="number" 
+                                name="Existing_EMI" 
+                                value={formatInputValue(formData.Existing_EMI)} 
+                                onChange={handleChange} 
+                                onFocus={handleFocus}
+                                className="border border-gray-300 p-2 text-gray-900 rounded-sm focus:outline-none focus:border-gov-blue text-xs font-mono font-medium" 
+                                min="0" 
+                            />
                         </div>
                     </div>
                 </div>
@@ -402,8 +476,9 @@ const ApplicantForm = ({
                                     <input 
                                         type="number" 
                                         name="CIBIL_Score" 
-                                        value={formData.CIBIL_Score} 
+                                        value={formatInputValue(formData.CIBIL_Score)} 
                                         onChange={handleChange} 
+                                        onFocus={handleFocus}
                                         min="300" 
                                         max="900" 
                                         className="w-20 text-center font-mono font-extrabold text-sm border border-gray-300 rounded-xs py-0.5 bg-white text-gray-900 focus:outline-none focus:border-gov-blue"
@@ -415,7 +490,7 @@ const ApplicantForm = ({
                             <input 
                                 type="range" 
                                 name="CIBIL_Score" 
-                                value={formData.CIBIL_Score} 
+                                value={formData.CIBIL_Score ?? 750} 
                                 onChange={handleChange} 
                                 min="300" 
                                 max="900" 
@@ -462,15 +537,28 @@ const ApplicantForm = ({
                             <input 
                                 type="number" 
                                 name="Loan_Amount" 
-                                value={formData.Loan_Amount} 
+                                value={formatInputValue(formData.Loan_Amount)} 
                                 onChange={handleChange} 
-                                className="border border-gray-300 p-2 text-gray-900 rounded-sm focus:outline-none focus:border-gov-blue text-xs font-mono font-medium" 
+                                onFocus={handleFocus}
+                                className={`border p-2 text-gray-900 rounded-sm focus:outline-none text-xs font-mono font-medium ${
+                                    isHomeLoan && formData.Loan_Amount !== '' && Number(formData.Loan_Amount) < 300000 
+                                        ? 'border-amber-500 bg-amber-50/50 focus:border-amber-600' 
+                                        : 'border-gray-300 focus:border-gov-blue'
+                                }`} 
                                 min={isHomeLoan ? 300000 : 30000} 
                                 max={isHomeLoan ? 15000000 : 1500000} 
+                                step={isHomeLoan ? 50000 : 10000}
                             />
-                            <span className="text-[10px] text-gray-400 mt-0.5 font-mono">
-                                {isHomeLoan ? 'Range: ₹3 Lakhs to ₹1.5 Crore' : 'Range: ₹30,000 to ₹10 Lakhs'}
-                            </span>
+                            {isHomeLoan && formData.Loan_Amount !== '' && Number(formData.Loan_Amount) < 300000 ? (
+                                <span className="text-[10px] text-amber-700 font-semibold mt-1 flex items-center gap-1">
+                                    <Info className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                                    Indian banking norms mandate a minimum Home Loan of ₹3,00,000 (3 Lakhs). Below this, use Personal Credit.
+                                </span>
+                            ) : (
+                                <span className="text-[10px] text-gray-400 mt-0.5 font-mono">
+                                    {isHomeLoan ? 'Range: ₹3 Lakhs to ₹1.5 Crore (Min: ₹3,00,000)' : 'Range: ₹30,000 to ₹15 Lakhs (Min: ₹30,000)'}
+                                </span>
+                            )}
                         </div>
 
                         <div className="flex flex-col">
@@ -512,13 +600,14 @@ const ApplicantForm = ({
                                 <input 
                                     type="number" 
                                     name="Property_Value" 
-                                    value={formData.Property_Value || 4500000} 
+                                    value={formatInputValue(formData.Property_Value)} 
                                     onChange={handleChange} 
+                                    onFocus={handleFocus}
                                     className="border border-gray-300 p-2 text-gray-900 rounded-sm focus:outline-none focus:border-gov-blue text-xs font-mono font-medium" 
                                     min="300000" 
                                 />
                                 <span className="text-[10px] text-gray-400 mt-0.5 font-mono">
-                                    LTV: {formData.Property_Value ? Math.round((formData.Loan_Amount / formData.Property_Value) * 100) : 75}% (RBI ceiling: 80–85%)
+                                    LTV: {formData.Property_Value ? Math.round(((Number(formData.Loan_Amount) || 0) / Number(formData.Property_Value)) * 100) : 75}% (RBI ceiling: 80–85%)
                                 </span>
                             </div>
                         )}

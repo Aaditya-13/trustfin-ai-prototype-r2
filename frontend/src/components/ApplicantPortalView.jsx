@@ -28,7 +28,9 @@ const ApplicantPortalView = ({ result, applicantData, onNewApplication }) => {
     const isApproved = result.prediction === 'Approved';
     const monthlyIncome = result.solvencyCheck ? result.solvencyCheck.totalIncome : 0;
     const monthlyEMI = result.solvencyCheck ? result.solvencyCheck.monthlyEMI : 0;
-    const netSurplus = monthlyIncome - monthlyEMI;
+    const existingEMI = result.solvencyCheck?.existingEMI ?? (Number(applicantData?.Existing_EMI) || 0);
+    const totalObligation = result.solvencyCheck?.totalMonthlyObligation ?? (monthlyEMI + existingEMI);
+    const netSurplus = result.solvencyCheck?.netDisposableIncome ?? (monthlyIncome - totalObligation);
     const dtiRatioVal = result.solvencyCheck ? (result.solvencyCheck.dtiRatio * 100) : 0;
 
     // SHAP sorted for adverse factors
@@ -178,23 +180,28 @@ const ApplicantPortalView = ({ result, applicantData, onNewApplication }) => {
                         Monthly Income & EMI Affordability
                     </h4>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                         <div className="p-3 bg-gray-50 border border-gray-200 rounded-sm">
                             <span className="text-[11px] text-gray-500 uppercase font-semibold">Total Monthly Income</span>
-                            <p className="text-lg font-bold text-gray-900 font-mono mt-1">₹{monthlyIncome.toLocaleString('en-IN')}</p>
+                            <p className="text-base font-bold text-gray-900 font-mono mt-1">₹{Math.round(monthlyIncome).toLocaleString('en-IN')}</p>
                             <span className="text-[10px] text-gray-500">Applicant + Co-Applicant</span>
                         </div>
                         <div className="p-3 bg-gray-50 border border-gray-200 rounded-sm">
-                            <span className="text-[11px] text-gray-500 uppercase font-semibold">Estimated Monthly EMI</span>
-                            <p className="text-lg font-bold text-gray-900 font-mono mt-1">₹{monthlyEMI.toLocaleString('en-IN')}</p>
-                            <span className="text-[10px] text-gray-500">Proposed monthly payment</span>
+                            <span className="text-[11px] text-gray-500 uppercase font-semibold">Proposed Monthly EMI</span>
+                            <p className="text-base font-bold text-gray-900 font-mono mt-1">₹{Math.round(monthlyEMI).toLocaleString('en-IN')}</p>
+                            <span className="text-[10px] text-gray-500">New loan installment</span>
                         </div>
                         <div className="p-3 bg-gray-50 border border-gray-200 rounded-sm">
-                            <span className="text-[11px] text-gray-500 uppercase font-semibold">Debt-to-Income (DTI) Ratio</span>
-                            <p className={`text-lg font-bold font-mono mt-1 ${dtiRatioVal <= 50 ? 'text-green-700' : 'text-red-700'}`}>
+                            <span className="text-[11px] text-gray-500 uppercase font-semibold">Total Monthly Debt</span>
+                            <p className="text-base font-bold text-gray-900 font-mono mt-1">₹{Math.round(totalObligation).toLocaleString('en-IN')}</p>
+                            <span className="text-[10px] text-gray-500">{existingEMI > 0 ? `Incl. ₹${Math.round(existingEMI).toLocaleString('en-IN')} existing` : 'No prior active debt'}</span>
+                        </div>
+                        <div className="p-3 bg-gray-50 border border-gray-200 rounded-sm">
+                            <span className="text-[11px] text-gray-500 uppercase font-semibold">Debt-to-Income (DTI)</span>
+                            <p className={`text-base font-bold font-mono mt-1 ${dtiRatioVal <= 50 ? 'text-green-700' : 'text-red-700'}`}>
                                 {dtiRatioVal.toFixed(1)}%
                             </p>
-                            <span className="text-[10px] text-gray-500">Maximum allowable: 50.0%</span>
+                            <span className="text-[10px] text-gray-500">Maximum limit: 50.0%</span>
                         </div>
                     </div>
 

@@ -71,9 +71,12 @@ class LoanApplicationRequest(BaseModel):
             return 720
 
 class SolvencyCheckResult(BaseModel):
-    monthlyEMI: float = Field(..., description="Estimated monthly debt repayment")
+    monthlyEMI: float = Field(..., description="Estimated monthly debt repayment for requested facility")
+    existingEMI: float = Field(0.0, description="Declared ongoing recurring debt obligations")
+    totalMonthlyObligation: Optional[float] = Field(None, description="Combined recurring monthly debt (Existing + Proposed)")
+    netDisposableIncome: Optional[float] = Field(None, description="Net surplus or deficit after all debt repayments")
     totalIncome: float = Field(..., description="Combined applicant and coapplicant income")
-    dtiRatio: float = Field(..., description="Debt-to-Income numerical ratio")
+    dtiRatio: float = Field(..., description="Debt-to-Income / FOIR numerical ratio")
     dtiPercent: str = Field(..., description="Formatted Debt-to-Income percentage string")
     status: str = Field(..., description="'OPTIMAL', 'MODERATE', or 'INSOLVENT'")
     isSolvent: bool = Field(..., description="Whether DTI is within regulatory threshold (<= 50%)")

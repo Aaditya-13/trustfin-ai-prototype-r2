@@ -128,6 +128,9 @@ def generate_loan_report_pdf(applicant_data: dict, prediction_result: dict) -> b
     is_approved = prediction_result.get('prediction') == 'Approved'
     solvency = prediction_result.get('solvencyCheck', {})
     monthly_emi = solvency.get('monthlyEMI', 0)
+    existing_emi = solvency.get('existingEMI', float(applicant_data.get('Existing_EMI', 0) or 0))
+    total_obligation = solvency.get('totalMonthlyObligation', monthly_emi + existing_emi)
+    net_disposable = solvency.get('netDisposableIncome', solvency.get('totalIncome', 0) - total_obligation)
     total_income = solvency.get('totalIncome', 0)
     dti_percent = solvency.get('dtiPercent', '0.0%')
     dti_ratio = solvency.get('dtiRatio', 0)
@@ -197,7 +200,50 @@ def generate_loan_report_pdf(applicant_data: dict, prediction_result: dict) -> b
     loan_amount_val = applicant_data.get('Loan_Amount', 0)
     loan_term_val = applicant_data.get('Loan_Term', 0)
     credit_hist = applicant_data.get('Credit_History', 1)
-    
+    cibil_score = applicant_data.get('CIBIL_Score')
+    loan_type = applicant_data.get('loan_type') or ('home_loan' if 'Property_Value' in applicant_data else 'legacy')
+    loan_purpose = applicant_data.get('Loan_Purpose')
+    credit_util = applicant_data.get('Credit_Card_Utilization')
+
+    cibil_num = None
+    if cibil_score is not None:
+        try:
+            cibil_num = int(float(cibil_score))
+        except (ValueError, TypeError):
+            cibil_num = None
+
+    util_float = None
+    if credit_util is not None:
+        try:
+            util_float = float(credit_util)
+        except (ValueError, TypeError):
+            util_float = None
+
+    bureau_str = "Satisfactory (No Defaults)" if credit_hist == 1 else "Adverse / Past Delinquency"
+    facility_title = "<b>Collateral Jurisdiction:</b>"
+    facility_val = f"{applicant_data.get('Property_Area', 'Urban')} Area"
+
+    # Format Credit Bureau Info
+    if cibil_num is not None:
+        if cibil_num >= 750:
+            tier = "Prime"
+        elif cibil_num >= 650:
+            tier = "Near-Prime"
+        else:
+            tier = "Subprime"
+        bureau_str = f"<b>CIBIL {cibil_num}</b> ({tier})"
+
+    # Format Facility / Collateral Info
+    if loan_type == 'personal_loan':
+        purpose_str = str(loan_purpose).replace('_', ' ') if loan_purpose else "Personal Loan"
+        facility_title = "<b>Facility & Purpose:</b>"
+        facility_val = f"Personal Loan • {purpose_str}"
+        if util_float is not None:
+            facility_val += f" ({util_float*100:.0f}% CC Util)"
+    elif loan_type == 'home_loan':
+        facility_title = "<b>Facility & Collateral:</b>"
+        facility_val = f"Home Loan • {applicant_data.get('Property_Area', 'Urban')} Area"
+
     summary_data = [
         [
             Paragraph("<b>Primary Borrower:</b>", table_cell_bold),
@@ -208,8 +254,8 @@ def generate_loan_report_pdf(applicant_data: dict, prediction_result: dict) -> b
         [
             Paragraph("<b>Marital Status:</b>", table_cell_bold),
             Paragraph(f"{applicant_data.get('Married', 'No')} ({applicant_data.get('Dependents', 0)} Dependents)", table_cell),
-            Paragraph("<b>Co-Borrower Income:</b>", table_cell_bold),
-            Paragraph(f"{CURR} {coapplicant_income_val:,.0f}", table_cell)
+            Paragraph("<b>Existing Recurring EMIs:</b>", table_cell_bold),
+            Paragraph(f"{CURR} {existing_emi:,.0f} / mo" if existing_emi > 0 else "Nil (₹0)", table_cell)
         ],
         [
             Paragraph("<b>Employment Profile:</b>", table_cell_bold),
@@ -220,20 +266,20 @@ def generate_loan_report_pdf(applicant_data: dict, prediction_result: dict) -> b
         [
             Paragraph("<b>Requested Loan Amount:</b>", table_cell_bold),
             Paragraph(f"<b>{CURR} {loan_amount_val:,.0f}</b>", table_cell),
-            Paragraph("<b>Estimated Monthly EMI:</b>", table_cell_bold),
+            Paragraph("<b>Proposed Facility EMI:</b>", table_cell_bold),
             Paragraph(f"<b>{CURR} {monthly_emi:,.0f} / mo</b>", table_cell)
         ],
         [
             Paragraph("<b>Repayment Period (Tenor):</b>", table_cell_bold),
             Paragraph(f"{loan_term_val} Months ({round(loan_term_val/12, 1)} Yrs)", table_cell),
-            Paragraph("<b>Share of Income for EMI (FOIR):</b>", table_cell_bold),
-            Paragraph(f"<b>{dti_percent}</b> (Max Permissible: 50.0%)", table_cell)
+            Paragraph("<b>Total Monthly Debt (FOIR):</b>", table_cell_bold),
+            Paragraph(f"<b>{CURR} {total_obligation:,.0f}</b> ({dti_percent} FOIR)", table_cell)
         ],
         [
             Paragraph("<b>Credit Bureau Record:</b>", table_cell_bold),
-            Paragraph("Satisfactory (No Defaults)" if credit_hist == 1 else "Adverse / Past Delinquency", table_cell),
-            Paragraph("<b>Collateral Jurisdiction:</b>", table_cell_bold),
-            Paragraph(f"{applicant_data.get('Property_Area', 'Urban')} Area", table_cell)
+            Paragraph(bureau_str, table_cell),
+            Paragraph(facility_title, table_cell_bold),
+            Paragraph(facility_val, table_cell)
         ]
     ]
     
@@ -263,9 +309,15 @@ def generate_loan_report_pdf(applicant_data: dict, prediction_result: dict) -> b
         elements.append(Paragraph(reason_text, body_style))
         elements.append(Spacer(1, 4))
         
+        cibil_ack = ""
+        if cibil_num is not None and cibil_num >= 750:
+            cibil_ack = f"Prime CIBIL record ({cibil_num}) with zero delinquencies."
+        else:
+            cibil_ack = "Satisfactory past repayment conduct with no active defaults."
+
         points_data = [
             [Paragraph("<font color='#065f46'><b>[+]</b></font>", table_cell_bold), Paragraph("<b>Income Affordability:</b> Monthly family earnings easily cover the proposed loan installment.", table_cell)],
-            [Paragraph("<font color='#065f46'><b>[+]</b></font>", table_cell_bold), Paragraph("<b>Clean Credit History:</b> Satisfactory past repayment record with no active defaults.", table_cell)],
+            [Paragraph("<font color='#065f46'><b>[+]</b></font>", table_cell_bold), Paragraph(f"<b>Clean Credit Standing:</b> {cibil_ack}", table_cell)],
             [Paragraph("<font color='#065f46'><b>[+]</b></font>", table_cell_bold), Paragraph("<b>Living Expenses Surplus:</b> Sufficient net disposable income remains each month after paying the EMI.", table_cell)],
         ]
     else:
@@ -278,14 +330,28 @@ def generate_loan_report_pdf(applicant_data: dict, prediction_result: dict) -> b
         
         points = []
         if dti_ratio > 0.50:
+            if existing_emi > 0:
+                dti_reason = f"<b>Total Debt Obligations Exceed Safety Limit:</b> Combined monthly debt of {CURR} {total_obligation:,.0f} (including {CURR} {existing_emi:,.0f} in existing EMIs) consumes <b>{dti_percent}</b> of monthly earnings, exceeding the regulatory 50.0% ceiling."
+            else:
+                dti_reason = f"<b>Monthly EMI Exceeds Income Safety Limit:</b> The estimated monthly EMI of {CURR} {monthly_emi:,.0f} consumes <b>{dti_percent}</b> of your monthly income. Banking regulations prohibit debt obligations above 50% to prevent financial distress."
             points.append([
                 Paragraph("<font color='#991b1b'><b>[-]</b></font>", table_cell_bold),
-                Paragraph(f"<b>Monthly EMI Exceeds Income Safety Limit:</b> The estimated monthly EMI of {CURR} {monthly_emi:,.0f} consumes <b>{dti_percent}</b> of your monthly income. Banking regulations prohibit debt obligations above 50% to prevent financial distress.", table_cell)
+                Paragraph(dti_reason, table_cell)
             ])
-        if credit_hist == 0:
+        if cibil_num is not None and cibil_num < 650:
+            points.append([
+                Paragraph("<font color='#991b1b'><b>[-]</b></font>", table_cell_bold),
+                Paragraph(f"<b>Adverse Credit Bureau Score:</b> Recorded CIBIL score of <b>{cibil_num}</b> is below the retail lending benchmark of 650.", table_cell)
+            ])
+        elif credit_hist == 0:
             points.append([
                 Paragraph("<font color='#991b1b'><b>[-]</b></font>", table_cell_bold),
                 Paragraph("<b>Credit Bureau Record:</b> Credit information report indicates past delayed payments or unresolved default records.", table_cell)
+            ])
+        if loan_type == 'personal_loan' and util_float is not None and util_float > 0.70:
+            points.append([
+                Paragraph("<font color='#991b1b'><b>[-]</b></font>", table_cell_bold),
+                Paragraph(f"<b>High Revolving Debt Exposure:</b> Credit card utilization of <b>{util_float*100:.0f}%</b> exceeds the 50% prudent ceiling.", table_cell)
             ])
         if applicant_income_val < 20000 and loan_amount_val > 200000:
             points.append([
@@ -297,7 +363,7 @@ def generate_loan_report_pdf(applicant_data: dict, prediction_result: dict) -> b
                 Paragraph("<font color='#991b1b'><b>[-]</b></font>", table_cell_bold),
                 Paragraph("<b>Credit Risk Score:</b> Composite credit appraisal did not achieve the required benchmark for automated approval.", table_cell)
             ])
-        points_data = points
+        points_data = points[:3]
 
     points_table = Table(points_data, colWidths=[25, 495])
     points_table.setStyle(TableStyle([
@@ -313,18 +379,30 @@ def generate_loan_report_pdf(applicant_data: dict, prediction_result: dict) -> b
     # -------------------------------------------------------------
     elements.append(Paragraph("3. AUTOMATED SYSTEM VERIFICATION & AUDIT CHECK", section_head))
     
+    trust_score = prediction_result.get('trustScore', {})
+    overall_trust = round(trust_score.get('overallTrustScore', 0.8) * 100)
+    consistency_val = round(trust_score.get('consistency', 0.5) * 100)
+    fairness_val = round(trust_score.get('fairness', 1.0) * 100)
+
+    if overall_trust >= 85:
+        trust_badge = "High Trust (Auto-Sanction)"
+    elif overall_trust >= 70:
+        trust_badge = "Moderate Trust (Officer Review)"
+    else:
+        trust_badge = "Low Trust (Audit Flag)"
+
     audit_data = [
         [
             Paragraph("<b>Check 1: Solvency Gate</b>", table_cell_bold),
-            Paragraph("Passed (FOIR < 50%)" if dti_ratio <= 0.50 else "<b>Breached (Insolvent)</b>", table_cell),
+            Paragraph(f"Passed (FOIR {dti_percent})" if dti_ratio <= 0.50 else f"<b>Breached ({dti_percent})</b>", table_cell),
             Paragraph("<b>Check 3: Fair Lending</b>", table_cell_bold),
-            Paragraph("Zero Demographic Bias", table_cell)
+            Paragraph(f"Demographic Parity ({fairness_val}%)", table_cell)
         ],
         [
-            Paragraph("<b>Check 2: Dual Cross-Check</b>", table_cell_bold),
-            Paragraph("Verified by Dual Models", table_cell),
+            Paragraph("<b>Check 2: XAI Consensus</b>", table_cell_bold),
+            Paragraph(f"SHAP-LIME Agreement ({consistency_val}%)", table_cell),
             Paragraph("<b>Check 4: Audit Quality Rating</b>", table_cell_bold),
-            Paragraph(f"<b>{overall_trust} / 100</b> ({'High Reliability' if overall_trust >= 70 else 'Secondary Review'})", table_cell)
+            Paragraph(f"<b>{overall_trust} / 100</b> ({trust_badge})", table_cell)
         ]
     ]
     audit_table = Table(audit_data, colWidths=[130, 130, 130, 130])

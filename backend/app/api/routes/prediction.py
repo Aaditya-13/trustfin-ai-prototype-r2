@@ -349,6 +349,9 @@ def evaluate_single_record(input_data: dict):
     transformed_instance = pipe.preprocessor.transform(input_df_enriched)[0]
 
     # 2. Solvency / FOIR Guardrail Calculation (Deterministic Banking Limit)
+    existing_emi = float(normalized_data.get('Existing_EMI', 0.0) or 0.0)
+    total_obligation = round(monthly_emi + existing_emi, 2)
+    net_disposable = round(total_income - total_obligation, 2)
     dti_percent = f"{dti_status_ratio * 100:.1f}%"
 
     if dti_status_ratio <= 0.35:
@@ -358,14 +361,20 @@ def evaluate_single_record(input_data: dict):
     elif dti_status_ratio <= 0.50:
         solvency_status = "MODERATE"
         is_solvent = True
-        override_warning = "Moderate Debt Burden: Repayment represents 35%–50% of monthly income."
+        override_warning = f"Moderate Debt Burden: Total obligations of ₹{total_obligation:,.0f}/mo represent {dti_percent} of monthly income (35%–50% zone)."
     else:
         solvency_status = "INSOLVENT"
         is_solvent = False
-        override_warning = f"CRITICAL FINANCIAL RISK: Monthly repayment obligation (₹{monthly_emi:,.0f}/mo) represents {dti_percent} of income, exceeding the 50% regulatory limit."
+        if existing_emi > 0:
+            override_warning = f"CRITICAL FINANCIAL RISK: Total monthly debt obligation of ₹{total_obligation:,.0f}/mo (including ₹{existing_emi:,.0f} existing debt) represents {dti_percent} of income, exceeding the 50% regulatory ceiling."
+        else:
+            override_warning = f"CRITICAL FINANCIAL RISK: Monthly repayment obligation (₹{monthly_emi:,.0f}/mo) represents {dti_percent} of income, exceeding the 50% regulatory limit."
 
     solvency_check = SolvencyCheckResult(
         monthlyEMI=round(monthly_emi, 2),
+        existingEMI=round(existing_emi, 2),
+        totalMonthlyObligation=total_obligation,
+        netDisposableIncome=net_disposable,
         totalIncome=round(total_income, 2),
         dtiRatio=round(dti_ratio, 4),
         dtiPercent=dti_percent,

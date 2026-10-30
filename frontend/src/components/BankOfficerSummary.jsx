@@ -53,10 +53,12 @@ const BankOfficerSummary = ({
     const topPositive = shapSorted.filter(f => f.contribution > 0).slice(0, 3);
     const topNegative = shapSorted.filter(f => f.contribution < 0).slice(0, 3);
 
-    // Financial surplus calculations
+    // Financial calculations
     const monthlyIncome = result.solvencyCheck ? result.solvencyCheck.totalIncome : 0;
     const monthlyEMI = result.solvencyCheck ? result.solvencyCheck.monthlyEMI : 0;
-    const netSurplus = monthlyIncome - monthlyEMI;
+    const existingEMI = result.solvencyCheck?.existingEMI ?? (Number(applicantData?.Existing_EMI) || 0);
+    const totalObligation = result.solvencyCheck?.totalMonthlyObligation ?? (monthlyEMI + existingEMI);
+    const netSurplus = result.solvencyCheck?.netDisposableIncome ?? (monthlyIncome - totalObligation);
     const dtiRatioVal = result.solvencyCheck ? (result.solvencyCheck.dtiRatio * 100) : 0;
 
     const handleDownloadPdf = async () => {
@@ -225,36 +227,82 @@ const BankOfficerSummary = ({
                         </span>
                     </div>
 
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center mb-3">
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2.5 text-center mb-3">
+                        {/* 1. Proposed EMI */}
                         <div className="p-2.5 bg-gray-50 border border-gray-200 rounded-sm">
-                            <p className="text-[11px] font-semibold text-gray-500 uppercase">Monthly EMI</p>
-                            <p className="text-base font-bold text-gray-900 font-mono">₹{result.solvencyCheck.monthlyEMI.toLocaleString('en-IN')}</p>
+                            <p className="text-[10px] font-bold text-gray-500 uppercase tracking-tight">Proposed EMI</p>
+                            <p className="text-sm font-bold text-gray-900 font-mono mt-0.5">₹{Math.round(monthlyEMI).toLocaleString('en-IN')}</p>
+                            <span className="text-[9px] text-gray-400 font-mono">New Facility</span>
                         </div>
+
+                        {/* 2. Existing EMI */}
                         <div className="p-2.5 bg-gray-50 border border-gray-200 rounded-sm">
-                            <p className="text-[11px] font-semibold text-gray-500 uppercase">Total Monthly Income</p>
-                            <p className="text-base font-bold text-gray-900 font-mono">₹{result.solvencyCheck.totalIncome.toLocaleString('en-IN')}</p>
+                            <p className="text-[10px] font-bold text-gray-500 uppercase tracking-tight">Existing EMIs</p>
+                            <p className="text-sm font-bold text-gray-900 font-mono mt-0.5">₹{Math.round(existingEMI).toLocaleString('en-IN')}</p>
+                            <span className="text-[9px] text-gray-400 font-mono">{existingEMI > 0 ? 'Active Bureau Debt' : 'Clean Debt Sheet'}</span>
                         </div>
+
+                        {/* 3. Total Monthly Obligation */}
+                        <div className="p-2.5 bg-blue-50/60 border border-blue-200 rounded-sm">
+                            <p className="text-[10px] font-bold text-blue-900 uppercase tracking-tight">Total Monthly Debt</p>
+                            <p className="text-sm font-extrabold text-blue-950 font-mono mt-0.5">₹{Math.round(totalObligation).toLocaleString('en-IN')}</p>
+                            <span className="text-[9px] text-blue-700 font-mono">Existing + Proposed</span>
+                        </div>
+
+                        {/* 4. Total Monthly Income */}
                         <div className="p-2.5 bg-gray-50 border border-gray-200 rounded-sm">
-                            <p className="text-[11px] font-semibold text-gray-500 uppercase">Debt-to-Income (DTI)</p>
-                            <p className={`text-base font-bold font-mono ${result.solvencyCheck.isSolvent ? 'text-green-700' : 'text-red-700'}`}>
+                            <p className="text-[10px] font-bold text-gray-500 uppercase tracking-tight">Monthly Income</p>
+                            <p className="text-sm font-bold text-gray-900 font-mono mt-0.5">₹{Math.round(monthlyIncome).toLocaleString('en-IN')}</p>
+                            <span className="text-[9px] text-gray-400 font-mono">Verified Household</span>
+                        </div>
+
+                        {/* 5. FOIR / DTI */}
+                        <div className={`p-2.5 rounded-sm border ${dtiRatioVal > 50 ? 'bg-red-50 border-red-300' : dtiRatioVal > 35 ? 'bg-amber-50 border-amber-300' : 'bg-green-50 border-green-300'}`}>
+                            <p className="text-[10px] font-bold text-gray-700 uppercase tracking-tight">Debt-to-Income (FOIR)</p>
+                            <p className={`text-sm font-extrabold font-mono mt-0.5 ${dtiRatioVal > 50 ? 'text-red-700' : dtiRatioVal > 35 ? 'text-amber-700' : 'text-green-700'}`}>
                                 {result.solvencyCheck.dtiPercent}
                             </p>
+                            <span className="text-[9px] font-mono text-gray-500">Max Limit: 50.0%</span>
                         </div>
-                        <div className="p-2.5 bg-gray-50 border border-gray-200 rounded-sm">
-                            <p className="text-[11px] font-semibold text-gray-500 uppercase">Net Monthly Balance</p>
-                            <p className={`text-base font-bold font-mono ${netSurplus >= 0 ? 'text-green-700' : 'text-red-700'}`}>
-                                ₹{netSurplus.toLocaleString('en-IN')}
+
+                        {/* 6. True Net Cashflow Balance */}
+                        <div className={`p-2.5 rounded-sm border ${netSurplus >= 0 ? 'bg-green-50/80 border-green-300' : 'bg-red-50/80 border-red-300'}`}>
+                            <p className="text-[10px] font-bold text-gray-700 uppercase tracking-tight">Net Cashflow</p>
+                            <p className={`text-sm font-extrabold font-mono mt-0.5 ${netSurplus >= 0 ? 'text-green-700' : 'text-red-700'}`}>
+                                {netSurplus >= 0 ? `+₹${Math.round(netSurplus).toLocaleString('en-IN')}` : `-₹${Math.abs(Math.round(netSurplus)).toLocaleString('en-IN')}`}
                             </p>
+                            <span className={`text-[9px] font-bold uppercase font-mono ${netSurplus >= 0 ? 'text-green-700' : 'text-red-700'}`}>
+                                {netSurplus >= 0 ? 'Surplus Balance' : 'Monthly Deficit'}
+                            </span>
                         </div>
                     </div>
 
-                    {/* Visual Affordability Gauge */}
+                    {/* Mathematical Formula Transparency Callout */}
+                    <div className="p-2.5 bg-blue-50/40 border border-blue-200 rounded-sm mb-3 flex flex-col sm:flex-row justify-between items-start sm:items-center text-[11px] gap-1 font-mono text-gray-700">
+                        <div className="flex items-center gap-1.5 flex-wrap">
+                            <span className="font-bold text-blue-900">Solvency Calculation:</span>
+                            <span>FOIR = (Existing ₹{Math.round(existingEMI).toLocaleString('en-IN')} + Proposed ₹{Math.round(monthlyEMI).toLocaleString('en-IN')}) / Income ₹{Math.round(monthlyIncome).toLocaleString('en-IN')}</span>
+                            <span className="font-bold text-gray-900">= {result.solvencyCheck.dtiPercent}</span>
+                        </div>
+                        <span className={`font-semibold shrink-0 text-[10px] px-1.5 py-0.5 rounded-xs border ${netSurplus >= 0 ? 'bg-emerald-50 text-emerald-800 border-emerald-300' : 'bg-rose-50 text-rose-800 border-rose-300'}`}>
+                            {netSurplus >= 0 
+                                ? `Monthly Cushion: +₹${Math.round(netSurplus).toLocaleString('en-IN')}` 
+                                : `Cash Shortfall: -₹${Math.abs(Math.round(netSurplus)).toLocaleString('en-IN')}`}
+                        </span>
+                    </div>
+
+                    {/* Visual Affordability Gauge with 50% Marker */}
                     <div className="p-3 bg-gray-50 border border-gray-200 rounded-sm">
                         <div className="flex justify-between text-xs font-semibold text-gray-700 mb-1">
-                            <span>EMI Burden: {dtiRatioVal.toFixed(1)}% of Net Income</span>
-                            <span>Safe Limit: 50.0%</span>
+                            <span>
+                                Combined Debt Burden: <strong className={dtiRatioVal > 50 ? 'text-red-700' : 'text-gray-900'}>{dtiRatioVal.toFixed(1)}% of Net Income</strong>
+                                {existingEMI > 0 && <span className="text-gray-500 font-normal"> (Existing: {((existingEMI / Math.max(1, monthlyIncome)) * 100).toFixed(1)}% + Proposed: {((monthlyEMI / Math.max(1, monthlyIncome)) * 100).toFixed(1)}%)</span>}
+                            </span>
+                            <span className="text-gray-500 font-mono">Statutory Ceiling: 50.0%</span>
                         </div>
-                        <div className="w-full bg-gray-200 h-2.5 rounded-xs overflow-hidden">
+                        <div className="w-full bg-gray-200 h-2.5 rounded-xs overflow-hidden relative">
+                            {/* 50% Statutory Limit Marker */}
+                            <div className="absolute top-0 bottom-0 left-1/2 w-0.5 bg-gray-600 z-10" title="50% RBI Ceiling"></div>
                             <div 
                                 className={`h-full transition-all ${dtiRatioVal <= 35 ? 'bg-green-600' : dtiRatioVal <= 50 ? 'bg-amber-500' : 'bg-red-600'}`} 
                                 style={{ width: `${Math.min(100, dtiRatioVal)}%` }}
@@ -324,13 +372,13 @@ const BankOfficerSummary = ({
                     </div>
 
                     <div className="mt-4 pt-3 border-t border-gray-100 flex justify-between items-center text-[11px] text-gray-500">
-                        <span>Equal Weighting: 25% each</span>
+                        <span>Calibrated Weights: Fidelity 35% • Consensus 30% • Stability 25% • Parity 10%</span>
                         <button 
                             type="button"
                             onClick={onNavigateToAudit}
                             className="text-gov-blue hover:underline font-semibold flex items-center gap-1 cursor-pointer"
                         >
-                            View Mathematical Formulations →
+                            View Verification Framework →
                         </button>
                     </div>
                 </div>
@@ -347,7 +395,7 @@ const BankOfficerSummary = ({
                                 <p className="text-xs text-gray-500">Primary Key Factors Driving Decision</p>
                             </div>
                             <span className="text-[11px] font-semibold text-gray-600 bg-gray-100 px-2 py-0.5 rounded-sm">
-                                SHAP Summary
+                                Primary Model (Explainer 1)
                             </span>
                         </div>
 
@@ -400,7 +448,7 @@ const BankOfficerSummary = ({
                             onClick={onNavigateToAudit}
                             className="text-xs text-gov-blue hover:underline font-semibold flex items-center gap-1 ml-auto cursor-pointer"
                         >
-                            Compare SHAP vs. LIME Charts →
+                            Compare Decision Explainer Models →
                         </button>
                     </div>
                 </div>
@@ -419,7 +467,7 @@ const BankOfficerSummary = ({
                         </h4>
                     </div>
                     <p className="text-xs text-blue-100 max-w-2xl leading-relaxed">
-                        Examine full SHAP & LIME vertical bar charts, cross-explainer concordance agreement matrix, noise perturbation stability tests, and detailed multi-pillar mathematical formulas.
+                        Review primary and secondary factor models (Explainer 1: SHAP & Explainer 2: LIME), factor agreement verification, decision stability testing, and complete compliance metrics.
                     </p>
                 </div>
 
@@ -428,7 +476,7 @@ const BankOfficerSummary = ({
                     onClick={onNavigateToAudit}
                     className="px-5 py-2.5 bg-yellow-400 hover:bg-yellow-300 text-blue-950 text-xs font-extrabold uppercase tracking-wider rounded-sm flex items-center gap-2 cursor-pointer transition-colors shadow-md shrink-0"
                 >
-                    <span>Open Explanation Audit</span>
+                    <span>Open Decision Verification</span>
                     <ArrowRight className="w-4 h-4" />
                 </button>
             </div>
