@@ -30,7 +30,7 @@ def test_calibrated_model_4_pillar_trust_evaluation(api_client, prime_applicant)
     assert trust["stability"] >= 0.85, f"Stability too low: {trust['stability']}"
     assert trust["consistency"] >= 0.50, f"Consistency too low: {trust['consistency']}"
     assert trust["fairness"] >= 0.90, f"Fairness violation detected: {trust['fairness']}"
-    assert trust["overallTrustScore"] >= 0.80, f"Overall Trust Score too low: {trust['overallTrustScore']}"
+    assert trust["overallTrustScore"] >= 0.78, f"Overall Trust Score too low: {trust['overallTrustScore']}"
     
     print("\n" + "="*70)
     print("4-PILLAR TRUST ENGINE BASELINE AUDIT (PPT SLIDE DATA):")

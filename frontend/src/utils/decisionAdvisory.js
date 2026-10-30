@@ -25,13 +25,13 @@ export const getUnderwritingAction = (result, applicantData) => {
     // CASE 3: DECLINE RECOMMENDED / FAILED FINANCIAL CHECKS (Red)
     // Triggers if: Unaffordable EMI (DTI > 50%), Low Explanation Trust (< 50%), or Confident Rejection
     // =========================================================================
-    if (!isSolvent || solvencyStatus === 'INSOLVENT' || trustPercent < 50 || (!isApproved && confidencePercent >= 75)) {
+    if (!isSolvent || solvencyStatus === 'INSOLVENT' || trustPercent < 70 || (!isApproved && confidencePercent >= 75)) {
         const reasons = [];
 
         if (!isSolvent || solvencyStatus === 'INSOLVENT') {
             reasons.push(`Monthly EMI requires ${dtiPercent} of total income, which exceeds the safe 50% repayment limit.`);
         }
-        if (trustPercent < 50) {
+        if (trustPercent < 70) {
             reasons.push(`The AI explanation is unstable or explainers disagree (Explanation Trust: ${trustPercent}%).`);
         }
         if (!isApproved) {
@@ -62,7 +62,7 @@ export const getUnderwritingAction = (result, applicantData) => {
     // CASE 1: CONFIDENT APPROVAL: EXPLANATIONS VERIFIED (Green)
     // Triggers if: Approved AND High Confidence (>= 75%) AND High Trust (>= 75%) AND Solvent
     // =========================================================================
-    if (isApproved && confidencePercent >= 75 && trustPercent >= 75 && isSolvent) {
+    if (isApproved && confidencePercent >= 75 && trustPercent >= 85 && isSolvent) {
         const reasons = [
             `Both SHAP and LIME confirm positive credit factors with ${(consistencyScore * 100).toFixed(0)}% agreement.`,
             `Monthly EMI is very comfortable at ${dtiPercent} of income (well within the 50% safety limit).`,
@@ -92,7 +92,7 @@ export const getUnderwritingAction = (result, applicantData) => {
     if (dtiRatio > 0.35 && dtiRatio <= 0.50) {
         reasons.push(`Monthly EMI takes ${dtiPercent} of income (moderate debt burden between 35% and 50%).`);
     }
-    if (trustPercent >= 50 && trustPercent < 75) {
+    if (trustPercent >= 70 && trustPercent < 85) {
         reasons.push(`SHAP and LIME show slight variation in feature rankings (Trust Score: ${trustPercent}%).`);
     }
     if (confidencePercent >= 50 && confidencePercent < 75) {

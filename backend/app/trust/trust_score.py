@@ -11,10 +11,10 @@ class TrustEvaluation(BaseModel):
 def calculate_trust_score(faithfulness: float, stability: float, consistency: float, fairness: float = 1.0, weights: dict = None) -> TrustEvaluation:
     if weights is None:
         weights = {
-            "faithfulness": 0.25,
+            "faithfulness": 0.35,
+            "consistency": 0.30,
             "stability": 0.25,
-            "consistency": 0.25,
-            "fairness": 0.25
+            "fairness": 0.10
         }
     
     score = (

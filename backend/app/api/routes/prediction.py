@@ -427,9 +427,9 @@ def evaluate_single_record(input_data: dict):
         dossierId=dossier_id
     )
 
-    if trust_eval.overallTrustScore >= 0.75:
+    if trust_eval.overallTrustScore >= 0.85:
         trust_rating = "HIGH TRUST"
-    elif trust_eval.overallTrustScore >= 0.50:
+    elif trust_eval.overallTrustScore >= 0.70:
         trust_rating = "MODERATE TRUST"
     else:
         trust_rating = "LOW TRUST"

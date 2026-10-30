@@ -106,14 +106,14 @@ const InsightsDashboard = ({ result, applicantData }) => {
         badgeColor: 'bg-green-700',
         desc: 'Both explanation methods strongly agree and the decision remains stable.'
     };
-    if (trustPercent < 50) {
+    if (trustPercent < 70) {
         trustLevel = {
             label: 'LOW TRUST: MANUAL REVIEW REQUIRED',
             color: 'text-red-800 bg-red-50 border-red-300',
             badgeColor: 'bg-red-700',
             desc: 'Explanation methods conflict or are unstable. A loan officer must review manually.'
         };
-    } else if (trustPercent < 75) {
+    } else if (trustPercent < 85) {
         trustLevel = {
             label: 'MODERATE TRUST: REVIEW RECOMMENDED',
             color: 'text-amber-800 bg-amber-50 border-amber-300',
