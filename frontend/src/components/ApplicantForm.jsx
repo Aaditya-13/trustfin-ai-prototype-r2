@@ -656,6 +656,7 @@ const ApplicantForm = ({
             {/* Batch Application Upload Modal */}
             <BatchUploadModal 
                 isOpen={showBatchModal}
+                loanType={loanProduct?.id || 'home_loan'}
                 onClose={() => setShowBatchModal(false)}
                 onInspectEvaluation={onInspectEvaluation}
                 onViewInHistory={onOpenHistory}

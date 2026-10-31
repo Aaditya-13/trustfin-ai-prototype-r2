@@ -695,6 +695,11 @@ def get_product_batch_rows(loan_type: str):
             {"loan_type": "home_loan", "Gender": "Male", "Married": "No", "Dependents": 2, "Education": "Not Graduate", "Employment_Status": "Self-Employed", "Age": 42, "Work_Experience": 6, "Applicant_Income": 40000, "Coapplicant_Income": 0, "Existing_EMI": 8000, "Loan_Amount": 2200000, "Loan_Term": 240, "Property_Value": 2800000, "Property_Area": "Rural", "CIBIL_Score": 535, "Missed_Payments_12M": 2},
             {"loan_type": "home_loan", "Gender": "Male", "Married": "Yes", "Dependents": 1, "Education": "Graduate", "Employment_Status": "Salaried", "Age": 30, "Work_Experience": 7, "Applicant_Income": 38000, "Coapplicant_Income": 0, "Existing_EMI": 7000, "Loan_Amount": 3200000, "Loan_Term": 180, "Property_Value": 4200000, "Property_Area": "Semiurban", "CIBIL_Score": 785, "Missed_Payments_12M": 0},
             {"loan_type": "home_loan", "Gender": "Female", "Married": "Yes", "Dependents": 1, "Education": "Graduate", "Employment_Status": "Salaried", "Age": 31, "Work_Experience": 6, "Applicant_Income": 62000, "Coapplicant_Income": 18000, "Existing_EMI": 5000, "Loan_Amount": 2800000, "Loan_Term": 240, "Property_Value": 3800000, "Property_Area": "Urban", "CIBIL_Score": 665, "Missed_Payments_12M": 1},
+            {"loan_type": "home_loan", "Gender": "Male", "Married": "Yes", "Dependents": 2, "Education": "Graduate", "Employment_Status": "Salaried", "Age": 39, "Work_Experience": 15, "Applicant_Income": 95000, "Coapplicant_Income": 35000, "Existing_EMI": 9000, "Loan_Amount": 5600000, "Loan_Term": 300, "Property_Value": 7600000, "Property_Area": "Urban", "CIBIL_Score": 825, "Missed_Payments_12M": 0},
+            {"loan_type": "home_loan", "Gender": "Female", "Married": "No", "Dependents": 0, "Education": "Graduate", "Employment_Status": "Self-Employed", "Age": 34, "Work_Experience": 9, "Applicant_Income": 72000, "Coapplicant_Income": 0, "Existing_EMI": 6000, "Loan_Amount": 2600000, "Loan_Term": 180, "Property_Value": 3600000, "Property_Area": "Semiurban", "CIBIL_Score": 745, "Missed_Payments_12M": 0},
+            {"loan_type": "home_loan", "Gender": "Male", "Married": "Yes", "Dependents": 3, "Education": "Graduate", "Employment_Status": "Salaried", "Age": 46, "Work_Experience": 20, "Applicant_Income": 68000, "Coapplicant_Income": 24000, "Existing_EMI": 11000, "Loan_Amount": 4100000, "Loan_Term": 240, "Property_Value": 5900000, "Property_Area": "Rural", "CIBIL_Score": 690, "Missed_Payments_12M": 1},
+            {"loan_type": "home_loan", "Gender": "Female", "Married": "Yes", "Dependents": 1, "Education": "Not Graduate", "Employment_Status": "Salaried", "Age": 28, "Work_Experience": 5, "Applicant_Income": 54000, "Coapplicant_Income": 16000, "Existing_EMI": 3000, "Loan_Amount": 2400000, "Loan_Term": 240, "Property_Value": 3400000, "Property_Area": "Semiurban", "CIBIL_Score": 715, "Missed_Payments_12M": 0},
+            {"loan_type": "home_loan", "Gender": "Male", "Married": "No", "Dependents": 1, "Education": "Graduate", "Employment_Status": "Self-Employed", "Age": 41, "Work_Experience": 14, "Applicant_Income": None, "Coapplicant_Income": 0, "Existing_EMI": 5000, "Loan_Amount": 3000000, "Loan_Term": 240, "Property_Value": 4200000, "Property_Area": "Urban", "CIBIL_Score": 730, "Missed_Payments_12M": 0},
         ]
 
     if loan_type == "personal_loan":
@@ -703,15 +708,30 @@ def get_product_batch_rows(loan_type: str):
             {"loan_type": "personal_loan", "Gender": "Male", "Married": "Yes", "Dependents": 2, "Education": "Not Graduate", "Employment_Status": "Self-Employed", "Age": 44, "Work_Experience": 12, "Applicant_Income": 38000, "Existing_EMI": 11000, "Loan_Amount": 450000, "Loan_Term": 36, "Loan_Purpose": "Debt_Consolidation", "Credit_Card_Utilization": 0.89, "CIBIL_Score": 565, "Missed_Payments_12M": 3},
             {"loan_type": "personal_loan", "Gender": "Female", "Married": "No", "Dependents": 0, "Education": "Graduate", "Employment_Status": "Salaried", "Age": 27, "Work_Experience": 4, "Applicant_Income": 52000, "Existing_EMI": 3500, "Loan_Amount": 250000, "Loan_Term": 36, "Loan_Purpose": "Home_Renovation", "Credit_Card_Utilization": 0.42, "CIBIL_Score": 675, "Missed_Payments_12M": 0},
             {"loan_type": "personal_loan", "Gender": "Male", "Married": "Yes", "Dependents": 1, "Education": "Graduate", "Employment_Status": "Salaried", "Age": 36, "Work_Experience": 11, "Applicant_Income": 110000, "Existing_EMI": 8000, "Loan_Amount": 700000, "Loan_Term": 48, "Loan_Purpose": "Education", "Credit_Card_Utilization": 0.28, "CIBIL_Score": 770, "Missed_Payments_12M": 0},
+            {"loan_type": "personal_loan", "Gender": "Male", "Married": "No", "Dependents": 0, "Education": "Graduate", "Employment_Status": "Salaried", "Age": 33, "Work_Experience": 9, "Applicant_Income": 67000, "Existing_EMI": 5500, "Loan_Amount": 300000, "Loan_Term": 24, "Loan_Purpose": "Travel", "Credit_Card_Utilization": 0.32, "CIBIL_Score": 735, "Missed_Payments_12M": 0},
+            {"loan_type": "personal_loan", "Gender": "Female", "Married": "Yes", "Dependents": 1, "Education": "Graduate", "Employment_Status": "Salaried", "Age": 38, "Work_Experience": 15, "Applicant_Income": 92000, "Existing_EMI": 14000, "Loan_Amount": 600000, "Loan_Term": 48, "Loan_Purpose": "Wedding", "Credit_Card_Utilization": 0.58, "CIBIL_Score": 690, "Missed_Payments_12M": 1},
+            {"loan_type": "personal_loan", "Gender": "Male", "Married": "Yes", "Dependents": 2, "Education": "Graduate", "Employment_Status": "Self-Employed", "Age": 47, "Work_Experience": 18, "Applicant_Income": 78000, "Existing_EMI": 17000, "Loan_Amount": 500000, "Loan_Term": 36, "Loan_Purpose": "Debt_Consolidation", "Credit_Card_Utilization": 0.76, "CIBIL_Score": 625, "Missed_Payments_12M": 2},
+            {"loan_type": "personal_loan", "Gender": "Female", "Married": "No", "Dependents": 0, "Education": "Graduate", "Employment_Status": "Salaried", "Age": 26, "Work_Experience": 4, "Applicant_Income": 48000, "Existing_EMI": 2000, "Loan_Amount": 180000, "Loan_Term": 12, "Loan_Purpose": "Education", "Credit_Card_Utilization": 0.18, "CIBIL_Score": 760, "Missed_Payments_12M": 0},
+            {"loan_type": "personal_loan", "Gender": "Female", "Married": "Yes", "Dependents": 2, "Education": "Graduate", "Employment_Status": "Salaried", "Age": 35, "Work_Experience": 12, "Applicant_Income": None, "Existing_EMI": 6500, "Loan_Amount": 320000, "Loan_Term": 24, "Loan_Purpose": "Home_Renovation", "Credit_Card_Utilization": 0.36, "CIBIL_Score": 740, "Missed_Payments_12M": 0},
         ]
 
     raise HTTPException(status_code=404, detail="Unknown loan product. Use home_loan or personal_loan.")
 
 
+def get_product_sample_csv_rows(loan_type: str):
+    """Return a ten-record CSV, keeping the demo preset at eight regular cases plus its validation case."""
+    rows = get_product_batch_rows(loan_type)
+    if loan_type == "home_loan":
+        rows.append({"loan_type": "home_loan", "Gender": "Female", "Married": "Yes", "Dependents": 2, "Education": "Graduate", "Employment_Status": "Salaried", "Age": 37, "Work_Experience": 13, "Applicant_Income": 88000, "Coapplicant_Income": 26000, "Existing_EMI": 7500, "Loan_Amount": 4600000, "Loan_Term": 240, "Property_Value": 6400000, "Property_Area": "Semiurban", "CIBIL_Score": 790, "Missed_Payments_12M": 0})
+    elif loan_type == "personal_loan":
+        rows.append({"loan_type": "personal_loan", "Gender": "Male", "Married": "No", "Dependents": 0, "Education": "Graduate", "Employment_Status": "Salaried", "Age": 32, "Work_Experience": 9, "Applicant_Income": 74000, "Existing_EMI": 6000, "Loan_Amount": 380000, "Loan_Term": 36, "Loan_Purpose": "Travel", "Credit_Card_Utilization": 0.24, "CIBIL_Score": 755, "Missed_Payments_12M": 0})
+    return rows
+
+
 @router.get("/batch-sample-csv")
 def download_sample_batch_csv(loan_type: str = "home_loan"):
     loan_type = loan_type.strip().lower().replace("-", "_").replace(" ", "_")
-    rows = get_product_batch_rows(loan_type)
+    rows = get_product_sample_csv_rows(loan_type)
     output = io.StringIO()
     writer = csv.DictWriter(output, fieldnames=list(rows[0].keys()))
     writer.writeheader()

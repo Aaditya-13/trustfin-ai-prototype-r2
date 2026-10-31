@@ -12,9 +12,9 @@ import {
     fetchEvaluationById 
 } from '../services/api';
 
-const BatchUploadModal = ({ isOpen, onClose, onInspectEvaluation, onViewInHistory }) => {
+const BatchUploadModal = ({ isOpen, loanType = 'home_loan', onClose, onInspectEvaluation, onViewInHistory }) => {
     const [activeTab, setActiveTab] = useState('upload'); // 'upload' | 'results'
-    const [selectedLoanType, setSelectedLoanType] = useState('home_loan');
+    const selectedLoanType = loanType === 'personal_loan' ? 'personal_loan' : 'home_loan';
     const [selectedFile, setSelectedFile] = useState(null);
     const [isProcessing, setIsProcessing] = useState(false);
     const [batchResult, setBatchResult] = useState(null);
@@ -185,27 +185,11 @@ const BatchUploadModal = ({ isOpen, onClose, onInspectEvaluation, onViewInHistor
 
                             {/* Section A: Product-specific demo data */}
                             <div className="bg-slate-50 border border-slate-200 p-4 rounded-sm">
-                                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-2">
+                                <div className="mb-2">
                                     <h3 className="text-xs font-bold text-gray-800 uppercase tracking-wide flex items-center gap-1.5">
                                         <Play className="w-4 h-4 text-gov-blue" />
-                                        Option 1: Product-specific demo portfolio
+                                        Option 1: {selectedLoanType === 'home_loan' ? 'Home Loan' : 'Personal Loan'} demo portfolio
                                     </h3>
-                                    <div className="flex gap-1 border border-gray-300 bg-white p-1">
-                                        <button
-                                            type="button"
-                                            onClick={() => setSelectedLoanType('home_loan')}
-                                            className={`px-3 py-1.5 text-[10px] font-bold uppercase tracking-wide cursor-pointer ${selectedLoanType === 'home_loan' ? 'bg-gov-blue text-white' : 'text-gray-600 hover:bg-gray-100'}`}
-                                        >
-                                            Home Loan
-                                        </button>
-                                        <button
-                                            type="button"
-                                            onClick={() => setSelectedLoanType('personal_loan')}
-                                            className={`px-3 py-1.5 text-[10px] font-bold uppercase tracking-wide cursor-pointer ${selectedLoanType === 'personal_loan' ? 'bg-gov-blue text-white' : 'text-gray-600 hover:bg-gray-100'}`}
-                                        >
-                                            Personal Loan
-                                        </button>
-                                    </div>
                                 </div>
                                 <p className="text-xs text-gray-600 mb-3">
                                     Use a portfolio built for {selectedLoanType === 'home_loan' ? 'home loans, including property value and area' : 'personal loans, including purpose and card utilization'}.
@@ -223,7 +207,7 @@ const BatchUploadModal = ({ isOpen, onClose, onInspectEvaluation, onViewInHistor
                                                 {selectedLoanType === 'home_loan' ? 'Home Loan Portfolio' : 'Personal Loan Portfolio'}
                                             </span>
                                             <span className="text-[10px] font-bold px-1.5 py-0.5 bg-blue-100 text-blue-900 rounded-xs">
-                                                4 Applications
+                                                9 Applications
                                             </span>
                                         </div>
                                         <p className="text-[11px] text-gray-600 mt-1">
