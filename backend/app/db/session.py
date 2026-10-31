@@ -24,17 +24,35 @@ else:
 if DATABASE_URL.startswith("sqlite:///./") or DATABASE_URL == "sqlite:///trustfin_local.db":
     DATABASE_URL = LOCAL_SQLITE_URL
 
-if DATABASE_URL.startswith("sqlite"):
-    engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
-else:
-    # Neon DB / PostgreSQL connection with fast 3s failover to local SQLite if offline
-    engine = create_engine(DATABASE_URL, pool_pre_ping=True, pool_size=5, max_overflow=10, connect_args={"connect_timeout": 3})
-
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-# Local SQLite fallback engine if PostgreSQL is unreachable/offline
+# Local SQLite fallback engine (always ready for offline/fresh clones)
 sqlite_fallback_engine = create_engine(LOCAL_SQLITE_URL, connect_args={"check_same_thread": False})
 SqliteSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=sqlite_fallback_engine)
+
+
+def normalize_database_url(url: str) -> str:
+    """Use the bundled psycopg2 driver for common PostgreSQL URL spellings."""
+    if url.startswith("postgres://"):
+        return url.replace("postgres://", "postgresql+psycopg2://", 1)
+    if url.startswith("postgresql+psycopg://"):
+        return url.replace("postgresql+psycopg://", "postgresql+psycopg2://", 1)
+    if url.startswith("postgresql://"):
+        return url.replace("postgresql://", "postgresql+psycopg2://", 1)
+    return url
+
+
+# Primary Engine initialization with safe fallback
+if DATABASE_URL.startswith("sqlite"):
+    engine = sqlite_fallback_engine
+else:
+    try:
+        pg_url = normalize_database_url(DATABASE_URL)
+        engine = create_engine(pg_url, pool_pre_ping=True, pool_size=5, max_overflow=10, connect_args={"connect_timeout": 3})
+    except Exception as e:
+        print(f"[DB Notice] Could not initialize PostgreSQL engine ({e}). Falling back to local SQLite.")
+        engine = sqlite_fallback_engine
+        DATABASE_URL = LOCAL_SQLITE_URL
+
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
 
@@ -81,10 +99,16 @@ def init_db(target_engine=None):
 
 # Dependency for FastAPI routes
 def get_db():
+    db = None
     try:
         db = SessionLocal()
         db.connection()
     except Exception as e:
+        if db is not None:
+            try:
+                db.close()
+            except Exception:
+                pass
         # Graceful fallback to local SQLite if cloud DB fails or is offline
         print(f"[DB Notice] Primary DB unavailable ({e}). Falling back to local SQLite.")
         init_db(sqlite_fallback_engine)
