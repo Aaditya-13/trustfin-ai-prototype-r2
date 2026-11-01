@@ -50,7 +50,6 @@ function App() {
     setSelectedLoanType({
       id: loanTypeId,
       title: loanTypeId === 'home_loan' ? 'Residential Home Loan' : 'Personal & Retail Credit',
-      category: loanTypeId === 'home_loan' ? 'Secured Mortgage' : 'Unsecured Credit'
     });
     setCurrentScreen('APPLICATION_FORM');
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -85,6 +84,7 @@ function App() {
     setUserRole(null);
     setResult(null);
     setShowCustomerModal(false);
+    setShowHistoryModal(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -104,6 +104,12 @@ function App() {
   const handleLoadEvaluation = (evalDetail) => {
     setCurrentApplicantData(evalDetail.applicantData);
     setResult(evalDetail.predictionResult);
+    const isPersonalLoan = evalDetail.applicantData?.loan_type === 'personal_loan' || Boolean(evalDetail.applicantData?.Loan_Purpose);
+    setSelectedLoanType({
+      id: isPersonalLoan ? 'personal_loan' : 'home_loan',
+      title: isPersonalLoan ? 'Personal & Retail Credit' : 'Residential Home Loan',
+      category: isPersonalLoan ? 'Unsecured Credit' : 'Secured Mortgage'
+    });
     if (!userRole) {
       setUserRole('bank_officer'); // Default to Bank Officer view for full audit visibility
     }
@@ -144,7 +150,9 @@ function App() {
         userRole={userRole}
         onNavigateHome={handleNavigateHome}
         selectedLoanType={selectedLoanType}
-        onOpenHistory={() => setShowHistoryModal(true)}
+        onOpenHistory={() => {
+          if (userRole === 'bank_officer') setShowHistoryModal(true);
+        }}
       />
 
 
@@ -182,7 +190,7 @@ function App() {
               userRole={userRole}
               loanProduct={selectedLoanType}
               onInspectEvaluation={handleLoadEvaluation}
-              onOpenHistory={() => setShowHistoryModal(true)}
+              onOpenHistory={userRole === 'bank_officer' ? () => setShowHistoryModal(true) : undefined}
             />
             {error && (
               <div className="bg-red-50 text-red-800 p-4 border border-red-300 rounded-sm mb-6 shadow-sm text-sm">
@@ -277,7 +285,7 @@ function App() {
 
       {/* Global Audit Ledger / Stored Evaluations Modal */}
       <AuditHistoryModal 
-        isOpen={showHistoryModal}
+        isOpen={userRole === 'bank_officer' && showHistoryModal}
         onClose={() => setShowHistoryModal(false)}
         onLoadEvaluation={handleLoadEvaluation}
       />

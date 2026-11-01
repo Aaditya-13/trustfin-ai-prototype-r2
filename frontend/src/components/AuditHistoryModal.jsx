@@ -25,6 +25,29 @@ import {
     deleteBatch
 } from '../services/api';
 
+const formatLocalTimestamp = (timestamp) => {
+    if (!timestamp) return 'N/A';
+
+    // Older API responses contain a timezone-naive timestamp; stored values
+    // are UTC, so make that explicit before parsing in the browser.
+    const hasTimezone = /(?:Z|[+-]\d{2}:?\d{2})$/i.test(timestamp);
+    const normalizedTimestamp = hasTimezone
+        ? timestamp
+        : `${timestamp.replace(' ', 'T')}Z`;
+    const date = new Date(normalizedTimestamp);
+    if (Number.isNaN(date.getTime())) return timestamp;
+
+    return new Intl.DateTimeFormat(undefined, {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hourCycle: 'h23'
+    }).format(date);
+};
+
 const AuditHistoryModal = ({ isOpen, onClose, onLoadEvaluation }) => {
     // Navigation tabs
     const [activeHistoryTab, setActiveHistoryTab] = useState('home_loan'); // 'home_loan' | 'personal_loan' | 'batches'
@@ -315,7 +338,7 @@ const AuditHistoryModal = ({ isOpen, onClose, onLoadEvaluation }) => {
                                                         {item.dossierId || `TF-EVAL-${item.id}`}
                                                     </td>
                                                     <td className="p-2.5 border-r border-gray-200 text-gray-600 font-mono text-[11px]">
-                                                        {item.timestamp || 'N/A'}
+                                                        {formatLocalTimestamp(item.timestamp)}
                                                     </td>
                                                     <td className="p-2.5 border-r border-gray-200">
                                                         <div className="font-semibold text-gray-900">
@@ -419,7 +442,7 @@ const AuditHistoryModal = ({ isOpen, onClose, onLoadEvaluation }) => {
                                         </h3>
                                         <span className="text-xs text-gray-500 font-mono">({selectedBatchDetail.filename})</span>
                                     </div>
-                                    <p className="text-[11px] text-gray-500 mt-0.5">Uploaded on {selectedBatchDetail.timestamp}</p>
+                                    <p className="text-[11px] text-gray-500 mt-0.5">Uploaded on {formatLocalTimestamp(selectedBatchDetail.timestamp)}</p>
                                 </div>
                                 <div className="flex gap-2">
                                     <span className="px-2 py-0.5 text-xs bg-white border border-gray-300 font-semibold rounded-xs">
@@ -604,7 +627,7 @@ const AuditHistoryModal = ({ isOpen, onClose, onLoadEvaluation }) => {
                                                     </span>
                                                 </td>
                                                 <td className="p-2.5 border-r border-gray-200 font-mono text-gray-600 text-[11px]">
-                                                    {b.timestamp}
+                                                    {formatLocalTimestamp(b.timestamp)}
                                                 </td>
                                                 <td className="p-2.5 border-r border-gray-200 text-center font-bold">
                                                     {b.totalRecords}

@@ -39,6 +39,22 @@ from backend.app.trust.trust_score import calculate_trust_score
 
 router = APIRouter()
 
+def serialize_utc_timestamp(value: Optional[datetime]) -> str:
+    """Return an unambiguous UTC timestamp for clients to render locally.
+
+    DateTime columns are timezone-naive in SQLite/PostgreSQL, but this app has
+    historically written UTC values to them. Treat naive values as UTC so old
+    records and new records follow the same API contract.
+    """
+    if value is None:
+        return ""
+    if value.tzinfo is None:
+        value = value.replace(tzinfo=timezone.utc)
+    else:
+        value = value.astimezone(timezone.utc)
+    return value.isoformat(timespec="seconds").replace("+00:00", "Z")
+
+
 def generate_dossier_id(input_data: dict, is_batch: bool = False) -> str:
     """
     Generates H-/P- references for individual applications and BH-/BP- for batch rows.
@@ -433,7 +449,7 @@ def process_rows_into_batch(rows: list, filename: str, db: Session, default_loan
             inferred_loan_type = "personal_loan" if first_row.get("loan_purpose") else "home_loan"
     batch_id = generate_batch_id(inferred_loan_type)
     now_ts = datetime.now(timezone.utc)
-    now_str = now_ts.strftime("%Y-%m-%d %H:%M:%S")
+    now_str = serialize_utc_timestamp(now_ts)
 
     total_records = len(rows)
     valid_count = 0
@@ -596,7 +612,7 @@ def list_batches(limit: int = 50, db: Session = Depends(get_db)):
         records = db.query(BatchUpload).order_by(BatchUpload.id.desc()).limit(limit).all()
         items = []
         for b in records:
-            ts_str = b.timestamp.strftime("%Y-%m-%d %H:%M:%S") if b.timestamp else ""
+            ts_str = serialize_utc_timestamp(b.timestamp)
             summ = b.summary or {}
             items.append(BatchSummaryItem(
                 id=b.id,
@@ -630,7 +646,7 @@ def get_batch_detail(batch_id: str, db: Session = Depends(get_db)):
 
         eval_summaries = []
         for r in eval_records:
-            ts_str = r.timestamp.strftime("%Y-%m-%d %H:%M:%S") if r.timestamp else ""
+            ts_str = serialize_utc_timestamp(r.timestamp)
             eval_summaries.append(EvaluationSummaryItem(
                 id=r.id,
                 dossierId=r.dossier_id or f"TF-EVAL-{r.id:04d}",
@@ -648,7 +664,7 @@ def get_batch_detail(batch_id: str, db: Session = Depends(get_db)):
                 trustRating=r.trust_rating
             ))
 
-        ts_str = b.timestamp.strftime("%Y-%m-%d %H:%M:%S") if b.timestamp else ""
+        ts_str = serialize_utc_timestamp(b.timestamp)
         return BatchDetailResponse(
             id=b.id,
             batchId=b.batch_id,
@@ -761,7 +777,7 @@ def list_evaluations(limit: int = 50, db: Session = Depends(get_db)):
         
         summary_list = []
         for r in records:
-            timestamp_str = r.timestamp.strftime("%Y-%m-%d %H:%M:%S") if r.timestamp else ""
+            timestamp_str = serialize_utc_timestamp(r.timestamp)
             summary_list.append(EvaluationSummaryItem(
                 id=r.id,
                 dossierId=r.dossier_id or f"TF-EVAL-{r.id:04d}",
@@ -794,7 +810,7 @@ def get_evaluation_detail(evaluation_id: int, db: Session = Depends(get_db)):
         if not record:
             raise HTTPException(status_code=404, detail=f"Evaluation record #{evaluation_id} not found.")
             
-        timestamp_str = record.timestamp.strftime("%Y-%m-%d %H:%M:%S") if record.timestamp else ""
+        timestamp_str = serialize_utc_timestamp(record.timestamp)
         
         # If full_response is stored, reconstitute it
         if record.full_response:

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Building2, User, ShieldCheck, Scale, Sliders, FileText, ArrowRight, CheckCircle, Lock, Zap } from 'lucide-react';
+import { Building2, User, ShieldCheck, Scale, Sliders, FileText, ArrowRight, CheckCircle, Zap } from 'lucide-react';
 
 const LandingPage = ({ onSelectPortal }) => {
   return (
@@ -163,20 +163,6 @@ const LandingPage = ({ onSelectPortal }) => {
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Regulatory & Institutional Compliance Badges */}
-      <div className="text-center text-xs text-gray-500 space-y-1 px-4">
-        <div className="flex flex-wrap items-center justify-center gap-4 text-[11px] font-semibold text-gray-600">
-          <span className="flex items-center gap-1"><Lock className="w-3.5 h-3.5 text-gray-400" /> SR 11-7 Model Risk Management</span>
-          <span>•</span>
-          <span className="flex items-center gap-1"><CheckCircle className="w-3.5 h-3.5 text-gray-400" /> RBI Fair Lending Practice Code</span>
-          <span>•</span>
-          <span className="flex items-center gap-1"><Scale className="w-3.5 h-3.5 text-gray-400" /> ECOA Adverse Action Compliance</span>
-        </div>
-        <p className="text-[10px] text-gray-400 pt-1">
-          Academic Research Prototype • Built for Automated Credit Transparency & Algorithmic Auditability
-        </p>
       </div>
 
     </div>

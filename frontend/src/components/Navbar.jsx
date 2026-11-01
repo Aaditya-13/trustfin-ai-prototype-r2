@@ -1,5 +1,5 @@
 import React from 'react';
-import { Landmark, Building2, User, Home, ArrowLeft, Database } from 'lucide-react';
+import { Landmark, Building2, User, Home, CreditCard, Database } from 'lucide-react';
 
 const Navbar = ({ currentScreen, userRole, onNavigateHome, onNavigateBack, selectedLoanType, onOpenHistory }) => {
     return (
@@ -29,18 +29,35 @@ const Navbar = ({ currentScreen, userRole, onNavigateHome, onNavigateBack, selec
                 </div>
 
                 {/* Right Side: Role Badge & Quick Navigation */}
-                <div className="flex items-center gap-2">
-                    
-                    {/* Persistent Application History Button */}
-                    <button
-                        type="button"
-                        onClick={onOpenHistory}
-                        className="px-2.5 py-1 bg-yellow-500 hover:bg-yellow-400 text-blue-950 font-bold text-xs flex items-center gap-1.5 cursor-pointer transition-colors shadow-xs"
-                        title="View Saved Loan Applications in Database"
-                    >
-                        <Database className="w-3.5 h-3.5" />
-                        <span>Application History</span>
-                    </button>
+                <div className="flex flex-wrap items-center justify-center sm:justify-end gap-2">
+
+                    {['APPLICATION_FORM', 'RESULTS'].includes(currentScreen) && selectedLoanType?.id && (
+                        <div className="flex items-center gap-2 px-2.5 py-1 bg-blue-900 border border-blue-400 text-white rounded-sm" aria-label={`Selected loan: ${selectedLoanType.title}`}>
+                            {selectedLoanType.id === 'home_loan' ? (
+                                <Home className="w-4 h-4 text-yellow-400" />
+                            ) : (
+                                <CreditCard className="w-4 h-4 text-yellow-400" />
+                            )}
+                            <span className="flex flex-col leading-tight">
+                                <span className="text-[11px] font-bold uppercase tracking-wide">
+                                    {selectedLoanType.id === 'home_loan' ? 'Home Loan' : 'Personal Loan'}
+                                </span>
+                                <span className="text-[9px] text-blue-200">{selectedLoanType.category}</span>
+                            </span>
+                        </div>
+                    )}
+
+                    {userRole === 'bank_officer' && currentScreen !== 'LANDING' && (
+                        <button
+                            type="button"
+                            onClick={onOpenHistory}
+                            className="px-2.5 py-1 bg-yellow-500 hover:bg-yellow-400 text-blue-950 font-bold text-xs flex items-center gap-1.5 cursor-pointer transition-colors shadow-xs"
+                            title="View Saved Loan Applications in Database"
+                        >
+                            <Database className="w-3.5 h-3.5" />
+                            <span>Application History</span>
+                        </button>
+                    )}
 
                     {userRole && currentScreen !== 'LANDING' && (
                         <div className="flex items-center gap-2">
