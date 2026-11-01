@@ -142,7 +142,9 @@ def generate_loan_report_pdf(applicant_data: dict, prediction_result: dict) -> b
     # -------------------------------------------------------------
     # 1. INSTITUTIONAL LETTERHEAD
     # -------------------------------------------------------------
-    ref_no = f"TF/{datetime.now().year}/RET-{abs(hash(str(applicant_data))) % 900000 + 100000}"
+    # Keep the report reference tied to the evaluation shown in the application.
+    # Older saved evaluations may not have a dossier ID, so retain a fallback.
+    ref_no = prediction_result.get('dossierId') or f"TF/{datetime.now().year}/RET-{abs(hash(str(applicant_data))) % 900000 + 100000}"
     today_str = datetime.now().strftime("%d-%b-%Y")
     
     header_data = [
@@ -381,8 +383,15 @@ def generate_loan_report_pdf(applicant_data: dict, prediction_result: dict) -> b
     
     trust_score = prediction_result.get('trustScore', {})
     overall_trust = round(trust_score.get('overallTrustScore', 0.8) * 100)
-    consistency_val = round(trust_score.get('consistency', 0.5) * 100)
-    fairness_val = round(trust_score.get('fairness', 1.0) * 100)
+    pillars = [
+        ('Faithfulness', trust_score.get('faithfulness'), 35),
+        ('Stability', trust_score.get('stability'), 25),
+        ('Consistency', trust_score.get('consistency'), 30),
+        ('Fairness', trust_score.get('fairness'), 10),
+    ]
+
+    def format_pillar(value):
+        return f"{float(value) * 100:.1f}%" if value is not None else "N/A"
 
     if overall_trust >= 85:
         trust_badge = "High Trust (Auto-Sanction)"
@@ -392,18 +401,8 @@ def generate_loan_report_pdf(applicant_data: dict, prediction_result: dict) -> b
         trust_badge = "Low Trust (Audit Flag)"
 
     audit_data = [
-        [
-            Paragraph("<b>Check 1: Solvency Gate</b>", table_cell_bold),
-            Paragraph(f"Passed (FOIR {dti_percent})" if dti_ratio <= 0.50 else f"<b>Breached ({dti_percent})</b>", table_cell),
-            Paragraph("<b>Check 3: Fair Lending</b>", table_cell_bold),
-            Paragraph(f"Demographic Parity ({fairness_val}%)", table_cell)
-        ],
-        [
-            Paragraph("<b>Check 2: XAI Consensus</b>", table_cell_bold),
-            Paragraph(f"SHAP-LIME Agreement ({consistency_val}%)", table_cell),
-            Paragraph("<b>Check 4: Audit Quality Rating</b>", table_cell_bold),
-            Paragraph(f"<b>{overall_trust} / 100</b> ({trust_badge})", table_cell)
-        ]
+        [Paragraph(f"<b>{name} ({weight}%)</b>", table_cell_bold) for name, _, weight in pillars],
+        [Paragraph(format_pillar(value), table_cell) for _, value, _ in pillars],
     ]
     audit_table = Table(audit_data, colWidths=[130, 130, 130, 130])
     audit_table.setStyle(TableStyle([
@@ -414,6 +413,13 @@ def generate_loan_report_pdf(applicant_data: dict, prediction_result: dict) -> b
         ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
     ]))
     elements.append(audit_table)
+    elements.append(Spacer(1, 3))
+    solvency_label = "Passed" if dti_ratio <= 0.50 else "Breached"
+    elements.append(Paragraph(
+        f"<b>Solvency gate:</b> {solvency_label} (FOIR {dti_percent})"
+        f" &nbsp;&nbsp; <b>Overall trust:</b> {overall_trust} / 100 ({trust_badge})",
+        body_style
+    ))
     elements.append(Spacer(1, 6))
     
     # -------------------------------------------------------------
