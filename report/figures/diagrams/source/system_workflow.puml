@@ -1,0 +1,24 @@
+@startuml
+start
+:Select product and enter application;
+:POST request to FastAPI;
+:Validate and normalize fields;
+if (Valid?) then (yes)
+  :Select home or personal pipeline;
+  :Engineer product features;
+  :Transform input;
+  :Predict class and probability;
+  fork
+    :Generate SHAP explanation;
+  fork again
+    :Generate seeded LIME explanation;
+  end fork
+  :Calculate four checks and Trust Score;
+  :Calculate solvency metadata;
+  :Persist when database is available;
+  :Return response to dashboard;
+else (no)
+  :Return validation error;
+endif
+stop
+@enduml

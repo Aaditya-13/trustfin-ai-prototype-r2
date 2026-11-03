@@ -1,0 +1,26 @@
+@startuml
+start
+:Receive application or batch;
+if (Batch upload?) then (yes)
+  :Parse each row;
+  if (Row valid?) then (yes)
+    :Queue usable row for evaluation;
+  else (no)
+    :Record row as flawed with reason;
+  endif
+else (single)
+  :Validate request schema;
+  if (Request valid?) then (yes)
+    :Prepare one application;
+  else (no)
+    :Return request validation error;
+    stop
+  endif
+endif
+:Select product model;
+:Engineer and transform features;
+:Predict and explain;
+:Compute validation scores;
+:Save response and return result;
+stop
+@enduml

@@ -1,0 +1,61 @@
+\chapter{Literature Survey}
+
+\section{Introduction}
+This chapter reviews work relevant to the implemented system: consumer credit classification, gradient-boosted trees, post-hoc local explanation, objective explanation checks, and fairness measures. The focus is on concepts used to motivate or interpret TrustFin AI. The project does not claim to introduce new versions of SHAP, LIME, or the fairness criteria in the literature.
+
+\section{Machine Learning in Loan Approval}
+Hand and Henley surveyed statistical classification methods used in consumer credit scoring and described issues specific to credit data, including the limited public availability of lending datasets \cite{handHenley1997}. Later benchmarking work compared a large set of classifiers across multiple credit-scoring datasets, showing why model choice should be assessed empirically rather than inferred from a single algorithm's reputation \cite{lessmann2015}. These studies provide context for using supervised learning while also highlighting the importance of dataset properties and evaluation design.
+
+Gradient boosting builds an additive model by fitting successive learners to reduce a loss function. Friedman formalized gradient boosting as a function-approximation procedure \cite{friedman2001}. XGBoost provides an optimized tree-boosting implementation with regularization and systems techniques designed for efficient learning on structured data \cite{chen2016}. TrustFin AI uses XGBoost because it is suitable for its tabular, mixed-type loan records and supports the selected TreeSHAP workflow. This engineering choice alone does not establish superiority over other classifiers; no current product-specific comparison experiment is stored in the repository.
+
+\section{Explainable Artificial Intelligence}
+Explainable AI includes methods intended to make model behavior more understandable to people. Explanations may describe global patterns, local feature attributions, example-based behavior, or simpler models. TrustFin AI implements local post-hoc explanations for individual loan records. Such explanations should be interpreted as descriptions of model behavior under a chosen method and representation. They do not, by themselves, establish a causal relationship between a feature and repayment or prove that changing a feature would change a real-world outcome.
+
+\section{SHAP}
+Lundberg and Lee presented SHAP as a unified framework for additive feature attribution, connecting local explanation methods to Shapley-value principles \cite{lundberg2017}. In a local additive explanation, the model output is represented through a baseline and feature contributions. The sum of contributions is associated with the explained prediction in the chosen output space. The exact interpretation depends on the explainer, model, and output convention.
+
+TrustFin AI initializes a SHAP TreeExplainer for each loaded XGBoost product model. For a request, the transformed instance is passed to the explainer and returned contributions are converted into a common schema containing feature name, value, contribution, and direction. The dashboard uses these contributions to show leading decision drivers. In this implementation, the explainer operates on preprocessed model features while the display path attempts to retain applicant-level values where names align. This mapping should be reviewed when interpreting categorical one-hot features and engineered columns.
+
+\section{LIME}
+Ribeiro, Singh, and Guestrin introduced LIME as a model-agnostic approach that explains a prediction by fitting a simple interpretable model in the neighborhood of the instance \cite{ribeiro2016}. LIME's explanation is local: it depends on the perturbation distribution, similarity weighting, feature representation, and surrogate fitting settings. It is not a global account of the classifier.
+
+TrustFin AI initializes a tabular LIME explainer with a transformed background sample and the model's transformed feature names. At prediction time the model's probability function is passed to LIME. The implementation returns feature contributions in the common explanation schema. Applicant-specific deterministic seeds are used to reduce run-to-run variation in LIME's sampling for identical inputs. Seed control improves repeatability under this implementation; it does not remove sampling approximation or establish correctness of a local surrogate.
+
+\section{Explanation Validation}
+Explanation quality is multi-dimensional. A feature ranking can appear stable while being disconnected from model behavior; an explanation can change under small perturbations; and separate methods can select different features. Yeh et al. study measures related to infidelity and sensitivity and show that explanation evaluation involves choices about perturbations and objective functions \cite{yeh2019}. Alvarez-Melis and Jaakkola identify faithfulness and stability as important explanation desiderata and examine robustness under changes in input \cite{alvarezm2018}.
+
+The TrustFin implementation translates several such concerns into local checks. Its faithfulness score masks selected attribution features and compares changes in model probability against a zero-vector baseline. Stability is measured as a rank correlation between SHAP contributions before and after seeded Gaussian noise in transformed feature space. Consistency is the Jaccard similarity between top-three SHAP and LIME feature sets. These are project-specific operational definitions. Their scores should not be treated as interchangeable with every published fidelity, sensitivity, or agreement metric.
+
+\section{Trustworthy and Fair AI}
+Fairness can be defined in different ways, and metrics may express different policy choices. Hardt, Price, and Srebro formalize equality of opportunity in supervised classification in terms of true-positive rates across groups \cite{hardt2016}. TrustFin AI's live request metric is different: it compares the model's approval probability for one applicant with the probability after flipping the gender field while holding the remaining normalized profile fixed. That individual counterfactual score is not a population-level disparate-impact or equal-opportunity audit.
+
+The saved training metrics also contain a female-to-male approval-rate ratio calculated on each generated test split. This is a group-level descriptive statistic for the synthetic evaluation data, while the online counterfactual score is per applicant. Neither number on its own establishes that a deployed credit system is fair. The NIST AI Risk Management Framework describes trustworthy-AI characteristics and risk-management activities as context-dependent and lifecycle-oriented \cite{nistAirmf2023}; TrustFin AI is a completed academic implementation and has not undergone an institutional AI risk-management assessment.
+
+Counterfactual explanations are another related area. Wachter, Mittelstadt, and Russell discuss explanations framed as changes to facts that could produce a desired result, while noting technical and normative constraints \cite{wachter2018}. TrustFin's what-if calculator does not implement a counterfactual search algorithm. It adjusts three financial inputs and recalculates an illustrative affordability ratio; it does not query the classifier or guarantee an outcome.
+
+\section{Comparative Study of Existing Research}
+Table~\ref{tab:literature-comparison} summarizes the relevance and limits of selected work for this project.
+
+\begin{table}[H]
+\centering
+\caption{Selected literature and its relationship to TrustFin AI}\label{tab:literature-comparison}
+\small
+\begin{tabularx}{\textwidth}{p{3.2cm}p{4.0cm}X}
+\toprule
+Work & Main contribution & Relevance and limitation for this project\\
+\midrule
+Hand and Henley \cite{handHenley1997} & Review of consumer credit classification methods and domain issues & Establishes credit scoring as a specialized classification problem; does not validate the synthetic TrustFin datasets.\\
+Chen and Guestrin \cite{chen2016} & Scalable regularized tree boosting system & Supports the choice of XGBoost for structured records; does not demonstrate this project's model is best.\\
+Lundberg and Lee \cite{lundberg2017} & Additive attribution framework with Shapley-based properties & Provides the conceptual basis for TreeSHAP local feature contributions.\\
+Ribeiro et al. \cite{ribeiro2016} & Local surrogate explanations for black-box predictions & Provides the basis for the LIME tabular explanation path; LIME depends on local perturbation choices.\\
+Yeh et al. \cite{yeh2019} & Objective analysis of explanation infidelity and sensitivity & Motivates checking explanations separately; TrustFin's calibrated faithfulness score is a custom implementation.\\
+Hardt et al. \cite{hardt2016} & Equality-of-opportunity fairness criterion & Clarifies that fairness has multiple definitions; TrustFin's online gender-flip score is not this group criterion.\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Research Gap}
+The literature provides explanation methods and several proposals for evaluating explanations, but no single scalar is universally accepted as a complete measure of explanation trustworthiness. The project addresses an engineering gap: a working loan-assessment system can show two local explanations and attach several explicit checks to each decision. The contribution is the integration and examination of these checks in a completed system, not a new theoretical metric or evidence of real-world lending validity.
+
+\section{Summary}
+SHAP and LIME provide complementary local explanation mechanisms, while explanation-evaluation research motivates checking behavior, stability, and agreement separately. Fairness metrics require a clear definition and a relevant population. These findings shape the report's interpretation: TrustFin AI produces observable model outputs and project-defined validation scores, but the scores remain limited to the definitions, data, and perturbations implemented in the repository.

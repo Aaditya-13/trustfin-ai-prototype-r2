@@ -1,0 +1,122 @@
+\documentclass[12pt,a4paper,oneside]{report}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[a4paper,top=1.1in,bottom=0.9in,left=0.9in,right=0.9in]{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{newfloat}
+\usepackage{fancyhdr}
+\usepackage{setspace}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{tocloft}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+
+\setstretch{1.16}
+\setlength{\parindent}{1.2em}
+\setlength{\parskip}{0.25em}
+\setlength{\headheight}{15pt}
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{0}
+\setlist{nosep,leftmargin=*}
+
+\definecolor{reportblue}{RGB}{22,65,116}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small TrustFin AI}
+\fancyhead[R]{\small Group Project Report}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\DeclareFloatingEnvironment[fileext=grf,placement=htbp,name=Graph]{graph}
+
+\newcommand{\reportfigure}[6]{%
+  \begin{figure}[htbp]\centering
+  \IfFileExists{#1}{%
+    \includegraphics[width=#2\textwidth,height=#3cm,keepaspectratio]{#1}%
+  }{%
+    \fbox{\begin{minipage}[c][#3cm][c]{0.88\textwidth}\centering
+      \small\textbf{IMAGE PLACEHOLDER}\\[5pt]
+      \footnotesize\url{#1}\\[5pt]
+      #5
+    \end{minipage}}%
+  }
+  \caption[#4]{#5}\label{#6}
+  \end{figure}%
+}
+
+\newcommand{\reportgraph}[6]{%
+  \begin{graph}[htbp]\centering
+  \IfFileExists{#1}{%
+    \includegraphics[width=#2\textwidth,height=#3cm,keepaspectratio]{#1}%
+  }{%
+    \fbox{\begin{minipage}[c][#3cm][c]{0.82\textwidth}\centering
+      \small\textbf{IMAGE PLACEHOLDER}\\[5pt]
+      \footnotesize\url{#1}\\[5pt]
+      #5
+    \end{minipage}}%
+  }
+  \caption[#4]{#5}\label{#6}
+  \end{graph}%
+}
+
+\makeatletter
+\renewcommand{\listofgraphs}{%
+  \section*{List of Graphs}
+  \begin{tabularx}{\textwidth}{p{1.0cm}Xr}
+    \ref{graph:dataset-classes} & Generated dataset class counts & \pageref{graph:dataset-classes}\\
+    \ref{graph:shap-example} & Local SHAP explanation & \pageref{graph:shap-example}\\
+    \ref{graph:lime-example} & Local LIME explanation & \pageref{graph:lime-example}\\
+  \end{tabularx}%
+}
+\makeatother
+
+\lstset{basicstyle=\ttfamily\small,breaklines=true,frame=single}
+
+\begin{document}
+\pagenumbering{roman}
+\input{frontmatter/title}
+\input{frontmatter/certificate}
+\input{frontmatter/acknowledgement}
+\input{frontmatter/abstract}
+
+\begingroup\footnotesize
+\tableofcontents
+\endgroup
+\clearpage
+\input{frontmatter/abbreviations}
+\clearpage
+\begingroup\footnotesize
+\setstretch{1.0}
+\listoffigures
+\clearpage
+\listofgraphs
+\clearpage
+\listoftables
+\endgroup
+\clearpage
+
+\pagenumbering{arabic}
+\setcounter{page}{1}
+\input{chapters/ch01_introduction}
+\input{chapters/ch02_literature_survey}
+\input{chapters/ch03_problem_requirements}
+\input{chapters/ch04_system_design}
+\input{chapters/ch05_implementation_methodology}
+\input{chapters/ch06_testing_validation}
+\input{chapters/ch07_results_discussion}
+\input{chapters/ch08_project_planning}
+\input{chapters/ch09_conclusion_future_scope}
+
+\bibliographystyle{IEEEtran}
+\bibliography{references/references}
+\end{document}

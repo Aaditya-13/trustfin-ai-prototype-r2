@@ -1,0 +1,26 @@
+@startuml
+component "React UI\n(Vite / Tailwind)" as UI
+component "FastAPI application" as API
+component "Prediction route" as Route
+component "Product registry" as Registry
+component "Home-loan pipeline" as Home
+component "Personal-loan pipeline" as Personal
+component "Explanation module\n(SHAP / LIME)" as Explain
+component "Validation module\n(faithfulness / stability / consistency / counterfactual)" as Validate
+component "SQLAlchemy persistence" as Persistence
+component "ReportLab PDF module" as PDF
+database "SQLite" as SQLite
+database "Optional PostgreSQL" as PG
+UI --> API
+API --> Route
+Route --> Registry
+Registry --> Home
+Registry --> Personal
+Home --> Explain
+Personal --> Explain
+Explain --> Validate
+Route --> Persistence
+Persistence --> SQLite
+Persistence --> PG
+Route --> PDF
+@enduml

@@ -1,0 +1,18 @@
+@startuml
+node "Developer workstation" {
+  artifact "Browser" as Browser
+  node "Vite dev server" as Vite {
+    artifact "React application"
+  }
+  node "Python / Uvicorn process" as API {
+    artifact "FastAPI service"
+    artifact "Product model and preprocessing files"
+    database "SQLite fallback file" as SQLite
+  }
+}
+cloud "Configured PostgreSQL service (optional)" as PG
+Browser --> Vite : HTTP
+Vite --> API : REST / JSON
+API --> SQLite : local persistence
+API --> PG : configured primary DB
+@enduml

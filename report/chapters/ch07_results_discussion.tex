@@ -1,0 +1,73 @@
+\chapter{Results and Discussion}
+
+\section{Experimental Setup}
+The product training scripts use 3,000 generated records per product, an 80/20 stratified train-test split, and random state 42. The product-specific metric files report performance on the held-out split. Metrics are included as stored results; this report did not retrain either model or execute new model evaluation. No repeated cross-validation scores or confidence intervals for these product models are stored in the repository.
+
+\section{Dataset Characteristics}
+Table~\ref{tab:dataset-summary} summarizes the checked datasets. The home-loan dataset contains property value and area, co-applicant income, repayment term, CIBIL score, missed payments, and existing EMI. The personal-loan dataset replaces property-related variables with loan purpose and credit-card utilization. Both datasets have near-balanced labels. The generator scripts use predefined distributions and label rules; consequently, the class balance and observed results reflect those construction choices.
+
+\begin{table}[H]
+\centering
+\caption{Generated dataset summary}\label{tab:dataset-summary}
+\small
+\begin{tabular}{lrrrr}
+\toprule
+Product & Records & Input columns including ID/target & Approved & Rejected\\
+\midrule
+Home loan & 3,000 & 18 & 1,529 & 1,471\\
+Personal loan & 3,000 & 17 & 1,563 & 1,437\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The datasets contain no missing cells or duplicate complete rows in the repository snapshot examined. A later dataset regeneration can change those counts if generator logic or random seed changes. Figure~\ref{graph:dataset-classes} in Chapter 5 is reserved for a plot of these counts.
+
+\section{Model Performance}
+Table~\ref{tab:model-results} reports the product metrics saved under \texttt{models/homeloan/metrics.json} and \texttt{models/personalloan/metrics.json}. Both model scripts calculate metrics on the same 20\% stratified held-out split. The home-loan model reports 0.9700 accuracy and 0.9978 ROC-AUC. The personal-loan model reports 0.9733 accuracy and 0.9963 ROC-AUC. Precision, recall, and F1 are also high on these generated test sets.
+
+\begin{table}[H]
+\centering
+\caption{Stored product-specific test metrics}\label{tab:model-results}
+\small
+\begin{tabular}{lrrrrrr}
+\toprule
+Product & Test size & Accuracy & Precision & Recall & F1-score & ROC-AUC\\
+\midrule
+Home loan & 600 & 0.9700 & 0.9615 & 0.9804 & 0.9709 & 0.9978\\
+Personal loan & 600 & 0.9733 & 0.9744 & 0.9744 & 0.9744 & 0.9963\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The high values are consistent with the explicit, learnable relationships used to generate labels. They should not be read as an expected performance estimate for real loan applications. Data shift, historical lending bias, label quality, reject inference, missingness, and policy differences are not evaluated with external records. Product-specific confusion matrices are not saved in the corresponding metrics files, so this report does not present a reconstructed confusion matrix.
+
+\section{Evaluation Metrics}
+Accuracy measures the fraction of correct class predictions. Precision measures the fraction of approved predictions that are correct, and recall measures the fraction of actual approved records identified by the classifier. F1 is the harmonic mean of precision and recall. ROC-AUC measures ranking discrimination over thresholds. Since this is a credit decision-support system, none of these measures alone captures financial harm, calibration, operational policy, or fairness. The dataset construction and class decision threshold must be considered alongside the reported values.
+
+\section{Group Approval-Rate Ratios}
+The training scripts also calculate the ratio of the test-set female approval rate to the male approval rate. The stored values are 0.9058 for home loans and 0.8648 for personal loans. These are descriptive ratios on synthetic test records using the model's predicted approvals. The repository does not document a legal threshold for these values, and they do not replace the per-applicant gender-flip score used by the online Trust Score. They should not be presented as proof of fairness.
+
+\section{SHAP and LIME Results}
+The application generates local SHAP and LIME feature contributions for each evaluated profile. Contributions can be inspected through the dashboard's feature views and are returned in the API response. The repository does not include a saved aggregate explanation dataset or a fixed experiment report from which to calculate average attribution values across a test cohort. The placeholders in Graphs~\ref{graph:shap-example} and \ref{graph:lime-example} are reserved for user-supplied exports from actual evaluations; they are not fabricated figures.
+
+\reportgraph{figures/graphs/shap_local_explanation.png}{0.78}{3.2}{Local SHAP explanation}{SHAP explanation exported from a real TrustFin evaluation, with feature labels and contribution scale visible.}{graph:shap-example}
+\reportgraph{figures/graphs/lime_local_explanation.png}{0.78}{3.2}{Local LIME explanation}{LIME explanation exported for the same evaluation profile used in the SHAP figure.}{graph:lime-example}
+
+\section{Explanation Validation Results}
+Faithfulness, stability, consistency, and the individual counterfactual score are calculated for an application response. TrustFin AI then computes the weighted Trust Score as documented in Chapter 5. No aggregate test-set distribution, mean score, variance, or benchmark comparison is persisted in the repository artifacts. The Trust Score values visible in individual history records depend on the applications evaluated and are not used here because they are not a controlled, de-identified experimental dataset.
+
+The implementation has useful limitations to keep in view. The faithfulness mapping includes fixed thresholds and a calibrated score band; stability perturbs standardized features with one Gaussian scale; consistency compares only the top three names and not their signs; and the fairness score flips one attribute for one record. These measures are complementary diagnostics, but combining them does not remove their individual assumptions.
+
+\section{Trust Score and Confidence Score Analysis}
+The Trust Score measures the weighted combination of the four project-defined explanation checks. Prediction confidence represents the probability assigned to the predicted class. A high prediction confidence does not imply high explanation reliability, and a high Trust Score does not imply that the model's prediction is correct or fair. The application's result screen should display these measures as distinct fields. Product metric artifacts do not report calibration error, Brier score, or reliability diagrams, so probability calibration cannot be assessed from the available outputs.
+
+\section{GUI and Dashboard Results}
+The React interface contains separate home-loan and personal-loan flows, an applicant presentation, a bank-officer view, local explanation displays, saved history, CSV batch processing, submitted-form inspection, PDF actions, and a product-specific affordability calculator. Figures~\ref{fig:application-screenshot}--\ref{fig:pdf-screenshot} are placeholders for screenshots captured from the actual running application. No screenshots are embedded until supplied, as requested.
+
+\reportfigure{figures/screenshots/loan_application_form.png}{0.90}{3.8}{Loan application form}{TrustFin AI loan application form showing the selected product and product-specific fields.}{fig:application-screenshot}
+\reportfigure{figures/screenshots/bank_officer_results.png}{0.90}{3.8}{Bank-officer results}{Bank-officer result screen showing prediction, SHAP/LIME insights, and trust metrics.}{fig:officer-screenshot}
+\reportfigure{figures/screenshots/applicant_results.png}{0.90}{3.8}{Applicant results}{Applicant result screen with submitted-application view and what-if calculator.}{fig:applicant-screenshot}
+\reportfigure{figures/screenshots/pdf_report_preview.png}{0.90}{3.8}{Generated PDF preview}{PDF report preview generated by the backend for a real evaluation.}{fig:pdf-screenshot}
+
+\section{Discussion of Findings}
+The stored results show that the training scripts and product artifacts achieve high performance on their generated hold-out records. The completed system connects prediction, explanation, validation, interface, storage, and reporting paths. The evidence supports an inspectable loan-assessment workflow on generated data; it does not establish production-level accuracy, regulatory compliance, calibrated confidence, population-level fairness, causal explanation, or external validation of the Trust Score.

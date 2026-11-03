@@ -1,0 +1,30 @@
+@startuml
+left to right direction
+actor Applicant
+actor "Bank Officer" as Officer
+rectangle TrustFinAI {
+  usecase "Submit loan application" as UC1
+  usecase "View decision and explanations" as UC2
+  usecase "View submitted form" as UC3
+  usecase "Explore affordability scenario" as UC4
+  usecase "Preview / download PDF" as UC5
+  usecase "Upload batch" as UC6
+  usecase "Review application history" as UC7
+  usecase "Inspect evaluation details" as UC8
+}
+Applicant --> UC1
+Applicant --> UC2
+Applicant --> UC3
+Applicant --> UC4
+Applicant --> UC5
+Officer --> UC1
+Officer --> UC2
+Officer --> UC5
+Officer --> UC6
+Officer --> UC7
+Officer --> UC8
+note bottom of TrustFinAI
+Portal modes are presentation choices;
+server-side authentication is not implemented.
+end note
+@enduml

@@ -1,0 +1,35 @@
+\chapter{Testing and Validation}
+
+\section{Overview}
+Verification evidence for TrustFin AI consists of automated test modules included with the application and saved model-evaluation metrics produced by the training scripts. The software tests cover selected backend and frontend behavior. The model metrics describe classification performance on product-specific stratified hold-out data. These forms of evidence are reported separately because they address different properties of the system.
+
+\section{Current Testing Summary}
+Table~\ref{tab:testing-summary} summarizes the verification evidence present in the project.
+
+\begin{table}[H]
+\centering
+\caption{Testing and validation evidence}\label{tab:testing-summary}
+\small
+\begin{tabularx}{\textwidth}{p{3.2cm}X}
+\toprule
+Area & Current evidence in the project\\
+\midrule
+Backend software tests & Pytest modules cover deterministic explanation behavior, data normalization and solvency summaries, batch validation, multi-product prediction endpoints, database persistence and fallback, PDF reporting, and integrated API flows.\\
+Frontend software tests & Vitest modules cover the API client, applicant form, audit-history view, and batch-upload interface.\\
+Model evaluation & Product-specific training artifacts store accuracy, precision, recall, F1-score, ROC-AUC, and a gender approval-rate ratio for the stratified hold-out split. Numerical results are presented in Chapter 7.\\
+Explanation validation & Each prediction response includes the four implemented explanation checks and the weighted Trust Score. Their definitions and interpretation are described in Chapter 5.\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Software Test Coverage}
+The backend suite is organized by feature area, including audit reproducibility, batch processing, database persistence, product-specific APIs, data and solvency calculations, explainability, reporting, and full-system integration. The frontend suite is organized around the API client and selected form, history, and batch components. This structure connects automated checks to the main application paths without treating the presence of test modules as a model-performance result.
+
+\section{Model Validation}
+The home-loan and personal-loan training scripts use an 80/20 stratified train-test split with random state 42. Each saved metric file reports results for 600 held-out records. The metrics describe model behavior on the generated datasets; they do not measure application correctness or establish performance on records from a lending institution. Chapter 7 presents the recorded values and their limitations.
+
+\section{Explanation Validation}
+For each online evaluation, the backend computes faithfulness, stability, consistency, and an individual counterfactual gender-flip score, then combines the values using the configured weights. These checks assess defined aspects of the generated local explanations. They do not establish that a loan prediction is correct, calibrated, causally justified, or fair across a population.
+
+\section{Summary}
+The repository contains automated backend and frontend test coverage for selected system behavior, while the trained product models have saved hold-out evaluation metrics. The explanation-validation values are generated for individual requests. The report keeps these forms of evidence distinct and does not infer system-test outcomes from model scores.

@@ -1,0 +1,24 @@
+@startuml
+class LoanApplicationRequest <<Pydantic schema>>
+class LoanPredictionResponse <<Pydantic schema>>
+class EvaluationDetailResponse <<Pydantic schema>>
+class BatchUploadJsonRequest <<Pydantic schema>>
+class PredictionLog <<SQLAlchemy model>>
+class BatchUpload <<SQLAlchemy model>>
+class ModelRegistry
+class ProductPipeline
+class SHAPExplainer
+class LIMEExplainer
+LoanApplicationRequest --> ProductPipeline : route input
+ModelRegistry o-- "1..*" ProductPipeline : loaded products
+ProductPipeline --> SHAPExplainer
+ProductPipeline --> LIMEExplainer
+LoanPredictionResponse --> PredictionLog : serialized result
+EvaluationDetailResponse --> PredictionLog : retrieved record
+BatchUploadJsonRequest --> BatchUpload : batch metadata
+BatchUpload "1" -- "0..*" PredictionLog : batch_id association (no declared FK)
+note right of ProductPipeline
+Wraps product model, preprocessor,
+feature function, and explainers.
+end note
+@enduml

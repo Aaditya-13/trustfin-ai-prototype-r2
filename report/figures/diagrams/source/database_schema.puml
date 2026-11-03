@@ -1,0 +1,32 @@
+@startuml
+hide methods
+class PredictionLog {
+  id
+  dossier_id
+  timestamp
+  loan_type
+  cibil_score / applicant_age
+  applicant_income / loan_amount
+  raw_input_data (JSON)
+  prediction
+  probability / confidence_score
+  solvency_status / dti_ratio / monthly_emi
+  shap_explanation (JSON)
+  lime_explanation (JSON)
+  faithfulness / stability / consistency / fairness
+  trust_score / trust_rating
+  full_response (JSON)
+  batch_id (optional, indexed)
+}
+class BatchUpload {
+  id
+  batch_id
+  loan_type
+  filename
+  timestamp
+  total_records / valid_records / flawed_records
+  flawed_data (JSON)
+  summary_json
+}
+BatchUpload "1" -- "0..*" PredictionLog : shared batch_id value
+@enduml

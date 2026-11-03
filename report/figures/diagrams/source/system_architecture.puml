@@ -1,0 +1,28 @@
+@startuml
+left to right direction
+actor "Applicant / Officer" as User
+rectangle "React + Vite + Tailwind UI" as UI
+rectangle "FastAPI: /api/v1/loan" as API
+rectangle "Product Pipeline Registry" as Registry
+rectangle "Home-loan pipeline" as Home
+rectangle "Personal-loan pipeline" as Personal
+rectangle "XGBoost + preprocessing" as Model
+rectangle "SHAP / LIME" as Explain
+rectangle "Trust validation functions" as Trust
+database "SQLite fallback" as SQLite
+database "Configured PostgreSQL" as PG
+rectangle "ReportLab PDF" as PDF
+User --> UI
+UI --> API
+API --> Registry
+Registry --> Home
+Registry --> Personal
+Home --> Model
+Personal --> Model
+Model --> Explain
+Explain --> Trust
+API --> SQLite
+API --> PG : optional primary
+API --> PDF
+PDF --> UI
+@enduml

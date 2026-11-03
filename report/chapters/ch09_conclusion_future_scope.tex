@@ -1,0 +1,28 @@
+\chapter{Conclusion and Future Scope}
+
+\section{Conclusion}
+TrustFin AI implements a loan decision-support workflow that links home-loan and personal-loan models with SHAP and LIME explanations, four explanation checks, a weighted Trust Score, a React dashboard, database persistence, batch evaluation, and PDF reporting. The product models use generated synthetic records and show high stored metrics on stratified hold-out splits. These results are useful for demonstrating the system workflow, but they do not establish real-world underwriting performance.
+
+The project makes an engineering contribution by presenting the prediction and explanation checks as separate outputs within one application. It also makes several assumptions visible: the faithfulness score is heuristically calibrated, stability depends on a specified perturbation, consistency compares a top-three feature set, and fairness is measured through an individual gender-flip probability difference. The confidence value is the predicted-class probability and is not independently calibrated. These distinctions support an accurate interpretation of the completed system.
+
+\section{Project Contributions}
+The implemented contributions are:
+\begin{itemize}
+  \item two product-specific feature and preprocessing pipelines for home and personal loans;
+  \item XGBoost training and saved test metrics for generated datasets;
+  \item local TreeSHAP and tabular LIME explanation paths;
+  \item code-level metrics for faithfulness, stability, top-feature consistency, and individual counterfactual sensitivity;
+  \item a weighted Trust Score and a separate predicted-class probability field;
+  \item a web interface, evaluation and batch history, local SQLite fallback, and on-demand PDF reporting.
+\end{itemize}
+
+\section{Limitations}
+The principal limitations are synthetic-only data, limited external validation, no probability calibration, no group-level fairness audit in the request path, no causal explanation guarantees, and a custom composite score without external validation. The application does not implement authentication or server-enforced role access. The what-if calculator changes affordability inputs but does not request a fresh model prediction. The project also has no stored product-specific confusion matrices or held-out aggregate Trust Score study.
+
+\section{Future Scope}
+Future work should first evaluate the models on a lawful, representative, de-identified lending dataset and establish leakage controls, missing-data policy, calibration, subgroup metrics, and temporal validation. Explanation metrics should be tested against independently justified perturbation schemes and human review, with sensitivity analyses for thresholds and weights. The Trust Score should be treated as a hypothesis until an evaluation study demonstrates how it relates to meaningful explanation quality or reviewer decisions.
+
+The application could add authentication, server-side authorization, privacy controls, audit retention policies, versioned database migrations, secure deployment configuration, monitoring, and clear human-review workflows. The what-if calculator could call a controlled scenario endpoint if the intended behavior is to recompute model output; such a change would require displaying the changed inputs and preventing the scenario from being mistaken for an approved loan. Additional explainers or constrained counterfactual methods may be evaluated as future research, not described as existing functions.
+
+\section{Closing Statement}
+The completed implementation brings loan prediction, local explanation, explanation validation, history, batch processing, and reporting into one decision-support system. Its contribution is the integration of those functions with explicitly defined diagnostics and an interface for reviewing results. Extension to real lending operations would require institution-specific data governance, security controls, external model validation, and human evaluation.

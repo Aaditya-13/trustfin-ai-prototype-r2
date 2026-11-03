@@ -1,0 +1,21 @@
+@startuml
+start
+:Open TrustFin AI;
+:Choose portal presentation mode;
+:Choose home or personal loan;
+if (Single application?) then (yes)
+  :Complete product-specific form;
+  :Submit for evaluation;
+else (batch)
+  :Upload CSV or submit JSON rows;
+  :Review processed and flawed rows;
+endif
+:View decision and explanation details;
+if (Inspect saved application?) then (yes)
+  :Open application history / detail;
+endif
+if (Generate report?) then (yes)
+  :Preview or download PDF;
+endif
+stop
+@enduml

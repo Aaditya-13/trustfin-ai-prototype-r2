@@ -1,0 +1,25 @@
+@startuml
+left to right direction
+actor "Portal user" as User
+rectangle "1. Input validation" as Validate
+rectangle "2. Product feature engineering" as Features
+rectangle "3. Model inference" as Infer
+rectangle "4. SHAP and LIME" as Explain
+rectangle "5. Explanation checks and Trust Score" as Trust
+rectangle "6. History / batch services" as History
+rectangle "7. PDF generation" as Report
+database "D1: PredictionLog" as Pred
+database "D2: BatchUpload" as Batch
+User --> Validate : application or CSV
+Validate --> Features : valid records
+Features --> Infer : transformed product row
+Infer --> Explain : class and probability
+Explain --> Trust : feature contributions
+Trust --> Pred : response and metrics
+Trust --> User : evaluation response
+User --> History : history / batch request
+History <--> Pred
+History <--> Batch
+User --> Report : report request
+Report --> User : PDF document
+@enduml

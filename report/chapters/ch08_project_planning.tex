@@ -1,0 +1,68 @@
+\chapter{Project Planning}
+
+\section{Development Methodology}
+The repository history indicates iterative development: early model and interface work was followed by review changes, persistence and batch support, multi-product work, explanation-score refinement, and usability fixes. The available history does not contain a formal sprint plan or approved Gantt baseline. Table~\ref{tab:development-timeline} summarizes date windows supported by commit records; the table is an activity chronology rather than a claim about continuous daily effort.
+
+\begin{table}[H]
+\centering
+\caption[Development phases from Git history]{Development phases evidenced by repository history}\label{tab:development-timeline}
+\small
+\begin{tabularx}{\textwidth}{p{2.3cm}p{4.0cm}X}
+\toprule
+Recorded window & Evidence in history & Phase summary\\
+\midrule
+8--11 Sep 2026 & Initial project, deterministic XAI, UI and roadmap commits & Initial system architecture, explanation and trust logic, and interface implementation.\\
+29 Sep 2026 & Assessment wording and audit explanation update & Refinement of visible assessment language and audit formulas.\\
+17 Oct 2026 & UI simplification, tests, sizing analysis and presentation assets & Interface revisions and test infrastructure additions.\\
+22 Oct 2026 & Evaluation history, batch CSV, schema initialization, API tests & Persistence, batch processing, and backend/frontend test modules.\\
+24 Oct 2026 & Documentation update commit & Project documentation revisions.\\
+30 Oct--1 Nov 2026 & Product-specific loan, Trust Score, SQLite, PDF, calculator, and UI commits & Multi-product refinements, local database support, report and calculator changes, and final navigation improvements.\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Project Timeline and Milestones}
+The available Git history begins on 8 September 2026 and includes project changes through 1 November 2026. The named milestones in Table~\ref{tab:development-timeline} are based on commit dates and subjects. They do not measure effort or prove that work was finished on the commit date. A formal week-by-week Gantt schedule was not located in the repository.
+
+\section{Team Responsibilities}
+The official group contains Ashwin Patil (Roll No. 46), Aaditya Patil (Roll No. 44), Kanad Nerkar (Roll No. 41), and Ved Kalantri (Roll No. 28). Repository history is not sufficient to assign all engineering work to individuals. The responsibility cells are intentionally left for confirmation by the group instead of inferring contribution from commit authors.
+
+\begin{table}[H]
+\centering
+\caption[Group members and contribution records]{Group members and contribution records to confirm}\label{tab:team-responsibilities}
+\small
+\begin{tabularx}{\textwidth}{p{4.2cm}p{2.2cm}X}
+\toprule
+Member & Roll number & Project responsibility / contribution\\
+\midrule
+Ashwin Patil & 46 & \textit{To be confirmed by the group}\\
+Aaditya Patil & 44 & \textit{To be confirmed by the group}\\
+Kanad Nerkar & 41 & \textit{To be confirmed by the group}\\
+Ved Kalantri & 28 & \textit{To be confirmed by the group}\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Challenges}
+Implementation challenges reflected in the code include keeping two product feature sets and preprocessing pipelines aligned, mapping explainers to transformed model features, making stochastic LIME output reproducible for repeated input, maintaining local database operation when PostgreSQL is not available, and separating prediction results from explanation-quality indicators. The code and tests also expose a point requiring review: some test wording describes an automatic solvency rejection while the route currently returns model prediction and solvency assessment as separate results.
+
+\section{Gantt Chart}
+The evidence supports milestone dates but not a full task-duration schedule. The following compact project chronology is the Gantt-style view that can be supported without inventing work durations.
+
+\begin{table}[H]
+\centering
+\caption[Commit-evidenced activity chart]{Commit-evidenced activity chart}\label{tab:gantt}
+\small
+\begin{tabularx}{\textwidth}{p{4.4cm}*{6}{>{\centering\arraybackslash}X}}
+\toprule
+Activity & \shortstack{Sep\\8--11} & Sep 29 & Oct 17 & Oct 22 & Oct 24 & \shortstack{Oct 30--\\Nov 1}\\
+\midrule
+Initial architecture, XAI and UI & \textbullet & & & & &\\
+Assessment/audit wording & & \textbullet & & & &\\
+Testing and UI refinements & & & \textbullet & & &\\
+Database, history and batch upload & & & & \textbullet & &\\
+Documentation changes & & & & & \textbullet &\\
+Multi-product and final refinements & & & & & & \textbullet\\
+\bottomrule
+\end{tabularx}
+\end{table}

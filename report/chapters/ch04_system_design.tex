@@ -1,0 +1,107 @@
+\chapter{System Analysis and Design}
+
+\section{System Overview}
+TrustFin AI is organized as a browser client, a REST API, two product pipelines, a database layer, and a PDF reporting function. The client gathers application fields and sends them to FastAPI. The API chooses a pipeline from the requested loan type, normalizes and engineers fields, obtains a classification result, builds two local explanations, calculates validation values, and returns a typed response. The persistence layer stores evaluation and batch data when available. The client is responsible for presentation; it does not implement the ML or explanation algorithms.
+
+\section{System Architecture}
+Figure~\ref{fig:system-architecture} shows the principal runtime components. The architecture has one API and model registry but separate home-loan and personal-loan pipelines. Database operation can use local SQLite or a PostgreSQL connection configured through the environment. If the primary configured database is unavailable, the backend session dependency initializes and uses local SQLite. The UI role selector changes presentation only; it is not an authentication boundary.
+
+\reportfigure{figures/diagrams/system_architecture.png}{0.96}{3.7}{System architecture}{TrustFin AI runtime architecture showing React, FastAPI, product pipelines, explainers, validation, persistence, and PDF reporting.}{fig:system-architecture}
+
+\section{Overall Workflow}
+The end-to-end workflow is summarized in Figure~\ref{fig:system-workflow}. Inputs are validated through the request schema and product normalization code before feature engineering. For non-legacy products, the selected product feature function derives EMI and FOIR; the home-loan feature function additionally derives LTV. The transformed record is used for inference and explanations. The response contains the raw model decision and solvency summary as separate outputs. In particular, the implementation does not replace an approved model class with a rejection solely because FOIR exceeds 50\%; it reports a solvency status and warning alongside the model result.
+
+\reportfigure{figures/diagrams/system_workflow.png}{0.92}{3.3}{Loan evaluation workflow}{Implemented request-to-response workflow for a single loan evaluation.}{fig:system-workflow}
+
+\section{Flowchart}
+The flowchart in Figure~\ref{fig:system-flowchart} should distinguish successful validation and model execution from exceptional or flawed-record handling. In single evaluation, an invalid request is rejected through FastAPI/Pydantic validation. In batch evaluation, rows are validated individually; usable records are processed and invalid records are retained as flawed data with row-level reasons. Model prediction, explanation generation, trust calculation, and persistence occur in the route's pipeline.
+
+\reportfigure{figures/diagrams/system_flowchart.png}{0.82}{3.8}{Evaluation and batch flowchart}{Decision flow from product selection through validation, prediction, explanation, validation scoring, and response.}{fig:system-flowchart}
+
+\section{Data Flow Diagram}
+The context-level DFD in Figure~\ref{fig:context-dfd} treats the applicant or officer as an external actor who submits an application and receives an assessment. The actor is not represented as a database user because the repository has no authentication table or user service. The system boundary contains the web client and the API-backed model workflow.
+
+\reportfigure{figures/diagrams/context_level_dfd.png}{0.92}{3.0}{Context-level DFD}{Context-level data flow between portal users and the TrustFin AI application.}{fig:context-dfd}
+
+The Level 1 DFD in Figure~\ref{fig:level1-dfd} decomposes the API path into input processing, product feature engineering, inference, explanation generation, validation, persistence, and report generation. Prediction and explanation data are returned to the frontend; persistence is a separate store-and-retrieve path. The database can be local SQLite or configured PostgreSQL.
+
+\reportfigure{figures/diagrams/level_1_dfd.png}{0.98}{3.6}{Level 1 DFD}{Level 1 data flow for evaluation, storage, history retrieval, batch processing, and PDF output.}{fig:level1-dfd}
+
+\section{Use Case Diagram}
+Figure~\ref{fig:use-case} presents the user-visible functions. The applicant can submit an application, inspect a decision, read local explanation and Trust Score information, use an affordability scenario calculator, view the submitted form, and preview or download a PDF. A bank-officer presentation mode can additionally access saved history, batch upload, and audit views. Since there is no server-side authentication, the actor distinction represents UI navigation, not enforced authorization.
+
+\reportfigure{figures/diagrams/use_case_diagram.png}{0.90}{3.6}{Applicant and officer use cases}{Use cases for applicant and bank-officer presentation modes.}{fig:use-case}
+
+\section{Class Diagram}
+The class diagram in Figure~\ref{fig:class-diagram} uses classes that exist in the codebase: Pydantic request/response and explanation schemas, SQLAlchemy record models, the model registry and product pipeline, and SHAP/LIME explainer wrappers. The API route itself is organized as module-level functions rather than a `PredictionController` class. The database contains no `User` entity. Logical labels from the project naming convention are used only where they map to implemented modules or schema types.
+
+\reportfigure{figures/diagrams/class_diagram.png}{0.96}{3.9}{Implemented class diagram}{Implemented schema, pipeline, explainer, and persistence classes with their principal dependencies.}{fig:class-diagram}
+
+\section{Sequence Diagram}
+Figure~\ref{fig:sequence-diagram} describes the main single-record request. The client calls the prediction endpoint; the route selects a product pipeline, normalizes input, derives features, and invokes the model and explainers. Validation functions calculate four scores and the Trust Score engine combines them. The response is persisted when the database session is available and returned to the client. The diagram should show the solvency check as reported metadata rather than an independent class override.
+
+\reportfigure{figures/diagrams/sequence_diagram.png}{0.94}{3.8}{Single-application sequence}{Sequence of calls for an individual application from React submission through API response.}{fig:sequence-diagram}
+
+\section{Activity Diagram}
+The activity diagram in Figure~\ref{fig:activity-diagram} focuses on user-visible paths: choosing a portal mode, selecting a loan product, entering or uploading an application, viewing the assessment, and optionally inspecting history or a PDF. This differs from the model workflow by showing user actions and navigation rather than service calls.
+
+\reportfigure{figures/diagrams/activity_diagram.png}{0.86}{3.4}{User activity diagram}{User activity paths for home-loan and personal-loan evaluations.}{fig:activity-diagram}
+
+\section{Component Diagram}
+Figure~\ref{fig:component-diagram} groups code by responsibility. Frontend components consume the API; route functions coordinate preprocessing, product registry, explanations, validation, persistence, and PDF generation. The diagram should not imply a separate authentication service, a portfolio analytics engine, or a deployed monitoring subsystem because those are not implemented.
+
+\reportfigure{figures/diagrams/component_diagram.png}{0.96}{3.2}{Software component diagram}{Software components and their principal dependencies.}{fig:component-diagram}
+
+\section{Deployment Diagram}
+The documented local setup runs a Vite development server and a FastAPI server as separate processes. The API loads model artifacts from the repository and connects to local SQLite by default or to a configured PostgreSQL service. Figure~\ref{fig:deployment-diagram} represents this development deployment; it is not a production topology or a claim that cloud hosting is configured.
+
+\reportfigure{figures/diagrams/deployment_diagram.png}{0.94}{3.0}{Local development deployment}{Local development deployment with optional PostgreSQL and SQLite fallback.}{fig:deployment-diagram}
+
+\section{Entity Relationship Diagram}
+The persistence schema has two principal tables. \texttt{PredictionLog} stores the dossier identifier, input JSON, prediction and explanation results, Trust Score fields, and optional batch identifier. \texttt{BatchUpload} stores the upload identifier, product, filename, timestamp, counts, flawed-row JSON, and aggregate summary. A batch can be associated with many prediction rows by the shared \texttt{batch\_id} value, but the source schema does not declare a relational foreign-key constraint between these models. Figure~\ref{fig:er-diagram} shows this as an application-level association.
+
+\reportfigure{figures/diagrams/er_diagram.png}{0.92}{3.1}{Database ER diagram}{Logical relationship between batch uploads and stored prediction logs.}{fig:er-diagram}
+
+\section{Database Design}
+Table~\ref{tab:database-entities} summarizes persisted entities. JSON columns retain full input and explanation structures while scalar columns support history filtering and summary display. The models store no credentials, user roles, or signed officer actions. Schema initialization uses SQLAlchemy metadata creation and a small set of additive column checks; the project does not use a versioned migration framework.
+
+\begin{table}[H]
+\centering
+\caption{Principal database entities}\label{tab:database-entities}
+\small
+\begin{tabularx}{\textwidth}{p{2.8cm}p{3.0cm}X}
+\toprule
+Entity & Key fields & Purpose\\
+\midrule
+\texttt{PredictionLog} & \texttt{id}, unique \texttt{dossier\_id} & Stores product type, selected applicant fields, raw input JSON, prediction, probability, confidence representation, solvency values, SHAP/LIME JSON, four validation scores, Trust Score, full response, and optional batch ID.\\
+\texttt{BatchUpload} & \texttt{id}, unique \texttt{batch\_id} & Stores product and file metadata, timestamp, record counts, flawed records, and a batch summary.\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\reportfigure{figures/diagrams/database_schema.png}{0.88}{2.8}{Database schema}{Stored fields and JSON payload boundaries for the SQLAlchemy models.}{fig:database-schema}
+
+\section{API and Module Design}
+The API router uses the prefix \texttt{/api/v1/loan}. Table~\ref{tab:api-endpoints} lists the principal implemented endpoints. The backend uses typed Pydantic request and response models for application prediction, batch result, evaluation summary, and PDF generation. Detailed response fields are described in Chapter 5.
+
+\begin{table}[H]
+\centering
+\caption{Principal API endpoints}\label{tab:api-endpoints}
+\small
+\begin{tabularx}{\textwidth}{p{1.5cm}p{4.1cm}X}
+\toprule
+Method & Path & Purpose\\
+\midrule
+POST & \texttt{/predict} & Evaluate one application and return prediction, explanations, checks, and dossier reference.\\
+POST & \texttt{/predict-batch} & Upload and evaluate a CSV file.\\
+POST & \texttt{/predict-batch-json} & Evaluate a JSON list of batch records.\\
+GET & \texttt{/evaluations} & List recent saved evaluations.\\
+GET & \texttt{/evaluations/\{id\}} & Retrieve one saved evaluation.\\
+DELETE & \texttt{/evaluations/\{id\}} & Delete one saved evaluation.\\
+GET & \texttt{/batches}, \texttt{/batches/\{id\}} & List batch uploads and retrieve batch details.\\
+DELETE & \texttt{/batches/\{id\}} & Delete a batch and linked logs.\\
+GET & \texttt{/batch-sample-csv}, \texttt{/batch-presets/\{id\}} & Download product-specific sample data or retrieve a preset.\\
+POST & \texttt{/generate-pdf} & Generate an application report PDF.\\
+\bottomrule
+\end{tabularx}
+\end{table}

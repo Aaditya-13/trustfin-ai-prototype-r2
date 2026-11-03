@@ -1,0 +1,12 @@
+@startuml
+left to right direction
+actor Applicant
+actor "Bank Officer" as Officer
+rectangle "TrustFin AI\nWeb application + API" as System
+database "Evaluation and batch store\n(SQLite / configured PostgreSQL)" as DB
+Applicant --> System : application fields
+System --> Applicant : decision, explanations, report
+Officer --> System : evaluation / batch / history requests
+System --> Officer : results, history, batch summary, PDF
+System <--> DB : persistence and retrieval
+@enduml

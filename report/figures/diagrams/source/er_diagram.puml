@@ -1,0 +1,30 @@
+@startuml
+entity PredictionLog {
+  * id : integer <<PK>>
+  --
+  dossier_id : string <<unique>>
+  loan_type : string
+  applicant_data : JSON
+  prediction : string
+  response_data : JSON
+  trust_score : float
+  batch_id : string <<optional, indexed>>
+}
+entity BatchUpload {
+  * id : integer <<PK>>
+  --
+  batch_id : string <<unique>>
+  loan_type : string
+  filename : string
+  total_records : integer
+  valid_records : integer
+  flawed_records : integer
+  flawed_records : JSON
+  summary : JSON
+}
+BatchUpload ||--o{ PredictionLog : "batch_id (application-level)"
+note bottom
+The source model does not declare a foreign-key constraint
+between BatchUpload.batch_id and PredictionLog.batch_id.
+end note
+@enduml

@@ -1,0 +1,56 @@
+\chapter{Problem Statement and Requirements}
+
+\section{Problem Definition}
+The project addresses the difficulty of reviewing a loan model output when the classifier is more complex than a short rule list. A bare approval or rejection label gives little indication of which model inputs were influential, and one post-hoc explanation does not show whether the explanation is robust or consistent with another method. The completed system produces an individual loan prediction, generates two explanations, computes defined explanation checks, and presents the resulting information through a web interface.
+
+\section{Existing System}
+Conventional credit scoring commonly uses structured application and repayment features with statistical or machine-learning classifiers. A model may return a class and probability, but an applicant-facing or officer-facing workflow also needs data validation, understandable reasons, persistence, and a way to inspect prior evaluations. Post-hoc explainers can contribute to this workflow, but they should not be assumed valid without a stated evaluation procedure.
+
+\section{Limitations of a Prediction-Only Approach}
+A prediction-only interface omits important context: whether input values were normalized, which features influenced the local result, whether multiple explanation methods agree, and how stable an explanation is after a defined perturbation. Likewise, presenting one scalar called confidence can be misleading if users interpret it as probability calibration or as trust in the explanation. The system therefore returns separate prediction and explanation-quality fields and labels the composite score as a project-defined indicator.
+
+\section{Implemented System}
+TrustFin AI provides two loan products, each with its own XGBoost model, preprocessor, engineered financial features, and explanation background sample. A FastAPI route normalizes an application, calculates monthly EMI and FOIR, gets a model prediction, generates SHAP and LIME explanations, evaluates the four configured checks, creates a dossier identifier, and attempts to persist an evaluation record. The React client presents an applicant view and a bank-officer view. Saved records can be inspected in history, batch CSV records can be processed, and a ReportLab service generates a PDF assessment report.
+
+\section{Advantages}
+The system makes the prediction and explanation stages inspectable in one workflow. Product-specific fields prevent property-collateral features from being treated as personal-loan fields and keep revolving-credit and loan-purpose fields specific to unsecured lending. Multiple explanation checks expose more information than a single attribution chart. Local SQLite support allows use without a hosted PostgreSQL service. The record schema preserves input JSON and model outputs for later inspection.
+
+These advantages are bounded by the generated datasets, one stored split per model, local metric definitions, and the absence of server-side authentication. TrustFin AI is a completed academic project; its synthetic-data evaluation and access-control design define its intended operating scope.
+
+\clearpage
+\section{Functional Requirements}
+Table~\ref{tab:functional-requirements} records the functional scope found in the application.
+
+\begin{table}[H]
+\centering
+\caption{Implemented functional requirements}\label{tab:functional-requirements}
+\small
+\begin{tabularx}{\textwidth}{p{1.4cm}X}
+\toprule
+ID & Implemented functionality\\
+\midrule
+FR-01 & Select a home-loan or personal-loan application flow.\\
+FR-02 & Validate and normalize application fields before model inference using Pydantic schemas and product normalization.\\
+FR-03 & Generate a product-specific approval prediction and class probability.\\
+FR-04 & Generate and return local SHAP and LIME feature contributions.\\
+FR-05 & Calculate faithfulness, stability, consistency, and individual counterfactual scores, then combine them into the weighted Trust Score.\\
+FR-06 & Display evaluation results in applicant and bank-officer presentation modes.\\
+FR-07 & Persist and retrieve evaluation history and batch-upload records through SQLAlchemy.\\
+FR-08 & Process product-specific CSV or JSON batches and retain flawed rows with validation reasons.\\
+FR-09 & Generate an application PDF report for preview or download.\\
+FR-10 & Recalculate illustrative affordability values in the product-specific what-if calculator.\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Non-Functional Requirements}
+The implementation aims for a modular separation between React presentation, FastAPI routes, model registry, explanation components, validation functions, database access, and PDF reporting. Pydantic schemas provide request and response structure. Reproducibility is supported through a SHA-256-derived applicant seed for LIME sampling and a seeded Gaussian perturbation for the stability check. Local SQLite is configured as a zero-configuration database path, with optional PostgreSQL connectivity. These properties are implemented design choices; no service-level performance, availability, or production security target is measured in the repository.
+
+\section{Hardware Requirements}
+The repository does not specify a tested hardware bill of materials. Development requires a computer capable of running Python with the listed scientific packages and a Node.js-based frontend toolchain. Model inference and local SQLite use are intended for a development machine; production capacity, concurrent user limits, and hardware sizing remain unmeasured.
+
+\section{Software Requirements}
+The project uses Python, FastAPI, Pydantic, SQLAlchemy, pandas, NumPy, scikit-learn, XGBoost, SHAP, LIME, and ReportLab on the backend. The frontend uses React, Vite, Axios, Tailwind CSS, and Lucide icons. The README documents Python 3.10+ and Node.js 18+ as prerequisites. The API may use local SQLite or a configured PostgreSQL URL. Exact installed package versions depend on the environment because most Python requirements are minimum-version specifications.
+
+\section{Project Constraints}
+The main constraints are the synthetic nature of the two product datasets, the limited hold-out evaluation evidence, the dependence of explanations on preprocessing and perturbation assumptions, and the lack of an authenticated access-control layer. The Trust Score is weighted according to one project configuration and has no external calibration study. Population fairness, causal validity, and live lender integration are outside the implemented scope.

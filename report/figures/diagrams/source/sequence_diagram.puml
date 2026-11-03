@@ -1,0 +1,29 @@
+@startuml
+actor User
+participant "React client" as UI
+participant "FastAPI prediction route" as API
+participant "ModelRegistry / ProductPipeline" as Pipe
+participant "XGBoost model" as Model
+participant "SHAPExplainer" as SHAP
+participant "LIMEExplainer" as LIME
+participant "Trust checks" as Trust
+database "SQLAlchemy session" as DB
+User -> UI : Submit application
+UI -> API : POST /predict
+API -> Pipe : select product, engineer, transform
+Pipe -> Model : predict + predict_proba
+Model --> Pipe : class + approval probability
+Pipe -> SHAP : explain transformed row
+SHAP --> Pipe : SHAP contributions
+Pipe -> LIME : explain with seeded sampling
+LIME --> Pipe : LIME contributions
+Pipe -> Trust : compute four checks + weighted score
+Trust --> API : trust evaluation
+API -> DB : persist when available
+API --> UI : prediction response
+UI --> User : decision, explanations, metrics
+note over API,Trust
+Solvency is returned as metadata;
+it does not override the model class.
+end note
+@enduml
