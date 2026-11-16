@@ -1,0 +1,3 @@
+# Keep the final report; ignore compilation files, previews and local QA results.
+output/*
+!output/TrustFin_AI_Group_Project_Report.pdf

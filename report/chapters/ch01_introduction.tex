@@ -1,46 +1,65 @@
 \chapter{Introduction}
 
-\section{Introduction}
-TrustFin AI is a group project that studies how local explanations and explanation checks can be included in a loan decision-support application. The system accepts an applicant profile, selects a home-loan or personal-loan model, returns a binary approval prediction and probability, and generates SHAP and LIME explanations. Four validation values are then calculated and combined into a composite Trust Score. Results are presented through a browser dashboard and can be stored for later review.
+This chapter introduces the financial decision-support problem behind TrustFin AI. It explains why a loan prediction needs more context than an approval label, sets out the project's aim and objectives, and defines the scope of the application. The final part outlines how the remaining chapters develop the design, implementation and evaluation.
 
-The central concern is not simply whether a classifier can produce a high score on a test split. In a consequential setting such as credit assessment, users also need to understand what information influenced an output and whether a generated explanation behaves consistently under defined checks. TrustFin AI therefore treats explanation quality as a measurable part of the workflow. It does not treat the resulting Trust Score as proof that a lending decision is correct, fair, or suitable for deployment.
+\section{Project Context}
+A loan application brings together several facts that have to be considered together: the amount requested, the applicant's income, existing monthly repayments, credit information and the length of the proposed loan. A high income may appear reassuring until the existing debt is considered. Similarly, a long repayment term can reduce the monthly instalment while increasing the period over which a borrower remains committed. A useful assessment needs to preserve these relationships instead of treating each field as an isolated number.
 
-\section{Background}
-Credit scoring uses applicant and account information to estimate the likelihood of a credit outcome. Statistical classification has been used for consumer credit for decades, with studies comparing a range of classification methods and discussing domain-specific problems such as incomplete applicant histories and reject inference \cite{handHenley1997,lessmann2015}. Modern ensemble methods can model non-linear interactions in structured records, but their internal logic is less direct to communicate than a small scorecard or decision tree.
+TrustFin AI is a final-year project that explores this problem through two loan products: a residential home loan and an unsecured personal loan. Each product has a separate XGBoost classifier and preprocessing pipeline. The application accepts an applicant profile, returns an approval or rejection prediction, and presents the probability assigned by the model. It then produces two local explanations, using SHAP and LIME, and calculates four diagnostic scores.
 
-An explanation method attempts to summarize a model's behavior for a particular input. SHAP assigns feature contributions using a Shapley-value framework, while LIME fits an interpretable approximation around an instance. These methods answer related but not identical questions and can disagree. Moreover, an explanation that looks plausible is not necessarily faithful to the model, robust to small input changes, or neutral with respect to a protected feature. Research has therefore examined explanation quality as a separate evaluation problem rather than assuming that an explanation is valid merely because it was generated \cite{yeh2019,alvarezm2018}.
+The project goes beyond a notebook that prints a classification result. It includes a browser interface, a FastAPI service, stored evaluation history, batch processing and PDF reporting. These parts make it possible to follow an application from submitted inputs to its saved assessment. The datasets, however, are generated for the project. They provide a controlled setting for development rather than evidence about actual borrowers.
 
-\section{AI in Financial Decision-Making}
-Structured credit data are a natural setting for supervised classification: records contain numerical fields such as income, requested amount, repayment term, and credit indicators, together with categorical attributes. TrustFin AI uses XGBoost for its two product-specific models. The model provides a decision and a probability for the approval class. In the application, the probability associated with the selected class is also returned as a confidence representation.
+\section{Background to Credit Assessment}
+Credit scoring has long used statistical classification to support lending decisions. Hand and Henley's review discusses consumer credit as a specialised modelling problem, while later benchmarking work shows the value of comparing classifiers on relevant credit datasets \cite{handHenley1997,lessmann2015}. The lesson for this project is practical: an algorithm's reputation does not replace evaluation on the data and target that it will actually use.
 
-Automated or model-assisted finance requires attention to the complete decision path. Input handling affects what the model receives; preprocessing affects feature scale and representation; a prediction probability is not the same as an explanation; and an explanation is not an audit of model fairness. A useful decision-support interface should preserve these distinctions and show enough information for an officer or applicant to understand the result. General risk-management guidance likewise emphasizes that system risks depend on context and should be considered throughout development and use \cite{nistAirmf2023}.
+A small scorecard can often be explained by showing a few rules and their weights. A boosted ensemble combines many trees, and its overall behaviour is harder to communicate through one short rule. XGBoost is useful for mixed numerical and categorical records after preprocessing, but a user still needs a way to inspect an individual output. The prediction and its explanation therefore serve different purposes.
+
+In TrustFin AI, the target label is simulated underwriting approval. It is not an observed default or repayment event. This distinction matters whenever the interface displays a probability. A model trained on approval labels estimates the approval class under those labels; it has not learned a measured probability that a borrower will repay a loan.
+
+\section{Why Explain the Prediction?}
+An applicant who sees only ``Rejected'' has little information to work with. A reviewing officer may have the same difficulty when the model's result conflicts with a simple reading of the application. Local explanations can identify the features associated with that particular output and give both users a starting point for review.
+
+SHAP and LIME provide two different views of the same model response. SHAP assigns feature contributions relative to an explanation baseline. LIME builds a simpler model around the selected input. Their outputs can be displayed as ranked feature contributions, but the methods do not use identical assumptions or output units \cite{lundberg2017,ribeiro2016}. Agreement is useful to inspect; disagreement needs interpretation rather than automatic rejection of one method.
+
+An explanation is also not a guarantee that the model behaves well. A model may rely on an unsuitable attribute, and an accurate explanation may reveal that dependence. Conversely, a plausible-looking explanation may describe the model poorly. The project therefore includes checks on the explanations instead of treating a generated chart as sufficient evidence of reliability.
 
 \section{Motivation}
-The project was motivated by three connected needs. First, applicant-facing systems should communicate the factors associated with a model output in accessible language. Second, a single explainer may not be a sufficient basis for review, so the application should compare SHAP and LIME outputs and report differences. Third, explanation quality should be assessed along more than one dimension: whether influential features affect the model output, whether rankings persist after a small perturbation, whether two methods select similar leading features, and whether a protected-attribute counterfactual changes the probability.
+The starting point for TrustFin AI is a simple question: what additional information should accompany a loan model's output so that a person can review it sensibly? The application answers this through a combination of local reasons, repayment calculations, explanation diagnostics and saved assessment records.
 
-The motivation is deliberately limited. The repository contains generated datasets and experimental model artifacts, not production lending records. TrustFin AI demonstrates an engineering workflow for prediction and explanation review; it is not a validated credit policy or a substitute for institutional model governance and human review.
+The two-product structure gives the problem a useful level of detail. Property value and loan-to-value ratio matter to the home-loan pipeline, while purpose and credit-card utilisation belong to the personal-loan pipeline. Keeping separate models avoids asking one model to interpret fields that have no meaning for the selected product.
 
-\section{Aim of the Project}
-The completed project delivers a loan decision-support system that produces product-specific predictions, presents local model explanations, and calculates defined checks on the generated explanations before displaying a composite explanation-reliability indicator.
+The second motivation is to keep different kinds of evidence separate. Predictive accuracy describes performance over labelled records. Model confidence describes one output probability. An explanation describes feature contributions, and the Trust Score combines the project's diagnostic checks. These values appear together in the workflow, but they should not be read as interchangeable measures of quality.
 
-\section{Objectives}
-The project objectives are:
+\section{Aim and Objectives}
+The aim is to build a loan decision-support application that connects product-specific prediction with local explanations and explicit checks on those explanations.
+
+The objectives are to:
 \begin{enumerate}
-  \item prepare separate feature pipelines for home-loan and personal-loan records;
-  \item train and evaluate XGBoost classifiers using fixed train-test partitions;
-  \item integrate SHAP and LIME explanations for individual prediction requests;
-  \item calculate faithfulness, stability, explainer consistency, and individual counterfactual fairness scores from the implementation;
-  \item combine the four values using the implemented weighted formula and return a prediction-confidence representation;
-  \item expose the workflow through a React interface and FastAPI service, with evaluation persistence and PDF reporting.
+\item generate and prepare separate home-loan and personal-loan datasets;
+\item train XGBoost classifiers using a fixed, stratified train--test split;
+\item derive repayment features and apply the fitted preprocessing consistently during inference;
+\item generate local SHAP and LIME contributions for an individual application;
+\item calculate the implemented faithfulness, stability, consistency and Gender-sensitivity diagnostics;
+\item combine these diagnostics into the configured Trust Score while retaining prediction probability as a separate output; and
+\item present, store, retrieve and export assessments through the web application.
 \end{enumerate}
 
-\section{Scope}
-The implemented scope includes home-loan and personal-loan application forms, their trained models and engineered financial features, single-record prediction, SHAP and LIME explanations, four explanation checks, composite Trust Score, SQLite/PostgreSQL persistence, batch CSV processing, evaluation history, and PDF report generation. The interface provides applicant and bank-officer views; these are presentation modes selected in the client, not authenticated accounts.
+These objectives describe the current software. They do not assume that the resulting model or Trust Score has been independently validated for lending operations.
 
-The project does not implement a real lender integration, a production underwriting policy, secure user authentication, population-level fairness monitoring, probability calibration, or an independently validated Trust Score threshold. The interactive what-if calculator is a deterministic affordability scenario, not a live call to the prediction model. Fraud detection and unrelated financial products are outside the scope.
+\section{Scope of the Project}
+The application supports single-record evaluation, product-specific forms, batch CSV and JSON processing, an applicant view, bank-officer views, evaluation history and downloadable PDF reports. A what-if calculator allows users to change selected affordability inputs and inspect the resulting instalment and repayment ratio.
 
-\section{Implemented Approach}
-The implemented workflow is: collect a product-specific application; validate and normalize request fields; engineer repayment features; transform fields using the product preprocessor; obtain an XGBoost decision and probability; compute SHAP and LIME local explanations; evaluate four explanation properties; calculate the weighted Trust Score; return a structured response; and present, persist, or export the result. This sequence is expanded in Chapters 4 and 5.
+The calculator performs financial arithmetic in the browser. Moving a slider does not submit a fresh prediction request. Its result is therefore an affordability illustration, not a promise that the model will approve a changed application. The officer and applicant modes are also presentation choices; the source does not implement authenticated accounts or server-side role permissions.
 
-\section{Organization of the Report}
-Chapter 2 reviews credit scoring, post-hoc explanation methods, explanation evaluation, and fairness concepts. Chapter 3 defines the project problem and requirements. Chapter 4 describes the architecture, data flow, UML views, and database design. Chapter 5 documents the datasets, feature engineering, models, explainers, validation formulas, APIs, interface, persistence, and reporting. Chapter 6 maps the repository's test suite to planned validation and distinguishes designed tests from executed results. Chapter 7 reports stored model metrics and discusses limitations. Chapter 8 summarizes development phases supported by repository history. Chapter 9 concludes and identifies future work.
+The current work does not connect to a bank, obtain live bureau information, set an institution's credit policy or make a legally binding lending decision. Real repayment data, probability calibration, secure deployment and population fairness monitoring remain outside the evaluated scope. These boundaries allow the project to be assessed for what it actually delivers: an integrated academic system for inspecting model-based loan assessments.
+
+\section{Approach Followed}
+The workflow begins when the user selects a product and completes its application form. The backend normalises the submitted values, derives financial features and transforms the record with the selected preprocessor. XGBoost supplies the class and approval probability. SHAP and LIME then explain the transformed record, and the validation functions calculate their diagnostic values.
+
+The response carries these outputs separately so that the interface can show the model result, solvency information and explanation checks without collapsing them into a single message. The route also attempts to save the assessment. History and PDF functions use the same response structure, which helps the user trace a displayed result back to the submitted application.
+
+\section{Organisation of the Report}
+Chapter 2 reviews the research, and Chapter 3 defines the requirements. Chapters 4 and 5 cover design and implementation. Chapters 6 and 7 address verification and results. Chapter 8 presents the work plan, and Chapter 9 concludes with limitations and future directions.
+
+\par\medskip\noindent
+This chapter has established the purpose of TrustFin AI, the roles of prediction and explanation, and the limits of the application. It has also defined the objectives that guide the technical chapters that follow.

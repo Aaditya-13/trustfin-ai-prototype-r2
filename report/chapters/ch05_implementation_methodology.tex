@@ -1,7 +1,10 @@
 \chapter{System Implementation and Methodology}
 
+This chapter follows the implementation from generated loan records to the assessment returned by the API. It explains preprocessing, financial features, XGBoost training, SHAP and LIME, and the exact validation formulas used by the current program. The final sections cover the interface, persistence and PDF workflow.
+
+
 \section{Technology Stack}
-The backend is implemented in Python using FastAPI, Pydantic, SQLAlchemy, pandas, NumPy, scikit-learn, XGBoost, SHAP, LIME, and ReportLab. The frontend is a React application built with Vite and styled with Tailwind CSS. Axios is used for API calls. The main application is organized around one loan-prediction router and a registry that loads the home-loan, personal-loan, and legacy model pipelines. The deployed product paths are the home-loan and personal-loan pipelines; the legacy pipeline remains for backwards compatibility.
+The backend is implemented in Python using FastAPI, Pydantic, SQLAlchemy, pandas, NumPy, scikit-learn, XGBoost, SHAP, LIME, and ReportLab. The frontend is a React application built with Vite and styled with Tailwind CSS. Axios is used for API calls. The main application is organized around one loan-prediction router and a registry that loads the home-loan, personal-loan, and legacy model pipelines. The main product paths are the home-loan and personal-loan pipelines; the legacy pipeline remains for backwards compatibility.
 
 \section{Development Environment}
 The repository README documents Python 3.10 or later, Node.js 18 or later, and separate backend and frontend development servers. The API is typically served by Uvicorn on port 8000 and Vite serves the client during development. Dependencies are described in \texttt{requirements.txt} and \texttt{frontend/package.json}. The Python requirements use lower version bounds rather than a fully frozen environment, so exact reproducibility also depends on the installed package versions and platform.
@@ -16,10 +19,12 @@ The training scripts read a product CSV, compute derived features, separate \tex
 
 For online requests, Pydantic schemas normalize optional numeric values and the model registry fills product-specific defaults. This normalization is operationally convenient but means omitted values can be replaced with defaults; users should provide valid application data and review the displayed submitted form. Batch processing applies row-level normalization and records rows that cannot be used as flawed records with explanations of the validation issue.
 
-\section{Exploratory Data Analysis}
-No reproducible exploratory-data-analysis notebook or EDA report is included in the current source tree. The dataset-generation scripts specify distributions for demographics, income, loan terms, property characteristics, CIBIL scores, utilization, and missed payments. This section therefore describes those generator rules and the observed row/label counts rather than claiming a separate EDA study. A manually produced chart of class counts may be added at \texttt{figures/graphs/dataset\_class\_distribution.png} as shown in Graph~\ref{graph:dataset-classes}.
+\section{Data Inspection}
+The two CSVs provide a direct check on the generator output. Each contains 3,000 records, with no missing cells or duplicate complete rows. Home-loan labels are split into 1,529 approved and 1,471 rejected records; the personal-loan labels contain 1,563 approved and 1,437 rejected records. Graph~\ref{graph:dataset-classes} shows these observed counts.
 
-\reportgraph{figures/graphs/dataset_class_distribution.png}{0.78}{3.2}{Generated dataset class counts}{Approved and rejected counts in the two generated product datasets; use the repository CSV counts reported in this chapter.}{graph:dataset-classes}
+The near-balanced labels make accuracy easier to interpret than it would be in a dataset dominated by one class. They do not establish a realistic approval rate for a lending institution. The proportions result from the chosen distributions and decision rules. Correlations introduced by the generators, such as the relationship between education and income, are part of that authored setting.
+
+\reportgraph{figures/graphs/dataset_class_distribution.pdf}{0.90}{6.1}{Generated dataset class counts}{Class counts read from the current home-loan and personal-loan CSVs.}{graph:dataset-classes}
 
 \section{Feature Engineering}
 The two products use distinct financial calculations. For a loan principal $P$, annual interest rate $i$, and term $n$ months, let $r=i/12$. The amortized monthly instalment used by the product pipelines is
@@ -41,9 +46,21 @@ The home-loan pipeline also calculates
 \end{equation}
 Personal-loan features include loan purpose and credit-card utilization instead of property collateral features. Home-loan raw fields include the property value and area; personal-loan raw fields include purpose and utilization. Engineered EMI/FOIR and product-specific columns are included in each model's numerical feature set.
 
+\subsection{Worked Financial Calculations}
+Consider a home-loan request for Rs.~3,000,000 over 240 months. At the feature function's annual rate of 8.5\%, the proposed monthly instalment is approximately Rs.~26,034.70. With household income of Rs.~80,000 and existing monthly repayments of Rs.~10,000, the FOIR is
+\[
+\frac{26,034.70+10,000}{80,000}\approx 0.4504.
+\]
+If the property value is Rs.~4,000,000, the LTV ratio is 75\%. These are feature calculations, not an example of a measured approval prediction. The classifier still receives the complete profile, including credit and categorical fields.
+
+For a personal loan of Rs.~300,000 over 36 months, the 13.5\% feature rate gives an instalment of approximately Rs.~10,180.59. Applicant income of Rs.~50,000 and existing repayments of Rs.~5,000 give a FOIR of about 30.36\%. Co-applicant income does not enter this product's model FOIR. This difference is one reason the feature functions remain product-specific.
+
+The API also creates a solvency summary. Its general income display includes the co-applicant amount if supplied, while the personal-loan feature function uses applicant income. Users should therefore interpret the named product feature and displayed summary through their actual formulas rather than assuming that every income field has the same role.
+
 \section{Machine Learning Model Development}
 Separate XGBoost classifiers are trained in \path{scripts/train_homeloan.py} and \path{scripts/train_personalloan.py}. Both scripts use 120 estimators, maximum tree depth 4, learning rate 0.08, row subsampling 0.85, column subsampling 0.85, random state 42, and log-loss as the evaluation metric. Each script saves the classifier, fitted preprocessor, transformed feature names, a 100-row transformed background sample, and metrics under the product directory. The runtime registry loads those artifacts into a \texttt{ProductPipeline} with the product feature function and explainers.
 
+\noindent\begin{minipage}{\textwidth}
 \subsection*{Algorithm 1: Product-specific model training}
 \begin{lstlisting}
 Input: Product dataset D, product feature function g, seed 42
@@ -58,6 +75,7 @@ Output: Fitted preprocessor T, XGBoost classifier M, test metrics
 7. Predict labels and approval probabilities on the held-out test split
 8. Save model, transformer, feature names, background sample, and metrics
 \end{lstlisting}
+\end{minipage}\par\medskip
 
 \section{Model Training and Evaluation}
 The training scripts calculate accuracy, precision, recall, F1-score, and ROC-AUC on the held-out split. Product-specific metrics are saved in \texttt{models/homeloan/metrics.json} and \texttt{models/personalloan/metrics.json}. No product-specific confusion matrix is stored in those files. The root \texttt{models/model\_metadata.json} describes an older legacy model and must not be substituted for the current product metrics. Chapter 7 reports the product-specific artifacts and keeps the legacy results separate.
@@ -84,7 +102,7 @@ The implemented score is
  \end{cases}
  \label{eq:faithfulness}
 \end{equation}
-If no salient features are selected, the function returns 0.10. The piecewise mapping is a project calibration heuristic. Its numerical scale is not a conventional probability of explanation correctness and should not be compared directly with unrelated faithfulness measures.
+If no salient features are selected, the function returns 0.10. The piecewise mapping is a project-defined scaling heuristic. Its numerical scale is not a conventional probability of explanation correctness and should not be compared directly with unrelated faithfulness measures.
 
 \subsection{Stability}
 The route perturbs the transformed input with a Gaussian random vector of standard deviation 0.01 using a seed derived from the applicant input. The original and perturbed SHAP contribution vectors are compared with Spearman rank correlation $\rho$. The returned score is
@@ -115,7 +133,7 @@ The Trust Score is the weighted sum below, with all component scores on the inte
   T=0.35F+0.25S+0.30C+0.10R.
   \label{eq:trust-score}
 \end{equation}
-The weights are stored in \texttt{backend/app/trust/trust\_score.py}. Faithfulness receives 35\%, stability 25\%, SHAP-LIME consistency 30\%, and the counterfactual gender-flip score 10\%. The result is a project-defined summary used for presentation. No external calibration study or validated decision threshold for this composite is included.
+The weights are stored in \texttt{backend/app/trust/trust\_score.py}. Faithfulness receives 35\%, stability 25\%, SHAP-LIME consistency 30\%, and the counterfactual gender-flip score 10\%. The weighted result is an experimental summary used for presentation. No external calibration study or validated decision threshold for this composite is included.
 
 \section{Confidence Score}
 Let $p$ be the model's probability for approval and $\hat y$ its predicted class. The response confidence value is
@@ -130,6 +148,28 @@ The FastAPI router is mounted under \texttt{/api/v1/loan}. \texttt{POST /predict
 \section{Frontend Implementation}
 The React application uses a screen state to select a portal mode, loan product, application form, and result view. Bank-officer and applicant screens are different presentations over shared evaluation results. The dashboard renders prediction information, SHAP/LIME summaries, validation metrics, submitted form values, and a loan-specific what-if affordability calculator. The what-if calculator recomputes EMI and FOIR with fixed illustrative rates; it does not call the model on slider changes. It should therefore not be read as a simulated approval prediction.
 
+\subsection{Application Interfaces}
+The product-selection screen leads to the application form, followed by the result views, saved history and exported assessment. Figures~\ref{fig:loan-selection-screenshot}--\ref{fig:pdf-screenshot} provide the interface views for this workflow. The officer view exposes the explanation checks, while the applicant view concentrates on the model result, financial summary and review guidance. The history interface lets the officer search saved assessments and reopen their details.
+
+\clearpage
+\reportfigure{figures/screenshots/loan_selection.png}{0.99}{18.4}{Loan Selection Interface}{Loan selection screen for choosing between home-loan and personal-loan assessments.}{fig:loan-selection-screenshot}
+\clearpage
+
+\reportfigure{figures/screenshots/loan_application_form.png}{0.99}{18.4}{Loan Application Interface}{Product-specific application form used to submit applicant and financial details.}{fig:application-screenshot}
+\clearpage
+
+\reportfigure{figures/screenshots/bank_officer_results.png}{0.99}{18.4}{Bank-Officer Results Interface}{Bank-officer result view showing the model prediction, class probability and review guidance.}{fig:officer-screenshot}
+\clearpage
+
+\reportfigure{figures/screenshots/applicant_results.png}{0.99}{18.4}{Applicant Results Interface}{Applicant result view with the assessment summary and affordability information.}{fig:applicant-screenshot}
+\clearpage
+
+\reportfigure{figures/screenshots/application_history.png}{0.99}{18.4}{Application History Interface}{Application history showing saved loan assessments and controls for inspecting records and downloading reports.}{fig:history-screenshot}
+\clearpage
+
+\reportfigure{figures/screenshots/pdf_report_preview.png}{0.99}{18.4}{Generated PDF Interface}{Preview of the application assessment generated by the PDF reporting endpoint.}{fig:pdf-screenshot}
+\clearpage
+
 \section{Database Implementation}
 SQLAlchemy models \texttt{PredictionLog} and \texttt{BatchUpload} persist evaluation and batch information. Local SQLite is always initialized as a fallback; a PostgreSQL URL can be supplied through \texttt{DATABASE\_URL}. The request session attempts the primary engine and falls back to SQLite after a connection failure. Database values include JSON fields for raw inputs, full responses, explanations, and flawed batch data. This makes the project runnable without a remote database, although local SQLite and cloud PostgreSQL are operational alternatives rather than a replicated multi-database consistency design.
 
@@ -143,6 +183,7 @@ The system does not implement account creation, passwords, tokens, OAuth, or ser
 The reporting module uses ReportLab to create an A4 PDF with application reference, applicant and facility summary, decision rationale, solvency information, trust and validation values, and next steps. The PDF endpoint receives applicant data and the prediction response and returns a PDF response. The report is generated on demand; the code does not create a cryptographic document hash or a signed officer approval record.
 
 \section{End-to-End System Workflow}
+\noindent\begin{minipage}{\textwidth}
 \subsection*{Algorithm 2: Online loan evaluation}
 \begin{lstlisting}
 Input: LoanApplicationRequest x
@@ -158,5 +199,9 @@ Output: prediction response y
 9. Generate product-prefixed dossier ID
 10. Persist record when database session is available; return response
 \end{lstlisting}
+\end{minipage}\par\medskip
 
 This sequence documents the behavior in the API route. It also shows why an explanation-quality score should remain distinct from the prediction probability and the deterministic FOIR summary.
+
+\par\medskip\noindent
+This chapter has traced the implementation through data preparation, feature engineering, training, local explanation, validation and the online assessment path. It has also explained how the response is presented, stored and exported, keeping the model probability distinct from the financial summary and Trust Score.

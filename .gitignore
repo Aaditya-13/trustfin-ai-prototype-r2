@@ -97,12 +97,18 @@ logs/
 *.log
 
 # --- Scratch & Temporary Generated Files ---
-scratch/__pycache__/
-scratch/*.pdf
-scratch/*.png
-scratch/*.jpg
-scratch/*.jpeg
-scratch/*.webp
+/scratch/
+/tmp/
+/temp/
+
+# --- Local Investigation Results & Reset Backups ---
+# Retained locally for reference; not part of the current application.
+/experiments/
+/models/experiments/
+
+# Metadata left by the superseded v4 training experiments before the reset.
+/models/homeloan/provenance.json
+/models/personalloan/provenance.json
 
 # --- Large Model Checkpoints & Binary Weights ---
 # (Ignore generic heavy checkpoints, but explicitly track lightweight demo models)

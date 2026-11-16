@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Navbar from './components/Navbar';
 import LandingPage from './components/LandingPage';
 import LoanTypeSelection from './components/LoanTypeSelection';
@@ -33,6 +33,17 @@ function App() {
   const [pdfPreviewUrl, setPdfPreviewUrl] = useState(null);
   const [loadingPdfPreview, setLoadingPdfPreview] = useState(false);
   const [pdfPreviewError, setPdfPreviewError] = useState(null);
+  const pdfRequestId = useRef(0);
+
+  const clearPdfPreview = () => {
+    pdfRequestId.current += 1;
+    setPdfPreviewUrl(null);
+    setShowPdfPreview(false);
+    setLoadingPdfPreview(false);
+    setPdfPreviewError(null);
+  };
+
+  useEffect(() => () => { pdfRequestId.current += 1; }, []);
 
   // Persistent Audit History / Stored Ledger Modal
   const [showHistoryModal, setShowHistoryModal] = useState(false);
@@ -57,6 +68,7 @@ function App() {
 
   // Step 3: User submits Application Form
   const handleEvaluate = async (formData) => {
+    clearPdfPreview();
     setLoading(true);
     setError(null);
     const enrichedFormData = {
@@ -80,6 +92,7 @@ function App() {
 
   // Global Navigation Handlers
   const handleNavigateHome = () => {
+    clearPdfPreview();
     setCurrentScreen('LANDING');
     setUserRole(null);
     setResult(null);
@@ -94,6 +107,7 @@ function App() {
   };
 
   const handleNewApplication = () => {
+    clearPdfPreview();
     setResult(null);
     setCurrentApplicantData(null);
     setCurrentScreen('APPLICATION_FORM');
@@ -102,6 +116,7 @@ function App() {
 
   // Handler to load any stored evaluation from database directly into active dashboard
   const handleLoadEvaluation = (evalDetail) => {
+    clearPdfPreview();
     setCurrentApplicantData(evalDetail.applicantData);
     setResult(evalDetail.predictionResult);
     const isPersonalLoan = evalDetail.applicantData?.loan_type === 'personal_loan' || Boolean(evalDetail.applicantData?.Loan_Purpose);
@@ -130,14 +145,16 @@ function App() {
     if (pdfPreviewUrl || loadingPdfPreview) return;
 
     setLoadingPdfPreview(true);
+    const requestId = pdfRequestId.current;
     try {
       const blob = await fetchLoanReportPdfBlob(currentApplicantData, result);
+      if (requestId !== pdfRequestId.current) return;
       setPdfPreviewUrl(window.URL.createObjectURL(blob));
     } catch (err) {
       console.error('PDF preview generation error:', err);
-      setPdfPreviewError('Failed to generate the official PDF preview. Please verify that the backend service is running.');
+      if (requestId === pdfRequestId.current) setPdfPreviewError('Failed to generate the assessment PDF preview. Please verify that the backend service is running.');
     } finally {
-      setLoadingPdfPreview(false);
+      if (requestId === pdfRequestId.current) setLoadingPdfPreview(false);
     }
   };
 

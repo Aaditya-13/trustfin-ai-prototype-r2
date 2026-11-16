@@ -1,56 +1,70 @@
 \chapter{Problem Statement and Requirements}
 
+This chapter defines the problem addressed by TrustFin AI and translates it into application requirements. It describes the user journeys, the functions available for each loan product, and the technical constraints that shape the solution. It also distinguishes the intended decision-support role from functions that would require a production lending environment.
+
 \section{Problem Definition}
-The project addresses the difficulty of reviewing a loan model output when the classifier is more complex than a short rule list. A bare approval or rejection label gives little indication of which model inputs were influential, and one post-hoc explanation does not show whether the explanation is robust or consistent with another method. The completed system produces an individual loan prediction, generates two explanations, computes defined explanation checks, and presents the resulting information through a web interface.
+A binary loan prediction gives a result without showing how the model arrived at it. That is a weak basis for a discussion with an applicant or a reviewing officer. Even when a classifier performs well on test data, a particular decision may need closer inspection because of the submitted values, the financial burden or the behaviour of its explanation.
 
-\section{Existing System}
-Conventional credit scoring commonly uses structured application and repayment features with statistical or machine-learning classifiers. A model may return a class and probability, but an applicant-facing or officer-facing workflow also needs data validation, understandable reasons, persistence, and a way to inspect prior evaluations. Post-hoc explainers can contribute to this workflow, but they should not be assumed valid without a stated evaluation procedure.
+The problem addressed in this project is to make that individual assessment inspectable. The application must show the model output, provide local reasons, calculate defined checks on those reasons and retain the application context. It should also distinguish prediction probability from explanation quality so that one confident number does not dominate the review.
 
-\section{Limitations of a Prediction-Only Approach}
-A prediction-only interface omits important context: whether input values were normalized, which features influenced the local result, whether multiple explanation methods agree, and how stable an explanation is after a defined perturbation. Likewise, presenting one scalar called confidence can be misleading if users interpret it as probability calibration or as trust in the explanation. The system therefore returns separate prediction and explanation-quality fields and labels the composite score as a project-defined indicator.
+\section{Users and Review Needs}
+The applicant journey begins with selecting a product and completing a form. The result needs to communicate the decision, important factors and repayment calculations without assuming knowledge of model internals. The submitted-form view is useful here: a user can check whether the assessment used the information they intended to provide.
 
-\section{Implemented System}
-TrustFin AI provides two loan products, each with its own XGBoost model, preprocessor, engineered financial features, and explanation background sample. A FastAPI route normalizes an application, calculates monthly EMI and FOIR, gets a model prediction, generates SHAP and LIME explanations, evaluates the four configured checks, creates a dossier identifier, and attempts to persist an evaluation record. The React client presents an applicant view and a bank-officer view. Saved records can be inspected in history, batch CSV records can be processed, and a ReportLab service generates a PDF assessment report.
+The bank-officer journey needs more detail. An officer may inspect SHAP and LIME contributions, compare the leading factors, review the four diagnostics and open a previously saved evaluation. Batch upload supports reviewing several applications without repeatedly filling the same form. These journeys share the prediction service but use different levels of detail in the interface.
 
-\section{Advantages}
-The system makes the prediction and explanation stages inspectable in one workflow. Product-specific fields prevent property-collateral features from being treated as personal-loan fields and keep revolving-credit and loan-purpose fields specific to unsecured lending. Multiple explanation checks expose more information than a single attribution chart. Local SQLite support allows use without a hosted PostgreSQL service. The record schema preserves input JSON and model outputs for later inspection.
+The role selection is a navigation feature. The current backend does not authenticate the selected role or restrict history endpoints by account. The project therefore uses local or controlled demonstration data and treats secure multi-user operation as a separate deployment requirement.
 
-These advantages are bounded by the generated datasets, one stored split per model, local metric definitions, and the absence of server-side authentication. TrustFin AI is a completed academic project; its synthetic-data evaluation and access-control design define its intended operating scope.
+\section{Limitations of a Prediction-Only Workflow}
+Consider two applicants with the same approval label. One may have a comfortable repayment ratio and a strong credit score. The other may be close to a model boundary or have monthly obligations that the application flags as excessive. Showing only the common label hides these differences.
 
-\clearpage
+The same concern applies to explanations. Two methods may identify the same feature names but assign opposite directions to them. A chart alone does not show whether the selected reasons remain stable under a specified change. TrustFin AI addresses these review needs by returning the decision, financial summary, explanations and diagnostics as separate parts of one response.
+
 \section{Functional Requirements}
-Table~\ref{tab:functional-requirements} records the functional scope found in the application.
+Table~\ref{tab:functional-requirements} links the principal requirements to the current application. Each requirement describes a user-visible function or a step required to produce it.
 
-\begin{table}[H]
-\centering
-\caption{Implemented functional requirements}\label{tab:functional-requirements}
-\small
-\begin{tabularx}{\textwidth}{p{1.4cm}X}
-\toprule
-ID & Implemented functionality\\
-\midrule
+\begin{table}[htbp]\centering\small
+\caption{Functional requirements}\label{tab:functional-requirements}
+\begin{tabularx}{\textwidth}{p{1.3cm}X}\toprule
+ID & Required function\\\midrule
 FR-01 & Select a home-loan or personal-loan application flow.\\
-FR-02 & Validate and normalize application fields before model inference using Pydantic schemas and product normalization.\\
-FR-03 & Generate a product-specific approval prediction and class probability.\\
-FR-04 & Generate and return local SHAP and LIME feature contributions.\\
-FR-05 & Calculate faithfulness, stability, consistency, and individual counterfactual scores, then combine them into the weighted Trust Score.\\
-FR-06 & Display evaluation results in applicant and bank-officer presentation modes.\\
-FR-07 & Persist and retrieve evaluation history and batch-upload records through SQLAlchemy.\\
-FR-08 & Process product-specific CSV or JSON batches and retain flawed rows with validation reasons.\\
-FR-09 & Generate an application PDF report for preview or download.\\
-FR-10 & Recalculate illustrative affordability values in the product-specific what-if calculator.\\
-\bottomrule
-\end{tabularx}
-\end{table}
+FR-02 & Normalise application values and apply the product's financial feature calculations.\\
+FR-03 & Return an approval or rejection prediction and model probability.\\
+FR-04 & Generate local SHAP and LIME feature contributions.\\
+FR-05 & Calculate the four implemented diagnostics and weighted Trust Score.\\
+FR-06 & Present applicant and bank-officer result views over the shared assessment.\\
+FR-07 & Save and retrieve evaluations, including their submitted inputs and explanation data.\\
+FR-08 & Process CSV or JSON batches and identify unusable rows with reasons.\\
+FR-09 & Generate an application PDF for preview or download.\\
+FR-10 & Recalculate instalment and affordability values in the what-if calculator.\\\bottomrule
+\end{tabularx}\end{table}
+
+The result of a single evaluation must contain enough information for subsequent views to use the same assessment. This includes the dossier reference, product, prediction, probabilities, explanations, component scores and solvency summary. Recomputing only part of the result in another screen could otherwise create conflicting accounts of the same application.
+
+\section{Product-Specific Requirements}
+A home loan has a property-related context. The application collects property value and area, supports co-applicant income, and derives loan-to-value ratio. A personal loan uses loan purpose and credit-card utilisation instead of collateral fields. It calculates its FOIR using applicant income.
+
+Separate product preprocessors enforce the model's feature representation. The selected model must receive fields in the order and scale used when it was trained. A change to a form label must not silently change the feature passed to the classifier, and an additional display field must not be mistaken for a trained predictor.
+
+For batch input, the product determines the expected row structure. A useful response identifies which rows were processed and which could not be used. The system retains the row number and error reason so that the user can correct the source file instead of guessing why a record disappeared.
 
 \section{Non-Functional Requirements}
-The implementation aims for a modular separation between React presentation, FastAPI routes, model registry, explanation components, validation functions, database access, and PDF reporting. Pydantic schemas provide request and response structure. Reproducibility is supported through a SHA-256-derived applicant seed for LIME sampling and a seeded Gaussian perturbation for the stability check. Local SQLite is configured as a zero-configuration database path, with optional PostgreSQL connectivity. These properties are implemented design choices; no service-level performance, availability, or production security target is measured in the repository.
+The main design requirement is separation of responsibilities. The frontend presents application data and results. The API coordinates the request, the model registry manages product pipelines, and separate modules handle explanations, scoring, persistence and PDF generation. This structure keeps changes in one area easier to review.
 
-\section{Hardware Requirements}
-The repository does not specify a tested hardware bill of materials. Development requires a computer capable of running Python with the listed scientific packages and a Node.js-based frontend toolchain. Model inference and local SQLite use are intended for a development machine; production capacity, concurrent user limits, and hardware sizing remain unmeasured.
+Repeatability is another requirement. The route derives a seed from the applicant input for LIME and the stability perturbation. Repeated evaluation should be reproducible within the same model and software environment. This does not replace a record of library versions or prove that the methods are accurate; it makes investigation of the same input more practical.
 
-\section{Software Requirements}
-The project uses Python, FastAPI, Pydantic, SQLAlchemy, pandas, NumPy, scikit-learn, XGBoost, SHAP, LIME, and ReportLab on the backend. The frontend uses React, Vite, Axios, Tailwind CSS, and Lucide icons. The README documents Python 3.10+ and Node.js 18+ as prerequisites. The API may use local SQLite or a configured PostgreSQL URL. Exact installed package versions depend on the environment because most Python requirements are minimum-version specifications.
+The application also needs a usable local setup. SQLite provides persistence without a hosted database, while PostgreSQL can be configured through the environment. Typed request and response schemas help keep communication between the client and server consistent. Concurrency limits, response-time guarantees and service availability have not been benchmarked.
 
-\section{Project Constraints}
-The main constraints are the synthetic nature of the two product datasets, the limited hold-out evaluation evidence, the dependence of explanations on preprocessing and perturbation assumptions, and the lack of an authenticated access-control layer. The Trust Score is weighted according to one project configuration and has no external calibration study. Population fairness, causal validity, and live lender integration are outside the implemented scope.
+\section{Software and Hardware Environment}
+The backend requires a Python environment with FastAPI, Pydantic, SQLAlchemy, pandas, NumPy, scikit-learn, XGBoost, SHAP, LIME and ReportLab. The frontend uses React, Vite, Axios, Tailwind CSS and chart components. A browser, a Python process and the Node.js development toolchain provide the basic development setup.
+
+The project documentation lists Python 3.10 or later and Node.js 18 or later as starting prerequisites. The package manifests remain the authoritative dependency specifications, and a usable installation must satisfy the actual installed packages' requirements. Most Python dependencies have lower version bounds rather than a fully frozen environment.
+
+No tested hardware capacity or simultaneous-user limit is specified. The development workload consists of small tabular models, explanation sampling and local data storage. A production capacity estimate would require measured latency, memory use and concurrent-request tests on the intended host.
+
+\section{Acceptance and Operating Boundaries}
+An application path is complete when the selected product can accept a usable record, return its prediction and explanations, display the diagnostic values, and support the relevant history or export action. The verification chapter describes how these functions can be checked without confusing software behaviour with predictive accuracy.
+
+The principal constraints are synthetic data, a single saved train--test split per product, custom explanation-score definitions and the absence of authenticated access control. The financial ratios are project assumptions rather than a universal lending policy. Model output and the displayed solvency summary remain separate in the current route.
+
+\par\medskip\noindent
+This chapter has defined the review problem, the two user journeys and the functions required of each product. It has also set out the software environment and operating boundaries that the design must respect.

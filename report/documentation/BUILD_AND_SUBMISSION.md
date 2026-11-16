@@ -1,17 +1,41 @@
-# Build and submission notes
+# Building the report
 
-## Compile the report
+Run from the repository root:
 
-From the report directory, run: tectonic --keep-logs --keep-intermediates --reruns 2 -o output main.tex.
+```powershell
+.venv/Scripts/python.exe report/build.py
+```
 
-Tectonic builds the IEEE-style bibliography from references/references.bib. Use another LaTeX distribution with BibTeX if preferred. Missing diagrams, charts, and screenshots are rendered as named placeholders, so the source remains compilable before those assets are supplied.
+Tectonic must be installed or supplied explicitly:
 
-## Files to update before institutional submission
+```powershell
+.venv/Scripts/python.exe report/build.py --compiler C:/path/to/tectonic.exe
+```
 
-- Replace the placeholders listed in IMAGE_MANIFEST.md with actual exported diagrams, plots, and screenshots.
-- Confirm official certificate wording and arrange the institute's signatures and approval date.
-- Confirm each group member's contribution in Chapter 8.
-- Compare the title-page and front-matter wording against the official abstract and current institute template when those source documents are available.
-- The Testing and Validation chapter summarizes the automated test coverage included in the repository and distinguishes it from model-evaluation results.
+The helper also detects the existing temporary Tectonic installation used for
+this report. The first build may download TeX resources. Subsequent builds reuse
+the compiler cache. The source can also be built with a compatible LaTeX/BibTeX
+installation.
 
-The compiled report at output/TrustFin_AI_Group_Project_Report.pdf contains the requested image placeholders and blank certificate signature/date lines.
+The final PDF is `report/output/TrustFin_AI_Group_Project_Report.pdf`.
+Compilation diagnostics are retained in `report/output/build_log.txt` and
+`report/output/main.log`. Generated intermediates are ignored by Git.
+
+With PyMuPDF available, run the report checks from the repository root:
+
+```powershell
+.venv/Scripts/python.exe report/tools/check_report.py
+```
+
+The checks cover chapter openings and closing recaps, the Gantt chart, reserved
+figures, unresolved references, overflowing text, and an optional application
+source snapshot. The results are written to `report/output/verification.json`.
+
+To refresh the data-derived graphs and supplied SVG conversion:
+
+```powershell
+.venv/Scripts/python.exe report/tools/prepare_figures.py
+```
+
+This optional step uses pandas, NumPy, Matplotlib and PyMuPDF; it does not train
+models or change application data. See `IMAGE_MANIFEST.md` for drop-in image paths.

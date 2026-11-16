@@ -1,6 +1,7 @@
 import os
 from io import BytesIO
 from datetime import datetime
+from html import escape
 from reportlab.lib.pagesizes import A4
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
@@ -126,7 +127,7 @@ def generate_loan_report_pdf(applicant_data: dict, prediction_result: dict) -> b
     )
 
     is_approved = prediction_result.get('prediction') == 'Approved'
-    solvency = prediction_result.get('solvencyCheck', {})
+    solvency = prediction_result.get('solvencyCheck') or {}
     monthly_emi = solvency.get('monthlyEMI', 0)
     existing_emi = solvency.get('existingEMI', float(applicant_data.get('Existing_EMI', 0) or 0))
     total_obligation = solvency.get('totalMonthlyObligation', monthly_emi + existing_emi)
@@ -134,6 +135,7 @@ def generate_loan_report_pdf(applicant_data: dict, prediction_result: dict) -> b
     total_income = solvency.get('totalIncome', 0)
     dti_percent = solvency.get('dtiPercent', '0.0%')
     dti_ratio = solvency.get('dtiRatio', 0)
+    affordability_failed = dti_ratio > 0.50 or solvency.get('isSolvent') is False or solvency.get('status') == 'INSOLVENT'
     trust_score = prediction_result.get('trustScore', {})
     overall_trust = round(trust_score.get('overallTrustScore', 0.8) * 100)
     
@@ -149,8 +151,8 @@ def generate_loan_report_pdf(applicant_data: dict, prediction_result: dict) -> b
     
     header_data = [
         [
-            Paragraph("<b>TRUSTFIN NATIONAL BANK</b><br/><font size=7.5 color='#475569'>Retail Lending Operations & Credit Appraisal Hub • Banking Division</font>", title_style),
-            Paragraph(f"<b>Application Ref:</b> {ref_no}<br/><b>Date of Issue:</b> {today_str}<br/><b>Assessment:</b> {'APPROVED' if is_approved else 'NOT APPROVED'}", ParagraphStyle('HeadRight', parent=body_style, alignment=2, fontSize=8, leading=11))
+            Paragraph("<b>TRUSTFIN AI</b><br/><font size=7.5 color='#475569'>Explainable Loan Assessment</font>", title_style),
+            Paragraph(f"<b>Application Ref:</b> {ref_no}<br/><b>Date of Issue:</b> {today_str}<br/><b>Model:</b> {'APPROVED' if is_approved else 'REJECTED'}", ParagraphStyle('HeadRight', parent=body_style, alignment=2, fontSize=8, leading=11))
         ]
     ]
     header_table = Table(header_data, colWidths=[330, 190])
@@ -167,7 +169,7 @@ def generate_loan_report_pdf(applicant_data: dict, prediction_result: dict) -> b
     # -------------------------------------------------------------
     if is_approved:
         doc_banner_data = [[
-            Paragraph("PROVISIONAL LOAN SANCTION ADVICE", doc_type_approved)
+            Paragraph("LOAN ASSESSMENT REPORT", doc_type_approved)
         ]]
         banner_table = Table(doc_banner_data, colWidths=[520])
         banner_table.setStyle(TableStyle([
@@ -179,7 +181,7 @@ def generate_loan_report_pdf(applicant_data: dict, prediction_result: dict) -> b
         ]))
     else:
         doc_banner_data = [[
-            Paragraph("LOAN APPLICATION STATUS & ADVISORY NOTICE", doc_type_rejected)
+            Paragraph("LOAN ASSESSMENT REPORT", doc_type_rejected)
         ]]
         banner_table = Table(doc_banner_data, colWidths=[520])
         banner_table.setStyle(TableStyle([
@@ -301,71 +303,46 @@ def generate_loan_report_pdf(applicant_data: dict, prediction_result: dict) -> b
     # -------------------------------------------------------------
     elements.append(Paragraph("2. CREDIT ASSESSMENT & REASON SUMMARY", section_head))
     
-    if is_approved:
-        reason_text = (
-            "<b>Assessment Result: APPROVED.</b> Based on our retail credit evaluation, your application meets our initial lending criteria. "
-            "Your total household income provides an adequate repayment cushion, with your estimated monthly installment (EMI) consuming only "
-            f"<b>{dti_percent}</b> of monthly earnings (well below the regulatory 50.0% threshold). Furthermore, your credit bureau record reflects "
-            "consistent, responsible past repayment conduct."
+    model_label = 'APPROVED' if is_approved else 'REJECTED'
+    elements.append(Paragraph(
+        f"<b>Model prediction: {model_label}.</b> This is the classifier output for the submitted application, "
+        "subject to lender review. It is not a sanction letter or a measured probability of repayment.", body_style
+    ))
+    if affordability_failed:
+        review_text = (
+            "<b>AFFORDABILITY REVIEW REQUIRED.</b> Monthly debt exceeds the project's configured 50% review limit "
+            f"(recorded FOIR: {dti_percent}). Officer review is required, even if the model predicts approval."
         )
-        elements.append(Paragraph(reason_text, body_style))
-        elements.append(Spacer(1, 4))
-        
-        cibil_ack = ""
-        if cibil_num is not None and cibil_num >= 750:
-            cibil_ack = f"Prime CIBIL record ({cibil_num}) with zero delinquencies."
-        else:
-            cibil_ack = "Satisfactory past repayment conduct with no active defaults."
-
-        points_data = [
-            [Paragraph("<font color='#065f46'><b>[+]</b></font>", table_cell_bold), Paragraph("<b>Income Affordability:</b> Monthly family earnings easily cover the proposed loan installment.", table_cell)],
-            [Paragraph("<font color='#065f46'><b>[+]</b></font>", table_cell_bold), Paragraph(f"<b>Clean Credit Standing:</b> {cibil_ack}", table_cell)],
-            [Paragraph("<font color='#065f46'><b>[+]</b></font>", table_cell_bold), Paragraph("<b>Living Expenses Surplus:</b> Sufficient net disposable income remains each month after paying the EMI.", table_cell)],
-        ]
+    elif solvency:
+        review_text = (
+            f"<b>Affordability check:</b> Recorded FOIR is {dti_percent}, within the project's configured 50% review limit. "
+            "This check does not establish that all lending criteria have been met."
+        )
     else:
-        reason_text = (
-            "<b>Assessment Result: NOT APPROVED.</b> We regret to inform you that the requested loan facility cannot be sanctioned under the proposed terms. "
-            "Pursuant to standard banking guidelines and fair lending policies, the specific factors contributing to this determination are outlined below:"
-        )
-        elements.append(Paragraph(reason_text, body_style))
-        elements.append(Spacer(1, 4))
-        
-        points = []
-        if dti_ratio > 0.50:
-            if existing_emi > 0:
-                dti_reason = f"<b>Total Debt Obligations Exceed Safety Limit:</b> Combined monthly debt of {CURR} {total_obligation:,.0f} (including {CURR} {existing_emi:,.0f} in existing EMIs) consumes <b>{dti_percent}</b> of monthly earnings, exceeding the regulatory 50.0% ceiling."
-            else:
-                dti_reason = f"<b>Monthly EMI Exceeds Income Safety Limit:</b> The estimated monthly EMI of {CURR} {monthly_emi:,.0f} consumes <b>{dti_percent}</b> of your monthly income. Banking regulations prohibit debt obligations above 50% to prevent financial distress."
-            points.append([
-                Paragraph("<font color='#991b1b'><b>[-]</b></font>", table_cell_bold),
-                Paragraph(dti_reason, table_cell)
-            ])
-        if cibil_num is not None and cibil_num < 650:
-            points.append([
-                Paragraph("<font color='#991b1b'><b>[-]</b></font>", table_cell_bold),
-                Paragraph(f"<b>Adverse Credit Bureau Score:</b> Recorded CIBIL score of <b>{cibil_num}</b> is below the retail lending benchmark of 650.", table_cell)
-            ])
-        elif credit_hist == 0:
-            points.append([
-                Paragraph("<font color='#991b1b'><b>[-]</b></font>", table_cell_bold),
-                Paragraph("<b>Credit Bureau Record:</b> Credit information report indicates past delayed payments or unresolved default records.", table_cell)
-            ])
-        if loan_type == 'personal_loan' and util_float is not None and util_float > 0.70:
-            points.append([
-                Paragraph("<font color='#991b1b'><b>[-]</b></font>", table_cell_bold),
-                Paragraph(f"<b>High Revolving Debt Exposure:</b> Credit card utilization of <b>{util_float*100:.0f}%</b> exceeds the 50% prudent ceiling.", table_cell)
-            ])
-        if applicant_income_val < 20000 and loan_amount_val > 200000:
-            points.append([
-                Paragraph("<font color='#991b1b'><b>[-]</b></font>", table_cell_bold),
-                Paragraph("<b>High Loan-to-Income Ratio:</b> The requested principal is disproportionately large relative to your declared monthly earnings.", table_cell)
-            ])
-        if not points:
-            points.append([
-                Paragraph("<font color='#991b1b'><b>[-]</b></font>", table_cell_bold),
-                Paragraph("<b>Credit Risk Score:</b> Composite credit appraisal did not achieve the required benchmark for automated approval.", table_cell)
-            ])
-        points_data = points[:3]
+        review_text = "<b>Affordability check:</b> Not available for this record; officer review is required."
+    elements.append(Paragraph(review_text, body_style))
+    elements.append(Spacer(1, 4))
+
+    features = prediction_result.get('shap', {}).get('features', [])
+    supporting = sorted(
+        [f for f in features if (f.get('contribution', 0) > 0 if is_approved else f.get('contribution', 0) < 0)],
+        key=lambda f: abs(f.get('contribution', 0)), reverse=True
+    )[:3]
+    factor_names = ', '.join(escape(str(f.get('feature', '')).replace('_', ' ')) for f in supporting)
+    direction = 'increased' if is_approved else 'reduced'
+    factor_text = (
+        f"<b>Main model factors (SHAP):</b> {factor_names} {direction} the model's approval output."
+        if supporting else "<b>Main model factors (SHAP):</b> No matching factors are available in this assessment."
+    )
+    points_data = [
+        [Paragraph("<b>1.</b>", table_cell_bold), Paragraph(
+            f"<b>Recorded monthly debt:</b> Proposed EMI {CURR} {monthly_emi:,.0f} plus existing EMIs {CURR} {existing_emi:,.0f}; "
+            f"total {CURR} {total_obligation:,.0f}.", table_cell)],
+        [Paragraph("<b>2.</b>", table_cell_bold), Paragraph(
+            f"<b>Income remaining after debt:</b> {CURR} {net_disposable:,.0f} per month, before living expenses. "
+            "A positive balance alone does not establish affordability.", table_cell)],
+        [Paragraph("<b>3.</b>", table_cell_bold), Paragraph(factor_text, table_cell)],
+    ]
 
     points_table = Table(points_data, colWidths=[25, 495])
     points_table.setStyle(TableStyle([
@@ -379,7 +356,7 @@ def generate_loan_report_pdf(applicant_data: dict, prediction_result: dict) -> b
     # -------------------------------------------------------------
     # 5. AUTOMATED LENDING AUDIT & SYSTEM VERIFICATION
     # -------------------------------------------------------------
-    elements.append(Paragraph("3. AUTOMATED SYSTEM VERIFICATION & AUDIT CHECK", section_head))
+    elements.append(Paragraph("3. EXPLANATION VALIDATION SUMMARY", section_head))
     
     trust_score = prediction_result.get('trustScore', {})
     overall_trust = round(trust_score.get('overallTrustScore', 0.8) * 100)
@@ -394,11 +371,11 @@ def generate_loan_report_pdf(applicant_data: dict, prediction_result: dict) -> b
         return f"{float(value) * 100:.1f}%" if value is not None else "N/A"
 
     if overall_trust >= 85:
-        trust_badge = "High Trust (Auto-Sanction)"
+        trust_badge = "High Trust Score"
     elif overall_trust >= 70:
-        trust_badge = "Moderate Trust (Officer Review)"
+        trust_badge = "Moderate Trust Score"
     else:
-        trust_badge = "Low Trust (Audit Flag)"
+        trust_badge = "Low Trust Score"
 
     audit_data = [
         [Paragraph(f"<b>{name} ({weight}%)</b>", table_cell_bold) for name, _, weight in pillars],
@@ -414,9 +391,9 @@ def generate_loan_report_pdf(applicant_data: dict, prediction_result: dict) -> b
     ]))
     elements.append(audit_table)
     elements.append(Spacer(1, 3))
-    solvency_label = "Passed" if dti_ratio <= 0.50 else "Breached"
+    solvency_label = "Review required" if affordability_failed else ("Within configured limit" if solvency else "Not available")
     elements.append(Paragraph(
-        f"<b>Solvency gate:</b> {solvency_label} (FOIR {dti_percent})"
+        f"<b>Affordability check:</b> {solvency_label} (FOIR {dti_percent})"
         f" &nbsp;&nbsp; <b>Overall trust:</b> {overall_trust} / 100 ({trust_badge})",
         body_style
     ))
@@ -427,20 +404,12 @@ def generate_loan_report_pdf(applicant_data: dict, prediction_result: dict) -> b
     # -------------------------------------------------------------
     elements.append(Paragraph("4. ACTIONABLE GUIDANCE & NEXT STEPS", section_head))
     
-    if is_approved:
-        next_steps = [
-            [Paragraph("<b>Step 1:</b>", table_cell_bold), Paragraph("<b>Submit Documentation:</b> Provide self-attested copies of PAN Card, Aadhaar Card, and last 6 months bank statements.", table_cell)],
-            [Paragraph("<b>Step 2:</b>", table_cell_bold), Paragraph("<b>In-Person Verification:</b> Visit your assigned retail lending branch for physical verification of original papers.", table_cell)],
-            [Paragraph("<b>Step 3:</b>", table_cell_bold), Paragraph("<b>Agreement & Disbursement:</b> Complete e-sign on the loan contract and set up auto-debit for fund disbursement.", table_cell)]
-        ]
-    else:
-        next_steps = [
-            [Paragraph("<b>Option 1:</b>", table_cell_bold), Paragraph("<b>Extend Repayment Horizon (Tenor):</b> Choosing a longer term (e.g., 180 to 240 months) significantly lowers your monthly EMI.", table_cell)],
-            [Paragraph("<b>Option 2:</b>", table_cell_bold), Paragraph("<b>Add an Earning Co-Borrower:</b> Adding a working spouse or family member increases total household borrowing power.", table_cell)],
-            [Paragraph("<b>Option 3:</b>", table_cell_bold), Paragraph("<b>Request a Lower Loan Amount:</b> Applying for a smaller amount brings monthly EMI within the safe 50% income ceiling.", table_cell)],
-            [Paragraph("<b>Option 4:</b>", table_cell_bold), Paragraph("<b>Rebuild Credit Bureau Score:</b> Regularize past dues and ensure timely bill and card payments for 6 consecutive months.", table_cell)]
-        ]
-        
+    next_steps = [
+        [Paragraph("<b>Step 1:</b>", table_cell_bold), Paragraph("Review the model result, explanation factors and affordability check with the lender.", table_cell)],
+        [Paragraph("<b>Step 2:</b>", table_cell_bold), Paragraph("Verify the declared income, existing repayments, credit information and required documents.", table_cell)],
+        [Paragraph("<b>Step 3:</b>", table_cell_bold), Paragraph("If the debt burden needs attention, discuss a lower principal or a term permitted for this loan product. Calculator changes do not constitute a new model assessment.", table_cell)],
+    ]
+
     next_table = Table(next_steps, colWidths=[65, 455])
     next_table.setStyle(TableStyle([
         ('VALIGN', (0,0), (-1,-1), 'TOP'),
@@ -455,9 +424,9 @@ def generate_loan_report_pdf(applicant_data: dict, prediction_result: dict) -> b
     # -------------------------------------------------------------
     sig_data = [
         [
-            Paragraph("<b>Generated By:</b><br/>TrustFin Automated Decision Engine<br/>Retail Lending Division", table_cell),
-            Paragraph("<b>Verified & Counter-Signed:</b><br/><br/>____________________________________<br/><b>Branch Credit & Underwriting Officer</b><br/>TrustFin Retail Operations", table_cell),
-            Paragraph("<font color='#0f2942'><b>[ TRUSTFIN BANK ]</b></font><br/>Official Underwriting Seal<br/>Statutory Lending Compliance", ParagraphStyle('Seal', parent=table_cell, alignment=1))
+            Paragraph("<b>Generated By:</b><br/>TrustFin AI<br/>Loan Assessment System", table_cell),
+            Paragraph("<b>Officer Review:</b><br/><br/>____________________________________<br/>For completion by the reviewing officer", table_cell),
+            Paragraph("<font color='#0f2942'><b>ASSESSMENT ONLY</b></font><br/>Subject to lender review", ParagraphStyle('Seal', parent=table_cell, alignment=1))
         ]
     ]
     sig_table = Table(sig_data, colWidths=[170, 220, 130])
@@ -473,7 +442,7 @@ def generate_loan_report_pdf(applicant_data: dict, prediction_result: dict) -> b
     elements.append(Spacer(1, 6))
     elements.append(HRFlowable(width="100%", thickness=0.5, color=BORDER_COLOR, spaceAfter=3))
     elements.append(Paragraph(
-        "<i>Disclaimer: This document is a computer-generated provisional assessment issued pursuant to fair lending guidelines. Final loan sanction and disbursement remain subject to physical document verification and credit committee approval.</i>",
+        "<i>This computer-generated model assessment supports review of the submitted application. Final lending decisions require the lender's own verification and approval. Explanation scores do not certify fairness, regulatory compliance or repayment ability.</i>",
         ParagraphStyle('Disc', parent=styles['Normal'], fontSize=6.5, leading=8, textColor=colors.HexColor("#64748b"), alignment=1)
     ))
     

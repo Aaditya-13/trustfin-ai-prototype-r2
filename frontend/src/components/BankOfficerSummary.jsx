@@ -23,30 +23,30 @@ const BankOfficerSummary = ({
 
   const isApproved = result.prediction === 'Approved';
   const statusColor = isApproved ? 'bg-gov-green text-white' : 'bg-gov-red text-white';
-  const determinationText = isApproved ? 'ELIGIBLE FOR APPROVAL' : 'RECOMMENDED FOR REJECTION';
+  const determinationText = `Model prediction: ${result.prediction}`;
   const trustPercent = Math.max(0, Math.min(100, result.trustScore.overallTrustScore * 100));
   const underwritingAction = getUnderwritingAction(result, applicantData);
 
   // Trust Reliability Classification
   let trustLevel = {
-    label: 'HIGH TRUST: RELIABLE EXPLANATION',
+    label: 'HIGH TRUST SCORE',
     color: 'text-green-800 bg-green-50 border-green-300',
     badgeColor: 'bg-green-700',
-    desc: 'Both explanation methods strongly agree and the decision remains stable.'
+    desc: 'The weighted explanation index is in the high band. Review each component for its specific result.'
   };
   if (trustPercent < 70) {
     trustLevel = {
       label: 'LOW TRUST: MANUAL REVIEW REQUIRED',
       color: 'text-red-800 bg-red-50 border-red-300',
       badgeColor: 'bg-red-700',
-      desc: 'Explanation methods conflict or are unstable. A loan officer must review manually.'
+      desc: 'The weighted explanation index is in the low band. Review the component checks before relying on the explanation.'
     };
   } else if (trustPercent < 85) {
     trustLevel = {
       label: 'MODERATE TRUST: REVIEW RECOMMENDED',
       color: 'text-amber-800 bg-amber-50 border-amber-300',
       badgeColor: 'bg-amber-600',
-      desc: 'Minor differences found between explanation methods; officer review suggested.'
+      desc: 'The weighted explanation index is in the moderate band. Review the individual checks with an officer.'
     };
   }
 
@@ -152,7 +152,7 @@ const BankOfficerSummary = ({
         <div>
           <div className="flex items-center gap-2">
             <span className="text-xs font-bold px-2 py-1 bg-white border border-gray-300 text-gray-700 rounded-sm uppercase tracking-wider">
-              Loan Decision Assessment
+              Model Prediction
             </span>
             <span className="text-sm text-gray-600">Retail Credit Engine</span>
           </div>
@@ -160,11 +160,11 @@ const BankOfficerSummary = ({
             {determinationText}
           </h3>
           <p className="text-base text-gray-700 mt-1">
-            Model Confidence Score: <strong className="font-mono">{(result.confidenceScore * 100).toFixed(1)}%</strong>
+            Probability assigned to predicted class: <strong className="font-mono">{(result.confidenceScore * 100).toFixed(1)}%</strong>
           </p>
         </div>
         <div className={`px-5 py-2.5 text-xl sm:text-2xl font-extrabold uppercase rounded-sm border ${isApproved ? 'border-green-700' : 'border-red-700'} ${statusColor} tracking-wide text-center shrink-0`}>
-          {determinationText}
+          {result.prediction}
         </div>
       </div>
 
@@ -177,8 +177,8 @@ const BankOfficerSummary = ({
                 {underwritingAction.tier === 'AUTO_APPROVE' ? <ShieldCheck className="w-5 h-5" /> : <AlertTriangle className="w-5 h-5" />}
               </span>
               <div>
-                <h3 className="text-sm font-bold text-gray-950 uppercase tracking-wide">Decision Recommendation</h3>
-                <p className="text-xs text-gray-600 mt-0.5">Officer guidance based on model and repayment checks</p>
+                <h3 className="text-sm font-bold text-gray-950 uppercase tracking-wide">Review Guidance</h3>
+                <p className="text-xs text-gray-600 mt-0.5">Model output and configured affordability checks</p>
               </div>
             </div>
             <span className={`w-fit px-2.5 py-1.5 text-xs font-extrabold uppercase tracking-wide rounded-sm border ${underwritingAction.badgeClass}`}>
@@ -307,7 +307,7 @@ const BankOfficerSummary = ({
                 <AlertTriangle className={`mt-0.5 h-4 w-4 shrink-0 ${result.solvencyCheck.status === 'MODERATE' ? 'text-amber-700' : 'text-red-700'}`} />
                 <div>
                   <strong className="font-bold">{result.solvencyCheck.status === 'MODERATE' ? 'Review recommended:' : 'Repayment limit exceeded:'}</strong>{' '}
-                  {result.solvencyCheck.overrideWarning}
+                  {underwritingAction.reasons[0]}
                 </div>
               </div>
             )}

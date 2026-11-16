@@ -9,6 +9,7 @@
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{array}
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
 \usepackage{longtable}
 \usepackage{float}
 \usepackage{newfloat}
@@ -21,12 +22,12 @@
 \usepackage{url}
 \usepackage[hidelinks]{hyperref}
 
-\setstretch{1.16}
+\setstretch{1.22}
 \setlength{\parindent}{1.2em}
 \setlength{\parskip}{0.25em}
 \setlength{\headheight}{15pt}
-\setcounter{secnumdepth}{3}
-\setcounter{tocdepth}{0}
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{1}
 \setlist{nosep,leftmargin=*}
 
 \definecolor{reportblue}{RGB}{22,65,116}
@@ -39,43 +40,40 @@
 
 \DeclareFloatingEnvironment[fileext=grf,placement=htbp,name=Graph]{graph}
 
+\raggedbottom
+\emergencystretch=2em
+\widowpenalty=10000
+\clubpenalty=10000
+\renewcommand{\topfraction}{0.92}
+\renewcommand{\bottomfraction}{0.8}
+\renewcommand{\textfraction}{0.08}
+
 \newcommand{\reportfigure}[6]{%
   \begin{figure}[htbp]\centering
   \IfFileExists{#1}{%
     \includegraphics[width=#2\textwidth,height=#3cm,keepaspectratio]{#1}%
   }{%
-    \fbox{\begin{minipage}[c][#3cm][c]{0.88\textwidth}\centering
-      \small\textbf{IMAGE PLACEHOLDER}\\[5pt]
-      \footnotesize\url{#1}\\[5pt]
-      #5
+    \fbox{\begin{minipage}[c][#3cm][c]{0.91\textwidth}\centering
+      \textbf{#4}\\[8pt]
+      \small Figure reserved for final insertion
     \end{minipage}}%
   }
   \caption[#4]{#5}\label{#6}
   \end{figure}%
 }
-
 \newcommand{\reportgraph}[6]{%
   \begin{graph}[htbp]\centering
-  \IfFileExists{#1}{%
-    \includegraphics[width=#2\textwidth,height=#3cm,keepaspectratio]{#1}%
-  }{%
-    \fbox{\begin{minipage}[c][#3cm][c]{0.82\textwidth}\centering
-      \small\textbf{IMAGE PLACEHOLDER}\\[5pt]
-      \footnotesize\url{#1}\\[5pt]
-      #5
-    \end{minipage}}%
-  }
+  \includegraphics[width=#2\textwidth,height=#3cm,keepaspectratio]{#1}
   \caption[#4]{#5}\label{#6}
   \end{graph}%
 }
 
 \makeatletter
 \renewcommand{\listofgraphs}{%
-  \section*{List of Graphs}
+  \chapter*{List of Graphs}
   \begin{tabularx}{\textwidth}{p{1.0cm}Xr}
     \ref{graph:dataset-classes} & Generated dataset class counts & \pageref{graph:dataset-classes}\\
-    \ref{graph:shap-example} & Local SHAP explanation & \pageref{graph:shap-example}\\
-    \ref{graph:lime-example} & Local LIME explanation & \pageref{graph:lime-example}\\
+    \ref{graph:saved-metrics} & Saved classifier metrics & \pageref{graph:saved-metrics}\\
   \end{tabularx}%
 }
 \makeatother
@@ -83,8 +81,11 @@
 \lstset{basicstyle=\ttfamily\small,breaklines=true,frame=single}
 
 \begin{document}
+\input{frontmatter/details}
 \pagenumbering{roman}
+\hypersetup{pageanchor=false}
 \input{frontmatter/title}
+\hypersetup{pageanchor=true}
 \input{frontmatter/certificate}
 \input{frontmatter/acknowledgement}
 \input{frontmatter/abstract}
@@ -118,5 +119,7 @@
 \input{chapters/ch09_conclusion_future_scope}
 
 \bibliographystyle{IEEEtran}
+\begingroup\setstretch{1.05}
 \bibliography{references/references}
+\endgroup
 \end{document}

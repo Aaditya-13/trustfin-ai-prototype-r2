@@ -1,9 +1,9 @@
-// Decision Advisory Engine
-// Evaluates credit risk, repayment capacity (DTI), and algorithmic reliability for bank loan officers
+// Presentation guidance shared by the officer and applicant views.
+// These labels do not change the model prediction or issue a lending decision.
 
 /**
- * Evaluates model prediction, repayment safety, and reliability metrics
- * to produce practical, plain-English guidance for the bank loan officer.
+ * Formats model output, configured affordability checks and explanation metrics
+ * as plain-English review guidance for both portal views.
  * 
  * @param {Object} result - API response containing prediction, solvencyCheck, trustScore, shap, lime
  * @param {Object} applicantData - Raw applicant profile data
@@ -19,70 +19,65 @@ export const getUnderwritingAction = (result, applicantData) => {
     const dtiPercent = result.solvencyCheck?.dtiPercent ?? `${(dtiRatio * 100).toFixed(1)}%`;
     const isSolvent = result.solvencyCheck?.isSolvent ?? true;
     const solvencyStatus = result.solvencyCheck?.status ?? 'OPTIMAL';
-    const consistencyScore = result.trustScore?.consistency ?? 1.0;
     const existingEMI = result.solvencyCheck?.existingEMI ?? (Number(applicantData?.Existing_EMI) || 0);
     const totalObligation = result.solvencyCheck?.totalMonthlyObligation ?? ((result.solvencyCheck?.monthlyEMI || 0) + existingEMI);
 
     // =========================================================================
-    // CASE 3: DECLINE RECOMMENDED (Red)
-    // Triggers if: Unaffordable EMI (DTI > 50%) or Model Rejection
+    // Affordability warning or a model rejection that needs review.
     // =========================================================================
-    if (!isSolvent || solvencyStatus === 'INSOLVENT' || (!isApproved && confidencePercent >= 65)) {
+    const affordabilityFailed = !isSolvent || solvencyStatus === 'INSOLVENT' || dtiRatio > 0.50;
+    if (affordabilityFailed || (!isApproved && confidencePercent >= 65)) {
         const reasons = [];
 
-        if (!isSolvent || solvencyStatus === 'INSOLVENT') {
+        if (affordabilityFailed) {
             if (existingEMI > 0) {
-                reasons.push(`Total monthly debt of ₹${Math.round(totalObligation).toLocaleString('en-IN')} (including ₹${Math.round(existingEMI).toLocaleString('en-IN')} existing EMIs) consumes ${dtiPercent} of income, exceeding the 50% ceiling.`);
+                reasons.push(`Total monthly debt of ₹${Math.round(totalObligation).toLocaleString('en-IN')} (including ₹${Math.round(existingEMI).toLocaleString('en-IN')} existing EMIs) consumes ${dtiPercent} of income, exceeding the project's configured 50% review limit.`);
             } else {
-                reasons.push(`Monthly EMI requires ${dtiPercent} of total income, which exceeds the safe 50% repayment ceiling.`);
+                reasons.push(`Monthly debt takes ${dtiPercent} of income, exceeding the project's configured 50% review limit.`);
             }
         }
         if (!isApproved) {
-            if (applicantData?.Credit_History === 0 || applicantData?.Credit_History === '0') {
-                reasons.push('Past credit bureau record indicates defaults or irregular repayment history.');
-            } else {
-                reasons.push(`Credit risk assessment identified elevated default probability (${confidencePercent}% confidence).`);
-            }
+            reasons.push(`The model predicts Rejected with ${confidencePercent}% probability assigned to that class. This is not a measured default probability.`);
         }
 
         return {
             tier: 'HIGH_RISK',
-            badgeText: 'DECLINE RECOMMENDED: HIGH RISK',
+            badgeText: affordabilityFailed ? 'AFFORDABILITY REVIEW REQUIRED' : 'MODEL REJECTION: REVIEW REQUIRED',
             badgeClass: 'bg-red-700 text-white border-red-800',
             cardBgClass: 'bg-red-50/70 border-red-300',
             indicatorClass: 'bg-red-600',
             textColor: 'text-red-900',
             accentColor: 'text-red-700',
-            headline: isSolvent 
-                ? 'Decline Recommended: Credit model flags elevated default risk or irregular bureau track record.'
-                : 'Safety Limit Exceeded: Monthly loan repayment is unaffordable on current income.',
+            headline: affordabilityFailed
+                ? 'Monthly debt exceeds the configured review limit. Officer review is required, even if the model predicts approval.'
+                : 'The model predicts rejection. Review its contributing factors with a loan officer.',
             reasons: reasons.length > 0 ? reasons : ['High credit risk identified across repayment capacity and bureau history.'],
-            nextStep: 'Issue adverse action notice or consider restructuring with a smaller loan principal.'
+            nextStep: 'Review the submitted income, existing debts and loan terms with the lender before a final decision.'
         };
     }
 
     // =========================================================================
-    // CASE 1: RECOMMENDED FOR SANCTION (Green)
-    // Triggers if: Approved AND High Confidence (>= 70%) AND Safe Solvency (DTI <= 35%) AND High Reliability (>= 70%)
+    // Approved model output with the existing lower-debt and score thresholds.
+    // AUTO_APPROVE is a legacy styling identifier, not permission to lend.
     // =========================================================================
-    if (isApproved && confidencePercent >= 70 && trustPercent >= 70 && isSolvent && dtiRatio <= 0.35) {
+    if (isApproved && confidencePercent >= 70 && trustPercent >= 70 && result.solvencyCheck && isSolvent && dtiRatio <= 0.35) {
         const reasons = [
-            `Monthly EMI is very comfortable at ${dtiPercent} of income (well within the safe 35% threshold).`,
-            `Credit assessment confirms high repayment probability (${confidencePercent}% confidence).`,
-            `Key decision factors independently verified with ${(consistencyScore * 100).toFixed(0)}% consensus across underwriting checks.`
+            `Total monthly debt is ${dtiPercent} of the income used for the assessment, within the configured 35% lower-debt band.`,
+            `The model predicts Approved with ${confidencePercent}% probability assigned to that class.`,
+            `The experimental explanation Trust Score is ${trustPercent}%. It does not establish repayment ability or guarantee approval.`
         ];
 
         return {
             tier: 'AUTO_APPROVE',
-            badgeText: 'RECOMMENDED FOR SANCTION',
+            badgeText: 'MODEL APPROVED: VERIFICATION REQUIRED',
             badgeClass: 'bg-green-700 text-white border-green-800',
             cardBgClass: 'bg-green-50/70 border-green-300',
             indicatorClass: 'bg-green-600',
             textColor: 'text-green-900',
             accentColor: 'text-green-700',
-            headline: 'Eligible for Sanction: Strong financial capacity and verified credit standing.',
+            headline: 'The model predicts approval and the debt ratio is within the lower-debt band. Lender verification is still required.',
             reasons,
-            nextStep: 'All financial checks and reliability benchmarks passed. Safe to generate sanction letter.'
+            nextStep: 'Verify the submitted information and complete the lender’s normal assessment before approval.'
         };
     }
 
@@ -100,24 +95,25 @@ export const getUnderwritingAction = (result, applicantData) => {
         }
     }
     if (confidencePercent < 70) {
-        reasons.push(`Model confidence is moderate at ${confidencePercent}%, indicating a borderline applicant.`);
+        reasons.push(`The model assigns ${confidencePercent}% probability to its predicted class; review the prediction and supporting factors.`);
     }
     if (trustPercent < 70) {
-        reasons.push(`Underwriting factors show moderate consensus (${trustPercent}%); loan officer verification advised.`);
+        reasons.push(`The experimental explanation Trust Score is ${trustPercent}%; review the individual component checks.`);
     }
+    if (!result.solvencyCheck) reasons.push('No affordability assessment is available for this record.');
     if (reasons.length === 0) {
         reasons.push('Application has balanced parameters requiring standard loan officer verification.');
     }
 
     return {
         tier: 'OFFICER_REVIEW',
-        badgeText: 'OFFICER REVIEW REQUIRED: BORDERLINE CASE',
+        badgeText: 'OFFICER REVIEW REQUIRED',
         badgeClass: 'bg-amber-600 text-white border-amber-700',
         cardBgClass: 'bg-amber-50/70 border-amber-300',
         indicatorClass: 'bg-amber-500',
         textColor: 'text-amber-900',
         accentColor: 'text-amber-700',
-        headline: 'Manual Review Suggested: Moderate debt burden or borderline credit profile requires officer approval.',
+        headline: 'Review the model result, debt burden and explanation checks with a loan officer.',
         reasons,
         nextStep: 'Verify applicant income documents, employer details, and existing liabilities before sanction.'
     };

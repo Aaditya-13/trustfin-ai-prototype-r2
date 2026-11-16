@@ -1,7 +1,26 @@
-# Report preparation notes
+# Report scope
 
-- The report is based on the repository snapshot and the project identity supplied in the task.
-- The requested sample report ZIP, `group-1-abstract.docx`, and `UML Naming Convention.txt` were not present in the repository/workspace search. The report therefore follows the existing seminar report's academic style where useful and uses the title, institute, guide, team, and UML names provided in the task.
-- The old seminar files in the root of `report/` are retained unchanged. The new report is built from `main.tex` and the `frontmatter/`, `chapters/`, and `references/` directories.
-- The testing chapter summarizes automated test coverage present in the repository and separates it from the saved product-model evaluation metrics in Chapter 7.
-- Confirm institute-specific certificate wording, official abstract phrasing, team responsibilities, and any administrative submission date before printing.
+The report describes the current program source after the reset to
+`7aed5765bb4db1a997fdfeaa3e9cc5dbc2bb4e08`. Earlier alternative metric proposals
+and investigations retained elsewhere are not described as implemented features.
+
+The saved product metric files supply the classifier results. Current CSVs supply
+the dataset counts. No new model training, runtime feature changes or research
+metric rewrites were carried out during this report revision. A subsequent
+interface correction aligns officer and applicant assessment wording, reuses
+the applicant component in the officer preview, and corrects contradictory PDF
+claims. The report checker lists these intentional application-source changes
+against the original report snapshot.
+
+All nine chapters have plain opening paragraphs and unheaded closing recaps.
+Chapter 8 contains a concise twelve-week work plan and a LaTeX Gantt chart. It
+does not assign individual contributions or present Git dates as work durations.
+
+The supplied Level 0/1 DFDs and six interface screenshots are inserted at their
+canonical paths, with image bytes preserved during renaming. Editorial
+correction notes are kept outside the compiled report. The bibliography's Yeh
+et al. author list was corrected. API retrieval and deletion operations have
+separate table rows with correctly printed path parameters.
+
+The title and certificate retain the existing project identity and institutional
+details. Signature and date lines remain available for official completion.
