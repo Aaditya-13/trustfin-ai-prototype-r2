@@ -3,8 +3,10 @@
 The architecture and UML originals remain in `report/figures/images/`. The
 supplied DFDs were moved to `report/figures/diagrams/`, and the six supplied
 screenshots were renamed to match the chapter references. The image bytes are
-unchanged. Each interface screenshot is placed on a separate page at full
-available width, preserving its aspect ratio.
+unchanged. Interface screenshots are arranged in three pairs: loan selection
+with the application form, officer results with applicant results, and
+application history with the PDF report. Sizes preserve the original aspect
+ratios and allow both images and their captions to share a page.
 
 The institute emblem is stored at `report/figures/institution/kk-wagh-emblem.png`
 and appears on the title and certificate pages. Project identity fields, including

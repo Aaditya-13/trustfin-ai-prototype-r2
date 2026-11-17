@@ -1,36 +1,38 @@
-\chapter{Literature Survey}
+\chapter[LITERATURE SURVEY]{Literature Survey}
 
 This chapter reviews the work behind the project's main technical choices. It begins with credit classification and tree boosting, then considers SHAP, LIME and the evaluation of local explanations. The discussion ends with fairness and decision-support research, showing which ideas inform TrustFin AI and which require more evidence than the current system provides.
 
-\section{Credit Scoring as a Classification Problem}
+\section{Credit Scoring and Predictive Models}
+\subsection{Credit Scoring as a Classification Problem}
 Credit scoring is not simply a general classification task with financial field names. The available records are shaped by earlier lending decisions, the definition of a successful account and the population from which applications were accepted. Hand and Henley review statistical methods in consumer credit scoring and discuss problems that arise in this setting \cite{handHenley1997}.
 
 That background helps explain why a project using generated approval labels must make a narrower claim than a study using observed repayment outcomes. TrustFin AI can examine how a classifier reproduces its generated decision rules. It cannot use that result alone to conclude that the same classifier would rank actual credit risk correctly.
 
 Lessmann et al. compare classification algorithms across credit-scoring datasets \cite{lessmann2015}. Their work supports empirical comparison rather than a blanket claim that one method is always preferable. In the current project, XGBoost is the selected implementation. A controlled comparison with alternative classifiers is not part of the saved product evaluation, so superiority over those alternatives is not claimed here.
 
-\section{Gradient Boosting and XGBoost}
+\subsection{Gradient Boosting and XGBoost}
 Gradient boosting constructs an additive model through a sequence of learners. Each new learner is fitted to improve the objective left by the existing ensemble. Friedman's formulation gives the general basis for this approach \cite{friedman2001}. For structured loan records, the resulting model can represent interactions that would be awkward to express as one linear score.
 
 Chen and Guestrin describe XGBoost as a scalable tree-boosting system, with regularisation and implementation techniques for efficient learning \cite{chen2016}. TrustFin AI uses its binary classifier interface. Training specifies the number of estimators, tree depth, learning rate, row and column subsampling, and a fixed random state.
 
 The practical attraction is the combination of a tabular classifier with an established tree-explanation method. The trade-off is that the fitted decision process is spread across many trees. Reading a single tree does not explain the entire ensemble, which motivates the separate explanation stage.
 
-\section{Local and Global Explanations}
+\section{Explainable Artificial Intelligence}
+\subsection{Local and Global Explanations}
 A global explanation describes broader model behaviour, such as which variables tend to be important across a dataset. A local explanation concerns one selected input. These questions are related, but an important global feature need not be the leading reason for every applicant's result.
 
 The implemented TrustFin interface is centred on local review. It receives a contribution vector for the current application and sorts features for display. These bars describe that record under a particular explainer. They should not be presented as an aggregate study of the applicant population or as a discovered rule that always applies to the product.
 
 There is also a distinction between an explanation that is understandable and one that is faithful to the model. A short, familiar reason may be easy to accept while omitting information on which the model depends. Conversely, an accurate model explanation may expose an uncomfortable or undesirable dependence. The literature therefore motivates evaluating explanation behaviour separately from the readability of the presentation.
 
-\section{SHAP and Additive Attribution}
+\subsection{SHAP and Additive Attribution}
 Lundberg and Lee introduce SHAP through an additive feature-attribution framework linked to Shapley values \cite{lundberg2017}. A local output is represented through a baseline contribution and feature contributions. The interpretation depends on the model output being explained and on the assumptions used to represent absent features.
 
 TrustFin AI uses TreeExplainer on each XGBoost classifier. The input to this explainer is the transformed feature vector, so the contributions refer to the coordinates that the classifier receives. A category such as property area may appear as several encoded coordinates, while an engineered ratio appears alongside some of the raw quantities used to derive it.
 
 This creates a presentation responsibility. A bar for a standardised financial value is not a raw amount in rupees. A contribution in the binary model's raw margin space is not a change in approval percentage. The report therefore keeps contribution signs and ranking separate from the model's probability output.
 
-\section{LIME and Local Approximation}
+\subsection{LIME and Local Approximation}
 Ribeiro, Singh and Guestrin propose LIME as a way to approximate a complex classifier locally with an interpretable model \cite{ribeiro2016}. The selected neighbourhood, feature representation, weighting and fitting procedure influence the resulting explanation.
 
 The current wrapper supplies transformed training data to the tabular explainer and passes XGBoost's probability function when explaining a record. Its contributions concern the approval class. A deterministic seed makes repeated requests more repeatable in the same environment, but it does not establish that the sampled neighbourhood is financially realistic.
@@ -44,21 +46,22 @@ TrustFin AI uses simpler operational checks. Its current faithfulness routine ma
 
 An important consequence is that identical numerical scales do not imply identical meanings. A rank correlation, a set-overlap ratio and a transformed probability difference may all be displayed between zero and one. Their values still answer different questions. Combining them is a project design decision that needs to remain visible to the reader.
 
-\section{Fairness in Supervised Learning}
+\section{Fairness and Counterfactual Reasoning}
+\subsection{Fairness in Supervised Learning}
 Fairness requires a defined comparison. Hardt, Price and Srebro describe equality of opportunity in terms of the outcomes received by eligible members of different groups \cite{hardt2016}. This differs from asking whether changing one applicant's Gender field changes the model's probability.
 
 The live TrustFin check addresses the second question. It flips the binary Gender field while holding the remaining profile fixed. The training scripts also save a female-to-male approval-rate ratio on the generated test split. One is an individual sensitivity measurement; the other is a group-level descriptive statistic. Neither substitutes for a full fairness assessment.
 
 The data-generation rule is relevant here. The current scripts include a Gender-dependent adjustment in a borderline score region. The project can therefore demonstrate a model's response to a deliberately introduced dependency, but the generated distribution should not be treated as a representative account of real applicants or real discrimination.
 
-\section{Counterfactual Reasoning and Decision Support}
+\subsection{Counterfactual Reasoning and Decision Support}
 Wachter, Mittelstadt and Russell discuss counterfactual explanations in terms of changes that could support a different decision \cite{wachter2018}. Such an explanation differs from listing influential features: it asks what would need to change under a specified decision system.
 
 TrustFin's affordability calculator is more limited. It changes selected financial inputs and recalculates instalments and repayment ratios. It does not search for the nearest model-approved application, and it does not make a new classifier call for each slider movement. It is useful for discussing repayment capacity, provided the interface result is not described as a model counterfactual.
 
 The NIST AI Risk Management Framework places explanation and fairness within a broader, context-dependent risk-management process \cite{nistAirmf2023}. The project draws on that perspective when separating model output, explanation evidence and human review. It has not undergone an institutional risk-management assessment.
 
-\section{Relationship Between the Literature and This Project}
+\section{Research Gap and Position of the Project}
 Table~\ref{tab:literature-comparison} summarises how the reviewed work is used. The distinction between a source method and the project's adaptation is particularly important for the explanation scores.
 
 \begin{table}[htbp]
@@ -77,7 +80,6 @@ Wachter et al. \cite{wachter2018} & Counterfactual explanations & Clarifies the 
 \end{tabularx}
 \end{table}
 
-\section{Position of the Project}
 The project brings established tools into one review workflow. Its contribution is the connection between product-specific prediction, two local explanation methods, explicit diagnostics and saved assessment records. It does not introduce a new version of SHAP or LIME, and it does not establish a universal scalar measure of explanation trust.
 
 This position also guides evaluation. Classification metrics can assess reproduction of the generated labels. Explanation checks can describe behaviour under the implemented tests. A further study would be needed to show that the composite helps reviewers make better decisions or identifies misleading explanations reliably.

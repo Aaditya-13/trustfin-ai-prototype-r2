@@ -1,25 +1,27 @@
-\chapter{Problem Statement and Requirements}
+\chapter[PROBLEM STATEMENT AND REQUIREMENTS]{Problem Statement and Requirements}
 
 This chapter defines the problem addressed by TrustFin AI and translates it into application requirements. It describes the user journeys, the functions available for each loan product, and the technical constraints that shape the solution. It also distinguishes the intended decision-support role from functions that would require a production lending environment.
 
-\section{Problem Definition}
+\section{Problem Statement}
+\subsection{Problem Definition}
 A binary loan prediction gives a result without showing how the model arrived at it. That is a weak basis for a discussion with an applicant or a reviewing officer. Even when a classifier performs well on test data, a particular decision may need closer inspection because of the submitted values, the financial burden or the behaviour of its explanation.
 
 The problem addressed in this project is to make that individual assessment inspectable. The application must show the model output, provide local reasons, calculate defined checks on those reasons and retain the application context. It should also distinguish prediction probability from explanation quality so that one confident number does not dominate the review.
 
-\section{Users and Review Needs}
+\subsection{Limitations of a Prediction-Only Workflow}
+Consider two applicants with the same approval label. One may have a comfortable repayment ratio and a strong credit score. The other may be close to a model boundary or have monthly obligations that the application flags as excessive. Showing only the common label hides these differences.
+
+The same concern applies to explanations. Two methods may identify the same feature names but assign opposite directions to them. A chart alone does not show whether the selected reasons remain stable under a specified change. TrustFin AI addresses these review needs by returning the decision, financial summary, explanations and diagnostics as separate parts of one response.
+
+\section{Users and Functional Requirements}
+\subsection{Users and Review Needs}
 The applicant journey begins with selecting a product and completing a form. The result needs to communicate the decision, important factors and repayment calculations without assuming knowledge of model internals. The submitted-form view is useful here: a user can check whether the assessment used the information they intended to provide.
 
 The bank-officer journey needs more detail. An officer may inspect SHAP and LIME contributions, compare the leading factors, review the four diagnostics and open a previously saved evaluation. Batch upload supports reviewing several applications without repeatedly filling the same form. These journeys share the prediction service but use different levels of detail in the interface.
 
 The role selection is a navigation feature. The current backend does not authenticate the selected role or restrict history endpoints by account. The project therefore uses local or controlled demonstration data and treats secure multi-user operation as a separate deployment requirement.
 
-\section{Limitations of a Prediction-Only Workflow}
-Consider two applicants with the same approval label. One may have a comfortable repayment ratio and a strong credit score. The other may be close to a model boundary or have monthly obligations that the application flags as excessive. Showing only the common label hides these differences.
-
-The same concern applies to explanations. Two methods may identify the same feature names but assign opposite directions to them. A chart alone does not show whether the selected reasons remain stable under a specified change. TrustFin AI addresses these review needs by returning the decision, financial summary, explanations and diagnostics as separate parts of one response.
-
-\section{Functional Requirements}
+\subsection{Functional Requirements}
 Table~\ref{tab:functional-requirements} links the principal requirements to the current application. Each requirement describes a user-visible function or a step required to produce it.
 
 \begin{table}[htbp]\centering\small
@@ -40,7 +42,7 @@ FR-10 & Recalculate instalment and affordability values in the what-if calculato
 
 The result of a single evaluation must contain enough information for subsequent views to use the same assessment. This includes the dossier reference, product, prediction, probabilities, explanations, component scores and solvency summary. Recomputing only part of the result in another screen could otherwise create conflicting accounts of the same application.
 
-\section{Product-Specific Requirements}
+\subsection{Product-Specific Requirements}
 A home loan has a property-related context. The application collects property value and area, supports co-applicant income, and derives loan-to-value ratio. A personal loan uses loan purpose and credit-card utilisation instead of collateral fields. It calculates its FOIR using applicant income.
 
 Separate product preprocessors enforce the model's feature representation. The selected model must receive fields in the order and scale used when it was trained. A change to a form label must not silently change the feature passed to the classifier, and an additional display field must not be mistaken for a trained predictor.

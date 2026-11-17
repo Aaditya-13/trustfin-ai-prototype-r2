@@ -1,15 +1,14 @@
-\chapter{Conclusion and Future Scope}
+\chapter[CONCLUSION AND FUTURE SCOPE]{Conclusion and Future Scope}
 
 This chapter draws together the project outcomes and the evidence discussed in the report. It summarises the contribution of the application, identifies the limits of the current evaluation and sets out the next steps for data, explanation validation and operational development.
 
-\section{Project Outcome}
+\section{Conclusions}
 TrustFin AI connects two product-specific loan classifiers with local explanations and diagnostic checks in a working decision-support application. A user can submit a home-loan or personal-loan profile, inspect the model output, review SHAP and LIME contributions, see the financial summary and retain the assessment through history or PDF export.
 
 The main contribution is the connection between these functions. Prediction, explanation, financial arithmetic and persistence are often examined separately during development. Bringing them into one workflow makes it easier to see how a submitted field becomes a model coordinate, a displayed reason and a saved assessment value.
 
 The product distinction is also important. The home-loan pipeline includes property context and LTV, while the personal-loan pipeline uses purpose and card utilisation. Shared application logic coordinates these paths without treating their feature definitions as identical.
 
-\section{Conclusions from the Evaluation}
 The saved test metrics show high performance against the generated approval labels: 97.00\% accuracy for home loans and 97.33\% for personal loans. These results describe the recorded stratified test partitions. They support the use of the models within the project's simulation, not a claim about actual repayment outcomes.
 
 The explanation stage provides an inspectable local account of each model output. Its usefulness depends on the output space, feature representation and perturbation assumptions. The four current diagnostics expose selected aspects of that behaviour, but their weighted sum does not remove those assumptions or establish a universal measure of trust.
@@ -23,19 +22,20 @@ The explanation checks have specific limits. Faithfulness uses zero masking and 
 
 The current application also lacks server-side authentication and role enforcement. The what-if calculator performs affordability arithmetic without a fresh model prediction. Stored records and PDFs support review, but they do not form a cryptographically verified audit trail or a signed lending decision.
 
-\section{Future Data and Model Evaluation}
+\section{Future Scope}
+\subsection{Data and Model Evaluation}
 The first extension should be a lawful, representative and appropriately de-identified dataset with a clearly defined outcome. It would allow evaluation of missingness, data leakage, time-related changes, subgroup errors and model calibration. An interpretable baseline and repeated evaluation would help determine whether the selected model adds useful predictive value.
 
 The data-generation process can still serve as a controlled test environment. Its role should be explicit, with separate scenarios for ordinary financial patterns and known failure conditions. Results from those scenarios should remain distinguishable from evidence about real applicants.
 
-\section{Future Explanation Evaluation}
+\subsection{Explanation Evaluation}
 Further work should examine whether the explanation metrics distinguish useful explanations from corrupted or misleading ones. Perturbations should describe valid applications and preserve the relationships between raw financial inputs and derived features. The sensitivity of conclusions to neighbourhood choice, reference values and score weights also needs to be measured.
 
 Both SHAP and LIME should be evaluated according to their own semantics. Comparing feature names is informative, but it does not establish agreement in direction or magnitude. A local explanation-quality study could also compare results across applicant groups, provided that the test, group definitions and sample uncertainty are stated clearly.
 
 The Trust Score would benefit from an evaluation tied to a specific use. For example, a study could examine whether it identifies explanations that reviewers should inspect more closely. The existing display thresholds should remain project rules until such evidence supports a stronger interpretation.
 
-\section{Future Application Development}
+\subsection{Application Development}
 Before wider use, the service would need authenticated access, server-side permissions, privacy controls and a clear retention policy for application records. Versioned database migrations, visible persistence status, secure configuration and monitored deployment would strengthen the operational workflow.
 
 A model-backed scenario endpoint could extend the what-if calculator. Such a feature would need to show exactly which inputs changed and keep a hypothetical result separate from the original assessment. It should also prevent users from interpreting a changed scenario as an approved lending action.

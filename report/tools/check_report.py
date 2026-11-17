@@ -15,15 +15,52 @@ texts = [unicodedata.normalize('NFKC', page.get_text()) for page in pdf]
 all_text = '\n'.join(texts)
 chapters = sorted((REPORT/'chapters').glob('*.tex'))
 assert len(chapters) == 9
-for path in chapters:
+expected_main_sections = [5, 5, 5, 5, 6, 5, 5, 1, 3]
+for number, path in enumerate(chapters):
     source = path.read_text(encoding='utf-8')
-    opening = source.split('\\chapter{', 1)[1].split('}', 1)[1].split('\\section', 1)[0]
+    assert len(re.findall(r'^\\section\{', source, re.M)) == expected_main_sections[number], path.name
+    assert not re.search(r'^\\subsubsection\{', source, re.M), path.name
+    opening = re.split(r'\\chapter(?:\[[^\]]*\])?\{[^}]*\}', source, maxsplit=1)[1].split('\\section', 1)[0]
     assert len(opening.split()) >= 20, path.name
     assert '\\section' not in opening and '\\subsection' not in opening, path.name
     assert 'This chapter has' in source[-1000:], path.name
     assert 'To be confirmed' not in source, path.name
 assert sum(t.startswith('Chapter ') for t in texts) == 9
 assert all_text.count('This chapter has') == 9
+assert 'Authentication and Security' not in all_text
+toc = (REPORT/'output/main.toc').read_text(encoding='utf-8')
+assert re.search(r'\\contentsline\s*\{subsection\}\s*\{\\numberline\s*\{5\.5\.1\}', toc)
+assert re.search(r'\\contentsline\s*\{subsection\}\s*\{\\numberline\s*\{5\.5\.4\}', toc)
+first_body_page = next(i for i, text in enumerate(texts) if text.startswith('Chapter 1'))
+contents_text = '\n'.join(texts[:first_body_page])
+assert re.search(r'5\.5\.1\s+Backend and API Communication', contents_text)
+assert re.search(r'5\.5\.4\s+PDF Report Generation', contents_text)
+contents_flat = ' '.join(contents_text.split())
+numbered_subsections = 0
+for chapter_number, path in enumerate(chapters, 1):
+    section_number = subsection_number = 0
+    headings = re.findall(r'^\\(section|subsection)\{([^}]+)\}', path.read_text(encoding='utf-8'), re.M)
+    for kind, title in headings:
+        if kind == 'section':
+            section_number += 1
+            subsection_number = 0
+        else:
+            subsection_number += 1
+            numbered_subsections += 1
+            entry = f'{chapter_number}.{section_number}.{subsection_number} {title}'
+            assert entry in contents_flat, entry
+implementation = (REPORT/'chapters/ch05_implementation_methodology.tex').read_text(encoding='utf-8')
+application_section = implementation.split(r'\section{Application Implementation}', 1)[1].split(r'\section{End-to-End System Workflow}', 1)[0]
+assert len(re.findall(r'^\\subsection\{', application_section, re.M)) == 4
+screenshot_pages = {}
+for number in range(1, 7):
+    matches = [i for i, text in enumerate(texts) if re.search(rf'Figure\s+5\.{number}:', text)]
+    assert len(matches) == 1, (number, matches)
+    screenshot_pages[number] = matches[0]
+assert screenshot_pages[1] == screenshot_pages[2]
+assert screenshot_pages[3] == screenshot_pages[4]
+assert screenshot_pages[5] == screenshot_pages[6]
+assert len(set(screenshot_pages.values())) == 3
 figure_paths = re.findall(r'\\reportfigure\{([^}]+)\}', '\n'.join(p.read_text(encoding='utf-8') for p in chapters))
 reserved_figures = sum(not (REPORT/path).is_file() for path in figure_paths)
 assert all_text.count('Figure reserved for final insertion') == reserved_figures
@@ -53,6 +90,11 @@ if snapshot_path.exists():
 result = {
     'pdf': pdf_path.name, 'pages_including_frontmatter_and_references': len(pdf),
     'chapters_with_plain_openings_and_closing_recaps': len(chapters),
+    'main_sections_per_chapter': expected_main_sections,
+    'authentication_and_security_section_removed': True,
+    'contents_includes_numbered_subsections': True,
+    'numbered_subsections_verified_in_contents': numbered_subsections,
+    'interface_screenshots_paired_on_three_pages': True,
     'reserved_dfd_and_interface_figures': reserved_figures, 'gantt_chart_present': True,
     'undefined_references': False, 'overfull_text_boxes': False,
     'application_models_and_datasets_unchanged': source_unchanged,

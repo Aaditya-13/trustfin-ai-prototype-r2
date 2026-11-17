@@ -27,8 +27,28 @@
 \setlength{\parskip}{0.25em}
 \setlength{\headheight}{15pt}
 \setcounter{secnumdepth}{2}
-\setcounter{tocdepth}{1}
+\setcounter{tocdepth}{2}
 \setlist{nosep,leftmargin=*}
+
+% Contents formatting follows the guide's sample.
+\setlength{\cftsecindent}{1.5em}
+\setlength{\cftsecnumwidth}{2.3em}
+\setlength{\cftsubsecindent}{3.8em}
+\setlength{\cftsubsecnumwidth}{3.2em}
+\newcommand{\reportfronttocstyle}{%
+  \renewcommand{\cftchapfont}{\normalfont}%
+  \renewcommand{\cftchappagefont}{\normalfont}%
+  \renewcommand{\cftchapdotsep}{\cftdotsep}%
+  \setlength{\cftchapindent}{1.5em}%
+  \setlength{\cftbeforechapskip}{0pt}%
+}
+\newcommand{\reportchaptertocstyle}{%
+  \renewcommand{\cftchapfont}{\normalfont\bfseries}%
+  \renewcommand{\cftchappagefont}{\normalfont\bfseries}%
+  \renewcommand{\cftchapdotsep}{\cftnodots}%
+  \setlength{\cftchapindent}{0pt}%
+  \setlength{\cftbeforechapskip}{10pt}%
+}
 
 \definecolor{reportblue}{RGB}{22,65,116}
 \pagestyle{fancy}
@@ -71,6 +91,7 @@
 \makeatletter
 \renewcommand{\listofgraphs}{%
   \chapter*{List of Graphs}
+  \addcontentsline{toc}{chapter}{LIST OF GRAPHS}%
   \begin{tabularx}{\textwidth}{p{1.0cm}Xr}
     \ref{graph:dataset-classes} & Generated dataset class counts & \pageref{graph:dataset-classes}\\
     \ref{graph:saved-metrics} & Saved classifier metrics & \pageref{graph:saved-metrics}\\
@@ -86,28 +107,33 @@
 \hypersetup{pageanchor=false}
 \input{frontmatter/title}
 \hypersetup{pageanchor=true}
+\addtocontents{toc}{\protect\reportfronttocstyle}
 \input{frontmatter/certificate}
 \input{frontmatter/acknowledgement}
 \input{frontmatter/abstract}
 
-\begingroup\footnotesize
+\begingroup\normalsize
+\setstretch{1.05}
 \tableofcontents
 \endgroup
 \clearpage
 \input{frontmatter/abbreviations}
 \clearpage
-\begingroup\footnotesize
+\begingroup\normalsize
 \setstretch{1.0}
 \listoffigures
+\addcontentsline{toc}{chapter}{LIST OF FIGURES}
 \clearpage
 \listofgraphs
 \clearpage
 \listoftables
+\addcontentsline{toc}{chapter}{LIST OF TABLES}
 \endgroup
 \clearpage
 
 \pagenumbering{arabic}
 \setcounter{page}{1}
+\addtocontents{toc}{\protect\reportchaptertocstyle}
 \input{chapters/ch01_introduction}
 \input{chapters/ch02_literature_survey}
 \input{chapters/ch03_problem_requirements}

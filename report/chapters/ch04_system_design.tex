@@ -1,25 +1,31 @@
-\chapter{System Analysis and Design}
+\chapter[SYSTEM ANALYSIS AND DESIGN]{System Analysis and Design}
 
 This chapter follows the structure of TrustFin AI from the browser interface to the prediction service and stored assessment. It explains the architecture, processing sequence, class and package responsibilities, deployment view and database design. The diagrams provide different views of the same workflow, while the accompanying descriptions identify the corresponding parts of the application.
 
-\section{System Overview}
+\section{System Architecture and Workflow}
+\subsection{System Overview}
 TrustFin AI has a React client and a FastAPI backend. The client collects application details and presents results; the backend performs model inference, explanation generation, validation and persistence. A model registry holds separate home-loan, personal-loan and legacy pipelines. The selected pipeline supplies its preprocessor, classifier, feature function and explainers.
 
 This separation is important because the loan products have different inputs. Property information belongs to the home-loan flow, while purpose and card utilisation belong to the personal-loan flow. Shared route logic coordinates the assessment without requiring the frontend to understand the model's encoded feature vector.
 
-\section{System Architecture}
+\subsection{System Architecture}
 Figure~\ref{fig:system-architecture} shows the architecture across data preparation, prediction, explanation and presentation. Offline training produces saved artifacts. Online evaluation loads and uses those artifacts; it does not retrain a model for each application.
 
 The API returns a structured response containing several distinct outputs. The model decision and probability describe the classifier's result. The solvency summary contains deterministic financial calculations. The explanation arrays and diagnostic scores support review of the model response. Keeping these parts explicit makes it possible to inspect a disagreement between the classifier and the affordability summary.
 
 \reportfigure{figures/images/system architecture.png}{0.99}{18.2}{System architecture}{Architecture of the TrustFin AI assessment workflow.}{fig:system-architecture}
 
-\section{Processing Methodology}
+\subsection{Processing Methodology}
 The methodology in Figure~\ref{fig:methodology} connects data preparation, model training, prediction, explanation and decision support. In the current system, the data source is the pair of generated product datasets. Training uses fixed hyperparameters and a stratified hold-out split. Request-time processing uses the fitted artifacts and produces the assessment displayed in the dashboard.
 
 The diagram's stages are useful for distinguishing offline work from online work. Cleaning, encoding and fitting belong to training preparation. The online route applies the already fitted transformation to an applicant. The explanation and scoring functions then operate on that transformed record. PDF generation and history retrieval use the completed assessment rather than creating a new training result.
 
 \reportfigure{figures/derived/methodology.pdf}{0.99}{8.0}{Processing methodology}{Processing stages from dataset preparation to explanation and decision support.}{fig:methodology}
+
+\subsection{Assessment and Retrieval Paths}
+A new evaluation performs inference and explanation before returning its response. History retrieval follows a different path: it reads stored data and reconstructs the response object. This avoids presenting a newly computed explanation as if it were the explanation originally saved with the dossier.
+
+Batch processing applies row validation before assessment and records unusable rows with their reasons. The same product pipeline is used for usable records. The batch summary then reports processed outcomes and the aggregate Trust Score. Persistence errors and transaction handling remain important operational limitations because a computed response and a successfully stored response are different events.
 
 \clearpage
 \section{Data Flow Diagrams}
@@ -37,14 +43,15 @@ The Level 1 view separates input processing, product feature engineering, predic
 \reportfigure{figures/diagrams/level_1_dfd.png}{0.99}{10.5}{Level 1 DFD -- Internal Data Flow}{Data flow through application processing, prediction, explanation, validation, storage and reporting.}{fig:level1-dfd}
 \clearpage
 
-\section{Component Responsibilities}
+\section{Software Design}
+\subsection{Component Responsibilities}
 The component view in Figure~\ref{fig:component-diagram} groups the software by function. React components handle form entry, product navigation, results, history and batch interaction. The FastAPI router coordinates calls to the model, explainers, validation functions and persistence layer. The reporting module converts applicant and result data into an A4 PDF.
 
 Model and explanation computation occur in the backend process. SQLAlchemy provides the database interface, with SQLite available locally and PostgreSQL configurable through the environment. The components share typed request and response structures rather than passing separately formatted display text between the model and browser.
 
 \reportfigure{figures/images/Component_Diagram.jpeg}{0.96}{12.4}{Component diagram}{Frontend, backend, prediction, explanation, validation and persistence components.}{fig:component-diagram}
 
-\section{Class Responsibilities and Data Contracts}
+\subsection{Class Design and Data Contracts}
 Figure~\ref{fig:class-diagram} presents the main domain responsibilities. The user is the person submitting or reviewing an application. Application details become a typed request; prediction and explanation data form the assessment response; the dashboard displays that response; and the report generator exports it.
 
 The source implements these responsibilities through Pydantic models, explainer wrappers, the product registry and SQLAlchemy records. It uses module-level route functions to coordinate evaluation. The principal correspondence between the design view and source is shown in Table~\ref{tab:design-source-map}.
@@ -66,7 +73,7 @@ Saved assessment & \texttt{PredictionLog} and \texttt{BatchUpload}.\\\bottomrule
 
 The user in this domain view is not a stored account entity. The persistence schema contains assessment and batch records. Applicant and officer modes select different client presentations, while server-side account authentication is outside the implemented access model.
 
-\section{Sequence of an Individual Evaluation}
+\subsection{Sequence of an Individual Evaluation}
 The sequence diagram in Figure~\ref{fig:sequence-diagram} follows one application request. The user submits values through the dashboard, and the backend chooses the product pipeline. Normalisation and feature engineering precede the classifier call. SHAP and LIME then receive the transformed instance, and the validation stage produces the component scores.
 
 The completed response returns to the client for display. A dossier reference identifies the evaluation, and the route attempts to store the response with the input record. The optional PDF interaction takes the assessment and applicant data and produces a report. It is a separate action from predicting the application.
@@ -75,7 +82,7 @@ The financial summary travels alongside the model output. An excessive FOIR crea
 
 \reportfigure{figures/images/Sequence_Diagram_Updated.png}{0.99}{16.5}{Evaluation sequence}{Sequence of interactions for application evaluation and optional PDF reporting.}{fig:sequence-diagram}
 
-\section{Package Organisation}
+\subsection{Package Organisation}
 The package view in Figure~\ref{fig:package-diagram} groups presentation, application coordination, prediction, explainability, trust evaluation and data management. The source follows these responsibilities through frontend components and backend modules rather than through a separate deployed service for each package.
 
 The router sits at the coordination point. It calls product-specific preprocessing and model inference, passes results through explanation and validation functions, and assembles the response. Database code handles persistence, while the PDF module handles the exported document. This layout gives each part a recognisable place in the project and helps trace the source of a displayed value.
@@ -84,14 +91,9 @@ The current application has no account repository or authentication module. Its 
 
 \reportfigure{figures/images/Package_Diagram.jpeg}{0.87}{18.2}{Package diagram}{Logical package organisation of the financial decision-support application.}{fig:package-diagram}
 
-\section{Deployment View}
-The deployment view in Figure~\ref{fig:deployment-diagram} separates the browser, application runtime, model responsibilities and database. During local development, the browser communicates with Vite and the FastAPI service. The API loads model artifacts from the filesystem and performs inference and explanation within the Python process.
-
-SQLite provides a local storage path. A configured PostgreSQL connection can be used instead, with a local fallback on connection failure. The logical AI environment in the diagram groups prediction and explanation responsibilities; the current code does not require a separately hosted model API. Similarly, transport security depends on deployment configuration and is not established by a development URL alone.
-
-\reportfigure{figures/images/deployment-diagram.png}{0.97}{12.7}{Deployment diagram}{Deployment responsibilities for the client, application runtime, model execution and database.}{fig:deployment-diagram}
-
-\section{Database Design}
+\clearpage
+\section{Database and API Design}
+\subsection{Database Design}
 The database stores enough information to retrieve an assessment without regenerating its explanations. \texttt{PredictionLog} contains applicant summary fields, raw input JSON, model output, solvency values, SHAP and LIME JSON, the four component scores and the full response. A unique dossier reference supports presentation and lookup.
 
 \texttt{BatchUpload} stores the upload reference, product, filename, timestamp, record counts, flawed-row information and summary. Prediction rows can carry the same \texttt{batch\_id}. This creates an application-level association between a batch and its evaluations, although the SQLAlchemy schema does not declare a foreign-key constraint for it.
@@ -106,7 +108,8 @@ Entity & Identification & Stored information\\\midrule
 
 The use of JSON preserves nested explanation data and complete responses. Scalar fields make history summaries practical without decoding every payload. Schema setup uses SQLAlchemy table creation and selected additive column checks. A versioned database-migration framework is not included.
 
-\section{API Boundaries}
+\clearpage
+\subsection{API Boundaries}
 The loan router is mounted at \texttt{/api/v1/loan}. Table~\ref{tab:api-endpoints} lists its main operations. Pydantic schemas define the submitted application, prediction response, stored summaries and PDF request. A shared response contract allows the interface and database to use the same assessment structure.
 
 \begin{table}[htbp]\centering\small
@@ -127,10 +130,13 @@ GET & \texttt{/batch-presets/\{id\}} & Retrieve a demonstration preset.\\
 POST & \path{/generate-pdf} & Export the assessment.\\\bottomrule
 \end{tabularx}\end{table}
 
-\section{Assessment and Retrieval Paths}
-A new evaluation performs inference and explanation before returning its response. History retrieval follows a different path: it reads stored data and reconstructs the response object. This avoids presenting a newly computed explanation as if it were the explanation originally saved with the dossier.
+\clearpage
+\section{Deployment View}
+The deployment view in Figure~\ref{fig:deployment-diagram} separates the browser, application runtime, model responsibilities and database. During local development, the browser communicates with Vite and the FastAPI service. The API loads model artifacts from the filesystem and performs inference and explanation within the Python process.
 
-Batch processing applies row validation before assessment and records unusable rows with their reasons. The same product pipeline is used for usable records. The batch summary then reports processed outcomes and the aggregate Trust Score. Persistence errors and transaction handling remain important operational limitations because a computed response and a successfully stored response are different events.
+SQLite provides a local storage path. A configured PostgreSQL connection can be used instead, with a local fallback on connection failure. The logical AI environment in the diagram groups prediction and explanation responsibilities; the current code does not require a separately hosted model API. Similarly, transport security depends on deployment configuration and is not established by a development URL alone.
+
+\reportfigure{figures/images/deployment-diagram.png}{0.97}{12.7}{Deployment diagram}{Deployment responsibilities for the client, application runtime, model execution and database.}{fig:deployment-diagram}
 
 \par\medskip\noindent
 This chapter has followed the application across its architecture, components, data contracts, processing sequence, package organisation, deployment responsibilities and database. It has also shown how the API connects a new assessment with the history and reporting functions.

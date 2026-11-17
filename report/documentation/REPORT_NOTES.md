@@ -13,6 +13,13 @@ claims. The report checker lists these intentional application-source changes
 against the original report snapshot.
 
 All nine chapters have plain opening paragraphs and unheaded closing recaps.
+The approved hierarchy groups related topics into numbered subsections, with
+5, 5, 5, 5, 6, 5, 5, 1 and 3 main sections across Chapters 1--9 respectively.
+Chapter 5 has four application-implementation subsections; the dedicated
+Authentication and Security implementation section was removed because that
+feature is not implemented. Equations, citations, figure paths and labels were
+preserved during restructuring. The contents pages list both main sections and
+numbered subsections, including three-part numbers such as 5.4.1 and 5.5.1.
 Chapter 8 contains a concise twelve-week work plan and a LaTeX Gantt chart. It
 does not assign individual contributions or present Git dates as work durations.
 
