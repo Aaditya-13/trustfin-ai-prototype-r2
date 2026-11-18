@@ -10,6 +10,7 @@ from backend.app.explainability.lime_explainer import LIMEExplainer
 from backend.app.ml.preprocessing_homeloan import add_homeloan_financial_features
 from backend.app.ml.preprocessing_personalloan import add_personalloan_financial_features
 from backend.app.ml.preprocessing import add_financial_features as add_legacy_features
+from backend.app.ml.bundle import ROOT, load_product_bundle
 
 class ProductPipeline:
     def __init__(
@@ -39,84 +40,26 @@ class ProductPipeline:
 class ModelRegistry:
     def __init__(self):
         self.pipelines: Dict[str, ProductPipeline] = {}
+        self.load_errors = {}
         self._initialize_pipelines()
 
     def _initialize_pipelines(self):
-        # 1. Load Home Loan Pipeline
-        hl_dir = 'models/homeloan'
-        if os.path.exists(os.path.join(hl_dir, 'model.pkl')):
+        for product, suffix, title, feature_fn in [
+            ('home_loan', 'homeloan', 'Residential Home Loan', add_homeloan_financial_features),
+            ('personal_loan', 'personalloan', 'Personal & Retail Credit', add_personalloan_financial_features),
+        ]:
             try:
-                hl_model = joblib.load(os.path.join(hl_dir, 'model.pkl'))
-                hl_pre = joblib.load(os.path.join(hl_dir, 'preprocessor.pkl'))
-                with open(os.path.join(hl_dir, 'feature_names.json')) as f:
-                    hl_feat_names = json.load(f)
-                with open(os.path.join(hl_dir, 'metrics.json')) as f:
-                    hl_metrics = json.load(f)
-                hl_bg = np.load(os.path.join(hl_dir, 'background_data.npy'))
-                
-                hl_raw = [
-                    'Gender', 'Married', 'Dependents', 'Education', 'Employment_Status',
-                    'Age', 'Work_Experience', 'Applicant_Income', 'Coapplicant_Income',
-                    'Existing_EMI', 'Loan_Amount', 'Loan_Term', 'Property_Value',
-                    'Property_Area', 'CIBIL_Score', 'Missed_Payments_12M'
-                ]
-                
-                hl_shap = SHAPExplainer(hl_model, hl_feat_names)
-                hl_lime = LIMEExplainer(hl_bg, hl_feat_names)
-                
-                self.pipelines['home_loan'] = ProductPipeline(
-                    product_id='home_loan',
-                    title='Residential Home Loan',
-                    model=hl_model,
-                    preprocessor=hl_pre,
-                    feature_names=hl_feat_names,
-                    shap_explainer=hl_shap,
-                    lime_explainer=hl_lime,
-                    feature_fn=add_homeloan_financial_features,
-                    raw_features=hl_raw,
-                    metrics=hl_metrics
+                model, pre, names, metrics, bg, meta = load_product_bundle(ROOT/'models'/suffix, product, feature_fn)
+                self.pipelines[product] = ProductPipeline(
+                    product_id=product, title=title, model=model, preprocessor=pre,
+                    feature_names=names, shap_explainer=SHAPExplainer(model, names),
+                    lime_explainer=LIMEExplainer(bg, names), feature_fn=feature_fn,
+                    raw_features=meta['predictive_raw_features'], metrics=metrics,
                 )
-                print("[OK] Home Loan pipeline registered.")
-            except Exception as e:
-                print(f"Error registering Home Loan pipeline: {e}")
-
-        # 2. Load Personal Loan Pipeline
-        pl_dir = 'models/personalloan'
-        if os.path.exists(os.path.join(pl_dir, 'model.pkl')):
-            try:
-                pl_model = joblib.load(os.path.join(pl_dir, 'model.pkl'))
-                pl_pre = joblib.load(os.path.join(pl_dir, 'preprocessor.pkl'))
-                with open(os.path.join(pl_dir, 'feature_names.json')) as f:
-                    pl_feat_names = json.load(f)
-                with open(os.path.join(pl_dir, 'metrics.json')) as f:
-                    pl_metrics = json.load(f)
-                pl_bg = np.load(os.path.join(pl_dir, 'background_data.npy'))
-                
-                pl_raw = [
-                    'Gender', 'Age', 'Married', 'Dependents', 'Education',
-                    'Employment_Status', 'Work_Experience', 'Applicant_Income',
-                    'Existing_EMI', 'Loan_Amount', 'Loan_Term', 'Loan_Purpose',
-                    'Credit_Card_Utilization', 'CIBIL_Score', 'Missed_Payments_12M'
-                ]
-                
-                pl_shap = SHAPExplainer(pl_model, pl_feat_names)
-                pl_lime = LIMEExplainer(pl_bg, pl_feat_names)
-                
-                self.pipelines['personal_loan'] = ProductPipeline(
-                    product_id='personal_loan',
-                    title='Personal & Retail Credit',
-                    model=pl_model,
-                    preprocessor=pl_pre,
-                    feature_names=pl_feat_names,
-                    shap_explainer=pl_shap,
-                    lime_explainer=pl_lime,
-                    feature_fn=add_personalloan_financial_features,
-                    raw_features=pl_raw,
-                    metrics=pl_metrics
-                )
-                print("[OK] Personal Loan pipeline registered.")
-            except Exception as e:
-                print(f"Error registering Personal Loan pipeline: {e}")
+                print(f'[OK] {product}: {meta["model_version"]} registered and verified.')
+            except Exception as exc:
+                self.load_errors[product] = str(exc)
+                print(f'Error registering {product}: {exc}')
 
         # 3. Load Legacy Pipeline (for backwards compatibility with existing tests)
         if os.path.exists('models/loan_prediction_model.pkl'):
@@ -166,7 +109,10 @@ class ModelRegistry:
         if 'personal' in pid and 'personal_loan' in self.pipelines:
             return self.pipelines['personal_loan']
             
-        # Fallback
+        if 'personal' in pid or 'home' in pid:
+            raise ValueError(f"Requested product model is unavailable: {product_id}. Rebuild its verified bundle.")
+
+        # Legacy/default compatibility
         if 'home_loan' in self.pipelines:
             return self.pipelines['home_loan']
         if 'legacy' in self.pipelines:

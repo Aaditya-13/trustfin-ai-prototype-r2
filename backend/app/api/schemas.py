@@ -2,6 +2,8 @@ from pydantic import BaseModel, Field, field_validator
 from typing import Optional, List, Any
 from backend.app.explainability.schemas import StandardExplanation
 from backend.app.trust.trust_score import TrustEvaluation
+from backend.app.validation.stability import StabilityEvaluation
+from backend.app.validation.faithfulness import FaithfulnessEvaluation
 
 class LoanApplicationRequest(BaseModel):
     loan_type: Optional[str] = Field(None, description="Product identifier (home_loan | personal_loan)")
@@ -79,8 +81,15 @@ class SolvencyCheckResult(BaseModel):
     dtiRatio: float = Field(..., description="Debt-to-Income / FOIR numerical ratio")
     dtiPercent: str = Field(..., description="Formatted Debt-to-Income percentage string")
     status: str = Field(..., description="'OPTIMAL', 'MODERATE', or 'INSOLVENT'")
-    isSolvent: bool = Field(..., description="Whether DTI is within regulatory threshold (<= 50%)")
-    overrideWarning: Optional[str] = Field(None, description="Regulatory solvency breach warning if DTI exceeds threshold")
+    isSolvent: bool = Field(..., description="Whether FOIR is within the project's configured limit")
+    overrideWarning: Optional[str] = Field(None, description="Project affordability warning")
+
+class PolicyCheckResult(BaseModel):
+    passed: bool
+    decision: str = Field(..., description="Model prediction after mandatory project-policy rejections")
+    violations: List[str]
+    reasons: List[str]
+    policyVersion: str
 
 class LoanPredictionResponse(BaseModel):
     prediction: str = Field(..., description="'Approved' or 'Rejected'")
@@ -91,6 +100,9 @@ class LoanPredictionResponse(BaseModel):
     lime: StandardExplanation
     trustScore: TrustEvaluation
     solvencyCheck: Optional[SolvencyCheckResult] = None
+    policyCheck: Optional[PolicyCheckResult] = None
+    stabilityCheck: Optional[StabilityEvaluation] = None
+    faithfulnessCheck: Optional[FaithfulnessEvaluation] = None
     evaluationId: Optional[int] = Field(None, description="Database record ID in SQLite")
     dossierId: Optional[str] = Field(None, description="Unique institutional dossier reference code (e.g. TF-20261022-8492)")
 

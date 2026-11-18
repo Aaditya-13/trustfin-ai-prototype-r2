@@ -18,14 +18,14 @@ const LoanTypeSelection = ({ userRole, onSelectLoan, onBack }) => {
                     Back to Portal Selection
                 </button>
                 <span className="text-xs text-gray-500 font-medium">
-                    Step 1 of 3 • Select Loan Category
+                    Step 1 of 3 • Select Loan Type
                 </span>
             </div>
 
             {/* Page Header */}
             <div className="text-center space-y-1.5">
                 <span className="text-[11px] font-bold uppercase tracking-widest text-gov-blue">
-                    {isOfficer ? 'Loan Evaluation System' : 'Retail Loan Services'}
+                    {isOfficer ? 'Loan Evaluation System' : 'Loan Assessment'}
                 </span>
                 <h2 className="text-2xl font-extrabold text-gray-900 tracking-tight">
                     Select Loan Type
@@ -40,13 +40,13 @@ const LoanTypeSelection = ({ userRole, onSelectLoan, onBack }) => {
             {/* Loan Categories Grid (2 Columns: Active Home Loan & Coming Soon Vehicle Loan) */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2">
                 
-                {/* Product 1: Residential Home Loan (ACTIVE) */}
+                {/* Product 1: Home Loan (ACTIVE) */}
                 <div 
                     onClick={() => onSelectLoan('home_loan')}
                     className="bg-white border-2 border-gov-blue rounded-sm p-6 shadow-sm hover:shadow-md transition-all cursor-pointer group flex flex-col justify-between relative overflow-hidden"
                 >
                     <div className="absolute top-0 right-0 bg-gov-blue text-white text-[10px] font-bold px-3 py-0.5 rounded-bl-sm uppercase tracking-wider">
-                        Active & Deployed
+                        Available
                     </div>
 
                     <div className="space-y-3 pt-2">
@@ -56,22 +56,22 @@ const LoanTypeSelection = ({ userRole, onSelectLoan, onBack }) => {
                             </div>
                             <div>
                                 <h3 className="text-base font-bold text-gray-900 group-hover:text-gov-blue transition-colors">
-                                    Residential Home Loan
+                                    Home Loan
                                 </h3>
                                 <span className="text-[11px] text-gray-500 font-mono">
-                                    Pipeline: XGBoost v1.2 • Repayment Safety Limit
+                                    XGBoost • SHAP and LIME explanations
                                 </span>
                             </div>
                         </div>
 
                         <p className="text-xs text-gray-600 leading-relaxed">
-                            Long-term residential mortgage credit with full property area classification, co-borrower pooling, and 50% Repayment Safety Check.
+                            Assess a home-loan application using income, existing EMIs, credit details and property value.
                         </p>
 
                         <div className="flex flex-wrap gap-2 text-[10px] font-semibold text-gray-600 pt-1">
-                            <span className="px-2 py-0.5 bg-gray-100 border border-gray-200 rounded-xs">Tenor: 1 to 30 Years</span>
-                            <span className="px-2 py-0.5 bg-gray-100 border border-gray-200 rounded-xs">₹50K to ₹10L+</span>
-                            <span className="px-2 py-0.5 bg-green-50 border border-green-200 text-green-800 rounded-xs">Dual-XAI Audited</span>
+                            <span className="px-2 py-0.5 bg-gray-100 border border-gray-200 rounded-xs">Loan term: 5 to 30 years</span>
+                            <span className="px-2 py-0.5 bg-gray-100 border border-gray-200 rounded-xs">₹3 lakh to ₹1.5 crore</span>
+                            <span className="px-2 py-0.5 bg-green-50 border border-green-200 text-green-800 rounded-xs">SHAP and LIME explanations</span>
                         </div>
                     </div>
 
@@ -83,13 +83,13 @@ const LoanTypeSelection = ({ userRole, onSelectLoan, onBack }) => {
                     </div>
                 </div>
 
-                {/* Product 2: Personal & Retail Credit (ACTIVE) */}
+                {/* Product 2: Personal Loan (ACTIVE) */}
                 <div 
                     onClick={() => onSelectLoan('personal_loan')}
                     className="bg-white border-2 border-gov-blue rounded-sm p-6 shadow-sm hover:shadow-md transition-all cursor-pointer group flex flex-col justify-between relative overflow-hidden"
                 >
                     <div className="absolute top-0 right-0 bg-gov-blue text-white text-[10px] font-bold px-3 py-0.5 rounded-bl-sm uppercase tracking-wider">
-                        Active & Deployed
+                        Available
                     </div>
 
                     <div className="space-y-3 pt-2">
@@ -99,21 +99,21 @@ const LoanTypeSelection = ({ userRole, onSelectLoan, onBack }) => {
                             </div>
                             <div>
                                 <h3 className="text-base font-bold text-gray-900 group-hover:text-gov-blue transition-colors">
-                                    Personal & Retail Credit
+                                    Personal Loan
                                 </h3>
                                 <span className="text-[11px] text-gray-500 font-mono">
-                                    Pipeline: XGBoost v2.0 • Unsecured FOIR Limit
+                                    XGBoost • SHAP and LIME explanations
                                 </span>
                             </div>
                         </div>
 
                         <p className="text-xs text-gray-600 leading-relaxed">
-                            Unsecured instant retail credit with purpose risk weighting, credit card utilization monitoring, and cash flow solvency guardrails.
+                            Assess a personal-loan application using income, existing EMIs, credit details and card use.
                         </p>
 
                         <div className="flex flex-wrap gap-2 text-[10px] font-semibold text-gray-600 pt-1">
-                            <span className="px-2 py-0.5 bg-gray-100 border border-gray-200 rounded-xs">Tenor: 6 to 60 Months</span>
-                            <span className="px-2 py-0.5 bg-gray-100 border border-gray-200 rounded-xs">₹30K to ₹10L</span>
+                            <span className="px-2 py-0.5 bg-gray-100 border border-gray-200 rounded-xs">Loan term: 6 to 60 months</span>
+                            <span className="px-2 py-0.5 bg-gray-100 border border-gray-200 rounded-xs">₹30,000 to ₹15 lakh</span>
                             <span className="px-2 py-0.5 bg-green-50 border border-green-200 text-green-800 rounded-xs">CIBIL 300–900</span>
                         </div>
                     </div>

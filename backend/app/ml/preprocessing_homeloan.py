@@ -3,38 +3,11 @@ import numpy as np
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from backend.app.ml.product_policy import add_product_financial_features
 
 def add_homeloan_financial_features(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Computes domain-specific financial features for Home Loan underwriting:
-    - Total_Income = Applicant_Income + Coapplicant_Income
-    - Monthly_EMI = Standard home loan amortization at 8.5% p.a.
-    - FOIR = (Existing_EMI + Monthly_EMI) / Total_Income
-    - LTV_Ratio = (Loan_Amount / Property_Value) * 100
-    """
-    data = df.copy()
-    
-    # Safe Total Income
-    total_inc = data['Applicant_Income'].astype(float) + data['Coapplicant_Income'].astype(float)
-    total_inc_safe = total_inc.replace(0, 1.0).fillna(1.0)
-    data['Total_Income'] = total_inc
-    
-    # Amortized Monthly EMI (8.5% p.a.)
-    r = 0.085 / 12.0
-    terms = data['Loan_Term'].astype(float).replace(0, 1.0).fillna(1.0)
-    factor = (1.0 + r) ** terms
-    denom = np.where(factor == 1.0, 1.0, factor - 1.0)
-    data['Monthly_EMI'] = np.round(data['Loan_Amount'].astype(float) * (r * factor) / denom, 2)
-    
-    # FOIR
-    existing = data['Existing_EMI'].astype(float).fillna(0.0)
-    data['FOIR'] = np.round((existing + data['Monthly_EMI']) / total_inc_safe, 4)
-    
-    # LTV Ratio
-    prop_val = data['Property_Value'].astype(float).replace(0, 1.0).fillna(1.0)
-    data['LTV_Ratio'] = np.round((data['Loan_Amount'].astype(float) / prop_val) * 100.0, 2)
-    
-    return data
+    """Calculate financial inputs using the shared project policy."""
+    return add_product_financial_features(df, "home_loan")
 
 def get_homeloan_feature_names():
     categorical_cols = ['Gender', 'Married', 'Education', 'Employment_Status', 'Property_Area']

@@ -1,0 +1,177 @@
+{
+  "model_version": "personal_loan_v5-2215fb06b715",
+  "dataset_version": "synthetic-products-v4.1",
+  "policy_version": "project-lending-v1",
+  "product_id": "personal_loan",
+  "target": "simulated_underwriting_approval",
+  "policy": {
+    "annual_rate": 0.135,
+    "min_cibil": 580,
+    "max_foir": 0.5,
+    "comfortable_foir": 0.35,
+    "reject_missed_payments_at": 3,
+    "max_ltv_percent": null,
+    "max_card_utilization": 0.88,
+    "min_income": 19000.0
+  },
+  "gender_in_prediction": true,
+  "labels_use_gender": false,
+  "predictive_raw_features": [
+    "Gender",
+    "Age",
+    "Married",
+    "Dependents",
+    "Education",
+    "Employment_Status",
+    "Work_Experience",
+    "Applicant_Income",
+    "Existing_EMI",
+    "Loan_Term",
+    "Loan_Amount",
+    "Loan_Purpose",
+    "Credit_Card_Utilization",
+    "CIBIL_Score",
+    "Missed_Payments_12M"
+  ],
+  "training_rows": 2400,
+  "holdout_rows": 600,
+  "model_params": {
+    "n_estimators": 120,
+    "max_depth": 4,
+    "learning_rate": 0.08,
+    "subsample": 0.85,
+    "colsample_bytree": 0.85,
+    "random_state": 42,
+    "eval_metric": "logloss",
+    "n_jobs": 2
+  },
+  "generation_manifest": {
+    "dataset_version": "synthetic-products-v4.1",
+    "policy_version": "project-lending-v1",
+    "policy": {
+      "annual_rate": 0.135,
+      "min_cibil": 580,
+      "max_foir": 0.5,
+      "comfortable_foir": 0.35,
+      "reject_missed_payments_at": 3,
+      "max_ltv_percent": null,
+      "max_card_utilization": 0.88,
+      "min_income": 19000.0
+    },
+    "target": "simulated_underwriting_approval",
+    "labels_use_gender": false,
+    "gender_in_prediction": true,
+    "assumptions": "Authored synthetic policy and population, fixed rates, deterministic labels; no observed repayment outcomes or regulatory certification. Ordinary requests predominate, with explicit high-LTV/card-utilization tails and some requests not sized to income. Ten percent are explicit high-credit/adverse-payment or low-credit/strong-capacity stress combinations.",
+    "cohorts": {
+      "training": {
+        "path": "datasets/personalloan_train.csv",
+        "seed": 42,
+        "sha256": "c0e6b6301c541cb4908177f1df6d7fcddcf5c7de64f86947d97297ea73c4c6d6",
+        "used_for_training": true,
+        "rows": 3000,
+        "class_counts": {
+          "Rejected": 1632,
+          "Approved": 1368
+        },
+        "gender_counts": {
+          "Male": 1776,
+          "Female": 1224
+        },
+        "rule_trigger_counts": {
+          "credit_score": 362,
+          "missed_payments": 289,
+          "repayment_burden": 303,
+          "card_utilization": 148,
+          "minimum_income": 138
+        },
+        "gender_label_flips": 0,
+        "approved_policy_violations": 0,
+        "missing_cells": 0,
+        "duplicate_applicants": 0
+      },
+      "independent": {
+        "path": "datasets/evaluation/personalloan_independent.csv",
+        "seed": 456,
+        "sha256": "c711f7ddefcf328b1b744f3d04b87e046f52da6a6fae6cbadf24f03a691db712",
+        "used_for_training": false,
+        "rows": 1000,
+        "class_counts": {
+          "Rejected": 576,
+          "Approved": 424
+        },
+        "gender_counts": {
+          "Male": 633,
+          "Female": 367
+        },
+        "rule_trigger_counts": {
+          "credit_score": 132,
+          "missed_payments": 104,
+          "repayment_burden": 106,
+          "card_utilization": 57,
+          "minimum_income": 52
+        },
+        "gender_label_flips": 0,
+        "approved_policy_violations": 0,
+        "missing_cells": 0,
+        "duplicate_applicants": 0
+      },
+      "boundary": {
+        "path": "datasets/evaluation/personalloan_boundary.csv",
+        "seed": 2027,
+        "sha256": "5d97f3c4410248e10fb88a2bf0a0d94778485af23df5e533f53b34034b630df8",
+        "used_for_training": false,
+        "rows": 360,
+        "class_counts": {
+          "Approved": 210,
+          "Rejected": 150
+        },
+        "gender_counts": {
+          "Male": 180,
+          "Female": 180
+        },
+        "rule_trigger_counts": {
+          "credit_score": 20,
+          "missed_payments": 40,
+          "repayment_burden": 20,
+          "card_utilization": 20,
+          "minimum_income": 20
+        },
+        "gender_label_flips": 0,
+        "approved_policy_violations": 0,
+        "missing_cells": 0,
+        "duplicate_applicants": 0
+      }
+    },
+    "generator_sha256": "f827217ab3ec6bd8b6c8e43f3a62d3624d34c9e1a2a3ed973bf465923741027a",
+    "policy_sha256": "7fcb393e32a125b08d4cbc22893ac70f9074850b96c749d99d8e4a5d8b45037e"
+  },
+  "artifact_sha256": {
+    "model.pkl": "0d6dd5d35ba12d10b5588a843deed161e4811d9ec1cb1e7788e93b1eda73b5e1",
+    "model.ubj": "2215fb06b71594efe1d74161a9af97554f75aad4a90e7eaf4e4f797a8a6565f8",
+    "preprocessor.pkl": "8ba2ef97eccf65b6fa3f5dbda49c99c7c9b1f7f2ae5d98f56ea7d237350757bd",
+    "feature_names.json": "ec2a8149216b7d47df867db2deec9ba57de2cc792e3d8f080edf3af14295bda6",
+    "background_raw.csv": "0d0f9c5def0cee12accf91c8085f6e299203fec72b08bf6c745ccff75fd0d0e4",
+    "background_data.npy": "79e305f59d4d8abdb34dc58e6042d4c43b2e4567caa00bf1a235d94ff44d642b",
+    "split_indices.json": "c46907edc66ac6eea979072acc31c776f3fa8bd0ad6ebc299a5a24dbaded3d50",
+    "metrics.json": "d24e986f045298883c0da98a58d27ce3595a0ce7467fac5e9082eb0812336479"
+  },
+  "source_sha256": {
+    "scripts/training_common.py": "54bb67677e8a471751ac61ae4cdbfeaf21bf5646efdf83e1f6697c8a085ed1ff",
+    "scripts/synthetic_common.py": "f827217ab3ec6bd8b6c8e43f3a62d3624d34c9e1a2a3ed973bf465923741027a",
+    "backend/app/ml/product_policy.py": "7fcb393e32a125b08d4cbc22893ac70f9074850b96c749d99d8e4a5d8b45037e",
+    "backend/app/ml/preprocessing_personalloan.py": "65cf90fe3a80977b57fa31df7d84c622ca0f233eadea543e8ee15faae14e9c96"
+  },
+  "package_versions": {
+    "numpy": "2.4.6",
+    "pandas": "3.1.0",
+    "scikit-learn": "1.9.1",
+    "xgboost": "3.2.0",
+    "shap": "0.51.0",
+    "lime": "0.2.0.1",
+    "joblib": "1.6.0"
+  },
+  "explanations": {
+    "SHAP": "TreeExplainer(model), raw log-odds, implicit tree-path background",
+    "LIME": "200 stratified training rows; background_data.npy exactly transformed from background_raw.csv; no holdout/evaluation data"
+  }
+}

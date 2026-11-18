@@ -1,0 +1,199 @@
+{
+  "home_loan": {
+    "dataset_version": "synthetic-products-v4.1",
+    "policy_version": "project-lending-v1",
+    "policy": {
+      "annual_rate": 0.085,
+      "min_cibil": 560,
+      "max_foir": 0.5,
+      "comfortable_foir": 0.35,
+      "reject_missed_payments_at": 3,
+      "max_ltv_percent": 92.0,
+      "max_card_utilization": null,
+      "min_income": null
+    },
+    "target": "simulated_underwriting_approval",
+    "labels_use_gender": false,
+    "gender_in_prediction": true,
+    "assumptions": "Authored synthetic policy and population, fixed rates, deterministic labels; no observed repayment outcomes or regulatory certification. Ordinary requests predominate, with explicit high-LTV/card-utilization tails and some requests not sized to income. Ten percent are explicit high-credit/adverse-payment or low-credit/strong-capacity stress combinations.",
+    "cohorts": {
+      "training": {
+        "path": "datasets/homeloan_train.csv",
+        "seed": 42,
+        "sha256": "a28291313580a59ed2ec1138658495e47f33b3c7b7ca796f5ab8dbdb89a12163",
+        "used_for_training": true,
+        "rows": 3000,
+        "class_counts": {
+          "Rejected": 2032,
+          "Approved": 968
+        },
+        "gender_counts": {
+          "Male": 1776,
+          "Female": 1224
+        },
+        "rule_trigger_counts": {
+          "credit_score": 222,
+          "missed_payments": 261,
+          "repayment_burden": 1048,
+          "property_value": 349
+        },
+        "gender_label_flips": 0,
+        "approved_policy_violations": 0,
+        "missing_cells": 0,
+        "duplicate_applicants": 0
+      },
+      "independent": {
+        "path": "datasets/evaluation/homeloan_independent.csv",
+        "seed": 456,
+        "sha256": "ede560048ad557df0d08d611da03174f89d41a4e20d5fa1c87e7822b7b49d98a",
+        "used_for_training": false,
+        "rows": 1000,
+        "class_counts": {
+          "Rejected": 675,
+          "Approved": 325
+        },
+        "gender_counts": {
+          "Male": 633,
+          "Female": 367
+        },
+        "rule_trigger_counts": {
+          "credit_score": 87,
+          "missed_payments": 80,
+          "repayment_burden": 317,
+          "property_value": 125
+        },
+        "gender_label_flips": 0,
+        "approved_policy_violations": 0,
+        "missing_cells": 0,
+        "duplicate_applicants": 0
+      },
+      "boundary": {
+        "path": "datasets/evaluation/homeloan_boundary.csv",
+        "seed": 2027,
+        "sha256": "82b8e5c30a704c4991df7f4fe93c8b053277d3a7b4eb35baf0d34d1fa035213a",
+        "used_for_training": false,
+        "rows": 300,
+        "class_counts": {
+          "Approved": 168,
+          "Rejected": 132
+        },
+        "gender_counts": {
+          "Male": 150,
+          "Female": 150
+        },
+        "rule_trigger_counts": {
+          "credit_score": 20,
+          "missed_payments": 40,
+          "repayment_burden": 20,
+          "property_value": 20
+        },
+        "gender_label_flips": 0,
+        "approved_policy_violations": 0,
+        "missing_cells": 0,
+        "duplicate_applicants": 0
+      }
+    },
+    "generator_sha256": "f827217ab3ec6bd8b6c8e43f3a62d3624d34c9e1a2a3ed973bf465923741027a",
+    "policy_sha256": "7fcb393e32a125b08d4cbc22893ac70f9074850b96c749d99d8e4a5d8b45037e"
+  },
+  "personal_loan": {
+    "dataset_version": "synthetic-products-v4.1",
+    "policy_version": "project-lending-v1",
+    "policy": {
+      "annual_rate": 0.135,
+      "min_cibil": 580,
+      "max_foir": 0.5,
+      "comfortable_foir": 0.35,
+      "reject_missed_payments_at": 3,
+      "max_ltv_percent": null,
+      "max_card_utilization": 0.88,
+      "min_income": 19000.0
+    },
+    "target": "simulated_underwriting_approval",
+    "labels_use_gender": false,
+    "gender_in_prediction": true,
+    "assumptions": "Authored synthetic policy and population, fixed rates, deterministic labels; no observed repayment outcomes or regulatory certification. Ordinary requests predominate, with explicit high-LTV/card-utilization tails and some requests not sized to income. Ten percent are explicit high-credit/adverse-payment or low-credit/strong-capacity stress combinations.",
+    "cohorts": {
+      "training": {
+        "path": "datasets/personalloan_train.csv",
+        "seed": 42,
+        "sha256": "c0e6b6301c541cb4908177f1df6d7fcddcf5c7de64f86947d97297ea73c4c6d6",
+        "used_for_training": true,
+        "rows": 3000,
+        "class_counts": {
+          "Rejected": 1632,
+          "Approved": 1368
+        },
+        "gender_counts": {
+          "Male": 1776,
+          "Female": 1224
+        },
+        "rule_trigger_counts": {
+          "credit_score": 362,
+          "missed_payments": 289,
+          "repayment_burden": 303,
+          "card_utilization": 148,
+          "minimum_income": 138
+        },
+        "gender_label_flips": 0,
+        "approved_policy_violations": 0,
+        "missing_cells": 0,
+        "duplicate_applicants": 0
+      },
+      "independent": {
+        "path": "datasets/evaluation/personalloan_independent.csv",
+        "seed": 456,
+        "sha256": "c711f7ddefcf328b1b744f3d04b87e046f52da6a6fae6cbadf24f03a691db712",
+        "used_for_training": false,
+        "rows": 1000,
+        "class_counts": {
+          "Rejected": 576,
+          "Approved": 424
+        },
+        "gender_counts": {
+          "Male": 633,
+          "Female": 367
+        },
+        "rule_trigger_counts": {
+          "credit_score": 132,
+          "missed_payments": 104,
+          "repayment_burden": 106,
+          "card_utilization": 57,
+          "minimum_income": 52
+        },
+        "gender_label_flips": 0,
+        "approved_policy_violations": 0,
+        "missing_cells": 0,
+        "duplicate_applicants": 0
+      },
+      "boundary": {
+        "path": "datasets/evaluation/personalloan_boundary.csv",
+        "seed": 2027,
+        "sha256": "5d97f3c4410248e10fb88a2bf0a0d94778485af23df5e533f53b34034b630df8",
+        "used_for_training": false,
+        "rows": 360,
+        "class_counts": {
+          "Approved": 210,
+          "Rejected": 150
+        },
+        "gender_counts": {
+          "Male": 180,
+          "Female": 180
+        },
+        "rule_trigger_counts": {
+          "credit_score": 20,
+          "missed_payments": 40,
+          "repayment_burden": 20,
+          "card_utilization": 20,
+          "minimum_income": 20
+        },
+        "gender_label_flips": 0,
+        "approved_policy_violations": 0,
+        "missing_cells": 0,
+        "duplicate_applicants": 0
+      }
+    },
+    "generator_sha256": "f827217ab3ec6bd8b6c8e43f3a62d3624d34c9e1a2a3ed973bf465923741027a",
+    "policy_sha256": "7fcb393e32a125b08d4cbc22893ac70f9074850b96c749d99d8e4a5d8b45037e"
+  }
+}

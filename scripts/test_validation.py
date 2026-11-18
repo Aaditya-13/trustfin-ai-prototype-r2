@@ -27,10 +27,6 @@ def main():
     y_raw = df_clean['Loan_Status'].map({'Approved': 1, 'Rejected': 0}).values
     X_transformed = preprocessor.transform(X_raw)
     
-    # We need mask values for Faithfulness. Since features are standardized, the mean is 0.
-    # We will use 0.0 for numericals, and 0.0 for one-hot encoded (which effectively zeros them out).
-    mask_values = {f: 0.0 for f in feature_names}
-    
     # Pick a single test instance (e.g., index 0)
     test_instance_raw = X_raw.iloc[0:1]
     test_instance_transformed = X_transformed[0]
@@ -46,9 +42,10 @@ def main():
     print("\n=== Validation Metrics ===")
     
     # 1. Faithfulness
-    # How much does the probability drop when we mask the top 3 features?
-    faithfulness_score = calculate_faithfulness(model, test_instance_transformed, shap_exp, feature_names, mask_values, top_k=3)
-    print(f"Faithfulness Score: {faithfulness_score:.4f} (Probability change when removing Top 3 SHAP features)")
+    # Original-input reconstruction using the existing explanations, without refitting.
+    approval_probability = float(model.predict_proba(test_instance_transformed.reshape(1, -1))[0, 1])
+    faithfulness_score = calculate_faithfulness(approval_probability, shap_exp, lime_exp)
+    print(f"Faithfulness Score: {faithfulness_score:.4f} (60% SHAP + 40% LIME top-five local concordance)")
     
     # 2. Stability
     # Add 1% Gaussian noise
@@ -57,12 +54,12 @@ def main():
     shap_exp_perturbed = shap_explainer.explain_instance(perturbed_instance)
     
     stability_score = calculate_stability(shap_exp, shap_exp_perturbed)
-    print(f"Stability Score:    {stability_score:.4f} (Rank correlation after 1% noise)")
+    print(f"Stability Score:    {stability_score:.4f} (70% rank similarity and 30% direction agreement after 1% noise)")
     
     # 3. Consistency
-    # Do SHAP and LIME agree on the Top 3 features?
-    consistency_score = calculate_consistency(shap_exp, lime_exp, top_k=3)
-    print(f"Consistency Score:  {consistency_score:.4f} (Jaccard similarity of Top 3 features between SHAP and LIME)")
+    # Compare top-five feature overlap and shared-feature directions.
+    consistency_score = calculate_consistency(shap_exp, lime_exp)
+    print(f"Consistency Score:  {consistency_score:.4f} (60% Top 5 overlap and 40% shared-feature direction agreement)")
     
     # 4. Fairness (Global metric, calculated over the whole dataset for demonstration)
     print("\nCalculating Global Fairness on training set...")

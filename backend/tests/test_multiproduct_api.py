@@ -35,7 +35,7 @@ def test_home_loan_multiproduct_endpoint(api_client):
     
     data = response.json()
     assert data["prediction"] in ["Approved", "Rejected"]
-    assert data["modelVersion"] == "home_loan_v2"
+    assert data["modelVersion"].startswith("home_loan_v5-")
     assert data["trustScore"]["overallTrustScore"] > 0.0
     assert len(data["shap"]["features"]) == 20
     assert len(data["lime"]["features"]) == 20
@@ -73,7 +73,7 @@ def test_personal_loan_multiproduct_endpoint(api_client):
     
     data = response.json()
     assert data["prediction"] in ["Approved", "Rejected"]
-    assert data["modelVersion"] == "personal_loan_v2"
+    assert data["modelVersion"].startswith("personal_loan_v5-")
     assert data["trustScore"]["overallTrustScore"] > 0.0
     assert len(data["shap"]["features"]) == 21
     assert len(data["lime"]["features"]) == 21
@@ -110,7 +110,7 @@ def test_personal_loan_zero_credit_card_utilization(api_client):
     
     data = response.json()
     assert data["prediction"] == "Approved"
-    assert data["modelVersion"] == "personal_loan_v2"
+    assert data["modelVersion"].startswith("personal_loan_v5-")
     
     # Check that explanation contains Credit_Card_Utilization with non-null values
     cc_shap = next((f for f in data["shap"]["features"] if f["feature"] == "Credit_Card_Utilization"), None)

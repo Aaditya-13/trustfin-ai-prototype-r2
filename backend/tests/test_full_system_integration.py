@@ -19,7 +19,7 @@ def test_e2e_single_application_pipeline_integration(prime_applicant):
     # Verify ML & Solvency synthesis
     assert pred_data["prediction"] == "Approved"
     assert pred_data["solvencyCheck"]["status"] == "OPTIMAL"
-    assert pred_data["dossierId"].startswith("TF-")
+    assert pred_data["dossierId"].startswith("H-")
     evaluation_id = pred_data.get("evaluationId")
     assert evaluation_id is not None
 

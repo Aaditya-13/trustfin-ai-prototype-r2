@@ -2,7 +2,7 @@ import lime
 import lime.lime_tabular
 import numpy as np
 from typing import List
-from backend.app.explainability.schemas import StandardExplanation, FeatureContribution
+from backend.app.explainability.schemas import StandardExplanation, FeatureContribution, ExplanationReconstruction
 
 class LIMEExplainer:
     def __init__(self, training_data: np.ndarray, feature_names: List[str], class_names: List[str] = None):
@@ -59,7 +59,7 @@ class LIMEExplainer:
             num_features=num_features
         )
         
-        # LIME returns list of tuples: (feature_idx, contribution) for the predicted class (class 1)
+        # Explain approval (class 1) consistently, including rejected applicants.
         lime_contributions = exp.as_map()[1] 
         
         # Convert to dictionary {feature_idx: contribution}
@@ -87,7 +87,16 @@ class LIMEExplainer:
                 direction=direction
             ))
             
+        # These are LIME's interpretable coordinates, not raw financial values.
+        interpretable_row = np.asarray(exp.domain_mapper.scaled_row, dtype=float).reshape(-1)
+        if len(interpretable_row) != len(self.feature_names):
+            raise ValueError('LIME reconstruction must match the feature width')
         return StandardExplanation(
             method="LIME",
-            features=features_list
+            features=features_list,
+            reconstruction=ExplanationReconstruction(
+                baseValue=float(exp.intercept[1]), outputSpace='probability',
+                featureMultipliers=dict(zip(self.feature_names, interpretable_row.tolist())),
+                fullPrediction=float(np.asarray(exp.local_pred).item()),
+            ),
         )

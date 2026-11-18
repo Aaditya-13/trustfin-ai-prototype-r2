@@ -33,8 +33,7 @@ export const downloadLoanReportPdf = async (applicantData, predictionResult) => 
         const downloadUrl = window.URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = downloadUrl;
-        const statusSlug = predictionResult.prediction === 'Approved' ? 'Sanction_Letter' : 'Status_Advisory';
-        link.download = `TrustFin_Bank_${statusSlug}.pdf`;
+        link.download = 'TrustFin_Loan_Assessment.pdf';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);

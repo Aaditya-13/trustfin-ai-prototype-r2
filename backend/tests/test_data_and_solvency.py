@@ -47,7 +47,7 @@ def test_insolvency_guardrail_tripped(api_client, insolvent_shortcut_applicant):
     assert solvency["status"] == "INSOLVENT", f"Expected INSOLVENT, got {solvency['status']}"
     assert solvency["dtiRatio"] > 5.0, f"Expected DTI > 500%, got {solvency['dtiRatio'] * 100:.1f}%"
     assert solvency["overrideWarning"] is not None, "Insolvent breach must produce override warning"
-    assert "CRITICAL FINANCIAL RISK" in solvency["overrideWarning"]
+    assert "Above project limit" in solvency["overrideWarning"]
     
     # Assert Hard Decision Override
     assert data["prediction"] == "Rejected", "Insolvent breach must enforce mandatory rejection"

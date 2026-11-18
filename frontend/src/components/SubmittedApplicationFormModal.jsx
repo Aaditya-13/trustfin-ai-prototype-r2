@@ -4,7 +4,9 @@ import { X } from 'lucide-react';
 const SubmittedApplicationFormModal = ({ isOpen, onClose, applicantData, applicationReference }) => {
   if (!isOpen) return null;
 
-  const isPersonalLoan = applicantData?.loan_type === 'personal_loan' || Boolean(applicantData?.Loan_Purpose);
+  const isPersonalLoan = applicantData?.loan_type
+    ? applicantData.loan_type === 'personal_loan'
+    : Boolean(applicantData?.Loan_Purpose);
   const sections = [
     {
       title: 'Applicant details',
@@ -19,10 +21,10 @@ const SubmittedApplicationFormModal = ({ isOpen, onClose, applicantData, applica
       ],
     },
     {
-      title: 'Income and existing commitments',
+      title: 'Income and existing monthly repayments',
       fields: [
         ['Applicant monthly income', 'Applicant_Income'],
-        ...(isPersonalLoan ? [['Credit card utilization', 'Credit_Card_Utilization']] : [['Co-applicant monthly income', 'Coapplicant_Income']]),
+        ...(isPersonalLoan ? [['Credit card use', 'Credit_Card_Utilization']] : [['Co-applicant monthly income', 'Coapplicant_Income']]),
         ['Existing monthly EMIs', 'Existing_EMI'],
       ],
     },
@@ -38,7 +40,7 @@ const SubmittedApplicationFormModal = ({ isOpen, onClose, applicantData, applica
       fields: [
         ['Loan product', 'loan_type'],
         ['Requested loan amount', 'Loan_Amount'],
-        ['Loan tenure', 'Loan_Term'],
+        ['Loan term', 'Loan_Term'],
         ...(isPersonalLoan ? [['Loan purpose', 'Loan_Purpose']] : [['Property market value', 'Property_Value'], ['Property area', 'Property_Area']]),
       ],
     },
@@ -65,19 +67,21 @@ const SubmittedApplicationFormModal = ({ isOpen, onClose, applicantData, applica
         role="dialog"
         aria-modal="true"
         aria-labelledby="application-form-title"
+        onKeyDown={event => { if (event.key === 'Escape') { event.stopPropagation(); onClose(); } }}
         className="flex max-h-[90vh] w-full max-w-4xl flex-col overflow-hidden rounded-sm border border-gray-400 bg-white shadow-2xl"
         onClick={(event) => event.stopPropagation()}
       >
         <header className="flex items-center justify-between gap-3 border-b border-blue-900 bg-gov-blue px-5 py-4 text-white">
           <div>
             <h2 id="application-form-title" className="text-base font-bold uppercase tracking-wide">Submitted Application Form</h2>
-            <p className="mt-1 text-sm text-blue-100">Application #{applicationReference} | Values submitted for this evaluation</p>
+            <p className="mt-1 text-sm text-blue-100">{applicationReference ? `Application reference ${applicationReference}` : 'Reference unavailable'} | Values submitted for this evaluation</p>
           </div>
           <button
             type="button"
             onClick={onClose}
             className="rounded-sm p-2 text-white hover:bg-blue-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             aria-label="Close application form"
+            autoFocus
           >
             <X className="h-5 w-5" />
           </button>

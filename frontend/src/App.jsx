@@ -17,7 +17,7 @@ function App() {
   const [officerSubView, setOfficerSubView] = useState('SUMMARY'); // 'SUMMARY' (Screen 3A) | 'AUDIT' (Screen 3B)
   const [selectedLoanType, setSelectedLoanType] = useState({
     id: 'home_loan',
-    title: 'Residential Home Loan',
+    title: 'Home Loan',
     category: 'Retail Secured'
   });
 
@@ -34,6 +34,7 @@ function App() {
   const [loadingPdfPreview, setLoadingPdfPreview] = useState(false);
   const [pdfPreviewError, setPdfPreviewError] = useState(null);
   const pdfRequestId = useRef(0);
+  const pdfPreviewTriggerRef = useRef(null);
 
   const clearPdfPreview = () => {
     pdfRequestId.current += 1;
@@ -60,7 +61,7 @@ function App() {
   const handleSelectLoan = (loanTypeId) => {
     setSelectedLoanType({
       id: loanTypeId,
-      title: loanTypeId === 'home_loan' ? 'Residential Home Loan' : 'Personal & Retail Credit',
+      title: loanTypeId === 'home_loan' ? 'Home Loan' : 'Personal Loan',
     });
     setCurrentScreen('APPLICATION_FORM');
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -122,8 +123,8 @@ function App() {
     const isPersonalLoan = evalDetail.applicantData?.loan_type === 'personal_loan' || Boolean(evalDetail.applicantData?.Loan_Purpose);
     setSelectedLoanType({
       id: isPersonalLoan ? 'personal_loan' : 'home_loan',
-      title: isPersonalLoan ? 'Personal & Retail Credit' : 'Residential Home Loan',
-      category: isPersonalLoan ? 'Unsecured Credit' : 'Secured Mortgage'
+      title: isPersonalLoan ? 'Personal Loan' : 'Home Loan',
+      category: isPersonalLoan ? 'Loan without property collateral' : 'Property-backed loan'
     });
     if (!userRole) {
       setUserRole('bank_officer'); // Default to Bank Officer view for full audit visibility
@@ -140,6 +141,7 @@ function App() {
   }, [pdfPreviewUrl]);
 
   const handleOpenPdfPreview = async () => {
+    if (!showPdfPreview) pdfPreviewTriggerRef.current = document.activeElement;
     setShowPdfPreview(true);
     setPdfPreviewError(null);
     if (pdfPreviewUrl || loadingPdfPreview) return;
@@ -152,10 +154,15 @@ function App() {
       setPdfPreviewUrl(window.URL.createObjectURL(blob));
     } catch (err) {
       console.error('PDF preview generation error:', err);
-      if (requestId === pdfRequestId.current) setPdfPreviewError('Failed to generate the assessment PDF preview. Please verify that the backend service is running.');
+      if (requestId === pdfRequestId.current) setPdfPreviewError('The report preview could not be loaded. Try again.');
     } finally {
       if (requestId === pdfRequestId.current) setLoadingPdfPreview(false);
     }
+  };
+
+  const handleClosePdfPreview = () => {
+    setShowPdfPreview(false);
+    pdfPreviewTriggerRef.current?.focus();
   };
 
   return (
@@ -257,13 +264,14 @@ function App() {
                   onOpenPdfPreview={handleOpenPdfPreview}
                 />
                 {showPdfPreview && (
-                  <div className="fixed inset-0 z-[60] bg-black/70 flex items-center justify-center p-4">
-                    <div className="bg-white w-full max-w-5xl h-[90vh] flex flex-col border border-gray-400 shadow-xl rounded-sm overflow-hidden">
+                  <div className="fixed inset-0 z-[60] bg-black/70 flex items-center justify-center p-4" onClick={event => { if (event.target === event.currentTarget) handleClosePdfPreview(); }}>
+                    <div role="dialog" aria-modal="true" aria-labelledby="officer-applicant-pdf-title" onKeyDown={event => { if (event.key === 'Escape') { event.stopPropagation(); handleClosePdfPreview(); } }} className="bg-white w-full max-w-5xl h-[90vh] flex flex-col border border-gray-400 shadow-xl rounded-sm overflow-hidden">
                       <div className="px-4 py-3 bg-gov-blue text-white flex items-center justify-between">
-                        <h3 className="text-xs font-bold uppercase tracking-wider">Official PDF Preview</h3>
+                        <h3 id="officer-applicant-pdf-title" className="text-xs font-bold uppercase tracking-wider">Assessment PDF Preview</h3>
                         <button
                           type="button"
-                          onClick={() => setShowPdfPreview(false)}
+                          onClick={handleClosePdfPreview}
+                          autoFocus
                           className="px-2 py-1 text-xs hover:bg-blue-800 rounded-sm cursor-pointer"
                           aria-label="Close PDF preview"
                         >
@@ -274,11 +282,14 @@ function App() {
                         {loadingPdfPreview ? (
                           <p className="text-sm text-gray-700">Generating PDF preview...</p>
                         ) : pdfPreviewError ? (
-                          <p className="max-w-md p-6 text-sm text-red-700 text-center">{pdfPreviewError}</p>
+                          <div className="max-w-md p-6 text-center">
+                            <p role="alert" className="text-sm text-red-700">{pdfPreviewError}</p>
+                            <button type="button" onClick={handleOpenPdfPreview} className="mt-3 rounded-sm bg-gov-blue px-3 py-2 text-sm font-semibold text-white">Try again</button>
+                          </div>
                         ) : pdfPreviewUrl ? (
                           <iframe
                             src={pdfPreviewUrl}
-                            title="Official loan report PDF preview"
+                            title="Loan assessment report PDF preview"
                             className="w-full h-full border-0"
                           />
                         ) : null}
@@ -311,8 +322,8 @@ function App() {
       <footer className="bg-white border-t border-gray-300 py-4 px-6 text-center text-xs text-gray-500 mt-auto">
 
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
-          <span>&copy; 2026 TrustFin AI • Explainable Loan Intelligence & Explanation Reliability Framework.</span>
-          <span className="text-[11px] text-gray-400">Strict Separation of Consumer Notice & Model Internal Attributions</span>
+          <span>&copy; 2026 TrustFin AI • Loan Predictions and Explanation Checks.</span>
+          <span className="text-[11px] text-gray-400">Review model predictions, explanations and project policy checks</span>
         </div>
       </footer>
 

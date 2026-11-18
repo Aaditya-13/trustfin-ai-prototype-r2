@@ -30,6 +30,29 @@ FONT_REG = 'SegoeUI' if HAS_SEGOE else 'Helvetica'
 FONT_BOLD = 'SegoeUI-Bold' if HAS_SEGOE else 'Helvetica-Bold'
 CURR = '₹' if HAS_SEGOE else 'Rs.'
 
+
+def _display_feature_name(feature):
+    """Keep the saved model feature unchanged and format its report label."""
+    labels = {
+        'Applicant_Income': 'Applicant Monthly Income',
+        'Coapplicant_Income': 'Co-Applicant Monthly Income',
+        'Existing_EMI': 'Existing Monthly EMIs',
+        'Loan_Amount': 'Requested Loan Amount', 'Loan_Term': 'Loan Term',
+        'Property_Value': 'Property Market Value', 'Property_Area': 'Property Area',
+        'CIBIL_Score': 'CIBIL Score', 'Credit_History': 'Credit History',
+        'Missed_Payments_12M': 'Missed Payments in the Last 12 Months',
+        'Credit_Card_Utilization': 'Credit Card Use', 'Monthly_EMI': 'Estimated Monthly EMI',
+        'FOIR': 'Monthly Debt / Income (FOIR)', 'DTI_Ratio': 'Monthly Debt / Income',
+        'LTV_Ratio': 'Loan / Property Value (LTV)', 'Work_Experience': 'Work Experience',
+        'Gender': 'Gender', 'Married': 'Marital Status', 'Education': 'Education',
+        'Employment_Status': 'Employment Status', 'Loan_Purpose': 'Loan Purpose',
+    }
+    name = str(feature)
+    for category in ['Employment_Status', 'Property_Area', 'Loan_Purpose', 'Education', 'Married', 'Gender']:
+        if name.startswith(category + '_'):
+            return labels[category] + ': ' + name[len(category) + 1:].replace('_', ' ')
+    return labels.get(name, name.replace('_', ' '))
+
 def generate_loan_report_pdf(applicant_data: dict, prediction_result: dict) -> bytes:
     buffer = BytesIO()
     
@@ -197,13 +220,13 @@ def generate_loan_report_pdf(applicant_data: dict, prediction_result: dict) -> b
     # -------------------------------------------------------------
     # 3. APPLICANT & FACILITY DETAILS TABLE (NO UNICODE TOFU!)
     # -------------------------------------------------------------
-    elements.append(Paragraph("1. APPLICANT & CREDIT FACILITY SUMMARY", section_head))
+    elements.append(Paragraph("1. APPLICANT AND LOAN DETAILS", section_head))
     
     applicant_income_val = applicant_data.get('Applicant_Income', 0)
     coapplicant_income_val = applicant_data.get('Coapplicant_Income', 0)
     loan_amount_val = applicant_data.get('Loan_Amount', 0)
     loan_term_val = applicant_data.get('Loan_Term', 0)
-    credit_hist = applicant_data.get('Credit_History', 1)
+    credit_hist = applicant_data.get('Credit_History')
     cibil_score = applicant_data.get('CIBIL_Score')
     loan_type = applicant_data.get('loan_type') or ('home_loan' if 'Property_Value' in applicant_data else 'legacy')
     loan_purpose = applicant_data.get('Loan_Purpose')
@@ -223,64 +246,64 @@ def generate_loan_report_pdf(applicant_data: dict, prediction_result: dict) -> b
         except (ValueError, TypeError):
             util_float = None
 
-    bureau_str = "Satisfactory (No Defaults)" if credit_hist == 1 else "Adverse / Past Delinquency"
-    facility_title = "<b>Collateral Jurisdiction:</b>"
+    bureau_str = "Good history (submitted)" if credit_hist == 1 else ("Poor history (submitted)" if credit_hist == 0 else "Not provided")
+    facility_title = "<b>Property Area:</b>"
     facility_val = f"{applicant_data.get('Property_Area', 'Urban')} Area"
 
     # Format Credit Bureau Info
     if cibil_num is not None:
         if cibil_num >= 750:
-            tier = "Prime"
+            tier = "Higher score"
         elif cibil_num >= 650:
-            tier = "Near-Prime"
+            tier = "Middle score"
         else:
-            tier = "Subprime"
+            tier = "Lower score"
         bureau_str = f"<b>CIBIL {cibil_num}</b> ({tier})"
 
     # Format Facility / Collateral Info
     if loan_type == 'personal_loan':
         purpose_str = str(loan_purpose).replace('_', ' ') if loan_purpose else "Personal Loan"
-        facility_title = "<b>Facility & Purpose:</b>"
+        facility_title = "<b>Loan and Purpose:</b>"
         facility_val = f"Personal Loan • {purpose_str}"
         if util_float is not None:
-            facility_val += f" ({util_float*100:.0f}% CC Util)"
+            facility_val += f" ({util_float*100:.0f}% card use)"
     elif loan_type == 'home_loan':
-        facility_title = "<b>Facility & Collateral:</b>"
+        facility_title = "<b>Loan and Property Area:</b>"
         facility_val = f"Home Loan • {applicant_data.get('Property_Area', 'Urban')} Area"
 
     summary_data = [
         [
-            Paragraph("<b>Primary Borrower:</b>", table_cell_bold),
+            Paragraph("<b>Applicant:</b>", table_cell_bold),
             Paragraph(f"{applicant_data.get('Gender', 'Individual')} • Age {applicant_data.get('Age', '-')} Yrs", table_cell),
-            Paragraph("<b>Primary Monthly Income:</b>", table_cell_bold),
+            Paragraph("<b>Applicant Monthly Income:</b>", table_cell_bold),
             Paragraph(f"{CURR} {applicant_income_val:,.0f}", table_cell)
         ],
         [
             Paragraph("<b>Marital Status:</b>", table_cell_bold),
-            Paragraph(f"{applicant_data.get('Married', 'No')} ({applicant_data.get('Dependents', 0)} Dependents)", table_cell),
-            Paragraph("<b>Existing Recurring EMIs:</b>", table_cell_bold),
+            Paragraph(f"{'Married' if applicant_data.get('Married') == 'Yes' else 'Not Married' if applicant_data.get('Married') == 'No' else 'Not provided'} ({applicant_data.get('Dependents', 0)} Dependents)", table_cell),
+            Paragraph("<b>Existing Monthly EMIs:</b>", table_cell_bold),
             Paragraph(f"{CURR} {existing_emi:,.0f} / mo" if existing_emi > 0 else "Nil (₹0)", table_cell)
         ],
         [
             Paragraph("<b>Employment Profile:</b>", table_cell_bold),
             Paragraph(f"{applicant_data.get('Employment_Status', 'Salaried')}", table_cell),
-            Paragraph("<b>Total Household Monthly Income:</b>", table_cell_bold),
+            Paragraph("<b>Monthly Income Used:</b>", table_cell_bold),
             Paragraph(f"<b>{CURR} {total_income:,.0f}</b>", table_cell)
         ],
         [
             Paragraph("<b>Requested Loan Amount:</b>", table_cell_bold),
             Paragraph(f"<b>{CURR} {loan_amount_val:,.0f}</b>", table_cell),
-            Paragraph("<b>Proposed Facility EMI:</b>", table_cell_bold),
+            Paragraph("<b>Estimated EMI for New Loan:</b>", table_cell_bold),
             Paragraph(f"<b>{CURR} {monthly_emi:,.0f} / mo</b>", table_cell)
         ],
         [
-            Paragraph("<b>Repayment Period (Tenor):</b>", table_cell_bold),
+            Paragraph("<b>Loan Term:</b>", table_cell_bold),
             Paragraph(f"{loan_term_val} Months ({round(loan_term_val/12, 1)} Yrs)", table_cell),
-            Paragraph("<b>Total Monthly Debt (FOIR):</b>", table_cell_bold),
+            Paragraph("<b>Total Monthly EMIs:</b>", table_cell_bold),
             Paragraph(f"<b>{CURR} {total_obligation:,.0f}</b> ({dti_percent} FOIR)", table_cell)
         ],
         [
-            Paragraph("<b>Credit Bureau Record:</b>", table_cell_bold),
+            Paragraph("<b>Submitted Credit Details:</b>", table_cell_bold),
             Paragraph(bureau_str, table_cell),
             Paragraph(facility_title, table_cell_bold),
             Paragraph(facility_val, table_cell)
@@ -301,13 +324,22 @@ def generate_loan_report_pdf(applicant_data: dict, prediction_result: dict) -> b
     # -------------------------------------------------------------
     # 4. CREDIT DECISION & REASON SUMMARY (PLAIN ENGLISH)
     # -------------------------------------------------------------
-    elements.append(Paragraph("2. CREDIT ASSESSMENT & REASON SUMMARY", section_head))
+    elements.append(Paragraph("2. MODEL PREDICTION AND ASSESSMENT FINDINGS", section_head))
     
     model_label = 'APPROVED' if is_approved else 'REJECTED'
     elements.append(Paragraph(
-        f"<b>Model prediction: {model_label}.</b> This is the classifier output for the submitted application, "
-        "subject to lender review. It is not a sanction letter or a measured probability of repayment.", body_style
+        f"<b>Model prediction: {model_label}.</b> The lender must review the submitted details before a lending decision. "
+        "The model score does not estimate the chance of failing to repay.", body_style
     ))
+    policy_check = prediction_result.get('policyCheck')
+    if policy_check:
+        check_label = 'PASSED' if policy_check.get('passed') else 'FAILED'
+        elements.append(Paragraph(
+            f"<b>Project policy checks: {check_label}. Assessment outcome: {policy_check.get('decision', 'Unavailable')}.</b> "
+            "SHAP and LIME explain the model prediction. Project lending rules are checked separately.", body_style
+        ))
+        for reason in policy_check.get('reasons', []):
+            elements.append(Paragraph(escape(str(reason)), body_style))
     if affordability_failed:
         review_text = (
             "<b>AFFORDABILITY REVIEW REQUIRED.</b> Monthly debt exceeds the project's configured 50% review limit "
@@ -328,7 +360,7 @@ def generate_loan_report_pdf(applicant_data: dict, prediction_result: dict) -> b
         [f for f in features if (f.get('contribution', 0) > 0 if is_approved else f.get('contribution', 0) < 0)],
         key=lambda f: abs(f.get('contribution', 0)), reverse=True
     )[:3]
-    factor_names = ', '.join(escape(str(f.get('feature', '')).replace('_', ' ')) for f in supporting)
+    factor_names = ', '.join(escape(_display_feature_name(f.get('feature', ''))) for f in supporting)
     direction = 'increased' if is_approved else 'reduced'
     factor_text = (
         f"<b>Main model factors (SHAP):</b> {factor_names} {direction} the model's approval output."
@@ -356,19 +388,28 @@ def generate_loan_report_pdf(applicant_data: dict, prediction_result: dict) -> b
     # -------------------------------------------------------------
     # 5. AUTOMATED LENDING AUDIT & SYSTEM VERIFICATION
     # -------------------------------------------------------------
-    elements.append(Paragraph("3. EXPLANATION VALIDATION SUMMARY", section_head))
+    elements.append(Paragraph("3. EXPLANATION QUALITY CHECKS", section_head))
     
     trust_score = prediction_result.get('trustScore', {})
     overall_trust = round(trust_score.get('overallTrustScore', 0.8) * 100)
+    weights = trust_score.get('weights')
     pillars = [
-        ('Faithfulness', trust_score.get('faithfulness'), 35),
-        ('Stability', trust_score.get('stability'), 25),
-        ('Consistency', trust_score.get('consistency'), 30),
-        ('Fairness', trust_score.get('fairness'), 10),
+        ('Faithfulness', trust_score.get('faithfulness'), 'faithfulness'),
+        ('Stability', trust_score.get('stability'), 'stability'),
+        ('Consistency', trust_score.get('consistency'), 'consistency'),
+        ('Fairness', trust_score.get('fairness'), 'fairness'),
     ]
 
     def format_pillar(value):
         return f"{float(value) * 100:.1f}%" if value is not None else "N/A"
+
+    def pillar_heading(name, metric):
+        if not weights:
+            return name
+        weight = weights.get(metric, 0)
+        percentage = f"{weight * 100:.2f}".rstrip("0").rstrip(".")
+        suffix = f"{percentage}%" if weight > 0 else "audit"
+        return f"{name} ({suffix})"
 
     if overall_trust >= 85:
         trust_badge = "High Trust Score"
@@ -378,7 +419,7 @@ def generate_loan_report_pdf(applicant_data: dict, prediction_result: dict) -> b
         trust_badge = "Low Trust Score"
 
     audit_data = [
-        [Paragraph(f"<b>{name} ({weight}%)</b>", table_cell_bold) for name, _, weight in pillars],
+        [Paragraph(f"<b>{pillar_heading(name, metric)}</b>", table_cell_bold) for name, _, metric in pillars],
         [Paragraph(format_pillar(value), table_cell) for _, value, _ in pillars],
     ]
     audit_table = Table(audit_data, colWidths=[130, 130, 130, 130])
@@ -390,6 +431,31 @@ def generate_loan_report_pdf(applicant_data: dict, prediction_result: dict) -> b
         ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
     ]))
     elements.append(audit_table)
+    faithfulness_check = prediction_result.get('faithfulnessCheck')
+    if faithfulness_check and faithfulness_check.get('method') == 'local_concordance':
+        elements.append(Paragraph(
+            f"<b>Faithfulness (local concordance):</b> "
+            f"SHAP {float(faithfulness_check['shap']['score'])*100:.1f}% "
+            f"(weight {float(faithfulness_check['weights']['shap'])*100:.0f}%); "
+            f"LIME {float(faithfulness_check['lime']['score'])*100:.1f}% "
+            f"(weight {float(faithfulness_check['weights']['lime'])*100:.0f}%). "
+            f"Uses up to {int(faithfulness_check['topK'])} features per explanation. "
+            "Checks reconstruction of the original prediction, not correct feature assignment or behavior on other applicants.",
+            body_style,
+        ))
+    else:
+        elements.append(Paragraph("Faithfulness method was not recorded for this assessment.", body_style))
+    stability_check = prediction_result.get('stabilityCheck')
+    if stability_check:
+        elements.append(Paragraph(
+            f"<b>SHAP stability:</b> average across {int(stability_check['testedSamples'])} nearby applications; "
+            f"lowest comparison {float(stability_check['minimumScore'])*100:.1f}%; "
+            f"model decision changed in {int(stability_check['predictionChanges'])} tests. "
+            "Small financial changes are tested and related values are recalculated. All tested cases remain in the average. "
+            "This compares feature importance order and contribution direction; it does not prove correctness.", body_style
+        ))
+    if not weights:
+        elements.append(Paragraph("Weighting was not recorded for this saved assessment.", body_style))
     elements.append(Spacer(1, 3))
     solvency_label = "Review required" if affordability_failed else ("Within configured limit" if solvency else "Not available")
     elements.append(Paragraph(
@@ -402,12 +468,12 @@ def generate_loan_report_pdf(applicant_data: dict, prediction_result: dict) -> b
     # -------------------------------------------------------------
     # 6. ACTIONABLE NEXT STEPS
     # -------------------------------------------------------------
-    elements.append(Paragraph("4. ACTIONABLE GUIDANCE & NEXT STEPS", section_head))
+    elements.append(Paragraph("4. SUGGESTED NEXT STEPS", section_head))
     
     next_steps = [
         [Paragraph("<b>Step 1:</b>", table_cell_bold), Paragraph("Review the model result, explanation factors and affordability check with the lender.", table_cell)],
         [Paragraph("<b>Step 2:</b>", table_cell_bold), Paragraph("Verify the declared income, existing repayments, credit information and required documents.", table_cell)],
-        [Paragraph("<b>Step 3:</b>", table_cell_bold), Paragraph("If the debt burden needs attention, discuss a lower principal or a term permitted for this loan product. Calculator changes do not constitute a new model assessment.", table_cell)],
+        [Paragraph("<b>Step 3:</b>", table_cell_bold), Paragraph("If monthly debt is high, discuss a lower loan amount or a different loan term. Calculator changes are estimates; submit a new assessment to obtain a new model prediction.", table_cell)],
     ]
 
     next_table = Table(next_steps, colWidths=[65, 455])
@@ -442,7 +508,7 @@ def generate_loan_report_pdf(applicant_data: dict, prediction_result: dict) -> b
     elements.append(Spacer(1, 6))
     elements.append(HRFlowable(width="100%", thickness=0.5, color=BORDER_COLOR, spaceAfter=3))
     elements.append(Paragraph(
-        "<i>This computer-generated model assessment supports review of the submitted application. Final lending decisions require the lender's own verification and approval. Explanation scores do not certify fairness, regulatory compliance or repayment ability.</i>",
+        "<i>This report supports application review. Final lending decisions require lender verification and approval. The Trust Score describes explanation checks. Gender sensitivity is shown separately and does not establish fairness across groups.</i>",
         ParagraphStyle('Disc', parent=styles['Normal'], fontSize=6.5, leading=8, textColor=colors.HexColor("#64748b"), alignment=1)
     ))
     

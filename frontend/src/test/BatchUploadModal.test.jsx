@@ -44,9 +44,9 @@ describe('BatchUploadModal Component (Modular Test)', () => {
     );
 
     expect(screen.getByText(/Batch Application Processing/i)).toBeInTheDocument();
-    expect(screen.getByText(/Demo Batch 1 \(10 Records\)/i)).toBeInTheDocument();
-    expect(screen.getByText(/Demo Batch 2 \(30 Records\)/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /Download Sample Batch \(20 Records\)/i })).toBeInTheDocument();
+    expect(screen.getByText('Home Loan Samples')).toBeInTheDocument();
+    expect(screen.getByText('9 Applications')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Download Home Loan CSV/i })).toBeInTheDocument();
   });
 
   it('calls onClose when close button is clicked', () => {
@@ -76,7 +76,7 @@ describe('BatchUploadModal Component (Modular Test)', () => {
       />
     );
 
-    const downloadBtn = screen.getByRole('button', { name: /Download Sample Batch \(20 Records\)/i });
+    const downloadBtn = screen.getByRole('button', { name: /Download Home Loan CSV/i });
     fireEvent.click(downloadBtn);
 
     await waitFor(() => {
@@ -86,9 +86,9 @@ describe('BatchUploadModal Component (Modular Test)', () => {
 
   it('runs preset batch and displays processed results and trashed records', async () => {
     api.fetchBatchPreset.mockResolvedValueOnce({
-      preset_id: 'batch_1',
-      name: 'Demo Batch 1 (10 Records)',
-      total: 10,
+      preset_id: 'home_loan',
+      name: 'Home Loan Portfolio',
+      total: 9,
       rows: [{ Applicant_Income: 50000 }]
     });
 
@@ -96,9 +96,9 @@ describe('BatchUploadModal Component (Modular Test)', () => {
       batchId: 'BATCH-20261022-TEST',
       filename: 'demo_batch_1.csv',
       timestamp: '2026-10-22 22:00:00',
-      totalRecords: 10,
+      totalRecords: 9,
       validRecords: 7,
-      flawedRecords: 3,
+      flawedRecords: 2,
       flawedData: [
         { row: 3, rawData: {}, errorReason: 'Credit_History is required' }
       ],
@@ -125,17 +125,17 @@ describe('BatchUploadModal Component (Modular Test)', () => {
       />
     );
 
-    const runBatch1Btn = screen.getByText(/Demo Batch 1 \(10 Records\)/i);
+    const runBatch1Btn = screen.getByText('Home Loan Samples');
     fireEvent.click(runBatch1Btn);
 
     await waitFor(() => {
       expect(screen.getByText(/BATCH-20261022-TEST/i)).toBeInTheDocument();
       expect(screen.getByText(/Processed Applications \(7\)/i)).toBeInTheDocument();
-      expect(screen.getByText(/Trashed Incomplete Records \(3\)/i)).toBeInTheDocument();
+      expect(screen.getByText(/Invalid Rows \(2\)/i)).toBeInTheDocument();
     });
 
     // Test sub-tab switching
-    const flawedTab = screen.getByRole('button', { name: /Trashed Incomplete Records/i });
+    const flawedTab = screen.getByRole('button', { name: /Invalid Rows/i });
     fireEvent.click(flawedTab);
     expect(screen.getByText(/Credit_History is required/i)).toBeInTheDocument();
   });

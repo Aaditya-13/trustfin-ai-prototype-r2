@@ -1,106 +1,138 @@
-# Faithfulness: held-out local fidelity (LIME), version 1
+# Faithfulness: top-five local concordance, SHAP 60% / LIME 40%
 
-The owner approved implementing the discussed baseline-relative error score.
-This replaces the old forced-high-band score. It does **not** deploy ERASER
-comprehensiveness or a percentile transformation. Implementation:
-`backend/app/validation/faithfulness.py`.
+Approved for implementation by the project owner on 19 November 2026.
+Protocol identifier: `local-concordance-top5-shap60-lime40-v1`.
+Source: `backend/app/validation/faithfulness.py`.
 
-## Meaning and formula
+## Meaning and reference
 
-For applicant x, let p=f(x) be XGBoost's approval probability. Fit the usual LIME
-explanation at x and freeze that exact local surrogate g, including its intercept,
-coefficients and original-bin indicator encoding. Independently generate 128
-valid raw-input test variations z_i. Recompute EMI, FOIR and LTV before model
-preprocessing. Do not refit LIME on these test cases.
+The score asks how closely short SHAP and LIME explanations reconstruct the
+original applicant's XGBoost approval probability. It evaluates the existing
+explanations at the original input; it does not generate replacement applicants,
+refit a surrogate, or measure agreement on a new neighborhood.
 
-`E = mean_i abs(g(z_i) - f(z_i))`
+The local-concordance definition is from Amparore, Perotti and Bajardi (2021),
+[To trust or not to trust an explanation: using LEAF to evaluate local linear
+XAI methods](https://doi.org/10.7717/peerj-cs.479).
+The [author implementation](https://github.com/amparore/leaf/blob/master/leaf.py)
+is a reference. No author source code was copied.
 
-`B = mean_i abs(p - f(z_i))`
+The 60/40 combination and the TreeSHAP adaptation below are project choices.
+The paper does not prescribe these weights.
 
-`raw_skill = 1 - E / B`
+## Formula and units
 
-`faithfulness = max(0, raw_skill)`
+Let p be the original XGBoost approval probability for either decision. For
+each method retain up to five features with the largest absolute existing
+contributions, preserving their signs and the existing intercept.
 
-API/database values remain in [0,1]; the UI/PDF multiply by 100. A score of 80
-means 80% less average probability error than always predicting the original
-probability, under this declared test distribution. It is not 80% explanation
-correctness, decision accuracy, fairness or repayment probability. Use approval
-probabilities throughout, including originally rejected and decision-flipping
-test cases. There is no requirement to flip a decision.
+```
+g_SHAP = sigmoid(SHAP expected raw margin + sum(selected signed contributions))
+g_LIME = LIME intercept + sum(selected coefficient * original interpretable value)
 
-An explanation worse than the constant baseline scores zero and retains its
-negative raw_skill. Do not clip LIME's linear probability estimates before MAE:
-out-of-range estimates count as errors. If B <= 1e-6, or fewer than eight cases
-change XGBoost probability by more than 1e-6, report **unavailable**. Invalid or
-nonfinite evaluation values also produce an unavailable measurement. These are
-numerical/support rules, not validated universal quality thresholds.
+LC_SHAP = max(0, 1 - abs(p - g_SHAP))
+LC_LIME = max(0, 1 - abs(p - g_LIME))
+faithfulness = 0.60 * LC_SHAP + 0.40 * LC_LIME
+```
 
-## Fixed test distribution and reproducibility
+Scores are stored between 0 and 1 and displayed on a 0-100 scale.
+XGBoost TreeSHAP contributions are in log-odds, so sigmoid is applied after
+summing them. Do not add these contributions directly to a probability.
+The current SHAP implementation uses its implicit tree-path background.
 
-- 128 tests, independently seeded with SHA-256 of protocol version, product ID
-  and the original predictive-input seed. This is separate from LIME's fitting
-  RNG. No adaptive radius or sample selection based on obtained scores.
-- Independently multiply applicant/coapplicant income, existing debt, principal
-  and property value by Uniform(0.9,1.1), where those fields exist. Zero amounts
-  stay zero. Income, principal, tenure and home property value must be positive.
-- CIBIL: integer change uniformly from -30 to +30, clipped to [300,900].
-- Missed payments: change -1,0,+1 with probabilities .2,.6,.2, clipped to [0,4].
-- Card utilization: add Uniform(-.08,.08), clipped to [0,1].
-- Keep Gender, categories, age, work experience and tenure fixed. Reject invalid
-  original financial quantities, age/experience or bureau/utilization values.
-- Product preprocessing regenerates all deterministic descendants. Policy
-  breaches are valid hypothetical applications; do not discard them to improve
-  the score. Decision-flipping examples are included.
-- Persist protocol/config, seed, transformed-neighborhood SHA-256, both MAEs,
-  changed/test counts, actual/estimated probabilities and applicant-point error.
-  The explanation's fitted LIME snapshot is stored in `lime.localModel`.
+LIME weights belong to its interpretable representation. The adapter records
+the actual original row from the native explanation; it does not multiply the
+weights by displayed income or preprocessed financial values. Current LIME
+uses discretization and 5,000 samples. For its original instance the matching
+bin indicators are one. The code retains explicit multipliers so the metric
+does not silently assume this for another representation.
 
-LIME continues to fit with 5,000 draws using the existing transformed training
-background, quartile discretization and default kernel. This change correctly
-replays its fitted conditional-bin model on valid held-out raw variations. It
-does **not** yet replace LIME's original fitting-neighborhood generator, which
-can violate financial dependencies. Poor scores are retained as findings; the
-formula must not be adjusted to produce a desired grade. Backgrounds for current
-products are the saved 100 training-only rows. Legacy retains its older background.
+Linear LIME estimates can fall outside [0,1]. Their full error is retained; the
+estimate is not clipped before computing local concordance. There is no
+nonzero score floor. Errors of one or more give zero concordance.
 
-## Scope and integration
+This truncates the existing full-fit explanation. It does not refit LIME with
+five features or reselect an intercept. Features mean processed model columns,
+including categorical indicators and derived financial features.
 
-This version explicitly evaluates **LIME local fidelity**. SHAP retains its
-existing attribution output and participates in the existing other checks.
-There is no new SHAP faithfulness value and no invented aggregation of SHAP and
-LIME quality. A reference-compatible SHAP attribution test is future work.
-Reconstructing the original prediction using all SHAP values is insufficient.
+## Distinction from other checks
 
-The existing 35% faithfulness weight now uses this local-fidelity value. The
-remaining weights and metrics are unchanged. If faithfulness is unavailable,
-overall trust is unavailable: no perfect default and no implicit reweighting.
-Expose this in API, history, batch summaries, UI and PDF. Saved old evaluations
-remain historical; their scores are not rewritten as if computed by this method.
-The proposed A/B/C/D grades are a separate pending presentation change.
+Consistency compares SHAP and LIME feature sets and contribution directions.
+Stability compares explanations across valid nearby financial changes.
+Local concordance instead compares each short explanation's approximation
+with the model's output on the same original applicant.
 
-## Literature, alternatives and limits
+The outer Trust Score is still:
 
-[Ribeiro et al., LIME, KDD 2016](https://arxiv.org/abs/1602.04938) motivates local
-model approximation. [Yeh et al., NeurIPS 2019](https://arxiv.org/abs/1901.09392)
-compares explanation-estimated and actual output changes using squared error.
-This held-out MAE normalization against a constant baseline is **TrustFin's
-project-defined choice**, not a formula supplied or validated by either paper.
+`(faithfulness + stability + consistency) / 3`
 
-The alternative [ERASER comprehensiveness](https://aclanthology.org/2020.acl-main.408.pdf)
-measures support removed by deleting selected information. The earlier pilot
-remains useful evidence, but raw effect size is not directly used as graded
-quality in this version. Its old serving comparator is frozen in
-`experiments/faithfulness_pilot/serving_faithfulness_snapshot.py` for reproduction.
+The inner 60/40 weights do not change those three equal pillar weights.
+Fairness stays a separate audit.
 
-The score depends on the declared neighborhood, original confidence and baseline.
-Clipping at zero compresses different poor outcomes, so retain raw_skill and
-MAEs. Near-flat model outputs make ratios fragile and often uninformative.
-Independently sampled financial/bureau changes may still be atypical despite
-valid categories and recomputed formulas. These are model sensitivity tests,
-not causal or population estimates. A strong local fit does not establish global
-explanation quality, prediction correctness, fairness, stability or real-world
-lending suitability. Repeatability from fixed seeds is not a confidence interval.
+## Stored evidence and failure behavior
 
-The implementation is accepted on arithmetic, independent surrogate replay,
-valid-neighborhood construction, explicit failure handling, genuine corrupted
-controls and model/data integrity checks, not on achieving high scores.
+New SHAP/LIME responses include optional typed reconstruction metadata:
+baseline/intercept, output space, multipliers and the full native prediction.
+The API also returns `faithfulnessCheck` with the protocol, feature limit,
+model probability, both component scores, approximations, absolute errors,
+selected features, 60/40 weights and combined result.
+
+Full SHAP reconstruction must match the actual model probability. Full LIME
+reconstruction must match its native local prediction. Missing, inconsistent,
+nonfinite or duplicate terms produce an unavailable/error response, not an
+invented default score. No additional LIME call is needed.
+
+The prediction response, batch results and stored history retain these details
+inside the existing JSON payload, so no database column migration is needed.
+Old records without the metadata retain their original scores. The interface
+and PDF identify their method as not recorded; they are not relabelled as the
+new protocol or recomputed.
+
+## Limits to state in the report
+
+- Close reconstruction is not a probability that an explanation is correct.
+- Reassigning retained contribution numbers to different feature names can
+  preserve their sum and therefore the score.
+- A probability close to zero or one can hide substantial raw-margin error.
+- Contributions can cancel; adding a feature need not improve reconstruction.
+- High concordance can coexist with an opposite decision near the threshold.
+- All-feature SHAP reconstruction is essentially exact by design and should
+  not replace the fixed top-five test.
+- This checks the original applicant only; broader behavioral faithfulness,
+  causal effects and fair or accurate loan decisions are not established.
+- Averaging the components can hide a weaker method, so display both scores.
+
+## Evaluation and alternatives considered
+
+The same 20 selected applicants were used in the offline investigation.
+With 60/40 weights the measured mean was 87.45/100, ranging from 71.13 to
+98.56. Approval/rejection means were 84.54/90.36. These are observations from
+this small cohort, not guaranteed population results or target score bands.
+
+Deletion-based faithfulness, Yeh infidelity adaptations and Bhatt correlation
+were investigated earlier. They test different properties and remain historical
+research outputs. Equal SHAP/LIME weighting was also compared; it averaged
+84.56 on this cohort. Larger numbers alone do not establish better measurement.
+
+The earlier held-out LIME protocol is superseded. Its pre-edit copy and the
+previous deletion source are retained locally under the ignored directory
+`experiments/faithfulness_implementation_2026-11-19/before/`. Historical
+simulation scripts that import the old deletion function require that snapshot;
+their recorded results describe the earlier serving implementation.
+
+Implementation verification compares the actual serving path with the saved
+20-case concordance experiment and checks predictions, component results,
+60/40 aggregation, deterministic repetition, one LIME call per applicant,
+history/batch persistence, old-record loading, failure behavior and generated
+report wording. Unit regressions cover native units, feature truncation,
+interpretable multipliers and out-of-range linear estimates.
+
+The actual serving path reproduced all 20 saved component results and their
+60/40 combinations to numerical tolerance. Its mean faithfulness was 87.45
+and mean equal-pillar Trust Score was 88.18. New batch and history records
+preserve the component metadata; missing reconstruction correctly returns an
+unavailable response without saving a fabricated score. Four generated reports
+(approval/rejection for both products) were rendered and visually checked;
+each fits one page. Model/data artifacts, README files, ignore rules and the
+existing local database remained unchanged. Local evidence is stored under
+`experiments/faithfulness_implementation_2026-11-19/verification.json`.

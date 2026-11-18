@@ -1,3 +1,5 @@
+> For the source-verified project inventory, current defects, artifact mismatches and fresh-build plan, read [the rebuild guide](README_REBUILD.md), reviewed on 17 November 2026.
+
 # TrustFin AI • Institutional Credit Decision & Audit System
 
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)

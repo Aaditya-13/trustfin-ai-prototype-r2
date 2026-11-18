@@ -24,7 +24,7 @@ def test_validate_batch_record_valid():
     assert is_valid is True
     assert err is None
     assert cleaned["Applicant_Income"] == 55000.0
-    assert cleaned["Credit_History"] == 1.0
+    assert cleaned["CIBIL_Score"] == 750
 
 
 def test_validate_batch_record_missing_income():
@@ -65,7 +65,7 @@ def test_validate_batch_record_missing_credit_history():
     }
     is_valid, cleaned, err = validate_batch_record(flawed_row, 3)
     assert is_valid is False
-    assert "Credit_History is required" in err
+    assert "CIBIL_Score is required" in err
 
 
 def test_get_batch_sample_csv():
@@ -73,24 +73,25 @@ def test_get_batch_sample_csv():
     assert response.status_code == 200
     assert "text/csv" in response.headers["content-type"]
     lines = response.text.strip().split("\n")
-    # 1 header line + 20 data rows = 21 lines
-    assert len(lines) == 21
+    # Product-specific template: one header and ten application rows.
+    assert len(lines) == 11
+    assert "CIBIL_Score" in lines[0]
 
 
 def test_get_batch_presets():
-    response = client.get("/api/v1/loan/batch-presets/batch_1")
+    response = client.get("/api/v1/loan/batch-presets/home_loan")
     assert response.status_code == 200
     data = response.json()
-    assert len(data["rows"]) == 10
+    assert len(data["rows"]) == 9
 
-    response30 = client.get("/api/v1/loan/batch-presets/batch_2")
+    response30 = client.get("/api/v1/loan/batch-presets/personal_loan")
     assert response30.status_code == 200
-    assert len(response30.json()["rows"]) == 30
+    assert len(response30.json()["rows"]) == 9
 
 
 def test_predict_batch_json_and_persistence():
-    # Fetch Demo Batch 1 (10 records: 7 valid, 3 flawed)
-    preset_resp = client.get("/api/v1/loan/batch-presets/batch_1")
+    # Current home portfolio: eight evaluable rows and one validation example.
+    preset_resp = client.get("/api/v1/loan/batch-presets/home_loan")
     rows = preset_resp.json()["rows"]
 
     batch_payload = {
@@ -101,14 +102,15 @@ def test_predict_batch_json_and_persistence():
     assert response.status_code == 200
     data = response.json()
 
-    assert data["totalRecords"] == 10
-    assert data["validRecords"] == 7
-    assert data["flawedRecords"] == 3
-    assert len(data["flawedData"]) == 3
-    assert len(data["processedResults"]) == 7
+    assert data["totalRecords"] == 9
+    assert data["validRecords"] == 8
+    assert data["flawedRecords"] == 1
+    assert len(data["flawedData"]) == 1
+    assert len(data["processedResults"]) == 8
+    assert all(item["policyCheck"] is not None for item in data["processedResults"])
 
     batch_id = data["batchId"]
-    assert batch_id.startswith("BATCH-")
+    assert batch_id.startswith("BH-")
 
     # Verify batch appears in /batches listing
     batches_resp = client.get("/api/v1/loan/batches")
@@ -121,8 +123,8 @@ def test_predict_batch_json_and_persistence():
     assert detail_resp.status_code == 200
     detail = detail_resp.json()
     assert detail["batchId"] == batch_id
-    assert len(detail["flawedData"]) == 3
-    assert len(detail["processedEvaluations"]) == 7
+    assert len(detail["flawedData"]) == 1
+    assert len(detail["processedEvaluations"]) == 8
 
     # Cleanup: Delete batch
     del_resp = client.delete(f"/api/v1/loan/batches/{batch_id}")
@@ -152,7 +154,7 @@ def test_predict_batch_csv_file_upload_and_persistence():
     assert len(data["processedResults"]) == 2
     
     batch_id = data["batchId"]
-    assert batch_id.startswith("BATCH-")
+    assert batch_id.startswith("BH-")
     
     # Verify cleanup works
     del_resp = client.delete(f"/api/v1/loan/batches/{batch_id}")

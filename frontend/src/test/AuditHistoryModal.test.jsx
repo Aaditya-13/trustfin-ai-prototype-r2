@@ -21,6 +21,7 @@ describe('AuditHistoryModal Component (Modular Test)', () => {
   const mockEvaluations = [
     {
       id: 101,
+      loanType: 'home_loan',
       dossierId: 'TF-20261022-AAAA',
       timestamp: '2026-10-22 14:00',
       applicantAge: 32,
@@ -35,6 +36,7 @@ describe('AuditHistoryModal Component (Modular Test)', () => {
     },
     {
       id: 102,
+      loanType: 'home_loan',
       dossierId: 'TF-20261022-BBBB',
       timestamp: '2026-10-22 15:00',
       applicantAge: 25,
@@ -90,7 +92,7 @@ describe('AuditHistoryModal Component (Modular Test)', () => {
     );
 
     expect(screen.getByText(/Application & Batch History/i)).toBeInTheDocument();
-    expect(screen.getByText(/Institutional Audit Log/i)).toBeInTheDocument();
+    expect(screen.getByText(/Saved Assessment Records/i)).toBeInTheDocument();
 
     await waitFor(() => {
       expect(screen.getByText(/TF-20261022-AAAA/i)).toBeInTheDocument();
@@ -108,10 +110,10 @@ describe('AuditHistoryModal Component (Modular Test)', () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByText(/Batch Upload History/i)).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /Batch History/i })).toBeInTheDocument();
     });
 
-    const batchTab = screen.getByRole('button', { name: /Batch Upload History/i });
+    const batchTab = screen.getByRole('button', { name: /Batch History/i });
     fireEvent.click(batchTab);
 
     await waitFor(() => {
@@ -160,7 +162,7 @@ describe('AuditHistoryModal Component (Modular Test)', () => {
       expect(screen.getByText(/TF-20261022-AAAA/i)).toBeInTheDocument();
     });
 
-    const inspectButtons = screen.getAllByTitle(/Inspect XAI explanations/i);
+    const inspectButtons = screen.getAllByTitle(/Review model explanations/i);
     fireEvent.click(inspectButtons[0]);
 
     await waitFor(() => {

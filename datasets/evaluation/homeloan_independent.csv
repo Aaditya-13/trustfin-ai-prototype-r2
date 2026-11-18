@@ -1,0 +1,1001 @@
+Loan_ID,Gender,Age,Married,Dependents,Education,Employment_Status,Work_Experience,Applicant_Income,Existing_EMI,Coapplicant_Income,Loan_Term,Loan_Amount,Property_Value,Property_Area,CIBIL_Score,Missed_Payments_12M,Loan_Status
+HLI00001,Female,35,Yes,1,Not Graduate,Salaried,11,41800,7300,40200,360,3178000,3920000,Urban,612,2,Rejected
+HLI00002,Female,39,Yes,1,Graduate,Salaried,18,25200,2000,27400,180,2736000,3550000,Rural,680,1,Rejected
+HLI00003,Male,39,Yes,2,Graduate,Salaried,14,32000,6400,0,300,2182000,2670000,Rural,661,1,Rejected
+HLI00004,Male,38,Yes,0,Graduate,Salaried,17,74000,2200,41200,180,3497000,4191000,Rural,800,0,Approved
+HLI00005,Male,24,Yes,1,Graduate,Self-Employed,3,98500,12900,0,60,1132000,1418000,Urban,656,0,Rejected
+HLI00006,Male,27,No,3,Not Graduate,Salaried,6,49100,16000,0,360,2642000,3533000,Urban,832,0,Rejected
+HLI00007,Male,51,Yes,1,Graduate,Salaried,30,90200,27100,33300,60,1154000,1410000,Rural,604,0,Rejected
+HLI00008,Female,49,Yes,2,Not Graduate,Salaried,26,68900,18100,24600,180,3443000,4143000,Urban,643,1,Rejected
+HLI00009,Female,44,No,0,Graduate,Salaried,21,158000,500,0,120,461000,749000,Urban,547,0,Rejected
+HLI00010,Female,57,Yes,1,Not Graduate,Salaried,36,34300,1900,0,60,401000,475000,Semiurban,696,0,Approved
+HLI00011,Male,25,No,2,Not Graduate,Salaried,1,33300,6100,0,60,300000,388000,Urban,714,0,Approved
+HLI00012,Female,25,Yes,0,Graduate,Salaried,4,89300,21200,30000,120,2554000,3157000,Semiurban,754,0,Approved
+HLI00013,Male,34,Yes,1,Graduate,Salaried,13,40600,4600,70300,240,9948000,11759000,Semiurban,826,0,Rejected
+HLI00014,Male,33,Yes,2,Graduate,Salaried,11,173900,100,0,360,421000,655000,Urban,786,4,Rejected
+HLI00015,Female,46,No,1,Not Graduate,Self-Employed,24,66700,6700,0,120,1070000,1102000,Semiurban,826,0,Rejected
+HLI00016,Female,50,Yes,1,Graduate,Salaried,24,43800,3000,0,120,761000,959000,Semiurban,610,3,Rejected
+HLI00017,Female,47,Yes,0,Graduate,Salaried,26,50600,5400,42000,180,2226000,2717000,Urban,775,0,Approved
+HLI00018,Male,37,Yes,1,Graduate,Self-Employed,16,163700,15600,33700,120,7035000,8583000,Rural,796,0,Rejected
+HLI00019,Female,41,No,1,Not Graduate,Salaried,19,20000,1600,0,120,483000,564000,Urban,729,0,Approved
+HLI00020,Male,57,Yes,1,Graduate,Salaried,32,36200,1700,90500,60,1635000,1948000,Urban,766,0,Approved
+HLI00021,Male,31,Yes,0,Graduate,Self-Employed,5,64200,3700,0,60,619000,752000,Semiurban,696,0,Approved
+HLI00022,Male,31,Yes,2,Graduate,Self-Employed,10,115000,2800,64000,180,5228000,4960000,Rural,702,0,Rejected
+HLI00023,Female,40,No,3,Graduate,Salaried,19,78900,5200,0,60,813000,929000,Rural,741,0,Approved
+HLI00024,Male,42,Yes,0,Graduate,Salaried,20,35200,400,28900,60,714000,892000,Semiurban,703,0,Approved
+HLI00025,Female,39,No,1,Not Graduate,Self-Employed,16,31000,2000,0,240,1139000,1327000,Urban,673,1,Rejected
+HLI00026,Female,41,Yes,1,Graduate,Self-Employed,18,56200,4600,0,60,6569000,8843000,Urban,547,2,Rejected
+HLI00027,Female,38,Yes,2,Graduate,Salaried,16,68500,25300,0,240,2230000,2544000,Urban,614,1,Rejected
+HLI00028,Female,34,Yes,0,Graduate,Self-Employed,13,91700,20200,38300,240,9237000,9652000,Semiurban,682,0,Rejected
+HLI00029,Female,39,Yes,0,Graduate,Salaried,18,104600,7200,0,300,4469000,5056000,Urban,718,1,Rejected
+HLI00030,Male,31,Yes,0,Not Graduate,Salaried,7,23700,2200,32800,120,1321000,1205000,Rural,730,0,Rejected
+HLI00031,Female,31,Yes,0,Graduate,Salaried,8,80300,9000,46500,240,4410000,5062000,Urban,392,4,Rejected
+HLI00032,Male,42,Yes,1,Graduate,Salaried,19,67500,8900,0,240,2767000,3451000,Semiurban,813,0,Approved
+HLI00033,Male,52,Yes,0,Graduate,Salaried,25,34400,2400,0,60,605000,710000,Rural,786,0,Approved
+HLI00034,Female,34,No,2,Graduate,Self-Employed,13,140000,19100,0,300,9047000,10600000,Semiurban,565,0,Rejected
+HLI00035,Female,47,No,1,Graduate,Self-Employed,26,58900,22800,0,180,1434000,1314000,Urban,698,0,Rejected
+HLI00036,Male,51,Yes,1,Not Graduate,Salaried,27,34600,9900,41400,60,701000,861000,Rural,679,1,Rejected
+HLI00037,Female,28,No,0,Graduate,Salaried,7,52900,7200,0,120,1117000,1273000,Urban,729,0,Approved
+HLI00038,Female,35,Yes,0,Graduate,Self-Employed,10,64800,26000,0,360,1433000,1659000,Semiurban,716,2,Rejected
+HLI00039,Male,26,Yes,0,Graduate,Salaried,4,35200,10900,47800,60,691000,812000,Urban,740,0,Approved
+HLI00040,Male,29,Yes,0,Not Graduate,Salaried,1,50900,3100,40800,240,5026000,6305000,Rural,420,2,Rejected
+HLI00041,Male,57,Yes,3,Graduate,Salaried,34,101600,500,0,60,560000,875000,Urban,585,0,Approved
+HLI00042,Male,50,Yes,0,Not Graduate,Salaried,27,56200,2100,20900,60,909000,1186000,Semiurban,725,0,Approved
+HLI00043,Female,24,No,2,Not Graduate,Salaried,1,39400,5000,0,60,475000,552000,Urban,671,1,Rejected
+HLI00044,Male,46,Yes,0,Graduate,Self-Employed,21,20000,6600,0,60,597000,727000,Urban,650,1,Rejected
+HLI00045,Female,42,Yes,0,Graduate,Salaried,16,121600,6100,0,120,4074000,5033000,Semiurban,798,0,Approved
+HLI00046,Male,33,Yes,3,Graduate,Salaried,6,110900,100,0,300,460000,720000,Urban,821,4,Rejected
+HLI00047,Male,30,No,0,Graduate,Self-Employed,4,78000,14400,0,360,7768000,9388000,Rural,840,0,Rejected
+HLI00048,Female,23,Yes,2,Graduate,Self-Employed,1,44200,7700,35300,180,2335000,3004000,Urban,880,0,Approved
+HLI00049,Male,29,Yes,0,Graduate,Salaried,6,101200,11500,15600,240,8226000,11189000,Urban,764,0,Rejected
+HLI00050,Male,55,Yes,3,Graduate,Salaried,30,40800,3300,0,120,1535000,1861000,Rural,756,2,Rejected
+HLI00051,Male,55,Yes,1,Not Graduate,Salaried,31,21200,4200,26200,60,539000,695000,Rural,661,1,Rejected
+HLI00052,Male,45,Yes,3,Graduate,Salaried,24,196500,400,0,240,383000,592000,Urban,557,0,Rejected
+HLI00053,Male,50,No,1,Graduate,Salaried,28,34500,3400,0,120,903000,1324000,Urban,778,0,Approved
+HLI00054,Female,40,Yes,2,Graduate,Salaried,19,45400,6400,13000,60,1003000,1266000,Rural,625,0,Rejected
+HLI00055,Female,57,No,3,Graduate,Salaried,32,110700,0,0,60,432000,696000,Urban,863,4,Rejected
+HLI00056,Male,40,No,0,Not Graduate,Salaried,16,25200,2500,0,300,1724000,2140000,Semiurban,721,0,Rejected
+HLI00057,Male,26,Yes,1,Graduate,Salaried,2,87300,19500,0,300,2233000,2959000,Rural,831,0,Approved
+HLI00058,Male,36,Yes,0,Graduate,Salaried,13,46700,6400,0,120,1343000,1531000,Urban,661,0,Rejected
+HLI00059,Female,41,Yes,1,Graduate,Salaried,14,176600,400,0,240,302000,472000,Urban,554,0,Rejected
+HLI00060,Female,40,Yes,1,Not Graduate,Salaried,17,41200,8500,33200,180,1429000,1730000,Semiurban,800,0,Approved
+HLI00061,Male,52,Yes,0,Not Graduate,Salaried,25,64800,1700,0,120,1599000,1937000,Urban,834,0,Approved
+HLI00062,Male,45,Yes,0,Graduate,Self-Employed,23,33700,2800,13300,240,1515000,1780000,Rural,536,2,Rejected
+HLI00063,Female,52,Yes,0,Not Graduate,Salaried,29,54100,3800,0,60,658000,611000,Semiurban,723,1,Rejected
+HLI00064,Female,56,Yes,3,Graduate,Salaried,34,27100,8800,0,60,1941000,2349000,Urban,751,0,Rejected
+HLI00065,Male,24,No,0,Not Graduate,Salaried,1,49600,3900,0,360,4733000,5553000,Urban,643,0,Rejected
+HLI00066,Male,35,No,1,Graduate,Salaried,12,59300,1900,0,120,1120000,1418000,Rural,641,0,Rejected
+HLI00067,Male,47,No,1,Not Graduate,Salaried,24,27900,1100,0,60,2967000,3860000,Urban,539,1,Rejected
+HLI00068,Male,49,Yes,2,Graduate,Salaried,28,36200,2200,45900,60,1412000,1759000,Rural,622,1,Rejected
+HLI00069,Female,26,Yes,0,Graduate,Salaried,5,61800,6400,23000,240,2609000,2429000,Semiurban,761,0,Rejected
+HLI00070,Female,48,No,2,Not Graduate,Salaried,24,20000,3900,0,60,300000,344000,Semiurban,812,0,Rejected
+HLI00071,Female,32,Yes,2,Graduate,Salaried,11,71200,10200,27100,300,6693000,9205000,Semiurban,792,0,Rejected
+HLI00072,Male,36,Yes,1,Not Graduate,Salaried,7,29400,1500,0,240,1234000,1444000,Semiurban,563,2,Rejected
+HLI00073,Male,45,No,1,Graduate,Self-Employed,24,58300,11600,0,240,3458000,4029000,Semiurban,742,0,Rejected
+HLI00074,Male,47,No,1,Not Graduate,Salaried,25,26600,600,0,60,6601000,8525000,Semiurban,730,0,Rejected
+HLI00075,Male,45,Yes,2,Not Graduate,Salaried,22,52200,7900,63900,240,7795000,10199000,Rural,803,0,Rejected
+HLI00076,Male,23,Yes,0,Not Graduate,Salaried,1,20000,4600,38200,60,930000,1155000,Semiurban,735,0,Approved
+HLI00077,Male,57,No,1,Graduate,Salaried,35,41600,2900,0,60,576000,732000,Urban,626,1,Rejected
+HLI00078,Male,56,No,2,Graduate,Salaried,33,28400,1100,32500,60,936000,860000,Urban,828,0,Rejected
+HLI00079,Female,33,Yes,2,Graduate,Self-Employed,12,90700,7300,27500,240,2494000,3085000,Urban,572,1,Rejected
+HLI00080,Male,49,Yes,0,Graduate,Salaried,28,33000,200,0,180,800000,1016000,Urban,744,0,Approved
+HLI00081,Female,56,Yes,2,Not Graduate,Salaried,31,25000,100,0,60,300000,371000,Semiurban,689,1,Rejected
+HLI00082,Male,32,No,2,Graduate,Salaried,7,40500,3700,46600,180,3859000,4672000,Semiurban,619,0,Rejected
+HLI00083,Male,26,Yes,0,Graduate,Salaried,2,38400,3200,50000,120,1143000,1357000,Urban,701,2,Rejected
+HLI00084,Male,38,Yes,1,Graduate,Self-Employed,17,37700,1200,41500,120,2248000,2357000,Urban,717,0,Rejected
+HLI00085,Female,55,Yes,2,Graduate,Self-Employed,29,79500,2900,0,120,1758000,2126000,Semiurban,752,0,Approved
+HLI00086,Male,45,Yes,2,Graduate,Salaried,22,133700,44300,0,120,7549000,8035000,Urban,770,0,Rejected
+HLI00087,Female,53,Yes,0,Graduate,Salaried,30,145600,400,0,120,448000,702000,Urban,537,0,Rejected
+HLI00088,Female,32,No,0,Graduate,Salaried,9,40300,11200,0,120,904000,1201000,Semiurban,686,0,Rejected
+HLI00089,Male,36,Yes,1,Graduate,Salaried,14,107000,10200,39000,300,1507000,1743000,Urban,717,0,Approved
+HLI00090,Male,36,Yes,0,Not Graduate,Salaried,13,24300,300,86200,300,4332000,5181000,Urban,732,0,Approved
+HLI00091,Female,46,Yes,0,Graduate,Salaried,25,60000,9300,81700,180,6946000,6554000,Semiurban,655,0,Rejected
+HLI00092,Male,48,Yes,2,Graduate,Self-Employed,26,41000,1600,53900,60,1085000,1577000,Urban,753,0,Approved
+HLI00093,Female,47,Yes,0,Graduate,Salaried,21,64600,9700,0,60,954000,1139000,Urban,771,0,Approved
+HLI00094,Male,46,Yes,1,Graduate,Salaried,20,78500,26100,30600,180,3255000,4356000,Urban,794,0,Rejected
+HLI00095,Male,32,Yes,2,Graduate,Salaried,11,182400,500,0,300,545000,858000,Urban,562,0,Approved
+HLI00096,Male,41,No,2,Graduate,Self-Employed,20,83300,4100,30100,120,2389000,2252000,Rural,648,1,Rejected
+HLI00097,Male,44,Yes,2,Graduate,Salaried,21,81000,4700,26400,180,4507000,5702000,Rural,644,1,Rejected
+HLI00098,Male,32,Yes,0,Graduate,Salaried,3,65300,8600,0,60,973000,1138000,Urban,570,2,Rejected
+HLI00099,Male,30,Yes,2,Graduate,Salaried,3,105600,0,0,240,599000,991000,Urban,800,4,Rejected
+HLI00100,Female,28,Yes,0,Not Graduate,Salaried,6,34800,900,23800,180,1790000,2176000,Urban,829,0,Approved
+HLI00101,Male,55,Yes,0,Graduate,Salaried,33,41600,11600,21800,60,742000,904000,Urban,654,2,Rejected
+HLI00102,Male,45,Yes,0,Graduate,Salaried,24,36900,1100,30600,180,6123000,5643000,Urban,749,0,Rejected
+HLI00103,Female,45,Yes,0,Graduate,Salaried,22,65400,1500,45000,120,1927000,2601000,Rural,613,0,Rejected
+HLI00104,Female,53,Yes,0,Graduate,Self-Employed,32,49700,9700,0,120,3669000,4797000,Semiurban,758,0,Rejected
+HLI00105,Male,31,No,1,Graduate,Salaried,10,31300,1200,67300,240,6080000,7207000,Urban,835,0,Rejected
+HLI00106,Female,32,Yes,1,Graduate,Salaried,6,53800,6900,25900,60,757000,916000,Urban,747,0,Approved
+HLI00107,Female,36,Yes,2,Graduate,Salaried,12,152000,21800,27400,120,2323000,2819000,Urban,655,0,Approved
+HLI00108,Female,27,Yes,1,Graduate,Self-Employed,5,84000,9800,17900,240,4885000,5757000,Rural,794,0,Rejected
+HLI00109,Male,50,No,0,Graduate,Salaried,26,60400,27600,0,60,953000,1108000,Urban,724,0,Rejected
+HLI00110,Male,30,Yes,1,Graduate,Self-Employed,6,76000,12400,45900,180,1395000,1745000,Semiurban,800,0,Approved
+HLI00111,Female,31,No,0,Not Graduate,Salaried,6,20000,1500,0,60,300000,388000,Semiurban,707,0,Approved
+HLI00112,Female,47,Yes,3,Graduate,Self-Employed,22,37000,500,0,60,399000,480000,Semiurban,551,1,Rejected
+HLI00113,Male,30,Yes,3,Graduate,Salaried,9,78800,8300,0,120,1996000,2776000,Urban,785,0,Approved
+HLI00114,Female,47,Yes,1,Not Graduate,Salaried,21,31500,4000,28400,180,3848000,4934000,Urban,734,0,Rejected
+HLI00115,Female,31,No,1,Graduate,Salaried,10,47500,16700,0,60,649000,792000,Rural,713,1,Rejected
+HLI00116,Male,31,Yes,0,Not Graduate,Salaried,10,34200,1100,20400,240,1697000,2080000,Rural,569,0,Rejected
+HLI00117,Male,23,No,0,Not Graduate,Self-Employed,1,20000,900,0,180,380000,482000,Semiurban,820,0,Approved
+HLI00118,Female,27,Yes,1,Graduate,Salaried,6,67000,7400,0,360,6481000,8167000,Semiurban,742,0,Rejected
+HLI00119,Male,32,Yes,0,Not Graduate,Salaried,9,20000,500,42500,60,755000,908000,Urban,524,4,Rejected
+HLI00120,Male,56,Yes,2,Graduate,Salaried,32,35600,2500,10500,60,362000,415000,Rural,807,0,Approved
+HLI00121,Female,29,No,2,Graduate,Self-Employed,8,36200,4000,0,300,2918000,3802000,Urban,674,0,Rejected
+HLI00122,Male,27,Yes,0,Graduate,Salaried,2,103500,34000,0,120,1941000,2388000,Urban,648,0,Rejected
+HLI00123,Male,53,Yes,1,Graduate,Salaried,27,107300,9100,39100,120,3174000,3287000,Semiurban,832,0,Rejected
+HLI00124,Male,56,Yes,0,Graduate,Salaried,32,62300,4100,37900,60,1468000,1544000,Semiurban,577,3,Rejected
+HLI00125,Male,44,Yes,3,Graduate,Self-Employed,23,32300,3200,0,120,2550000,3258000,Rural,777,0,Rejected
+HLI00126,Female,54,Yes,0,Not Graduate,Salaried,33,37700,5600,34900,60,910000,1157000,Urban,703,1,Rejected
+HLI00127,Male,33,Yes,2,Graduate,Salaried,10,86000,6100,39500,180,3808000,4687000,Urban,816,0,Approved
+HLI00128,Male,55,Yes,1,Not Graduate,Salaried,26,64000,10300,35000,120,1511000,1892000,Rural,851,0,Approved
+HLI00129,Female,51,Yes,0,Graduate,Salaried,29,105100,22500,0,120,2187000,2058000,Urban,705,0,Rejected
+HLI00130,Male,40,Yes,0,Graduate,Salaried,17,110600,1800,17100,180,2448000,2777000,Semiurban,832,0,Approved
+HLI00131,Male,37,Yes,2,Graduate,Salaried,14,47200,1100,0,240,3335000,3358000,Semiurban,729,0,Rejected
+HLI00132,Female,25,Yes,1,Graduate,Salaried,1,39100,2900,49600,360,6895000,8000000,Urban,653,1,Rejected
+HLI00133,Male,55,Yes,1,Graduate,Salaried,33,24400,1000,0,120,534000,655000,Rural,712,0,Approved
+HLI00134,Male,28,No,1,Graduate,Self-Employed,4,58800,4800,0,300,4371000,5136000,Urban,873,0,Rejected
+HLI00135,Male,56,No,3,Graduate,Self-Employed,32,24400,400,28600,60,452000,558000,Urban,716,1,Approved
+HLI00136,Male,51,Yes,0,Not Graduate,Salaried,30,23200,4000,48600,60,2456000,2805000,Semiurban,788,0,Rejected
+HLI00137,Male,45,Yes,0,Graduate,Self-Employed,21,141400,800,23600,180,3598000,4225000,Semiurban,763,0,Approved
+HLI00138,Male,34,No,2,Not Graduate,Salaried,12,30400,5300,0,120,4181000,4927000,Semiurban,765,0,Rejected
+HLI00139,Female,25,Yes,2,Graduate,Salaried,4,64300,16600,0,60,4207000,4959000,Rural,841,0,Rejected
+HLI00140,Male,50,No,1,Graduate,Salaried,25,47100,9600,28900,180,2378000,3424000,Rural,667,0,Approved
+HLI00141,Male,47,Yes,0,Graduate,Self-Employed,26,134600,22700,0,60,874000,1066000,Urban,864,0,Approved
+HLI00142,Male,37,No,2,Not Graduate,Salaried,16,34000,3200,0,60,300000,374000,Rural,594,1,Rejected
+HLI00143,Male,42,No,1,Not Graduate,Salaried,18,20000,3600,0,120,600000,662000,Urban,774,0,Rejected
+HLI00144,Female,32,Yes,2,Not Graduate,Self-Employed,11,36100,1600,0,240,1984000,2368000,Semiurban,614,2,Rejected
+HLI00145,Male,26,No,0,Graduate,Salaried,1,76400,22800,62400,300,7181000,9645000,Rural,721,0,Rejected
+HLI00146,Male,48,No,0,Not Graduate,Salaried,23,40600,7400,0,60,678000,841000,Urban,755,0,Rejected
+HLI00147,Male,54,No,0,Graduate,Salaried,28,78100,3500,29900,120,3763000,4127000,Rural,701,1,Rejected
+HLI00148,Female,47,Yes,0,Graduate,Salaried,26,92900,13500,0,120,2436000,2904000,Urban,692,0,Approved
+HLI00149,Male,32,Yes,3,Graduate,Salaried,5,82300,3800,56900,240,4541000,5835000,Urban,742,0,Approved
+HLI00150,Female,53,Yes,0,Graduate,Salaried,29,154600,200,0,60,334000,544000,Urban,853,3,Rejected
+HLI00151,Female,35,No,0,Graduate,Salaried,14,47400,4000,65400,60,1986000,2498000,Semiurban,624,0,Rejected
+HLI00152,Male,46,Yes,0,Graduate,Salaried,22,89900,18800,14500,180,3212000,3930000,Semiurban,820,0,Approved
+HLI00153,Female,25,No,1,Graduate,Salaried,2,60300,13600,0,240,4152000,5085000,Urban,688,0,Rejected
+HLI00154,Male,36,Yes,2,Graduate,Salaried,10,53400,9500,43700,300,5159000,6392000,Semiurban,854,0,Rejected
+HLI00155,Male,39,Yes,0,Graduate,Salaried,16,34100,7100,47300,60,564000,683000,Urban,734,0,Approved
+HLI00156,Female,26,No,2,Not Graduate,Salaried,3,23700,5000,0,60,310000,371000,Urban,708,0,Rejected
+HLI00157,Male,28,Yes,1,Graduate,Salaried,5,81400,35800,0,360,1524000,1862000,Urban,720,0,Rejected
+HLI00158,Male,25,Yes,0,Graduate,Self-Employed,4,105500,6600,0,180,2431000,3437000,Urban,789,0,Approved
+HLI00159,Male,43,No,1,Graduate,Self-Employed,22,31800,1200,0,60,361000,422000,Urban,717,0,Approved
+HLI00160,Female,31,Yes,2,Graduate,Salaried,10,73100,13400,0,240,4987000,6656000,Urban,778,0,Rejected
+HLI00161,Male,57,Yes,3,Graduate,Self-Employed,30,62700,6000,29200,60,1352000,1674000,Urban,764,0,Approved
+HLI00162,Female,43,Yes,1,Graduate,Salaried,15,36700,8300,37800,240,5106000,6603000,Semiurban,885,0,Rejected
+HLI00163,Male,49,No,0,Graduate,Self-Employed,25,40300,4200,0,60,432000,534000,Rural,834,0,Approved
+HLI00164,Female,54,Yes,0,Graduate,Salaried,33,20000,4100,33800,60,764000,927000,Semiurban,738,0,Approved
+HLI00165,Male,47,No,0,Graduate,Self-Employed,24,65000,4600,0,180,1596000,1839000,Rural,817,0,Approved
+HLI00166,Male,45,No,2,Graduate,Salaried,20,55600,2700,0,180,1721000,2180000,Rural,629,2,Rejected
+HLI00167,Female,54,Yes,1,Graduate,Salaried,26,51300,3000,33600,120,1320000,1756000,Urban,692,0,Approved
+HLI00168,Female,41,Yes,0,Graduate,Salaried,20,65900,5100,46300,60,814000,972000,Semiurban,678,1,Rejected
+HLI00169,Male,42,Yes,0,Graduate,Salaried,18,78600,9100,24600,240,872000,995000,Semiurban,660,0,Approved
+HLI00170,Female,30,Yes,0,Graduate,Self-Employed,5,41600,2900,28900,240,1972000,2451000,Urban,689,0,Approved
+HLI00171,Male,48,Yes,0,Graduate,Salaried,25,173800,100,0,120,439000,693000,Urban,571,0,Approved
+HLI00172,Female,57,Yes,0,Graduate,Salaried,34,98300,5900,0,60,1148000,1091000,Semiurban,637,2,Rejected
+HLI00173,Male,36,Yes,2,Graduate,Salaried,15,42500,11400,21000,240,4356000,4089000,Urban,600,1,Rejected
+HLI00174,Female,38,No,0,Graduate,Salaried,17,47300,9500,61400,60,1560000,1926000,Urban,728,0,Approved
+HLI00175,Male,33,No,0,Graduate,Salaried,6,80700,18700,0,60,680000,809000,Rural,756,0,Approved
+HLI00176,Male,37,Yes,2,Not Graduate,Self-Employed,15,39500,3500,35200,240,2422000,2847000,Semiurban,631,0,Rejected
+HLI00177,Male,52,Yes,0,Not Graduate,Self-Employed,30,42400,6500,21700,60,843000,1155000,Urban,752,0,Approved
+HLI00178,Male,29,Yes,0,Graduate,Self-Employed,8,63600,9900,26100,120,3029000,3695000,Urban,660,0,Rejected
+HLI00179,Male,41,Yes,0,Graduate,Self-Employed,17,63400,3700,23700,60,1355000,1587000,Urban,690,1,Rejected
+HLI00180,Male,54,Yes,0,Graduate,Salaried,27,190300,100,0,120,450000,720000,Urban,548,0,Rejected
+HLI00181,Female,37,Yes,0,Graduate,Self-Employed,13,39300,11100,0,120,618000,722000,Semiurban,748,0,Approved
+HLI00182,Female,46,No,0,Graduate,Self-Employed,20,91300,5300,0,180,3075000,3798000,Urban,714,1,Rejected
+HLI00183,Male,55,Yes,2,Graduate,Salaried,34,121200,4800,19400,60,1756000,2127000,Urban,739,0,Approved
+HLI00184,Male,26,No,1,Graduate,Self-Employed,4,60500,25200,0,120,1281000,1528000,Semiurban,822,0,Rejected
+HLI00185,Male,29,No,2,Graduate,Self-Employed,8,90700,18500,0,180,2552000,2542000,Urban,679,0,Rejected
+HLI00186,Male,31,Yes,2,Not Graduate,Salaried,9,20000,1900,0,240,847000,773000,Semiurban,819,0,Rejected
+HLI00187,Female,41,Yes,2,Graduate,Self-Employed,20,50500,7100,34800,180,2771000,3673000,Semiurban,531,4,Rejected
+HLI00188,Female,27,Yes,0,Graduate,Salaried,1,56100,27000,0,180,1682000,1827000,Semiurban,817,0,Rejected
+HLI00189,Male,56,Yes,3,Graduate,Salaried,32,104300,5200,21200,60,900000,1085000,Semiurban,703,1,Approved
+HLI00190,Female,28,Yes,2,Not Graduate,Salaried,7,38900,1200,26300,120,1273000,1630000,Semiurban,790,0,Approved
+HLI00191,Female,29,Yes,2,Not Graduate,Salaried,8,20500,5200,21800,60,721000,891000,Urban,745,0,Approved
+HLI00192,Male,30,Yes,3,Graduate,Salaried,6,77300,25800,28900,300,2950000,3412000,Rural,762,0,Approved
+HLI00193,Female,50,No,2,Graduate,Salaried,29,65000,13400,0,180,2229000,3047000,Urban,835,0,Rejected
+HLI00194,Male,36,Yes,0,Graduate,Salaried,14,196300,300,0,120,419000,681000,Urban,791,4,Rejected
+HLI00195,Female,27,No,2,Graduate,Salaried,4,49700,4300,0,360,5336000,5122000,Semiurban,782,0,Rejected
+HLI00196,Male,30,No,1,Graduate,Self-Employed,4,34600,1000,0,60,489000,531000,Semiurban,777,0,Rejected
+HLI00197,Male,31,No,0,Not Graduate,Salaried,7,45400,1500,0,180,1160000,1372000,Urban,680,2,Rejected
+HLI00198,Male,55,No,1,Graduate,Salaried,31,159100,200,0,60,399000,651000,Urban,561,0,Approved
+HLI00199,Male,40,Yes,0,Graduate,Salaried,17,50400,1200,0,180,1975000,2249000,Semiurban,530,2,Rejected
+HLI00200,Male,49,Yes,2,Graduate,Salaried,20,27900,1900,71600,60,1002000,1169000,Semiurban,645,1,Rejected
+HLI00201,Male,23,Yes,2,Graduate,Salaried,2,142500,9900,20900,300,6691000,7984000,Semiurban,856,0,Approved
+HLI00202,Female,55,No,0,Graduate,Salaried,33,57000,5700,0,60,503000,543000,Semiurban,672,0,Rejected
+HLI00203,Male,51,Yes,0,Not Graduate,Salaried,29,25100,900,87400,60,1252000,1498000,Semiurban,615,3,Rejected
+HLI00204,Male,29,Yes,1,Graduate,Salaried,1,82900,11000,15900,120,1103000,1329000,Semiurban,760,0,Approved
+HLI00205,Female,48,Yes,0,Not Graduate,Salaried,25,38600,2900,0,60,555000,569000,Urban,649,0,Rejected
+HLI00206,Male,51,No,0,Graduate,Salaried,28,52900,10800,18500,120,1608000,2031000,Semiurban,688,1,Rejected
+HLI00207,Male,31,No,2,Graduate,Self-Employed,8,62000,5500,0,180,1745000,2433000,Rural,599,1,Rejected
+HLI00208,Male,37,Yes,2,Graduate,Salaried,13,51300,11700,49100,240,3681000,4647000,Semiurban,624,1,Rejected
+HLI00209,Male,35,No,2,Graduate,Salaried,11,136300,2700,0,300,9281000,8849000,Semiurban,748,1,Rejected
+HLI00210,Male,55,Yes,3,Not Graduate,Salaried,33,36700,6900,34100,60,702000,857000,Urban,856,0,Approved
+HLI00211,Male,30,Yes,1,Graduate,Salaried,7,62300,10700,35200,60,724000,964000,Rural,551,0,Rejected
+HLI00212,Male,32,Yes,1,Graduate,Salaried,8,114400,13300,26900,360,10000000,12415000,Urban,766,0,Rejected
+HLI00213,Female,43,Yes,3,Graduate,Salaried,16,85400,9100,0,180,3171000,3710000,Rural,768,0,Approved
+HLI00214,Male,44,Yes,1,Graduate,Salaried,18,101500,300,0,240,443000,728000,Urban,543,0,Rejected
+HLI00215,Male,48,Yes,1,Graduate,Salaried,27,72800,5800,0,120,1327000,1722000,Urban,616,0,Rejected
+HLI00216,Female,29,Yes,3,Graduate,Salaried,8,58100,4500,0,360,1532000,1880000,Rural,689,0,Approved
+HLI00217,Female,44,Yes,1,Graduate,Salaried,20,78700,19000,29100,60,1257000,1503000,Urban,774,0,Approved
+HLI00218,Female,23,Yes,1,Graduate,Salaried,1,51000,2200,29500,120,1649000,1990000,Urban,648,0,Rejected
+HLI00219,Male,38,Yes,3,Graduate,Self-Employed,17,48100,5400,73400,180,2811000,3409000,Rural,734,0,Approved
+HLI00220,Male,41,Yes,1,Graduate,Self-Employed,18,79100,32100,27400,180,2811000,3358000,Semiurban,717,0,Rejected
+HLI00221,Female,28,Yes,0,Graduate,Self-Employed,6,73500,9800,41200,300,9888000,12215000,Urban,657,0,Rejected
+HLI00222,Female,26,Yes,0,Graduate,Salaried,5,53500,7300,0,120,1391000,1652000,Urban,714,1,Rejected
+HLI00223,Male,29,Yes,2,Not Graduate,Salaried,8,20000,500,0,300,1095000,1445000,Urban,592,1,Rejected
+HLI00224,Male,36,No,0,Not Graduate,Salaried,12,29500,3500,0,120,894000,1132000,Urban,717,0,Approved
+HLI00225,Female,34,Yes,1,Graduate,Salaried,10,44700,9900,0,360,2613000,3116000,Urban,812,0,Rejected
+HLI00226,Male,40,Yes,0,Graduate,Salaried,18,116200,21100,0,300,9910000,10523000,Urban,773,0,Rejected
+HLI00227,Female,32,No,0,Graduate,Salaried,7,79900,12000,24600,180,4464000,4769000,Urban,576,1,Rejected
+HLI00228,Male,47,No,2,Graduate,Salaried,24,41900,5400,0,180,3540000,4024000,Rural,756,0,Rejected
+HLI00229,Female,25,Yes,2,Not Graduate,Salaried,4,39000,3100,0,180,1481000,1812000,Rural,847,0,Approved
+HLI00230,Male,43,Yes,0,Graduate,Self-Employed,16,24700,4200,20700,120,1438000,1750000,Semiurban,837,0,Approved
+HLI00231,Male,38,Yes,0,Graduate,Salaried,16,158800,100,0,240,548000,887000,Urban,802,3,Rejected
+HLI00232,Male,56,No,0,Not Graduate,Self-Employed,35,48900,2100,0,60,439000,531000,Rural,720,0,Approved
+HLI00233,Male,39,Yes,1,Graduate,Salaried,14,75700,4600,0,120,1114000,1339000,Semiurban,869,0,Approved
+HLI00234,Male,47,Yes,0,Graduate,Salaried,23,38100,2100,19600,60,870000,1047000,Semiurban,671,0,Rejected
+HLI00235,Male,47,Yes,0,Graduate,Salaried,15,61400,6500,34100,180,3633000,3358000,Urban,656,0,Rejected
+HLI00236,Male,38,Yes,0,Not Graduate,Salaried,17,60200,5900,54900,180,3413000,4141000,Semiurban,809,1,Approved
+HLI00237,Male,52,No,3,Graduate,Salaried,31,114100,300,0,60,504000,823000,Urban,551,0,Rejected
+HLI00238,Male,29,No,0,Graduate,Self-Employed,8,43000,6900,0,60,1909000,2444000,Urban,584,1,Rejected
+HLI00239,Male,44,Yes,2,Graduate,Salaried,19,31700,6400,0,120,1077000,1388000,Urban,654,0,Rejected
+HLI00240,Male,33,Yes,0,Graduate,Salaried,6,101300,300,0,360,532000,836000,Urban,845,4,Rejected
+HLI00241,Male,43,Yes,2,Graduate,Self-Employed,22,64300,13600,0,60,783000,975000,Urban,802,0,Approved
+HLI00242,Female,30,Yes,3,Graduate,Salaried,9,41600,3500,18400,240,3013000,4010000,Urban,791,0,Approved
+HLI00243,Male,45,Yes,3,Not Graduate,Salaried,23,40800,8900,39900,180,2173000,2224000,Semiurban,712,1,Rejected
+HLI00244,Female,40,No,1,Graduate,Salaried,14,76900,8100,0,120,1629000,1934000,Rural,612,0,Rejected
+HLI00245,Female,35,Yes,1,Graduate,Salaried,10,55800,8000,0,300,5976000,7560000,Urban,769,1,Rejected
+HLI00246,Male,56,Yes,0,Graduate,Salaried,33,126600,100,0,60,302000,479000,Urban,539,0,Rejected
+HLI00247,Female,50,No,1,Not Graduate,Self-Employed,29,32900,2400,0,60,544000,729000,Urban,801,0,Approved
+HLI00248,Male,38,No,1,Graduate,Salaried,15,48600,16800,0,120,1676000,2339000,Urban,796,0,Rejected
+HLI00249,Male,33,Yes,1,Graduate,Salaried,11,104200,3900,0,300,4599000,5421000,Semiurban,687,0,Approved
+HLI00250,Female,30,Yes,1,Graduate,Salaried,9,49800,10300,0,360,983000,1207000,Semiurban,763,1,Approved
+HLI00251,Male,48,Yes,0,Graduate,Salaried,22,181600,400,0,180,382000,595000,Urban,568,0,Approved
+HLI00252,Male,36,No,0,Graduate,Self-Employed,11,21100,1500,0,120,413000,468000,Urban,810,0,Approved
+HLI00253,Male,45,Yes,2,Graduate,Salaried,21,40300,3000,0,120,629000,580000,Rural,789,0,Rejected
+HLI00254,Male,39,Yes,2,Graduate,Salaried,17,23700,700,41200,120,1505000,1765000,Urban,738,0,Approved
+HLI00255,Male,24,Yes,0,Graduate,Self-Employed,2,32600,2200,0,120,1133000,1446000,Semiurban,658,1,Rejected
+HLI00256,Male,30,Yes,3,Graduate,Salaried,8,91300,10500,0,360,4301000,5326000,Urban,594,2,Rejected
+HLI00257,Male,43,Yes,1,Graduate,Salaried,19,37100,10500,48300,180,1946000,2712000,Urban,543,3,Rejected
+HLI00258,Female,30,No,0,Not Graduate,Salaried,6,49300,6900,58800,300,9259000,12048000,Semiurban,787,0,Rejected
+HLI00259,Female,24,Yes,1,Graduate,Salaried,3,48800,700,38100,180,4362000,5858000,Urban,830,0,Rejected
+HLI00260,Male,25,Yes,2,Graduate,Salaried,4,67800,6800,22000,60,1082000,1375000,Urban,732,0,Approved
+HLI00261,Male,49,Yes,0,Graduate,Salaried,26,81900,8200,32800,60,1737000,1887000,Rural,706,0,Rejected
+HLI00262,Female,31,Yes,0,Graduate,Salaried,9,108200,42300,22500,60,1127000,1322000,Semiurban,768,0,Rejected
+HLI00263,Female,50,Yes,2,Not Graduate,Salaried,27,49700,7100,76500,120,1824000,2173000,Semiurban,635,1,Rejected
+HLI00264,Male,41,No,0,Graduate,Salaried,15,153000,200,0,60,522000,816000,Urban,793,4,Rejected
+HLI00265,Male,32,No,3,Graduate,Salaried,11,135200,100,0,60,352000,577000,Urban,864,3,Rejected
+HLI00266,Male,26,No,1,Not Graduate,Salaried,1,20000,4400,0,240,1354000,1572000,Rural,767,1,Rejected
+HLI00267,Male,52,Yes,1,Not Graduate,Salaried,31,40300,4000,22400,60,563000,599000,Rural,785,0,Rejected
+HLI00268,Male,46,No,2,Graduate,Salaried,21,33000,2400,0,60,300000,388000,Urban,616,1,Rejected
+HLI00269,Female,57,Yes,3,Graduate,Salaried,34,43300,3000,24500,60,1083000,1306000,Urban,710,1,Rejected
+HLI00270,Female,46,Yes,3,Graduate,Salaried,25,37800,7600,22500,180,1903000,2379000,Semiurban,726,0,Approved
+HLI00271,Male,25,Yes,1,Graduate,Salaried,1,46500,5000,0,60,300000,370000,Semiurban,745,1,Approved
+HLI00272,Female,28,No,0,Not Graduate,Salaried,4,23900,11200,0,240,1406000,1758000,Semiurban,768,0,Rejected
+HLI00273,Male,47,Yes,1,Graduate,Salaried,26,26100,1700,24000,60,1049000,1017000,Urban,504,2,Rejected
+HLI00274,Female,41,Yes,1,Graduate,Salaried,18,69900,900,56700,120,3072000,4022000,Semiurban,708,0,Approved
+HLI00275,Female,44,Yes,2,Graduate,Salaried,23,141200,100,0,240,358000,576000,Urban,581,0,Approved
+HLI00276,Female,23,Yes,1,Graduate,Self-Employed,1,27500,10300,0,360,1794000,2236000,Urban,757,1,Rejected
+HLI00277,Male,57,Yes,0,Graduate,Salaried,34,79000,1700,19500,60,9849000,11672000,Semiurban,599,1,Rejected
+HLI00278,Male,32,Yes,0,Graduate,Salaried,7,101000,9500,31900,240,2208000,2167000,Urban,730,0,Rejected
+HLI00279,Male,46,Yes,1,Graduate,Salaried,21,66100,200,32300,60,756000,939000,Rural,545,4,Rejected
+HLI00280,Female,44,Yes,1,Not Graduate,Salaried,19,66400,16400,18300,120,2826000,3113000,Urban,677,0,Rejected
+HLI00281,Female,53,Yes,0,Graduate,Salaried,32,57000,12500,0,120,1861000,2275000,Semiurban,693,0,Rejected
+HLI00282,Male,38,No,0,Not Graduate,Salaried,17,25800,3900,0,60,300000,286000,Urban,856,0,Rejected
+HLI00283,Female,46,No,0,Graduate,Salaried,25,52200,900,0,60,904000,1245000,Semiurban,691,0,Approved
+HLI00284,Female,32,No,1,Graduate,Salaried,7,20000,3700,0,120,304000,352000,Semiurban,738,0,Approved
+HLI00285,Male,46,Yes,0,Graduate,Salaried,22,192100,200,0,180,530000,865000,Urban,567,0,Approved
+HLI00286,Female,26,Yes,0,Graduate,Salaried,4,95900,16100,0,360,1817000,1984000,Urban,734,0,Approved
+HLI00287,Male,46,No,1,Graduate,Salaried,22,131600,23400,41200,180,8008000,10260000,Urban,780,0,Rejected
+HLI00288,Male,25,No,1,Graduate,Self-Employed,4,89300,12500,50900,240,7995000,10567000,Semiurban,576,1,Rejected
+HLI00289,Male,30,Yes,3,Graduate,Salaried,8,40300,4100,30700,180,1954000,2373000,Rural,732,1,Approved
+HLI00290,Male,52,No,0,Graduate,Salaried,27,45000,8600,0,120,867000,1087000,Semiurban,633,3,Rejected
+HLI00291,Male,34,Yes,0,Graduate,Salaried,10,102800,400,0,180,335000,537000,Urban,548,0,Rejected
+HLI00292,Male,42,Yes,1,Not Graduate,Salaried,21,40500,2200,0,180,1220000,1524000,Urban,753,2,Rejected
+HLI00293,Male,36,Yes,2,Not Graduate,Salaried,15,70400,18300,54600,60,1811000,2514000,Urban,802,0,Approved
+HLI00294,Male,28,Yes,2,Graduate,Salaried,5,83900,14300,0,240,4259000,5270000,Urban,854,0,Rejected
+HLI00295,Male,23,Yes,2,Graduate,Salaried,1,72000,3500,8600,180,2865000,3383000,Semiurban,571,1,Rejected
+HLI00296,Male,35,Yes,1,Not Graduate,Self-Employed,13,74700,900,0,360,4004000,4914000,Urban,814,0,Approved
+HLI00297,Male,34,Yes,3,Graduate,Salaried,12,106200,24300,0,300,4833000,4520000,Rural,836,0,Rejected
+HLI00298,Male,52,Yes,1,Graduate,Salaried,31,71500,17000,32300,120,9869000,9886000,Urban,840,0,Rejected
+HLI00299,Male,54,Yes,1,Graduate,Self-Employed,33,110100,9500,0,120,2690000,3212000,Semiurban,676,0,Rejected
+HLI00300,Male,33,Yes,0,Graduate,Self-Employed,12,158900,23100,69300,300,7745000,10068000,Urban,885,0,Approved
+HLI00301,Male,46,Yes,1,Graduate,Salaried,24,40800,7100,36400,120,1583000,2036000,Urban,818,0,Approved
+HLI00302,Male,48,Yes,3,Graduate,Salaried,24,193600,0,0,180,597000,968000,Urban,863,3,Rejected
+HLI00303,Female,54,Yes,2,Graduate,Salaried,32,85100,14100,0,120,1754000,1649000,Semiurban,795,0,Rejected
+HLI00304,Male,37,No,1,Not Graduate,Self-Employed,12,28200,1800,0,120,489000,577000,Semiurban,582,2,Rejected
+HLI00305,Male,41,No,0,Graduate,Salaried,18,55400,20100,0,180,1592000,1701000,Rural,742,0,Rejected
+HLI00306,Male,43,Yes,1,Graduate,Salaried,22,59100,9300,0,180,2077000,2800000,Urban,812,0,Rejected
+HLI00307,Male,51,Yes,2,Graduate,Salaried,28,131600,400,0,120,427000,669000,Urban,844,4,Rejected
+HLI00308,Male,29,Yes,0,Not Graduate,Salaried,6,29600,3900,0,300,1931000,2473000,Urban,852,0,Rejected
+HLI00309,Male,27,Yes,1,Graduate,Self-Employed,6,120800,8600,27900,360,10000000,12789000,Semiurban,706,0,Rejected
+HLI00310,Male,28,Yes,0,Not Graduate,Salaried,2,24300,6300,61600,240,1876000,2356000,Semiurban,783,0,Approved
+HLI00311,Female,56,Yes,2,Graduate,Salaried,33,60200,5600,0,60,1796000,2170000,Semiurban,708,0,Rejected
+HLI00312,Male,37,Yes,0,Graduate,Salaried,12,84800,22800,0,240,2760000,2577000,Rural,773,0,Rejected
+HLI00313,Male,38,No,0,Graduate,Self-Employed,17,94700,15000,43500,240,6266000,7585000,Urban,757,1,Rejected
+HLI00314,Male,31,Yes,1,Not Graduate,Self-Employed,10,51600,7100,27700,60,565000,693000,Semiurban,658,0,Rejected
+HLI00315,Male,55,Yes,0,Graduate,Salaried,33,32300,6700,40300,120,1001000,1279000,Rural,803,0,Approved
+HLI00316,Female,24,Yes,1,Graduate,Salaried,3,52500,5200,17700,360,2869000,3535000,Urban,847,0,Approved
+HLI00317,Male,48,No,0,Graduate,Salaried,25,85100,7100,62100,120,2108000,2579000,Urban,811,0,Approved
+HLI00318,Female,35,Yes,2,Graduate,Salaried,9,50000,12700,40200,240,4979000,6502000,Urban,502,1,Rejected
+HLI00319,Female,30,Yes,0,Not Graduate,Salaried,9,20000,5400,21700,120,771000,894000,Rural,507,2,Rejected
+HLI00320,Male,27,Yes,1,Graduate,Salaried,4,180100,400,0,300,433000,719000,Urban,868,3,Rejected
+HLI00321,Female,35,No,0,Graduate,Salaried,6,150200,0,0,180,511000,832000,Urban,550,0,Rejected
+HLI00322,Male,32,No,1,Graduate,Salaried,9,34800,18500,0,360,2062000,2766000,Semiurban,789,0,Rejected
+HLI00323,Female,38,Yes,2,Graduate,Salaried,16,42800,4700,67100,240,4331000,5590000,Urban,764,0,Approved
+HLI00324,Male,49,Yes,1,Not Graduate,Salaried,22,49800,3500,0,180,1496000,1727000,Rural,768,0,Approved
+HLI00325,Male,27,Yes,0,Not Graduate,Self-Employed,4,43100,8900,51200,120,1592000,1941000,Urban,666,0,Rejected
+HLI00326,Male,41,No,0,Not Graduate,Self-Employed,18,32500,2500,0,180,1532000,1845000,Rural,734,0,Rejected
+HLI00327,Male,56,No,0,Graduate,Self-Employed,34,50200,8100,0,60,560000,556000,Rural,731,0,Rejected
+HLI00328,Female,49,Yes,3,Not Graduate,Self-Employed,26,71800,12900,0,60,776000,1021000,Semiurban,727,0,Approved
+HLI00329,Male,47,Yes,3,Graduate,Salaried,26,126100,300,0,60,544000,844000,Urban,873,3,Rejected
+HLI00330,Female,40,Yes,2,Graduate,Salaried,16,60500,3500,29100,240,5688000,6785000,Semiurban,830,0,Rejected
+HLI00331,Male,41,Yes,0,Not Graduate,Salaried,20,38100,500,17500,180,2599000,3013000,Semiurban,702,0,Rejected
+HLI00332,Male,35,No,0,Graduate,Salaried,10,73900,1000,0,180,2891000,3513000,Rural,870,0,Approved
+HLI00333,Male,51,Yes,0,Not Graduate,Self-Employed,28,81200,8300,38800,120,3820000,4809000,Semiurban,537,4,Rejected
+HLI00334,Male,33,Yes,2,Graduate,Salaried,11,29100,4000,61100,240,3422000,4260000,Semiurban,710,0,Approved
+HLI00335,Male,56,Yes,0,Graduate,Self-Employed,32,24600,3600,31000,60,427000,514000,Urban,771,0,Approved
+HLI00336,Female,43,No,0,Graduate,Salaried,20,64600,4600,20400,60,1037000,1474000,Urban,769,0,Approved
+HLI00337,Male,27,No,1,Graduate,Salaried,6,89900,800,0,180,4480000,5145000,Semiurban,719,1,Rejected
+HLI00338,Male,57,Yes,1,Graduate,Salaried,36,129100,400,0,60,491000,815000,Urban,551,0,Rejected
+HLI00339,Female,43,Yes,1,Not Graduate,Salaried,16,41900,11600,47500,240,4605000,5841000,Urban,668,1,Rejected
+HLI00340,Male,46,Yes,0,Graduate,Salaried,19,38900,10600,23100,180,1488000,1835000,Urban,672,2,Rejected
+HLI00341,Male,44,Yes,1,Not Graduate,Salaried,23,78600,2100,0,240,3619000,4447000,Urban,653,0,Rejected
+HLI00342,Female,42,Yes,0,Graduate,Salaried,18,57300,10700,0,180,2218000,2896000,Urban,664,1,Rejected
+HLI00343,Male,54,Yes,3,Graduate,Salaried,32,53200,1400,0,60,873000,1093000,Rural,772,0,Approved
+HLI00344,Male,49,No,3,Graduate,Salaried,21,60000,1100,22400,180,2735000,3197000,Urban,720,0,Approved
+HLI00345,Female,45,Yes,0,Not Graduate,Self-Employed,19,30700,3900,18800,180,2327000,2678000,Rural,801,0,Rejected
+HLI00346,Female,33,Yes,1,Graduate,Salaried,10,86900,3000,26200,120,2483000,2364000,Rural,747,0,Rejected
+HLI00347,Male,31,No,1,Not Graduate,Self-Employed,10,29500,5400,0,60,1971000,2603000,Urban,705,0,Rejected
+HLI00348,Female,34,Yes,0,Not Graduate,Salaried,11,73200,6100,68700,120,4584000,5499000,Semiurban,758,0,Approved
+HLI00349,Male,28,Yes,3,Graduate,Salaried,2,33300,11400,0,240,1353000,1779000,Semiurban,554,2,Rejected
+HLI00350,Male,51,Yes,1,Graduate,Salaried,27,44500,2000,54300,60,1508000,1559000,Rural,644,1,Rejected
+HLI00351,Female,23,No,0,Graduate,Salaried,1,49700,11700,0,240,2991000,4459000,Urban,765,0,Rejected
+HLI00352,Female,38,Yes,2,Graduate,Salaried,17,186200,500,0,240,564000,884000,Urban,874,3,Rejected
+HLI00353,Female,44,Yes,0,Graduate,Salaried,21,124400,0,0,240,459000,733000,Urban,846,3,Rejected
+HLI00354,Male,44,Yes,1,Graduate,Salaried,22,78500,8100,0,120,2162000,2723000,Semiurban,786,0,Approved
+HLI00355,Male,53,No,1,Graduate,Salaried,32,54200,200,0,120,1548000,1855000,Urban,687,0,Approved
+HLI00356,Male,57,No,0,Not Graduate,Salaried,33,36100,6500,0,60,300000,352000,Semiurban,741,0,Approved
+HLI00357,Male,48,No,0,Graduate,Self-Employed,22,47600,8300,30100,180,3474000,4125000,Urban,706,0,Rejected
+HLI00358,Female,30,Yes,0,Graduate,Salaried,5,53500,14500,0,240,1999000,1865000,Urban,766,1,Rejected
+HLI00359,Male,48,Yes,1,Not Graduate,Self-Employed,25,44300,8300,62300,180,5609000,7463000,Rural,858,0,Rejected
+HLI00360,Male,27,No,2,Graduate,Salaried,4,165300,0,0,120,446000,694000,Urban,850,3,Rejected
+HLI00361,Female,42,Yes,1,Graduate,Salaried,18,84900,16100,24500,120,3144000,4512000,Semiurban,601,2,Rejected
+HLI00362,Male,45,No,2,Graduate,Salaried,24,91500,22200,0,120,2599000,3504000,Rural,694,1,Rejected
+HLI00363,Male,44,Yes,2,Graduate,Salaried,18,50600,8400,24800,240,10000000,12539000,Semiurban,721,0,Rejected
+HLI00364,Male,33,Yes,0,Graduate,Salaried,9,43100,8600,52000,360,3501000,4034000,Semiurban,644,0,Rejected
+HLI00365,Female,34,Yes,0,Graduate,Salaried,11,143500,25100,33700,60,1279000,1690000,Semiurban,858,0,Approved
+HLI00366,Male,44,No,2,Graduate,Salaried,17,92800,10200,0,60,1516000,1866000,Semiurban,671,1,Rejected
+HLI00367,Male,50,Yes,2,Graduate,Salaried,24,161500,100,0,120,491000,788000,Urban,800,3,Rejected
+HLI00368,Male,53,Yes,0,Not Graduate,Salaried,32,35700,11400,62500,120,2625000,3136000,Semiurban,716,2,Rejected
+HLI00369,Male,43,No,2,Graduate,Salaried,21,22500,5000,13200,120,957000,1148000,Urban,807,0,Approved
+HLI00370,Female,56,Yes,1,Graduate,Self-Employed,34,100600,32800,0,60,3340000,4238000,Urban,710,0,Rejected
+HLI00371,Male,57,Yes,0,Graduate,Self-Employed,27,20000,3700,52800,60,3883000,4685000,Urban,747,0,Rejected
+HLI00372,Male,35,Yes,0,Graduate,Salaried,14,37800,13500,0,180,1595000,1585000,Rural,562,2,Rejected
+HLI00373,Male,53,No,3,Not Graduate,Salaried,29,20000,5000,0,60,300000,364000,Semiurban,550,3,Rejected
+HLI00374,Female,48,Yes,0,Graduate,Salaried,27,63500,900,68900,120,1727000,2407000,Semiurban,605,0,Approved
+HLI00375,Male,23,Yes,2,Graduate,Salaried,2,152900,0,0,360,363000,586000,Urban,806,4,Rejected
+HLI00376,Female,38,Yes,0,Graduate,Salaried,17,87000,6100,31600,120,2275000,2904000,Semiurban,679,0,Approved
+HLI00377,Male,45,Yes,0,Graduate,Salaried,20,99300,3800,44300,60,1044000,1462000,Urban,619,1,Rejected
+HLI00378,Female,23,Yes,1,Graduate,Salaried,2,57400,25700,28200,180,2673000,3222000,Rural,809,0,Rejected
+HLI00379,Male,34,Yes,0,Graduate,Salaried,10,46500,1300,50700,300,4397000,5257000,Urban,858,0,Approved
+HLI00380,Female,43,No,2,Graduate,Salaried,22,82900,4900,0,240,3407000,4120000,Semiurban,599,1,Rejected
+HLI00381,Female,36,Yes,2,Graduate,Salaried,12,50000,7100,35600,120,2088000,2578000,Semiurban,780,0,Approved
+HLI00382,Male,44,Yes,1,Graduate,Salaried,23,36000,2800,62400,240,4376000,5249000,Urban,641,1,Rejected
+HLI00383,Female,34,Yes,2,Not Graduate,Self-Employed,8,25600,13300,65100,180,3428000,4302000,Urban,747,0,Rejected
+HLI00384,Male,32,Yes,2,Graduate,Salaried,9,28200,6400,99800,240,8461000,12324000,Rural,740,0,Rejected
+HLI00385,Male,55,Yes,0,Graduate,Salaried,34,114600,44800,45600,120,4587000,6147000,Semiurban,624,0,Rejected
+HLI00386,Male,53,Yes,1,Graduate,Salaried,26,104600,10800,55100,60,2124000,2525000,Rural,758,0,Approved
+HLI00387,Female,36,No,1,Graduate,Salaried,15,50700,1000,0,180,1132000,1449000,Rural,667,0,Approved
+HLI00388,Male,56,Yes,3,Not Graduate,Salaried,30,31500,100,23000,60,3201000,4024000,Urban,762,0,Rejected
+HLI00389,Female,27,Yes,1,Graduate,Salaried,6,48500,3000,32800,60,776000,713000,Rural,760,0,Rejected
+HLI00390,Female,44,No,1,Not Graduate,Salaried,23,25600,2500,0,180,1317000,1794000,Semiurban,829,0,Rejected
+HLI00391,Male,43,Yes,1,Not Graduate,Salaried,22,20000,2600,0,180,856000,996000,Urban,619,0,Rejected
+HLI00392,Male,31,No,0,Not Graduate,Salaried,10,51800,900,0,240,3523000,4185000,Semiurban,639,0,Rejected
+HLI00393,Female,29,Yes,2,Graduate,Salaried,7,55100,5600,46600,360,7775000,7073000,Urban,512,4,Rejected
+HLI00394,Male,39,Yes,2,Graduate,Salaried,17,50100,17200,63800,120,2114000,2685000,Semiurban,674,1,Rejected
+HLI00395,Male,29,Yes,0,Not Graduate,Salaried,3,32100,17200,19700,60,496000,657000,Urban,729,0,Rejected
+HLI00396,Female,30,No,2,Not Graduate,Salaried,7,30200,3200,42300,300,5318000,6418000,Urban,667,1,Rejected
+HLI00397,Male,57,Yes,2,Graduate,Self-Employed,31,102400,10100,17200,60,1099000,1284000,Semiurban,585,1,Rejected
+HLI00398,Female,50,Yes,1,Graduate,Self-Employed,26,51800,11500,17800,180,3574000,4714000,Urban,651,1,Rejected
+HLI00399,Male,36,Yes,0,Graduate,Salaried,15,24600,3200,34000,240,2804000,3556000,Urban,713,0,Approved
+HLI00400,Female,24,Yes,1,Graduate,Salaried,3,139900,300,0,180,451000,710000,Urban,538,0,Rejected
+HLI00401,Male,53,No,0,Not Graduate,Salaried,29,28000,4300,0,120,798000,957000,Semiurban,649,0,Rejected
+HLI00402,Male,33,Yes,1,Graduate,Salaried,11,80500,15000,57700,120,4684000,5490000,Semiurban,600,1,Rejected
+HLI00403,Female,31,Yes,0,Not Graduate,Salaried,6,50800,1500,27600,60,2199000,2657000,Urban,505,2,Rejected
+HLI00404,Female,41,Yes,2,Graduate,Salaried,20,64400,6700,0,180,3121000,3844000,Semiurban,591,0,Rejected
+HLI00405,Male,32,Yes,2,Graduate,Self-Employed,4,55900,1200,73000,120,4307000,4944000,Urban,565,2,Rejected
+HLI00406,Male,44,No,3,Graduate,Salaried,20,244900,25800,0,120,534000,684000,Urban,576,1,Rejected
+HLI00407,Female,45,No,0,Graduate,Salaried,15,47100,13900,0,240,2602000,3348000,Urban,549,1,Rejected
+HLI00408,Female,42,No,2,Not Graduate,Salaried,21,40600,2600,35100,60,7063000,9863000,Urban,760,0,Rejected
+HLI00409,Male,36,Yes,0,Graduate,Self-Employed,10,118900,7100,0,120,1391000,1639000,Semiurban,825,0,Approved
+HLI00410,Female,49,Yes,1,Not Graduate,Salaried,28,61700,1900,35200,60,893000,1111000,Semiurban,712,1,Approved
+HLI00411,Female,32,No,0,Graduate,Salaried,8,158500,28700,61800,300,1724000,1999000,Rural,789,0,Approved
+HLI00412,Female,29,No,2,Graduate,Salaried,5,57000,2500,0,180,1853000,2324000,Urban,666,1,Rejected
+HLI00413,Male,44,Yes,2,Graduate,Self-Employed,23,50000,15900,17100,240,2849000,3575000,Semiurban,679,0,Rejected
+HLI00414,Male,38,Yes,0,Graduate,Salaried,13,113800,500,0,120,337000,549000,Urban,822,3,Rejected
+HLI00415,Male,25,Yes,0,Not Graduate,Self-Employed,3,72400,11600,39500,300,1035000,1401000,Semiurban,700,0,Approved
+HLI00416,Male,46,Yes,1,Graduate,Salaried,18,64700,12500,0,120,889000,1094000,Urban,810,0,Approved
+HLI00417,Male,55,Yes,1,Graduate,Self-Employed,34,83400,19300,0,60,854000,1088000,Rural,617,0,Rejected
+HLI00418,Male,53,Yes,1,Not Graduate,Self-Employed,29,30100,7900,0,120,850000,835000,Urban,557,2,Rejected
+HLI00419,Male,26,Yes,1,Graduate,Salaried,2,102800,0,0,120,346000,568000,Urban,579,0,Approved
+HLI00420,Male,23,Yes,0,Not Graduate,Salaried,1,21500,1900,0,60,313000,394000,Urban,697,1,Rejected
+HLI00421,Female,33,No,2,Graduate,Salaried,7,63400,7000,0,300,4877000,4776000,Semiurban,706,0,Rejected
+HLI00422,Female,29,Yes,0,Graduate,Self-Employed,5,61700,14400,20800,120,2498000,3552000,Semiurban,792,0,Rejected
+HLI00423,Male,32,Yes,1,Graduate,Salaried,11,95400,300,33200,180,3816000,5783000,Rural,673,0,Approved
+HLI00424,Male,45,Yes,2,Not Graduate,Salaried,21,28100,5200,0,120,897000,1202000,Urban,647,0,Rejected
+HLI00425,Male,43,No,1,Graduate,Self-Employed,22,60600,900,0,60,527000,570000,Urban,801,0,Rejected
+HLI00426,Male,44,Yes,3,Graduate,Self-Employed,21,30700,8900,41600,240,4894000,5123000,Urban,741,1,Rejected
+HLI00427,Female,28,Yes,2,Graduate,Salaried,1,78300,21200,57700,360,589000,686000,Semiurban,745,0,Approved
+HLI00428,Female,34,Yes,0,Graduate,Salaried,12,49500,6100,20800,120,1794000,2258000,Urban,690,1,Rejected
+HLI00429,Male,44,No,0,Not Graduate,Self-Employed,21,87700,29900,0,60,1012000,1282000,Semiurban,673,1,Rejected
+HLI00430,Male,45,Yes,0,Graduate,Salaried,24,20900,1100,31600,120,901000,1153000,Urban,763,0,Approved
+HLI00431,Male,36,No,2,Graduate,Salaried,9,80700,500,0,180,3943000,3725000,Semiurban,680,0,Rejected
+HLI00432,Female,37,No,2,Not Graduate,Salaried,12,94800,20400,0,300,7100000,8641000,Rural,770,0,Rejected
+HLI00433,Male,25,Yes,3,Graduate,Salaried,2,112200,300,0,240,315000,500000,Urban,782,4,Rejected
+HLI00434,Female,53,Yes,0,Graduate,Salaried,31,123300,200,0,120,424000,696000,Urban,863,4,Rejected
+HLI00435,Male,37,Yes,0,Not Graduate,Salaried,12,58600,10700,0,60,638000,773000,Urban,767,0,Approved
+HLI00436,Male,36,Yes,2,Graduate,Salaried,15,36200,2100,33100,240,7236000,8541000,Urban,774,0,Rejected
+HLI00437,Male,39,Yes,0,Graduate,Salaried,12,51300,6800,35000,240,2475000,3042000,Rural,647,1,Rejected
+HLI00438,Female,47,Yes,0,Graduate,Self-Employed,26,60600,15800,33400,60,1387000,1723000,Urban,617,1,Rejected
+HLI00439,Male,47,Yes,2,Graduate,Salaried,23,53100,400,41000,180,3757000,5029000,Urban,749,1,Approved
+HLI00440,Male,43,No,0,Graduate,Self-Employed,22,22500,4100,0,240,1573000,2032000,Semiurban,655,0,Rejected
+HLI00441,Male,26,Yes,2,Graduate,Salaried,1,44900,8600,0,120,1498000,1952000,Urban,744,0,Rejected
+HLI00442,Female,41,Yes,0,Graduate,Self-Employed,16,99900,6900,0,60,1080000,1479000,Urban,679,0,Approved
+HLI00443,Male,39,Yes,2,Not Graduate,Self-Employed,17,38700,8500,0,300,1348000,1666000,Urban,618,1,Rejected
+HLI00444,Female,57,Yes,0,Graduate,Salaried,35,172400,200,0,60,539000,868000,Urban,536,0,Rejected
+HLI00445,Male,48,Yes,0,Graduate,Salaried,27,78900,13600,50700,180,4729000,5586000,Semiurban,740,0,Approved
+HLI00446,Male,57,No,1,Graduate,Self-Employed,32,54100,4200,0,60,441000,581000,Semiurban,690,0,Approved
+HLI00447,Female,45,Yes,0,Graduate,Salaried,24,87900,800,0,60,1465000,1908000,Urban,564,2,Rejected
+HLI00448,Male,23,No,0,Graduate,Self-Employed,1,70500,1900,0,240,4175000,5774000,Urban,660,0,Rejected
+HLI00449,Male,57,Yes,0,Graduate,Salaried,33,80300,8900,0,60,571000,668000,Urban,802,0,Approved
+HLI00450,Female,28,Yes,0,Graduate,Salaried,4,42200,9100,0,180,1990000,2746000,Urban,838,0,Rejected
+HLI00451,Female,54,Yes,2,Graduate,Salaried,30,176700,200,0,60,477000,750000,Urban,566,0,Approved
+HLI00452,Male,23,No,0,Not Graduate,Salaried,1,49100,5800,0,240,3404000,4059000,Urban,791,0,Rejected
+HLI00453,Female,37,No,2,Graduate,Salaried,10,89300,8200,0,180,2566000,3092000,Rural,755,0,Approved
+HLI00454,Male,55,Yes,1,Graduate,Salaried,32,20700,1600,13800,120,904000,957000,Semiurban,835,0,Rejected
+HLI00455,Male,35,Yes,2,Graduate,Salaried,11,55800,1700,113800,60,1210000,1438000,Urban,783,0,Approved
+HLI00456,Male,37,Yes,0,Graduate,Salaried,14,63200,1000,0,180,3331000,3049000,Urban,803,0,Rejected
+HLI00457,Male,44,Yes,0,Graduate,Salaried,22,38600,1800,23500,120,2075000,2269000,Rural,747,0,Approved
+HLI00458,Male,29,Yes,1,Graduate,Salaried,4,72400,5500,19500,360,8014000,9524000,Rural,577,1,Rejected
+HLI00459,Male,35,Yes,0,Graduate,Self-Employed,9,74600,8800,25800,120,1800000,2104000,Semiurban,792,0,Approved
+HLI00460,Female,30,Yes,1,Graduate,Salaried,4,84500,5900,0,180,4313000,4011000,Urban,813,0,Rejected
+HLI00461,Male,27,Yes,2,Graduate,Salaried,6,29100,3400,44900,60,3451000,4154000,Urban,810,0,Rejected
+HLI00462,Female,52,Yes,3,Graduate,Salaried,30,67200,5900,29200,120,2636000,3133000,Semiurban,715,0,Approved
+HLI00463,Male,28,No,0,Not Graduate,Self-Employed,7,20100,1900,0,180,938000,1245000,Urban,582,2,Rejected
+HLI00464,Male,27,No,1,Graduate,Salaried,6,57000,4600,0,300,1377000,1867000,Urban,671,0,Approved
+HLI00465,Male,41,No,0,Graduate,Salaried,15,157700,200,0,240,311000,502000,Urban,585,0,Approved
+HLI00466,Female,56,No,2,Not Graduate,Self-Employed,29,41900,7700,28200,60,598000,768000,Urban,652,0,Rejected
+HLI00467,Female,32,Yes,0,Graduate,Salaried,7,46500,9700,27500,300,6213000,5834000,Urban,739,1,Rejected
+HLI00468,Female,39,No,0,Not Graduate,Self-Employed,15,20000,1000,0,120,300000,373000,Semiurban,673,0,Rejected
+HLI00469,Male,46,Yes,0,Graduate,Salaried,22,58700,9900,0,120,1157000,1486000,Semiurban,841,0,Approved
+HLI00470,Male,46,Yes,0,Not Graduate,Salaried,25,20000,600,18300,180,1811000,2509000,Semiurban,609,1,Rejected
+HLI00471,Male,24,Yes,2,Graduate,Salaried,1,104300,3800,21600,360,10000000,12369000,Urban,755,0,Rejected
+HLI00472,Male,54,Yes,1,Graduate,Salaried,33,193800,100,0,60,390000,647000,Urban,545,0,Rejected
+HLI00473,Male,28,Yes,2,Graduate,Salaried,7,40300,3700,20400,240,6465000,7311000,Rural,757,0,Rejected
+HLI00474,Male,57,Yes,0,Graduate,Salaried,33,102600,36400,29100,60,1123000,1301000,Semiurban,734,0,Approved
+HLI00475,Male,39,No,0,Not Graduate,Salaried,18,26000,1600,0,60,316000,374000,Urban,666,1,Rejected
+HLI00476,Male,57,Yes,3,Graduate,Salaried,36,112400,1600,29600,60,1880000,2229000,Rural,723,0,Approved
+HLI00477,Female,29,No,2,Graduate,Self-Employed,4,87700,19600,0,60,956000,905000,Urban,659,2,Rejected
+HLI00478,Female,23,Yes,2,Graduate,Salaried,1,77500,10100,0,180,1568000,1894000,Urban,814,0,Approved
+HLI00479,Female,39,No,0,Graduate,Self-Employed,14,41000,12900,0,240,1763000,2501000,Semiurban,752,0,Rejected
+HLI00480,Male,30,Yes,1,Graduate,Salaried,2,41400,1200,66600,180,3151000,3904000,Urban,771,0,Approved
+HLI00481,Male,26,Yes,2,Graduate,Self-Employed,3,139000,11400,0,300,9277000,11186000,Semiurban,815,0,Rejected
+HLI00482,Male,32,Yes,0,Not Graduate,Salaried,11,29500,1100,41400,60,465000,561000,Semiurban,763,0,Approved
+HLI00483,Female,30,No,0,Graduate,Self-Employed,8,69600,10500,0,240,4456000,5185000,Rural,779,0,Rejected
+HLI00484,Male,55,Yes,0,Graduate,Salaried,31,59800,11100,0,60,725000,875000,Semiurban,778,0,Approved
+HLI00485,Male,47,Yes,1,Graduate,Salaried,23,59000,5900,36800,60,2579000,3428000,Semiurban,607,1,Rejected
+HLI00486,Male,30,Yes,0,Graduate,Salaried,8,62400,5600,15000,300,3563000,4373000,Semiurban,840,0,Approved
+HLI00487,Male,55,No,0,Not Graduate,Self-Employed,31,29100,5900,0,120,781000,1092000,Rural,615,1,Rejected
+HLI00488,Male,35,No,0,Graduate,Salaried,12,114900,38100,0,120,2506000,3075000,Urban,733,0,Rejected
+HLI00489,Male,39,Yes,2,Not Graduate,Self-Employed,15,58900,14000,24800,300,2001000,2644000,Urban,633,0,Rejected
+HLI00490,Female,31,Yes,2,Graduate,Salaried,7,69800,29000,17900,120,775000,1023000,Urban,665,2,Rejected
+HLI00491,Female,55,Yes,3,Graduate,Self-Employed,28,37400,7200,0,60,6163000,8025000,Semiurban,747,1,Rejected
+HLI00492,Male,40,Yes,0,Graduate,Salaried,13,92400,2700,20000,120,3423000,3155000,Rural,784,0,Rejected
+HLI00493,Male,38,No,2,Not Graduate,Self-Employed,17,67200,11300,0,300,3078000,3657000,Urban,696,0,Rejected
+HLI00494,Male,49,Yes,0,Graduate,Salaried,23,30700,3400,38400,60,1136000,1172000,Urban,774,0,Rejected
+HLI00495,Female,29,Yes,0,Graduate,Salaried,2,27900,8900,52700,60,974000,1151000,Urban,723,0,Approved
+HLI00496,Female,23,Yes,1,Graduate,Self-Employed,2,168800,7200,78600,360,10000000,10890000,Semiurban,787,0,Approved
+HLI00497,Male,52,No,0,Graduate,Self-Employed,27,29000,2200,35900,60,1141000,1367000,Semiurban,778,0,Approved
+HLI00498,Male,51,Yes,0,Graduate,Self-Employed,29,41600,9000,24500,60,605000,775000,Urban,541,3,Rejected
+HLI00499,Male,56,Yes,1,Graduate,Salaried,34,47100,6700,70700,60,1984000,2388000,Rural,742,0,Approved
+HLI00500,Male,37,Yes,3,Graduate,Salaried,15,21200,3000,28200,120,1688000,1943000,Semiurban,800,0,Approved
+HLI00501,Female,54,Yes,3,Graduate,Salaried,29,109900,32500,25100,120,3699000,4515000,Rural,702,0,Rejected
+HLI00502,Female,30,No,0,Not Graduate,Self-Employed,8,31300,10900,0,360,1559000,1792000,Semiurban,463,2,Rejected
+HLI00503,Male,35,Yes,1,Graduate,Salaried,10,75100,8500,38600,60,1653000,2004000,Urban,785,0,Approved
+HLI00504,Male,56,Yes,0,Not Graduate,Self-Employed,32,34300,5600,0,60,303000,367000,Urban,786,1,Approved
+HLI00505,Male,54,No,3,Graduate,Salaried,29,64700,600,67800,120,4017000,3995000,Urban,787,0,Rejected
+HLI00506,Male,29,Yes,1,Graduate,Salaried,6,67700,11100,0,120,1439000,1428000,Rural,738,0,Rejected
+HLI00507,Male,49,Yes,0,Graduate,Salaried,28,89000,22200,26600,60,2021000,2479000,Urban,796,0,Rejected
+HLI00508,Male,23,Yes,1,Graduate,Salaried,1,64000,14500,27900,360,4962000,4723000,Rural,739,1,Rejected
+HLI00509,Male,54,Yes,1,Graduate,Self-Employed,33,58800,6300,0,60,490000,465000,Urban,591,0,Rejected
+HLI00510,Male,56,Yes,0,Graduate,Salaried,33,141000,13900,50400,60,2132000,2745000,Semiurban,757,0,Approved
+HLI00511,Male,53,Yes,1,Not Graduate,Salaried,31,60500,10700,49600,120,2182000,2601000,Urban,817,0,Approved
+HLI00512,Male,52,Yes,0,Graduate,Salaried,29,56100,10800,39800,120,1219000,1571000,Urban,819,0,Approved
+HLI00513,Female,30,Yes,2,Graduate,Salaried,5,158600,300,0,120,307000,491000,Urban,829,3,Rejected
+HLI00514,Male,39,No,0,Not Graduate,Salaried,16,27900,1400,0,180,1120000,1344000,Urban,614,3,Rejected
+HLI00515,Male,34,Yes,1,Graduate,Salaried,11,44500,4500,42200,300,1560000,2113000,Urban,771,1,Approved
+HLI00516,Female,49,Yes,0,Graduate,Salaried,28,51700,14800,0,60,560000,642000,Urban,735,0,Rejected
+HLI00517,Female,32,Yes,2,Graduate,Self-Employed,9,31000,500,0,60,5089000,5923000,Semiurban,850,0,Rejected
+HLI00518,Female,24,No,2,Graduate,Self-Employed,1,43000,400,41500,120,1667000,2074000,Urban,694,0,Approved
+HLI00519,Female,31,Yes,0,Not Graduate,Salaried,7,26900,3800,38300,360,3617000,4439000,Urban,640,1,Rejected
+HLI00520,Male,46,Yes,3,Graduate,Salaried,24,59100,5400,21900,180,2498000,3286000,Rural,761,0,Approved
+HLI00521,Male,27,Yes,0,Graduate,Salaried,5,71400,16200,18600,300,6566000,8096000,Semiurban,585,0,Rejected
+HLI00522,Female,42,Yes,1,Not Graduate,Self-Employed,18,37100,3400,0,60,624000,734000,Urban,771,0,Approved
+HLI00523,Female,57,Yes,2,Graduate,Salaried,36,40800,3700,100800,60,1917000,2339000,Semiurban,809,0,Approved
+HLI00524,Male,32,No,3,Graduate,Salaried,5,47700,10400,26500,120,2243000,3055000,Rural,713,1,Rejected
+HLI00525,Male,31,Yes,2,Not Graduate,Self-Employed,6,25200,4400,0,120,10000000,12190000,Urban,801,0,Rejected
+HLI00526,Female,32,Yes,2,Graduate,Salaried,11,78400,7500,65800,240,4997000,5956000,Rural,574,2,Rejected
+HLI00527,Male,30,Yes,2,Not Graduate,Salaried,9,61000,1100,18900,240,5420000,6405000,Urban,800,0,Rejected
+HLI00528,Female,36,Yes,0,Graduate,Salaried,11,43200,12300,33700,240,2020000,2672000,Semiurban,839,0,Approved
+HLI00529,Male,24,No,1,Graduate,Self-Employed,3,82500,7400,0,360,6481000,7510000,Semiurban,871,0,Rejected
+HLI00530,Female,48,Yes,1,Graduate,Salaried,27,170300,500,0,60,392000,636000,Urban,551,0,Rejected
+HLI00531,Male,50,No,2,Graduate,Self-Employed,28,43100,400,0,120,846000,917000,Urban,676,0,Rejected
+HLI00532,Male,33,Yes,2,Graduate,Salaried,7,50200,5600,0,120,1173000,1315000,Urban,707,0,Rejected
+HLI00533,Female,44,Yes,1,Graduate,Salaried,18,105300,20500,0,60,1762000,2263000,Urban,735,0,Rejected
+HLI00534,Male,57,Yes,0,Graduate,Salaried,33,60900,24900,18900,60,658000,849000,Semiurban,703,0,Approved
+HLI00535,Male,52,Yes,2,Graduate,Salaried,31,23900,3400,28700,60,735000,899000,Urban,741,0,Approved
+HLI00536,Female,27,No,0,Not Graduate,Salaried,4,46900,2000,0,360,1436000,1746000,Semiurban,723,0,Approved
+HLI00537,Female,43,Yes,1,Not Graduate,Salaried,20,39400,6700,29700,120,2006000,1946000,Urban,779,0,Rejected
+HLI00538,Male,26,Yes,0,Graduate,Salaried,5,69100,21400,0,60,590000,697000,Urban,486,2,Rejected
+HLI00539,Male,23,No,0,Graduate,Salaried,1,176200,0,0,360,361000,575000,Urban,790,3,Rejected
+HLI00540,Female,47,Yes,0,Not Graduate,Salaried,24,55200,5000,0,120,1249000,1489000,Urban,526,4,Rejected
+HLI00541,Female,56,Yes,2,Graduate,Salaried,33,86800,10500,43800,60,1060000,1347000,Rural,832,0,Approved
+HLI00542,Female,42,No,0,Graduate,Salaried,18,167600,6900,0,180,6910000,9270000,Urban,676,0,Approved
+HLI00543,Male,25,Yes,1,Graduate,Salaried,3,39900,9300,0,300,2842000,3482000,Urban,600,0,Rejected
+HLI00544,Male,27,Yes,2,Graduate,Salaried,5,57600,900,15500,60,796000,884000,Urban,561,0,Rejected
+HLI00545,Male,44,No,1,Graduate,Salaried,22,30800,2700,0,120,1024000,1009000,Urban,693,1,Rejected
+HLI00546,Male,54,No,0,Graduate,Salaried,30,197400,400,0,60,382000,616000,Urban,543,0,Rejected
+HLI00547,Male,28,Yes,1,Graduate,Self-Employed,6,54100,10400,14500,300,4205000,4663000,Urban,746,0,Rejected
+HLI00548,Female,57,No,1,Graduate,Salaried,35,50200,8600,0,60,778000,1068000,Rural,521,2,Rejected
+HLI00549,Male,41,Yes,0,Graduate,Salaried,18,47900,4600,27300,60,1107000,1176000,Urban,778,0,Rejected
+HLI00550,Female,29,Yes,1,Graduate,Salaried,8,39000,7000,16300,300,10000000,11852000,Semiurban,646,0,Rejected
+HLI00551,Male,55,Yes,0,Not Graduate,Salaried,32,31800,2100,0,60,550000,707000,Semiurban,725,0,Approved
+HLI00552,Male,33,Yes,1,Graduate,Salaried,12,172900,300,0,60,306000,480000,Urban,571,0,Approved
+HLI00553,Female,32,No,0,Graduate,Self-Employed,10,64300,16800,0,300,2991000,3851000,Urban,787,0,Rejected
+HLI00554,Male,52,Yes,2,Graduate,Salaried,28,65800,8500,0,60,1104000,1389000,Urban,676,0,Rejected
+HLI00555,Female,24,No,1,Graduate,Salaried,1,44300,2700,0,360,2801000,3568000,Rural,669,0,Rejected
+HLI00556,Male,27,Yes,2,Graduate,Salaried,6,53400,400,0,120,1282000,1590000,Urban,737,1,Approved
+HLI00557,Male,36,Yes,3,Graduate,Salaried,15,88800,13700,9400,120,2380000,2994000,Semiurban,674,1,Rejected
+HLI00558,Female,38,Yes,0,Graduate,Salaried,14,23000,4500,59900,240,5570000,5315000,Rural,840,0,Rejected
+HLI00559,Male,57,No,1,Graduate,Salaried,32,181100,100,0,60,517000,842000,Urban,878,3,Rejected
+HLI00560,Male,38,Yes,2,Graduate,Salaried,17,191800,500,0,60,377000,616000,Urban,539,0,Rejected
+HLI00561,Male,34,Yes,1,Graduate,Self-Employed,9,41900,5100,29300,300,2503000,3424000,Semiurban,452,4,Rejected
+HLI00562,Female,34,Yes,1,Graduate,Salaried,13,54200,1300,0,360,2117000,2810000,Semiurban,620,0,Rejected
+HLI00563,Male,56,Yes,3,Not Graduate,Salaried,32,20000,1900,38200,60,617000,629000,Urban,709,2,Rejected
+HLI00564,Male,36,No,2,Graduate,Self-Employed,15,57700,11000,0,120,1068000,1302000,Urban,831,0,Approved
+HLI00565,Female,48,Yes,0,Graduate,Salaried,26,67200,6700,41100,60,838000,1042000,Urban,710,1,Approved
+HLI00566,Male,57,Yes,1,Not Graduate,Salaried,36,25900,2100,32100,60,1297000,1520000,Urban,781,0,Approved
+HLI00567,Male,33,Yes,2,Graduate,Salaried,8,74000,13500,0,360,1391000,1770000,Rural,790,0,Approved
+HLI00568,Female,24,Yes,0,Not Graduate,Salaried,1,91900,4600,0,360,7836000,8595000,Semiurban,503,2,Rejected
+HLI00569,Male,44,No,3,Graduate,Salaried,20,68300,5400,0,60,448000,522000,Urban,765,1,Approved
+HLI00570,Male,24,Yes,1,Graduate,Self-Employed,2,78100,8800,0,180,1975000,2431000,Urban,575,1,Rejected
+HLI00571,Male,40,Yes,1,Not Graduate,Salaried,15,20000,3500,22300,120,1480000,2242000,Semiurban,700,0,Rejected
+HLI00572,Male,50,Yes,3,Graduate,Salaried,27,39200,9900,28400,60,965000,1159000,Semiurban,680,0,Rejected
+HLI00573,Female,57,Yes,0,Graduate,Salaried,31,156500,200,0,60,472000,759000,Urban,860,3,Rejected
+HLI00574,Male,57,Yes,1,Graduate,Salaried,31,99100,32100,35900,60,1249000,1498000,Urban,704,1,Rejected
+HLI00575,Male,51,Yes,1,Not Graduate,Self-Employed,30,39000,13700,0,120,868000,1069000,Urban,555,1,Rejected
+HLI00576,Male,54,Yes,1,Graduate,Salaried,26,33500,1600,53600,120,2008000,2443000,Urban,882,0,Approved
+HLI00577,Female,43,No,0,Graduate,Salaried,22,34500,1600,0,180,1843000,2470000,Urban,588,1,Rejected
+HLI00578,Male,55,Yes,3,Graduate,Salaried,32,147900,100,0,60,555000,868000,Urban,580,0,Approved
+HLI00579,Male,23,Yes,3,Graduate,Salaried,1,144300,45100,24000,60,2040000,2479000,Semiurban,782,0,Rejected
+HLI00580,Male,31,Yes,0,Graduate,Salaried,9,67500,3100,0,360,6551000,6439000,Semiurban,810,0,Rejected
+HLI00581,Female,29,Yes,0,Graduate,Salaried,8,42500,14100,69400,60,1500000,1955000,Urban,672,0,Approved
+HLI00582,Male,44,Yes,2,Not Graduate,Salaried,23,38100,3700,45100,240,3224000,3738000,Rural,634,1,Rejected
+HLI00583,Male,45,Yes,0,Graduate,Salaried,23,56500,8400,0,180,1075000,1074000,Urban,700,0,Rejected
+HLI00584,Male,33,No,0,Not Graduate,Salaried,11,31300,2100,0,240,2051000,2015000,Urban,598,3,Rejected
+HLI00585,Male,31,No,1,Graduate,Salaried,6,96300,41400,0,300,4989000,6326000,Semiurban,661,0,Rejected
+HLI00586,Female,53,No,0,Not Graduate,Self-Employed,32,26200,9000,0,60,325000,373000,Rural,668,3,Rejected
+HLI00587,Male,32,Yes,1,Graduate,Salaried,8,40800,11700,36700,120,967000,1097000,Urban,689,2,Rejected
+HLI00588,Male,45,Yes,2,Graduate,Salaried,24,189200,100,0,180,364000,602000,Urban,574,0,Approved
+HLI00589,Female,37,No,2,Not Graduate,Salaried,13,36500,4700,0,180,847000,1052000,Urban,718,0,Approved
+HLI00590,Male,55,No,1,Graduate,Salaried,32,44400,4700,0,120,599000,738000,Urban,730,0,Approved
+HLI00591,Female,39,No,1,Graduate,Self-Employed,17,79500,1400,0,60,1617000,2359000,Urban,630,0,Rejected
+HLI00592,Female,49,No,0,Not Graduate,Self-Employed,26,32900,6700,0,60,300000,294000,Semiurban,750,0,Rejected
+HLI00593,Male,53,Yes,0,Graduate,Salaried,31,154500,100,0,60,470000,726000,Urban,813,3,Rejected
+HLI00594,Male,32,Yes,2,Graduate,Salaried,5,45500,7800,42600,360,1809000,2236000,Rural,514,2,Rejected
+HLI00595,Female,41,Yes,0,Graduate,Salaried,17,29500,7200,16600,240,1425000,1768000,Urban,804,0,Approved
+HLI00596,Female,55,Yes,0,Graduate,Salaried,34,154000,0,0,60,321000,521000,Urban,579,0,Approved
+HLI00597,Female,46,Yes,0,Graduate,Salaried,24,77100,4400,26800,60,1334000,1547000,Urban,694,1,Rejected
+HLI00598,Male,34,Yes,0,Graduate,Salaried,13,38100,5400,0,60,3382000,4396000,Rural,675,1,Rejected
+HLI00599,Male,56,Yes,3,Not Graduate,Salaried,33,39400,7500,29600,60,710000,891000,Urban,599,1,Rejected
+HLI00600,Male,35,No,1,Graduate,Salaried,14,182200,500,0,60,557000,894000,Urban,868,4,Rejected
+HLI00601,Male,44,Yes,0,Graduate,Self-Employed,22,53000,12900,37800,120,2686000,3311000,Urban,708,1,Rejected
+HLI00602,Female,31,Yes,0,Graduate,Salaried,7,34800,2400,0,60,472000,568000,Semiurban,778,0,Approved
+HLI00603,Male,56,Yes,2,Not Graduate,Salaried,33,24200,4300,42200,60,983000,1347000,Urban,718,2,Rejected
+HLI00604,Male,35,Yes,0,Graduate,Self-Employed,12,91000,12200,0,120,3088000,2934000,Rural,771,0,Rejected
+HLI00605,Male,40,Yes,1,Graduate,Salaried,15,55900,1700,0,300,1986000,2391000,Semiurban,749,0,Approved
+HLI00606,Male,29,Yes,0,Graduate,Salaried,4,72700,7600,0,360,5291000,7230000,Semiurban,663,0,Rejected
+HLI00607,Male,34,Yes,0,Graduate,Self-Employed,13,58200,17600,0,360,3040000,3362000,Semiurban,522,1,Rejected
+HLI00608,Male,48,Yes,1,Graduate,Salaried,23,28700,5100,59900,180,4669000,5874000,Urban,813,0,Rejected
+HLI00609,Male,40,Yes,0,Not Graduate,Salaried,18,49900,8100,19700,180,3343000,3949000,Rural,883,0,Rejected
+HLI00610,Female,30,No,2,Graduate,Salaried,9,76500,4300,0,180,2345000,2893000,Rural,504,1,Rejected
+HLI00611,Female,47,No,0,Graduate,Salaried,23,88400,500,0,120,2578000,3169000,Rural,782,0,Approved
+HLI00612,Male,42,Yes,1,Graduate,Salaried,19,41900,1000,0,60,596000,630000,Urban,711,2,Rejected
+HLI00613,Male,50,No,0,Graduate,Salaried,25,31900,2000,0,180,673000,901000,Rural,593,1,Rejected
+HLI00614,Male,38,Yes,2,Graduate,Salaried,14,46400,9800,16100,180,2195000,2828000,Semiurban,818,0,Rejected
+HLI00615,Female,44,No,1,Not Graduate,Salaried,21,28000,2500,10700,120,1354000,1580000,Rural,717,1,Rejected
+HLI00616,Male,30,No,2,Graduate,Self-Employed,6,34800,2700,0,300,1205000,1349000,Rural,592,0,Rejected
+HLI00617,Male,30,Yes,1,Graduate,Salaried,8,32800,4800,73200,360,1539000,1520000,Semiurban,621,1,Rejected
+HLI00618,Female,27,Yes,0,Graduate,Salaried,6,192300,300,0,360,464000,719000,Urban,810,3,Rejected
+HLI00619,Male,30,Yes,0,Not Graduate,Salaried,8,43300,10300,26500,360,4763000,5807000,Urban,565,1,Rejected
+HLI00620,Female,27,No,0,Not Graduate,Salaried,6,20000,1700,48700,240,2017000,2979000,Semiurban,628,1,Rejected
+HLI00621,Male,33,No,0,Graduate,Salaried,11,178900,0,0,180,375000,586000,Urban,535,0,Rejected
+HLI00622,Female,24,Yes,1,Graduate,Salaried,1,73900,5400,31500,240,7408000,9006000,Urban,716,0,Rejected
+HLI00623,Female,31,Yes,0,Graduate,Salaried,8,56600,11400,33700,360,4080000,4987000,Rural,774,0,Approved
+HLI00624,Male,55,No,2,Graduate,Salaried,34,73600,7900,0,60,576000,658000,Semiurban,771,0,Approved
+HLI00625,Male,50,Yes,0,Graduate,Salaried,28,27300,1700,35000,180,2687000,3196000,Urban,702,0,Approved
+HLI00626,Male,28,Yes,0,Graduate,Salaried,4,77300,13100,56200,300,10000000,12758000,Rural,808,0,Rejected
+HLI00627,Female,41,Yes,3,Graduate,Salaried,17,23600,1900,28900,240,1502000,1857000,Rural,761,0,Approved
+HLI00628,Male,33,No,1,Graduate,Salaried,7,43700,800,0,360,1575000,1452000,Urban,668,1,Rejected
+HLI00629,Male,54,No,0,Graduate,Self-Employed,33,36900,100,0,60,444000,512000,Semiurban,726,0,Approved
+HLI00630,Male,39,No,0,Graduate,Self-Employed,17,91500,7700,0,300,5439000,6801000,Semiurban,775,0,Rejected
+HLI00631,Male,45,Yes,1,Graduate,Salaried,23,68000,2800,0,240,4713000,6002000,Rural,871,0,Rejected
+HLI00632,Female,48,Yes,1,Graduate,Self-Employed,24,84500,4600,0,120,2880000,3266000,Semiurban,720,0,Approved
+HLI00633,Male,57,No,0,Not Graduate,Salaried,36,112800,19500,0,60,908000,1202000,Rural,785,0,Approved
+HLI00634,Male,35,No,0,Graduate,Salaried,14,120300,9900,0,240,4270000,3905000,Semiurban,748,0,Rejected
+HLI00635,Female,32,Yes,0,Graduate,Salaried,4,44100,5600,0,240,2489000,3258000,Rural,715,0,Rejected
+HLI00636,Male,55,Yes,0,Not Graduate,Salaried,34,35900,16600,63100,60,1319000,1697000,Urban,651,0,Rejected
+HLI00637,Female,31,Yes,1,Graduate,Salaried,6,86400,5500,27000,180,4991000,6180000,Urban,609,0,Rejected
+HLI00638,Male,37,Yes,0,Graduate,Salaried,16,103700,0,0,240,406000,632000,Urban,849,4,Rejected
+HLI00639,Male,50,Yes,0,Graduate,Salaried,28,74800,2300,39600,120,1868000,2194000,Urban,826,0,Approved
+HLI00640,Female,47,Yes,1,Graduate,Salaried,25,104100,100,0,60,594000,916000,Urban,824,4,Rejected
+HLI00641,Female,32,Yes,0,Graduate,Salaried,7,105200,100,0,300,596000,987000,Urban,543,0,Rejected
+HLI00642,Male,25,Yes,1,Graduate,Self-Employed,2,87300,10700,44900,120,1851000,2354000,Urban,636,2,Rejected
+HLI00643,Male,57,Yes,1,Graduate,Salaried,28,103400,22800,45700,60,2274000,2954000,Rural,779,0,Approved
+HLI00644,Male,40,Yes,0,Graduate,Self-Employed,17,73600,5700,22100,240,6525000,7613000,Urban,804,0,Rejected
+HLI00645,Female,51,Yes,2,Graduate,Salaried,28,30400,3900,13300,60,475000,562000,Rural,836,0,Approved
+HLI00646,Male,28,Yes,2,Graduate,Salaried,7,95000,19800,36000,240,9222000,12504000,Semiurban,676,1,Rejected
+HLI00647,Female,43,Yes,1,Graduate,Salaried,22,35100,1900,29200,240,3378000,4237000,Urban,454,2,Rejected
+HLI00648,Male,50,Yes,2,Not Graduate,Salaried,28,103700,23100,44000,180,5600000,5398000,Rural,644,1,Rejected
+HLI00649,Male,45,No,2,Graduate,Self-Employed,24,55400,900,0,180,1419000,1680000,Urban,837,0,Approved
+HLI00650,Female,52,Yes,3,Graduate,Salaried,30,66600,4100,67400,60,1139000,1434000,Urban,684,0,Approved
+HLI00651,Male,42,No,0,Not Graduate,Self-Employed,21,22900,9500,30200,180,1389000,1783000,Rural,646,0,Rejected
+HLI00652,Female,40,Yes,0,Graduate,Self-Employed,14,90000,6000,0,180,2537000,2887000,Semiurban,708,1,Rejected
+HLI00653,Male,45,No,3,Graduate,Self-Employed,24,53800,6200,0,60,732000,901000,Rural,687,0,Rejected
+HLI00654,Male,53,Yes,1,Graduate,Salaried,27,143200,400,0,60,335000,546000,Urban,800,3,Rejected
+HLI00655,Male,26,Yes,1,Graduate,Salaried,2,75500,17800,35700,60,1786000,1783000,Urban,845,0,Rejected
+HLI00656,Male,44,No,1,Not Graduate,Salaried,20,30900,4200,0,120,540000,585000,Urban,808,0,Rejected
+HLI00657,Female,51,Yes,3,Graduate,Self-Employed,27,75600,4800,31000,60,1408000,1616000,Urban,595,2,Rejected
+HLI00658,Male,29,Yes,0,Not Graduate,Salaried,7,71400,2400,30500,240,2607000,2609000,Urban,712,0,Rejected
+HLI00659,Female,29,Yes,0,Graduate,Salaried,7,188000,500,0,180,370000,586000,Urban,535,0,Rejected
+HLI00660,Male,23,Yes,1,Graduate,Self-Employed,2,54700,1700,0,360,2754000,3043000,Urban,854,0,Approved
+HLI00661,Male,27,Yes,0,Graduate,Salaried,4,184700,500,0,240,405000,635000,Urban,839,4,Rejected
+HLI00662,Male,54,Yes,2,Not Graduate,Salaried,32,33500,5600,0,120,1738000,2444000,Rural,608,2,Rejected
+HLI00663,Male,46,Yes,0,Graduate,Salaried,23,54700,6000,0,60,470000,571000,Urban,808,0,Approved
+HLI00664,Female,43,No,0,Not Graduate,Salaried,18,33200,2500,0,180,790000,947000,Semiurban,778,0,Approved
+HLI00665,Female,26,Yes,0,Graduate,Salaried,1,198600,400,0,60,539000,889000,Urban,797,3,Rejected
+HLI00666,Male,48,No,1,Not Graduate,Salaried,25,28100,2000,0,120,796000,952000,Rural,478,3,Rejected
+HLI00667,Female,26,Yes,0,Not Graduate,Salaried,1,104800,23600,38900,240,4942000,5600000,Urban,647,0,Rejected
+HLI00668,Male,47,Yes,2,Not Graduate,Self-Employed,26,72200,24600,30600,60,3289000,3813000,Urban,718,0,Rejected
+HLI00669,Female,40,Yes,0,Not Graduate,Self-Employed,16,26300,3600,32400,120,1993000,2521000,Urban,636,0,Rejected
+HLI00670,Female,36,Yes,2,Graduate,Salaried,12,80100,1200,63900,180,4934000,5875000,Rural,783,0,Approved
+HLI00671,Male,51,Yes,0,Graduate,Salaried,27,127500,0,0,120,462000,722000,Urban,790,4,Rejected
+HLI00672,Female,43,Yes,0,Graduate,Salaried,22,52100,11800,58800,60,1364000,1740000,Rural,678,1,Rejected
+HLI00673,Female,32,No,3,Graduate,Salaried,11,72700,14300,30700,120,2671000,3210000,Semiurban,714,1,Rejected
+HLI00674,Female,52,No,0,Graduate,Self-Employed,31,115000,3500,0,60,2779000,3517000,Urban,827,0,Rejected
+HLI00675,Female,25,No,1,Graduate,Salaried,1,44100,4000,0,300,1538000,2097000,Urban,495,2,Rejected
+HLI00676,Female,54,No,0,Graduate,Salaried,33,81800,1200,81600,60,2906000,3977000,Semiurban,627,0,Approved
+HLI00677,Male,47,Yes,0,Graduate,Salaried,20,57200,2500,0,60,976000,1298000,Rural,580,0,Rejected
+HLI00678,Male,57,Yes,0,Graduate,Self-Employed,33,42100,16900,49300,60,1187000,1493000,Urban,708,0,Approved
+HLI00679,Male,47,No,2,Graduate,Salaried,24,33800,4200,0,60,349000,414000,Urban,735,0,Approved
+HLI00680,Female,49,Yes,2,Graduate,Salaried,23,29900,4900,29200,180,2508000,3446000,Semiurban,695,0,Rejected
+HLI00681,Female,35,Yes,2,Graduate,Salaried,9,150800,0,0,120,386000,620000,Urban,539,0,Rejected
+HLI00682,Female,40,Yes,0,Not Graduate,Self-Employed,15,74600,6600,0,240,4359000,5265000,Urban,797,0,Rejected
+HLI00683,Male,26,Yes,1,Graduate,Salaried,3,41700,4700,0,180,1710000,2221000,Urban,539,2,Rejected
+HLI00684,Male,48,Yes,2,Graduate,Self-Employed,25,56500,7800,25000,60,899000,1054000,Semiurban,770,0,Approved
+HLI00685,Female,43,Yes,2,Graduate,Salaried,21,56200,16300,85400,60,1544000,1867000,Urban,576,1,Rejected
+HLI00686,Male,27,No,0,Not Graduate,Self-Employed,2,95000,11300,0,360,7417000,8532000,Semiurban,601,1,Rejected
+HLI00687,Male,46,No,0,Graduate,Salaried,25,33100,1300,16800,180,1269000,1541000,Urban,878,0,Approved
+HLI00688,Male,39,Yes,3,Graduate,Salaried,11,62200,5400,50100,60,1120000,1340000,Semiurban,712,0,Approved
+HLI00689,Male,33,Yes,0,Graduate,Self-Employed,11,86400,4400,22600,300,5940000,7042000,Semiurban,653,0,Rejected
+HLI00690,Female,27,Yes,1,Graduate,Self-Employed,2,22800,500,0,360,2594000,3575000,Urban,796,0,Rejected
+HLI00691,Female,26,Yes,2,Graduate,Salaried,2,156100,400,0,180,492000,760000,Urban,565,0,Approved
+HLI00692,Female,29,Yes,3,Not Graduate,Salaried,3,60700,3400,25300,60,1856000,2146000,Semiurban,625,0,Rejected
+HLI00693,Female,41,Yes,2,Not Graduate,Salaried,15,96000,16600,28000,180,6176000,7742000,Urban,658,0,Rejected
+HLI00694,Female,28,Yes,0,Graduate,Salaried,5,57900,3500,0,120,1547000,1827000,Rural,672,0,Rejected
+HLI00695,Male,31,Yes,3,Graduate,Self-Employed,9,32300,4700,24600,240,1705000,2189000,Urban,693,0,Approved
+HLI00696,Male,48,No,0,Graduate,Self-Employed,26,78100,26400,31200,180,1486000,1518000,Rural,628,1,Rejected
+HLI00697,Male,55,Yes,1,Graduate,Salaried,31,55900,2400,37300,120,3453000,4168000,Semiurban,851,0,Approved
+HLI00698,Male,57,Yes,3,Graduate,Self-Employed,35,55600,9300,0,60,628000,747000,Semiurban,746,0,Approved
+HLI00699,Female,37,Yes,3,Graduate,Salaried,13,29700,2100,0,180,1057000,1252000,Urban,834,0,Approved
+HLI00700,Male,40,Yes,2,Graduate,Salaried,19,51600,1700,0,120,1747000,1999000,Semiurban,609,2,Rejected
+HLI00701,Male,28,Yes,2,Graduate,Salaried,6,96100,20700,39500,180,2311000,2965000,Rural,740,0,Approved
+HLI00702,Male,53,Yes,2,Graduate,Salaried,32,39200,2100,39500,60,4042000,5072000,Urban,631,3,Rejected
+HLI00703,Male,37,Yes,2,Not Graduate,Salaried,10,49300,1700,48300,300,4215000,5157000,Semiurban,546,2,Rejected
+HLI00704,Female,47,Yes,1,Graduate,Self-Employed,24,79700,14900,75400,180,7346000,8147000,Semiurban,656,0,Rejected
+HLI00705,Female,55,Yes,3,Not Graduate,Salaried,31,56900,3100,0,60,568000,727000,Rural,743,0,Approved
+HLI00706,Female,42,Yes,0,Graduate,Salaried,20,149500,400,0,120,454000,723000,Urban,799,4,Rejected
+HLI00707,Female,40,Yes,1,Graduate,Salaried,19,57000,800,34500,300,6056000,7534000,Urban,555,1,Rejected
+HLI00708,Female,53,Yes,0,Graduate,Salaried,31,29000,8600,30100,60,669000,867000,Urban,818,0,Approved
+HLI00709,Male,54,Yes,1,Graduate,Salaried,33,184600,100,0,120,574000,893000,Urban,539,0,Rejected
+HLI00710,Female,54,No,3,Graduate,Self-Employed,30,148400,21900,0,120,3255000,4227000,Rural,674,0,Approved
+HLI00711,Male,42,No,2,Graduate,Self-Employed,18,47100,6600,0,120,3467000,4102000,Semiurban,754,0,Rejected
+HLI00712,Female,49,No,0,Graduate,Salaried,28,106700,52300,0,60,1176000,1305000,Semiurban,616,0,Rejected
+HLI00713,Female,44,Yes,1,Not Graduate,Salaried,21,20000,400,18000,60,671000,821000,Urban,555,2,Rejected
+HLI00714,Female,42,Yes,1,Graduate,Salaried,16,60700,4700,0,60,2875000,3888000,Semiurban,711,0,Rejected
+HLI00715,Male,48,Yes,0,Graduate,Self-Employed,19,32400,3300,25000,120,767000,773000,Urban,589,1,Rejected
+HLI00716,Female,41,No,2,Not Graduate,Salaried,20,85300,700,0,240,4456000,5720000,Semiurban,791,0,Approved
+HLI00717,Male,30,Yes,1,Not Graduate,Salaried,7,20000,2100,0,180,680000,924000,Semiurban,662,0,Rejected
+HLI00718,Male,36,No,3,Graduate,Salaried,11,42200,1500,0,180,2043000,2794000,Urban,643,0,Rejected
+HLI00719,Male,53,No,1,Not Graduate,Salaried,32,29700,2800,0,60,300000,290000,Urban,730,0,Rejected
+HLI00720,Male,29,Yes,2,Graduate,Self-Employed,7,48200,600,0,240,1250000,1477000,Rural,650,2,Rejected
+HLI00721,Male,48,Yes,1,Graduate,Salaried,27,47700,15300,0,120,1087000,1425000,Urban,592,1,Rejected
+HLI00722,Female,55,Yes,3,Graduate,Salaried,29,53100,6700,40700,120,2763000,2513000,Urban,818,0,Rejected
+HLI00723,Male,26,No,0,Graduate,Salaried,1,53600,5500,0,60,436000,521000,Urban,836,0,Approved
+HLI00724,Male,54,Yes,0,Not Graduate,Self-Employed,30,20100,1800,18800,120,942000,958000,Urban,753,1,Rejected
+HLI00725,Female,44,Yes,1,Graduate,Salaried,20,190100,100,0,120,466000,721000,Urban,792,4,Rejected
+HLI00726,Male,30,No,2,Graduate,Salaried,9,56700,5900,0,300,2683000,3427000,Semiurban,796,0,Approved
+HLI00727,Female,55,No,0,Graduate,Salaried,33,61100,5300,0,120,1245000,1439000,Urban,821,0,Approved
+HLI00728,Male,33,No,1,Graduate,Self-Employed,12,77000,5400,0,300,2996000,3467000,Urban,558,0,Rejected
+HLI00729,Male,51,Yes,2,Graduate,Salaried,28,47000,4300,0,60,315000,423000,Urban,889,0,Approved
+HLI00730,Male,35,No,3,Not Graduate,Salaried,13,25300,2400,52200,60,1212000,1430000,Urban,626,2,Rejected
+HLI00731,Male,30,No,0,Graduate,Salaried,4,111000,10800,0,60,3486000,4259000,Rural,777,0,Rejected
+HLI00732,Male,55,No,0,Graduate,Salaried,30,76200,7100,0,60,847000,1046000,Rural,844,0,Approved
+HLI00733,Male,35,No,0,Graduate,Salaried,14,39700,1200,0,180,2011000,2541000,Rural,656,1,Rejected
+HLI00734,Female,53,Yes,0,Not Graduate,Self-Employed,27,30600,500,42000,60,1125000,1510000,Urban,790,0,Approved
+HLI00735,Male,36,Yes,2,Graduate,Salaried,10,102300,47100,31900,300,2143000,2465000,Urban,774,0,Approved
+HLI00736,Male,56,Yes,0,Graduate,Self-Employed,34,42900,7600,30000,60,582000,661000,Urban,765,0,Approved
+HLI00737,Male,36,Yes,1,Graduate,Salaried,15,88900,9200,33500,120,4215000,5172000,Urban,557,3,Rejected
+HLI00738,Male,57,No,0,Graduate,Self-Employed,34,39600,6000,26000,60,888000,1181000,Semiurban,801,0,Approved
+HLI00739,Female,50,No,1,Graduate,Salaried,29,58900,8900,0,120,1652000,1872000,Semiurban,828,0,Approved
+HLI00740,Male,45,Yes,1,Graduate,Self-Employed,21,46700,3700,30100,120,2021000,2564000,Urban,775,0,Approved
+HLI00741,Female,27,No,2,Not Graduate,Self-Employed,5,57900,11600,61400,360,8480000,9063000,Urban,493,4,Rejected
+HLI00742,Male,27,No,0,Not Graduate,Salaried,6,31300,1400,0,300,1690000,2051000,Semiurban,547,2,Rejected
+HLI00743,Male,48,No,0,Graduate,Self-Employed,27,30900,6300,0,120,1015000,1153000,Rural,766,0,Rejected
+HLI00744,Female,24,Yes,1,Graduate,Salaried,1,195200,500,0,300,452000,698000,Urban,559,0,Rejected
+HLI00745,Female,48,Yes,0,Graduate,Salaried,24,45700,8200,0,120,916000,1083000,Semiurban,747,0,Approved
+HLI00746,Male,42,No,3,Graduate,Salaried,21,71700,28200,0,60,669000,827000,Urban,728,0,Rejected
+HLI00747,Female,41,Yes,1,Graduate,Salaried,19,73400,14900,39300,60,1366000,1633000,Semiurban,799,0,Approved
+HLI00748,Female,41,No,2,Graduate,Salaried,16,74400,16100,0,60,861000,1037000,Urban,832,0,Approved
+HLI00749,Male,50,No,3,Graduate,Salaried,29,67500,1700,0,120,1566000,2288000,Semiurban,730,0,Approved
+HLI00750,Male,38,No,2,Graduate,Salaried,14,69200,300,0,60,1100000,1490000,Rural,793,0,Approved
+HLI00751,Female,27,Yes,2,Graduate,Salaried,4,55500,9700,0,60,833000,1070000,Urban,801,0,Approved
+HLI00752,Male,55,Yes,0,Graduate,Self-Employed,34,81100,10200,44600,60,948000,1145000,Urban,643,0,Rejected
+HLI00753,Male,41,Yes,0,Graduate,Salaried,16,25100,1400,28800,240,2576000,2583000,Rural,650,2,Rejected
+HLI00754,Male,41,Yes,2,Graduate,Salaried,18,60400,6500,62800,180,5254000,6560000,Rural,547,2,Rejected
+HLI00755,Male,41,Yes,0,Not Graduate,Salaried,19,45300,9500,33800,120,2095000,2861000,Urban,799,0,Approved
+HLI00756,Male,28,Yes,1,Graduate,Salaried,7,72400,27900,18200,180,2640000,3052000,Urban,794,0,Rejected
+HLI00757,Male,51,Yes,0,Graduate,Salaried,30,95600,3400,0,120,3094000,3996000,Urban,801,0,Approved
+HLI00758,Male,47,No,0,Not Graduate,Self-Employed,25,20000,2800,0,60,300000,345000,Urban,833,0,Approved
+HLI00759,Male,31,Yes,2,Not Graduate,Salaried,9,55100,2200,43300,60,1684000,2259000,Semiurban,794,0,Approved
+HLI00760,Female,29,No,0,Graduate,Salaried,5,34900,5000,0,360,1337000,1696000,Urban,743,0,Approved
+HLI00761,Male,25,Yes,0,Graduate,Salaried,2,66800,3800,68600,180,6296000,7758000,Urban,667,1,Rejected
+HLI00762,Male,51,Yes,3,Graduate,Self-Employed,29,95300,10600,0,120,2087000,2557000,Semiurban,813,0,Approved
+HLI00763,Male,52,No,3,Graduate,Salaried,27,56900,9400,0,120,1026000,1002000,Semiurban,566,0,Rejected
+HLI00764,Female,49,Yes,2,Graduate,Salaried,26,30900,1700,0,60,1186000,1549000,Semiurban,564,0,Rejected
+HLI00765,Male,49,No,2,Graduate,Salaried,28,51000,9700,0,60,386000,453000,Rural,692,1,Rejected
+HLI00766,Male,32,Yes,0,Not Graduate,Salaried,9,37200,4200,25000,360,3537000,4078000,Urban,673,1,Rejected
+HLI00767,Male,50,Yes,0,Graduate,Salaried,25,193100,200,0,180,452000,698000,Urban,851,3,Rejected
+HLI00768,Female,45,No,3,Graduate,Salaried,20,197600,400,0,120,386000,609000,Urban,864,4,Rejected
+HLI00769,Female,34,Yes,0,Graduate,Self-Employed,13,93400,19000,45900,60,1677000,2189000,Semiurban,669,1,Rejected
+HLI00770,Male,30,Yes,3,Graduate,Salaried,2,63700,3200,37100,120,2266000,2699000,Rural,538,1,Rejected
+HLI00771,Male,47,Yes,0,Graduate,Salaried,26,63500,18000,0,60,584000,717000,Rural,809,0,Approved
+HLI00772,Male,26,Yes,3,Graduate,Self-Employed,1,46500,1500,51500,120,1684000,2000000,Urban,813,0,Approved
+HLI00773,Male,28,No,0,Graduate,Salaried,2,32800,1700,0,180,1678000,2031000,Semiurban,674,0,Rejected
+HLI00774,Male,48,No,2,Graduate,Salaried,24,83100,6800,0,180,2081000,1940000,Semiurban,715,0,Rejected
+HLI00775,Female,49,No,2,Graduate,Salaried,28,112400,14600,0,60,1716000,1702000,Urban,742,0,Rejected
+HLI00776,Male,41,Yes,0,Graduate,Salaried,17,85700,2000,51500,120,4293000,5363000,Urban,795,0,Approved
+HLI00777,Female,50,Yes,1,Graduate,Salaried,23,50300,6200,60500,120,2293000,2453000,Semiurban,807,0,Rejected
+HLI00778,Female,42,Yes,1,Graduate,Salaried,21,38700,2900,27200,240,1191000,1465000,Urban,816,0,Approved
+HLI00779,Male,30,No,2,Graduate,Salaried,6,58600,7800,33600,300,3532000,4342000,Rural,624,1,Rejected
+HLI00780,Male,36,Yes,1,Graduate,Salaried,15,58600,1300,0,180,2561000,3182000,Urban,799,0,Approved
+HLI00781,Male,38,No,0,Graduate,Salaried,14,43800,10200,32800,240,3408000,4681000,Semiurban,659,0,Rejected
+HLI00782,Male,50,Yes,0,Graduate,Salaried,29,175500,400,0,180,508000,796000,Urban,813,4,Rejected
+HLI00783,Female,52,No,0,Graduate,Salaried,29,61000,18500,38800,120,884000,931000,Urban,578,3,Rejected
+HLI00784,Male,47,Yes,0,Graduate,Salaried,22,54600,11800,0,120,728000,901000,Semiurban,812,0,Approved
+HLI00785,Male,48,Yes,2,Graduate,Salaried,26,85600,300,64600,60,4344000,5763000,Rural,832,0,Rejected
+HLI00786,Female,51,Yes,2,Not Graduate,Salaried,30,20700,400,21800,60,345000,357000,Urban,808,0,Rejected
+HLI00787,Female,52,Yes,2,Not Graduate,Salaried,29,24300,1500,0,120,327000,381000,Urban,743,0,Approved
+HLI00788,Male,26,No,0,Graduate,Self-Employed,1,66700,28300,0,300,1094000,1440000,Semiurban,740,0,Rejected
+HLI00789,Female,35,Yes,1,Not Graduate,Salaried,14,31000,2500,0,300,1154000,1100000,Urban,747,0,Rejected
+HLI00790,Male,47,No,2,Graduate,Self-Employed,26,77600,1300,0,60,651000,598000,Urban,700,1,Rejected
+HLI00791,Male,34,Yes,2,Graduate,Salaried,10,42500,5800,0,120,1326000,1577000,Semiurban,672,1,Rejected
+HLI00792,Male,48,No,2,Graduate,Salaried,21,34800,10800,0,120,506000,551000,Rural,884,0,Approved
+HLI00793,Male,30,Yes,2,Graduate,Self-Employed,9,136300,9500,23700,60,1517000,1597000,Rural,834,0,Rejected
+HLI00794,Female,53,Yes,0,Not Graduate,Salaried,26,30000,10200,22300,60,349000,432000,Urban,592,1,Rejected
+HLI00795,Female,33,No,0,Not Graduate,Self-Employed,12,79300,24000,0,180,3563000,4207000,Semiurban,706,1,Rejected
+HLI00796,Female,24,Yes,0,Graduate,Salaried,1,36100,7600,36700,360,4808000,5594000,Semiurban,592,2,Rejected
+HLI00797,Male,53,No,0,Graduate,Salaried,31,165300,100,0,120,399000,643000,Urban,554,0,Rejected
+HLI00798,Male,42,Yes,0,Graduate,Self-Employed,16,65700,1200,0,240,2003000,2564000,Semiurban,811,0,Approved
+HLI00799,Male,54,Yes,2,Graduate,Salaried,32,69400,100,0,120,2091000,2028000,Urban,549,4,Rejected
+HLI00800,Female,42,No,3,Not Graduate,Salaried,21,47700,9300,0,120,608000,714000,Urban,698,0,Approved
+HLI00801,Male,36,Yes,0,Graduate,Salaried,14,53300,12000,35100,180,3362000,3998000,Urban,648,2,Rejected
+HLI00802,Female,23,Yes,0,Not Graduate,Salaried,1,41000,9300,29200,240,3442000,3391000,Urban,895,0,Rejected
+HLI00803,Male,35,Yes,1,Graduate,Salaried,14,157300,200,0,360,389000,603000,Urban,847,3,Rejected
+HLI00804,Female,46,Yes,1,Graduate,Salaried,19,82800,5300,54300,120,4093000,5043000,Semiurban,672,0,Approved
+HLI00805,Female,48,No,0,Not Graduate,Self-Employed,25,30000,7700,0,120,610000,753000,Semiurban,585,1,Rejected
+HLI00806,Male,41,Yes,2,Not Graduate,Salaried,18,28200,900,34000,240,3663000,4168000,Rural,543,2,Rejected
+HLI00807,Male,39,Yes,3,Graduate,Self-Employed,18,60700,16700,0,120,1933000,1792000,Urban,866,0,Rejected
+HLI00808,Female,37,Yes,0,Not Graduate,Self-Employed,16,58700,14200,0,120,2069000,2390000,Urban,841,0,Rejected
+HLI00809,Male,32,No,0,Graduate,Self-Employed,7,58300,2700,0,120,1224000,1434000,Urban,801,0,Approved
+HLI00810,Female,38,Yes,0,Graduate,Salaried,15,87600,31000,0,180,4833000,6285000,Semiurban,746,0,Rejected
+HLI00811,Male,43,No,0,Graduate,Self-Employed,16,37900,3800,0,240,1734000,2119000,Rural,620,1,Rejected
+HLI00812,Male,43,No,0,Graduate,Salaried,22,47400,5700,0,120,781000,933000,Rural,748,0,Approved
+HLI00813,Male,44,Yes,0,Not Graduate,Salaried,18,32100,600,48400,240,3103000,3848000,Urban,694,2,Rejected
+HLI00814,Female,43,No,0,Graduate,Salaried,20,76100,15000,35200,180,3008000,3036000,Urban,771,1,Rejected
+HLI00815,Male,40,No,2,Graduate,Salaried,14,64600,6600,0,240,3054000,3099000,Urban,723,1,Rejected
+HLI00816,Male,43,Yes,2,Not Graduate,Salaried,18,30600,2200,92900,120,2091000,2778000,Urban,690,2,Rejected
+HLI00817,Female,43,Yes,0,Graduate,Salaried,20,88600,2800,0,120,1985000,2296000,Semiurban,506,2,Rejected
+HLI00818,Female,37,Yes,2,Graduate,Salaried,12,106400,0,0,60,311000,513000,Urban,813,4,Rejected
+HLI00819,Female,54,No,0,Graduate,Salaried,29,85100,15200,0,60,758000,928000,Semiurban,745,0,Approved
+HLI00820,Female,43,No,0,Graduate,Self-Employed,22,77700,33100,0,240,3033000,3750000,Urban,610,1,Rejected
+HLI00821,Male,32,Yes,2,Graduate,Self-Employed,8,54300,10000,0,60,944000,999000,Semiurban,703,0,Rejected
+HLI00822,Male,30,No,0,Graduate,Salaried,7,40200,5100,0,300,2450000,2843000,Semiurban,715,0,Rejected
+HLI00823,Male,45,Yes,2,Not Graduate,Salaried,24,29400,5300,0,60,383000,476000,Urban,725,0,Approved
+HLI00824,Male,56,Yes,0,Not Graduate,Salaried,33,44800,900,0,60,550000,568000,Semiurban,787,0,Rejected
+HLI00825,Male,57,Yes,3,Not Graduate,Salaried,34,20000,800,0,60,2014000,2622000,Rural,814,0,Rejected
+HLI00826,Female,49,No,0,Graduate,Salaried,21,48800,13000,0,60,338000,454000,Semiurban,726,0,Approved
+HLI00827,Male,52,Yes,0,Graduate,Self-Employed,28,84500,11000,22800,60,3717000,4670000,Semiurban,819,0,Rejected
+HLI00828,Female,53,Yes,0,Graduate,Salaried,26,86700,29700,0,60,1483000,1971000,Semiurban,678,0,Rejected
+HLI00829,Female,27,No,0,Graduate,Salaried,6,40200,3200,0,180,1415000,1674000,Urban,735,0,Approved
+HLI00830,Female,38,Yes,2,Graduate,Salaried,15,26900,4000,40900,60,945000,1134000,Semiurban,599,1,Rejected
+HLI00831,Male,42,Yes,1,Graduate,Salaried,19,44400,4100,14600,60,478000,575000,Rural,694,0,Approved
+HLI00832,Male,36,Yes,0,Graduate,Salaried,12,69100,4400,31700,120,1750000,2236000,Urban,777,0,Approved
+HLI00833,Male,43,Yes,0,Graduate,Salaried,21,42900,1500,0,120,1142000,1400000,Semiurban,510,2,Rejected
+HLI00834,Male,23,Yes,0,Graduate,Salaried,1,82900,13200,29600,120,3455000,4042000,Semiurban,663,0,Rejected
+HLI00835,Female,42,Yes,0,Graduate,Salaried,20,41100,2400,48900,240,1926000,2524000,Rural,822,0,Approved
+HLI00836,Female,44,Yes,1,Graduate,Salaried,23,53100,2900,70200,180,4286000,5184000,Rural,605,2,Rejected
+HLI00837,Female,28,No,2,Not Graduate,Salaried,5,62700,9700,0,360,5336000,6165000,Semiurban,788,0,Rejected
+HLI00838,Female,41,No,3,Graduate,Salaried,17,63000,2600,36500,120,2862000,3548000,Urban,688,0,Approved
+HLI00839,Female,57,Yes,1,Graduate,Self-Employed,36,74000,7900,25200,60,831000,1061000,Semiurban,841,0,Approved
+HLI00840,Male,42,Yes,1,Graduate,Salaried,21,36500,8300,13800,60,595000,715000,Urban,822,0,Approved
+HLI00841,Female,27,Yes,3,Graduate,Salaried,3,40200,3100,45900,60,644000,820000,Semiurban,665,1,Rejected
+HLI00842,Male,28,Yes,3,Graduate,Salaried,7,39600,10600,0,240,2397000,3053000,Urban,490,2,Rejected
+HLI00843,Male,53,Yes,1,Graduate,Salaried,29,101300,0,0,60,586000,907000,Urban,573,0,Approved
+HLI00844,Male,44,Yes,2,Not Graduate,Salaried,23,55600,9500,39600,180,2715000,2803000,Semiurban,659,0,Rejected
+HLI00845,Male,32,Yes,3,Graduate,Salaried,9,70300,6500,15600,360,6803000,8705000,Rural,805,0,Rejected
+HLI00846,Female,33,Yes,0,Graduate,Salaried,9,46500,3200,27000,360,5766000,7388000,Urban,744,0,Rejected
+HLI00847,Male,34,No,1,Graduate,Salaried,13,100100,100,0,180,510000,793000,Urban,564,0,Approved
+HLI00848,Male,36,No,0,Graduate,Salaried,10,57300,7300,0,300,3532000,4356000,Urban,673,1,Rejected
+HLI00849,Male,39,No,2,Graduate,Self-Employed,18,97900,19900,0,240,3815000,3599000,Rural,655,0,Rejected
+HLI00850,Female,47,No,3,Graduate,Salaried,24,150800,100,0,120,410000,652000,Urban,548,0,Rejected
+HLI00851,Male,29,No,1,Not Graduate,Salaried,4,20000,6100,0,180,643000,816000,Urban,504,1,Rejected
+HLI00852,Male,54,No,0,Graduate,Salaried,29,57500,9000,0,60,997000,1288000,Semiurban,813,0,Rejected
+HLI00853,Male,44,Yes,1,Not Graduate,Self-Employed,23,43000,6300,21100,120,3672000,4765000,Urban,669,1,Rejected
+HLI00854,Male,38,Yes,0,Graduate,Salaried,12,37100,5900,0,120,1130000,1310000,Rural,644,1,Rejected
+HLI00855,Female,27,Yes,2,Graduate,Salaried,3,89200,27300,0,180,3844000,4990000,Urban,827,0,Rejected
+HLI00856,Male,31,Yes,2,Graduate,Salaried,9,52300,1400,0,360,3813000,4805000,Urban,611,2,Rejected
+HLI00857,Male,40,Yes,0,Not Graduate,Salaried,18,22700,5900,24100,60,556000,645000,Semiurban,760,1,Approved
+HLI00858,Male,38,Yes,0,Graduate,Salaried,17,34400,2400,40200,240,2875000,3508000,Urban,546,2,Rejected
+HLI00859,Male,35,Yes,0,Not Graduate,Self-Employed,9,33000,4700,25600,360,4917000,6415000,Semiurban,648,0,Rejected
+HLI00860,Female,41,Yes,1,Graduate,Salaried,17,110600,13800,0,180,3923000,4583000,Urban,658,1,Rejected
+HLI00861,Female,43,Yes,2,Graduate,Self-Employed,22,72200,17300,0,60,1274000,1538000,Urban,801,0,Rejected
+HLI00862,Male,48,No,2,Graduate,Self-Employed,24,37100,1700,0,120,1058000,1344000,Rural,634,2,Rejected
+HLI00863,Male,46,No,1,Graduate,Salaried,24,131100,16200,0,180,3609000,4552000,Urban,761,0,Approved
+HLI00864,Male,41,Yes,2,Graduate,Salaried,18,92700,37300,57100,60,1282000,1615000,Rural,709,1,Rejected
+HLI00865,Female,54,No,1,Graduate,Salaried,31,84500,11000,0,60,1237000,1514000,Rural,795,0,Approved
+HLI00866,Female,41,Yes,1,Graduate,Self-Employed,20,162500,34000,0,60,2430000,2573000,Rural,612,1,Rejected
+HLI00867,Female,31,Yes,0,Graduate,Salaried,5,24800,500,0,360,2406000,2872000,Urban,723,0,Rejected
+HLI00868,Male,41,No,3,Graduate,Self-Employed,17,58600,21400,0,180,2904000,2722000,Semiurban,634,1,Rejected
+HLI00869,Female,44,Yes,1,Graduate,Salaried,16,43200,7800,0,240,2015000,2583000,Rural,804,0,Rejected
+HLI00870,Female,50,Yes,2,Graduate,Salaried,29,82100,4500,0,60,1192000,1542000,Urban,680,1,Rejected
+HLI00871,Male,27,No,1,Graduate,Self-Employed,1,47900,3500,0,60,499000,688000,Urban,747,0,Approved
+HLI00872,Female,53,Yes,0,Graduate,Salaried,31,123800,0,0,120,558000,925000,Urban,564,0,Approved
+HLI00873,Female,44,No,2,Graduate,Salaried,22,43600,4500,0,120,800000,1123000,Semiurban,801,0,Approved
+HLI00874,Female,56,Yes,1,Not Graduate,Salaried,31,44000,9600,23300,60,539000,697000,Semiurban,727,0,Approved
+HLI00875,Male,56,Yes,1,Graduate,Self-Employed,28,28700,8000,0,60,300000,349000,Semiurban,776,0,Approved
+HLI00876,Male,57,Yes,0,Not Graduate,Salaried,31,34200,900,25600,60,915000,1078000,Urban,852,0,Approved
+HLI00877,Male,47,Yes,3,Not Graduate,Self-Employed,21,32200,100,21100,180,2084000,2489000,Urban,759,0,Approved
+HLI00878,Male,52,Yes,1,Graduate,Salaried,29,143600,0,0,60,508000,786000,Urban,561,0,Approved
+HLI00879,Female,42,Yes,0,Graduate,Self-Employed,19,63300,1200,0,180,1847000,2666000,Semiurban,763,0,Approved
+HLI00880,Male,43,Yes,0,Not Graduate,Salaried,21,22900,5600,45600,180,1944000,2267000,Urban,830,0,Approved
+HLI00881,Female,48,Yes,1,Not Graduate,Self-Employed,24,20600,600,20600,120,1081000,1469000,Urban,490,1,Rejected
+HLI00882,Male,25,Yes,1,Graduate,Salaried,1,64700,2200,21800,240,995000,1263000,Urban,709,1,Approved
+HLI00883,Male,51,Yes,1,Not Graduate,Salaried,29,34200,900,39700,120,3506000,4296000,Urban,775,0,Rejected
+HLI00884,Male,36,Yes,0,Graduate,Salaried,11,166200,0,0,180,363000,572000,Urban,833,3,Rejected
+HLI00885,Female,29,Yes,1,Graduate,Salaried,4,106200,15100,15400,360,4894000,5923000,Semiurban,678,1,Rejected
+HLI00886,Female,27,Yes,0,Graduate,Salaried,6,53200,6700,0,240,2348000,2830000,Urban,782,0,Rejected
+HLI00887,Female,57,Yes,0,Graduate,Self-Employed,32,77600,1500,30900,60,3472000,4656000,Urban,680,0,Rejected
+HLI00888,Female,38,Yes,0,Not Graduate,Salaried,14,29900,700,28200,300,3941000,4632000,Semiurban,714,1,Rejected
+HLI00889,Male,33,Yes,1,Graduate,Self-Employed,12,60400,3900,17300,60,1092000,1406000,Rural,816,0,Approved
+HLI00890,Male,48,Yes,1,Graduate,Self-Employed,27,49300,2400,18600,180,2007000,2332000,Urban,818,0,Approved
+HLI00891,Male,43,Yes,0,Not Graduate,Salaried,22,54300,10700,0,180,1798000,2078000,Semiurban,804,0,Rejected
+HLI00892,Male,30,No,0,Graduate,Salaried,7,88400,25300,0,240,1190000,1439000,Urban,607,2,Rejected
+HLI00893,Male,37,No,0,Graduate,Self-Employed,13,40200,2600,0,300,1966000,2564000,Semiurban,667,0,Rejected
+HLI00894,Male,43,Yes,2,Graduate,Self-Employed,21,39300,17700,22400,120,1164000,1455000,Semiurban,764,1,Rejected
+HLI00895,Male,36,Yes,0,Graduate,Salaried,11,142700,0,0,180,558000,860000,Urban,846,3,Rejected
+HLI00896,Male,53,Yes,0,Not Graduate,Salaried,31,27600,2700,0,60,300000,346000,Semiurban,619,1,Rejected
+HLI00897,Male,28,Yes,1,Graduate,Salaried,2,87300,18500,49200,180,5870000,7431000,Urban,792,0,Rejected
+HLI00898,Male,40,Yes,1,Graduate,Salaried,13,25100,5200,0,180,711000,832000,Urban,791,0,Approved
+HLI00899,Female,39,No,0,Not Graduate,Self-Employed,16,44500,7200,0,180,1477000,1816000,Urban,782,0,Approved
+HLI00900,Male,26,Yes,2,Graduate,Salaried,3,58700,2500,0,300,1885000,2232000,Rural,620,0,Rejected
+HLI00901,Female,55,Yes,3,Graduate,Salaried,29,50900,2500,0,60,2129000,2527000,Urban,833,0,Rejected
+HLI00902,Female,57,Yes,1,Not Graduate,Salaried,32,20000,1500,25700,60,544000,685000,Urban,822,0,Approved
+HLI00903,Male,30,Yes,0,Graduate,Salaried,8,197400,100,0,360,567000,913000,Urban,811,3,Rejected
+HLI00904,Male,26,No,1,Graduate,Self-Employed,1,71100,1500,0,300,6185000,8362000,Rural,829,1,Rejected
+HLI00905,Male,55,No,3,Graduate,Salaried,34,26000,5900,0,60,388000,496000,Rural,719,1,Rejected
+HLI00906,Female,52,No,0,Graduate,Salaried,30,181300,23700,43200,120,5308000,6254000,Urban,604,3,Rejected
+HLI00907,Female,51,No,1,Not Graduate,Salaried,30,71600,5900,0,120,1745000,2060000,Urban,671,1,Rejected
+HLI00908,Male,35,Yes,0,Graduate,Salaried,13,105900,20700,0,360,6546000,8338000,Urban,635,1,Rejected
+HLI00909,Male,42,Yes,1,Graduate,Salaried,21,52100,1700,71200,120,2079000,2424000,Semiurban,661,3,Rejected
+HLI00910,Female,26,Yes,2,Graduate,Salaried,4,113900,500,0,60,376000,608000,Urban,571,0,Approved
+HLI00911,Female,55,Yes,1,Graduate,Self-Employed,28,60200,6300,39900,60,953000,1164000,Semiurban,636,1,Rejected
+HLI00912,Male,41,No,1,Not Graduate,Self-Employed,15,58000,7400,42300,240,2559000,3083000,Semiurban,655,1,Rejected
+HLI00913,Male,47,No,2,Graduate,Salaried,22,87600,10000,0,60,837000,952000,Semiurban,605,3,Rejected
+HLI00914,Male,24,Yes,3,Not Graduate,Self-Employed,2,25400,2700,21600,60,614000,723000,Semiurban,749,0,Approved
+HLI00915,Female,39,No,2,Graduate,Salaried,13,32200,2200,0,60,300000,367000,Semiurban,767,0,Approved
+HLI00916,Male,41,Yes,0,Graduate,Salaried,18,85400,19200,0,180,2652000,3113000,Semiurban,743,0,Rejected
+HLI00917,Male,27,Yes,2,Graduate,Self-Employed,3,68400,20300,78900,60,2514000,3180000,Rural,798,0,Approved
+HLI00918,Male,46,Yes,3,Not Graduate,Salaried,25,31000,5600,26700,60,605000,794000,Urban,503,2,Rejected
+HLI00919,Male,52,No,1,Graduate,Salaried,31,43900,3900,0,120,1187000,1458000,Semiurban,688,1,Rejected
+HLI00920,Female,47,Yes,0,Graduate,Salaried,23,46300,5300,0,120,1397000,1767000,Semiurban,650,2,Rejected
+HLI00921,Female,37,No,3,Not Graduate,Salaried,16,38600,1800,0,240,1881000,2489000,Rural,675,0,Rejected
+HLI00922,Female,54,Yes,2,Graduate,Salaried,31,37400,1300,29300,120,2120000,2178000,Urban,824,0,Rejected
+HLI00923,Male,32,Yes,1,Not Graduate,Salaried,4,38500,5300,27100,240,1505000,1929000,Semiurban,749,0,Approved
+HLI00924,Male,49,Yes,0,Graduate,Self-Employed,25,57900,2700,46000,120,3067000,3748000,Semiurban,832,0,Approved
+HLI00925,Male,50,Yes,2,Not Graduate,Salaried,27,23500,6500,21800,60,406000,483000,Urban,733,1,Rejected
+HLI00926,Female,52,Yes,1,Graduate,Salaried,29,66900,7600,0,120,1685000,1989000,Urban,643,2,Rejected
+HLI00927,Female,25,No,2,Graduate,Salaried,4,51400,1500,0,120,1147000,1313000,Rural,592,1,Rejected
+HLI00928,Female,55,No,0,Graduate,Salaried,32,81200,100,0,120,1601000,1862000,Urban,785,0,Approved
+HLI00929,Male,48,No,1,Graduate,Salaried,26,28200,5500,0,60,471000,577000,Semiurban,601,1,Rejected
+HLI00930,Female,47,No,0,Graduate,Self-Employed,26,38100,2800,25500,60,6661000,7818000,Urban,772,0,Rejected
+HLI00931,Male,52,No,0,Graduate,Salaried,31,71500,2700,0,60,1142000,1550000,Rural,589,0,Rejected
+HLI00932,Male,52,Yes,0,Graduate,Salaried,29,61600,12100,0,120,1197000,1472000,Urban,518,1,Rejected
+HLI00933,Female,34,No,0,Graduate,Salaried,13,25700,2500,0,180,650000,768000,Rural,783,0,Approved
+HLI00934,Male,36,No,1,Not Graduate,Salaried,11,25000,6400,0,120,417000,425000,Semiurban,848,0,Rejected
+HLI00935,Male,23,No,1,Graduate,Self-Employed,2,80300,8600,0,240,5254000,6008000,Rural,697,0,Rejected
+HLI00936,Female,28,Yes,2,Graduate,Salaried,6,42100,9600,0,360,3345000,3882000,Semiurban,703,0,Rejected
+HLI00937,Male,30,No,3,Graduate,Salaried,7,76400,5400,51300,360,6468000,7813000,Urban,748,0,Approved
+HLI00938,Male,50,No,0,Graduate,Self-Employed,23,40200,3300,32700,60,907000,1115000,Urban,724,0,Approved
+HLI00939,Male,34,No,0,Graduate,Self-Employed,9,65500,18500,0,360,2170000,2747000,Urban,740,0,Rejected
+HLI00940,Female,28,Yes,1,Graduate,Salaried,6,82600,1900,0,120,1925000,2372000,Semiurban,772,1,Approved
+HLI00941,Male,28,No,1,Graduate,Salaried,4,158500,0,0,240,310000,482000,Urban,538,0,Rejected
+HLI00942,Female,32,Yes,3,Graduate,Salaried,11,117500,14700,0,300,10000000,11956000,Urban,668,0,Rejected
+HLI00943,Male,33,No,2,Graduate,Salaried,11,46800,3800,0,300,2525000,3064000,Rural,861,0,Rejected
+HLI00944,Male,29,No,1,Not Graduate,Salaried,3,27500,8100,16900,360,4249000,4257000,Urban,700,0,Rejected
+HLI00945,Male,28,Yes,0,Graduate,Self-Employed,4,63900,2900,0,240,8710000,10523000,Urban,669,0,Rejected
+HLI00946,Male,35,No,2,Graduate,Self-Employed,11,41500,2300,0,360,3291000,3014000,Semiurban,772,0,Rejected
+HLI00947,Male,34,No,0,Graduate,Salaried,11,64700,12400,0,60,511000,553000,Urban,809,0,Rejected
+HLI00948,Male,40,No,0,Graduate,Salaried,13,57900,5800,0,120,1412000,1673000,Rural,725,0,Approved
+HLI00949,Male,36,No,3,Graduate,Salaried,11,147500,200,0,60,319000,530000,Urban,834,4,Rejected
+HLI00950,Male,40,Yes,0,Not Graduate,Salaried,16,35300,5000,0,120,450000,478000,Semiurban,713,0,Rejected
+HLI00951,Male,24,Yes,1,Not Graduate,Self-Employed,2,30500,5400,128300,240,9364000,11794000,Rural,752,0,Rejected
+HLI00952,Male,29,Yes,0,Graduate,Salaried,6,46500,4700,24300,300,3753000,4056000,Semiurban,691,0,Rejected
+HLI00953,Female,27,No,1,Graduate,Self-Employed,2,35100,10500,0,240,1237000,1139000,Urban,625,0,Rejected
+HLI00954,Male,27,Yes,0,Graduate,Self-Employed,1,72100,17600,40600,60,1384000,1780000,Rural,705,0,Approved
+HLI00955,Male,42,Yes,1,Graduate,Salaried,18,93400,15800,0,120,10000000,12954000,Urban,783,0,Rejected
+HLI00956,Male,31,Yes,0,Graduate,Self-Employed,10,81000,4900,26200,300,9155000,11811000,Urban,780,0,Rejected
+HLI00957,Female,37,Yes,3,Graduate,Salaried,16,83100,3700,27500,240,2872000,3036000,Urban,783,0,Rejected
+HLI00958,Male,36,Yes,1,Graduate,Salaried,15,157300,400,0,240,407000,674000,Urban,826,3,Rejected
+HLI00959,Male,25,Yes,2,Not Graduate,Salaried,1,35400,3300,25000,360,2660000,3493000,Rural,691,1,Rejected
+HLI00960,Female,33,No,0,Graduate,Salaried,12,84400,24900,37300,120,8209000,10666000,Semiurban,597,1,Rejected
+HLI00961,Male,37,No,2,Graduate,Salaried,15,144200,23600,0,120,4198000,5101000,Rural,759,0,Rejected
+HLI00962,Male,35,No,0,Graduate,Salaried,14,74900,6400,0,180,3399000,4021000,Semiurban,774,0,Rejected
+HLI00963,Female,24,Yes,2,Graduate,Salaried,3,54600,11000,0,180,3056000,3689000,Rural,602,0,Rejected
+HLI00964,Female,41,No,0,Not Graduate,Salaried,20,20000,1300,147300,120,3234000,3334000,Semiurban,787,0,Rejected
+HLI00965,Male,24,Yes,0,Graduate,Salaried,2,80600,9500,0,360,1371000,1877000,Semiurban,784,0,Approved
+HLI00966,Female,34,Yes,0,Graduate,Salaried,10,70100,13400,33800,240,5288000,6583000,Urban,471,4,Rejected
+HLI00967,Male,28,Yes,1,Graduate,Self-Employed,5,113200,1800,22400,360,5786000,6645000,Semiurban,791,0,Approved
+HLI00968,Male,31,Yes,0,Graduate,Salaried,6,28400,900,0,240,844000,1074000,Urban,849,0,Approved
+HLI00969,Female,49,Yes,2,Graduate,Salaried,23,177100,32400,22500,120,5767000,6896000,Urban,804,0,Rejected
+HLI00970,Male,40,No,0,Not Graduate,Salaried,17,42000,10000,0,120,1107000,1556000,Semiurban,811,0,Rejected
+HLI00971,Female,33,Yes,1,Graduate,Self-Employed,11,50400,9400,33400,120,2390000,2906000,Semiurban,522,3,Rejected
+HLI00972,Male,40,No,3,Not Graduate,Self-Employed,18,63600,31900,0,120,1973000,1817000,Urban,676,2,Rejected
+HLI00973,Male,49,Yes,2,Graduate,Salaried,23,134400,400,0,120,578000,890000,Urban,832,3,Rejected
+HLI00974,Male,43,Yes,1,Graduate,Salaried,22,176000,200,0,120,504000,836000,Urban,555,0,Rejected
+HLI00975,Female,39,Yes,2,Not Graduate,Salaried,18,76100,25300,0,120,2172000,2651000,Semiurban,885,0,Rejected
+HLI00976,Male,31,Yes,0,Graduate,Salaried,9,101900,500,0,300,540000,891000,Urban,564,0,Approved
+HLI00977,Female,51,No,2,Graduate,Self-Employed,30,116100,8100,47000,60,2110000,2590000,Semiurban,791,0,Approved
+HLI00978,Male,36,Yes,0,Graduate,Salaried,9,58400,3900,0,120,864000,846000,Urban,661,1,Rejected
+HLI00979,Male,34,Yes,1,Graduate,Self-Employed,13,54400,15700,47000,300,7993000,9543000,Urban,690,0,Rejected
+HLI00980,Male,56,No,1,Not Graduate,Self-Employed,31,29700,3100,0,60,451000,514000,Urban,613,1,Rejected
+HLI00981,Female,28,Yes,0,Graduate,Self-Employed,3,55600,3500,0,180,1255000,1222000,Urban,634,1,Rejected
+HLI00982,Male,27,No,0,Graduate,Salaried,5,44800,5200,0,300,2496000,2888000,Rural,811,0,Rejected
+HLI00983,Male,50,Yes,1,Graduate,Salaried,29,154500,400,0,60,374000,602000,Urban,572,0,Approved
+HLI00984,Male,44,Yes,0,Not Graduate,Salaried,23,61300,18800,0,180,1243000,1604000,Urban,699,0,Rejected
+HLI00985,Female,37,Yes,2,Not Graduate,Salaried,12,32300,4900,17400,180,5516000,6770000,Semiurban,605,0,Rejected
+HLI00986,Male,48,No,1,Graduate,Salaried,23,126000,17300,0,120,2114000,2562000,Rural,753,0,Approved
+HLI00987,Female,53,Yes,1,Graduate,Salaried,25,143900,200,0,60,546000,889000,Urban,537,0,Rejected
+HLI00988,Male,23,Yes,0,Graduate,Salaried,2,41500,6100,35000,240,1522000,1915000,Urban,699,0,Approved
+HLI00989,Female,44,No,1,Graduate,Salaried,19,160800,500,0,60,428000,676000,Urban,808,3,Rejected
+HLI00990,Female,31,No,0,Graduate,Salaried,10,35800,3400,0,360,2163000,2159000,Urban,506,3,Rejected
+HLI00991,Male,49,Yes,1,Graduate,Self-Employed,23,44700,3100,18600,60,932000,1121000,Rural,766,0,Approved
+HLI00992,Female,36,Yes,2,Graduate,Salaried,11,50200,900,15000,300,4858000,6350000,Urban,658,1,Rejected
+HLI00993,Male,27,No,1,Graduate,Salaried,3,74300,5300,0,300,5626000,6512000,Semiurban,704,1,Rejected
+HLI00994,Female,27,Yes,0,Graduate,Salaried,2,46300,3200,0,120,588000,784000,Semiurban,831,0,Approved
+HLI00995,Male,49,Yes,1,Graduate,Salaried,27,82800,33200,44200,120,2993000,3554000,Semiurban,792,0,Rejected
+HLI00996,Male,31,Yes,0,Not Graduate,Salaried,6,94400,8600,0,120,1317000,1648000,Rural,568,1,Rejected
+HLI00997,Female,34,Yes,0,Graduate,Salaried,12,39000,5400,0,300,2960000,3847000,Urban,669,1,Rejected
+HLI00998,Male,51,Yes,1,Graduate,Salaried,29,175200,300,0,120,475000,772000,Urban,810,4,Rejected
+HLI00999,Female,35,Yes,1,Not Graduate,Self-Employed,10,30500,4400,53800,60,1189000,1562000,Urban,696,1,Rejected
+HLI01000,Female,56,Yes,1,Graduate,Salaried,34,55200,1300,60000,60,1349000,1681000,Rural,739,0,Approved

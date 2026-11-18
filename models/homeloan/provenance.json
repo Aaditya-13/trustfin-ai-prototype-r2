@@ -1,0 +1,175 @@
+{
+  "model_version": "home_loan_v5-53d6124d20d7",
+  "dataset_version": "synthetic-products-v4.1",
+  "policy_version": "project-lending-v1",
+  "product_id": "home_loan",
+  "target": "simulated_underwriting_approval",
+  "policy": {
+    "annual_rate": 0.085,
+    "min_cibil": 560,
+    "max_foir": 0.5,
+    "comfortable_foir": 0.35,
+    "reject_missed_payments_at": 3,
+    "max_ltv_percent": 92.0,
+    "max_card_utilization": null,
+    "min_income": null
+  },
+  "gender_in_prediction": true,
+  "labels_use_gender": false,
+  "predictive_raw_features": [
+    "Gender",
+    "Age",
+    "Married",
+    "Dependents",
+    "Education",
+    "Employment_Status",
+    "Work_Experience",
+    "Applicant_Income",
+    "Existing_EMI",
+    "Coapplicant_Income",
+    "Loan_Term",
+    "Loan_Amount",
+    "Property_Value",
+    "Property_Area",
+    "CIBIL_Score",
+    "Missed_Payments_12M"
+  ],
+  "training_rows": 2400,
+  "holdout_rows": 600,
+  "model_params": {
+    "n_estimators": 120,
+    "max_depth": 4,
+    "learning_rate": 0.08,
+    "subsample": 0.85,
+    "colsample_bytree": 0.85,
+    "random_state": 42,
+    "eval_metric": "logloss",
+    "n_jobs": 2
+  },
+  "generation_manifest": {
+    "dataset_version": "synthetic-products-v4.1",
+    "policy_version": "project-lending-v1",
+    "policy": {
+      "annual_rate": 0.085,
+      "min_cibil": 560,
+      "max_foir": 0.5,
+      "comfortable_foir": 0.35,
+      "reject_missed_payments_at": 3,
+      "max_ltv_percent": 92.0,
+      "max_card_utilization": null,
+      "min_income": null
+    },
+    "target": "simulated_underwriting_approval",
+    "labels_use_gender": false,
+    "gender_in_prediction": true,
+    "assumptions": "Authored synthetic policy and population, fixed rates, deterministic labels; no observed repayment outcomes or regulatory certification. Ordinary requests predominate, with explicit high-LTV/card-utilization tails and some requests not sized to income. Ten percent are explicit high-credit/adverse-payment or low-credit/strong-capacity stress combinations.",
+    "cohorts": {
+      "training": {
+        "path": "datasets/homeloan_train.csv",
+        "seed": 42,
+        "sha256": "a28291313580a59ed2ec1138658495e47f33b3c7b7ca796f5ab8dbdb89a12163",
+        "used_for_training": true,
+        "rows": 3000,
+        "class_counts": {
+          "Rejected": 2032,
+          "Approved": 968
+        },
+        "gender_counts": {
+          "Male": 1776,
+          "Female": 1224
+        },
+        "rule_trigger_counts": {
+          "credit_score": 222,
+          "missed_payments": 261,
+          "repayment_burden": 1048,
+          "property_value": 349
+        },
+        "gender_label_flips": 0,
+        "approved_policy_violations": 0,
+        "missing_cells": 0,
+        "duplicate_applicants": 0
+      },
+      "independent": {
+        "path": "datasets/evaluation/homeloan_independent.csv",
+        "seed": 456,
+        "sha256": "ede560048ad557df0d08d611da03174f89d41a4e20d5fa1c87e7822b7b49d98a",
+        "used_for_training": false,
+        "rows": 1000,
+        "class_counts": {
+          "Rejected": 675,
+          "Approved": 325
+        },
+        "gender_counts": {
+          "Male": 633,
+          "Female": 367
+        },
+        "rule_trigger_counts": {
+          "credit_score": 87,
+          "missed_payments": 80,
+          "repayment_burden": 317,
+          "property_value": 125
+        },
+        "gender_label_flips": 0,
+        "approved_policy_violations": 0,
+        "missing_cells": 0,
+        "duplicate_applicants": 0
+      },
+      "boundary": {
+        "path": "datasets/evaluation/homeloan_boundary.csv",
+        "seed": 2027,
+        "sha256": "82b8e5c30a704c4991df7f4fe93c8b053277d3a7b4eb35baf0d34d1fa035213a",
+        "used_for_training": false,
+        "rows": 300,
+        "class_counts": {
+          "Approved": 168,
+          "Rejected": 132
+        },
+        "gender_counts": {
+          "Male": 150,
+          "Female": 150
+        },
+        "rule_trigger_counts": {
+          "credit_score": 20,
+          "missed_payments": 40,
+          "repayment_burden": 20,
+          "property_value": 20
+        },
+        "gender_label_flips": 0,
+        "approved_policy_violations": 0,
+        "missing_cells": 0,
+        "duplicate_applicants": 0
+      }
+    },
+    "generator_sha256": "f827217ab3ec6bd8b6c8e43f3a62d3624d34c9e1a2a3ed973bf465923741027a",
+    "policy_sha256": "7fcb393e32a125b08d4cbc22893ac70f9074850b96c749d99d8e4a5d8b45037e"
+  },
+  "artifact_sha256": {
+    "model.pkl": "22580ca2043b4a5634693af0189cc4f8e868472036294fdae435536a45168390",
+    "model.ubj": "53d6124d20d77031f7a4fb4ec5a4578542faac879c783f3a7296bcdfa844fafd",
+    "preprocessor.pkl": "34602729c1dcef4ce4b64d4323475af64ba90643a4547201ab728628b0a9a5d1",
+    "feature_names.json": "17dfbde9526a9db8925eaa5001b3b6d7e81e2a50e9a8528a7a7a19d0eb2d409c",
+    "background_raw.csv": "d2796b97a8a03385c1f1325a948ca5b4943f61eab666e6d24125fd3ad88f956e",
+    "background_data.npy": "4bf9cb844224e0dcf76fcc5254c03b5277c99715a352988bb4bd9f32237947d7",
+    "split_indices.json": "7d6cd24dfa793f0a0efbfe9919b2fe594c598acd133ee090127449924a9ecc7b",
+    "metrics.json": "812fc3078671ac3a55fa8399a0dffc33cb2319e1916d8cb6c68ee568f0b1b2ea"
+  },
+  "source_sha256": {
+    "scripts/training_common.py": "54bb67677e8a471751ac61ae4cdbfeaf21bf5646efdf83e1f6697c8a085ed1ff",
+    "scripts/synthetic_common.py": "f827217ab3ec6bd8b6c8e43f3a62d3624d34c9e1a2a3ed973bf465923741027a",
+    "backend/app/ml/product_policy.py": "7fcb393e32a125b08d4cbc22893ac70f9074850b96c749d99d8e4a5d8b45037e",
+    "backend/app/ml/preprocessing_homeloan.py": "2da5cbc5ad1d7a39a49930116fd21be7049afdef6f78801266f9c9a44cecf245"
+  },
+  "package_versions": {
+    "numpy": "2.4.6",
+    "pandas": "3.1.0",
+    "scikit-learn": "1.9.1",
+    "xgboost": "3.2.0",
+    "shap": "0.51.0",
+    "lime": "0.2.0.1",
+    "joblib": "1.6.0"
+  },
+  "explanations": {
+    "SHAP": "TreeExplainer(model), raw log-odds, implicit tree-path background",
+    "LIME": "200 stratified training rows; background_data.npy exactly transformed from background_raw.csv; no holdout/evaluation data"
+  }
+}

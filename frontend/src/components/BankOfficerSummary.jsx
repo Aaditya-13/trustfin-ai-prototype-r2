@@ -6,8 +6,12 @@ import {
 } from 'lucide-react';
 import { getBankingLabel } from '../utils/bankingTerms';
 import { getUnderwritingAction } from '../utils/decisionAdvisory';
+import { formatTrustFormula } from '../utils/trustScorePresentation';
+import FaithfulnessCheckDetails from './FaithfulnessCheckDetails';
 import { downloadLoanReportPdf } from '../services/api';
 import SubmittedApplicationFormModal from './SubmittedApplicationFormModal';
+import PolicyCheckNotice from './PolicyCheckNotice';
+import StabilityCheckDetails from './StabilityCheckDetails';
 
 const BankOfficerSummary = ({
   result,
@@ -29,24 +33,24 @@ const BankOfficerSummary = ({
 
   // Trust Reliability Classification
   let trustLevel = {
-    label: 'HIGH TRUST SCORE',
+    label: 'HIGH EXPLANATION SCORE',
     color: 'text-green-800 bg-green-50 border-green-300',
     badgeColor: 'bg-green-700',
-    desc: 'The weighted explanation index is in the high band. Review each component for its specific result.'
+    desc: 'The combined explanation score is high. Review the individual checks before using the explanation.'
   };
   if (trustPercent < 70) {
     trustLevel = {
-      label: 'LOW TRUST: MANUAL REVIEW REQUIRED',
+      label: 'LOW SCORE: REVIEW REQUIRED',
       color: 'text-red-800 bg-red-50 border-red-300',
       badgeColor: 'bg-red-700',
-      desc: 'The weighted explanation index is in the low band. Review the component checks before relying on the explanation.'
+      desc: 'The combined explanation score is low. Review the individual checks to see which need attention.'
     };
   } else if (trustPercent < 85) {
     trustLevel = {
-      label: 'MODERATE TRUST: REVIEW RECOMMENDED',
+      label: 'MODERATE SCORE: REVIEW RECOMMENDED',
       color: 'text-amber-800 bg-amber-50 border-amber-300',
       badgeColor: 'bg-amber-600',
-      desc: 'The weighted explanation index is in the moderate band. Review the individual checks with an officer.'
+      desc: 'The combined explanation score is moderate. Review the individual checks with an officer.'
     };
   }
 
@@ -87,13 +91,13 @@ const BankOfficerSummary = ({
             <span className="text-xs font-bold px-2 py-1 bg-blue-50 text-gov-blue border border-blue-200 rounded-sm uppercase tracking-wider">
               Bank Officer Console
             </span>
-            <span className="text-sm text-gray-600 font-mono">Application #{result?.dossierId || 'TF-2026-891'}</span>
+            <span className="text-sm text-gray-600 font-mono">Application #{result?.dossierId || result?.evaluationId || 'Unavailable'}</span>
           </div>
           <h2 className="text-lg font-bold text-gray-900 mt-1 uppercase tracking-tight">
-            Loan Credit Evaluation
+            Loan Assessment
           </h2>
           <p className="text-sm text-gray-600 leading-relaxed">
-            Applicant: {applicantData?.Employment_Status || 'Salaried'} <span className="mx-1 text-gray-400">|</span> Age {applicantData?.Age || '30'} <span className="mx-1 text-gray-400">|</span> Principal Requested: <strong className="font-semibold text-gray-900">&#8377;{(applicantData?.Loan_Amount || 0).toLocaleString('en-IN')}</strong>
+            Employment: {applicantData?.Employment_Status || 'Not provided'} <span className="mx-1 text-gray-400">|</span> Age {applicantData?.Age ?? 'Not provided'} <span className="mx-1 text-gray-400">|</span> Requested Amount: <strong className="font-semibold text-gray-900">&#8377;{(applicantData?.Loan_Amount || 0).toLocaleString('en-IN')}</strong>
           </p>
         </div>
 
@@ -104,7 +108,7 @@ const BankOfficerSummary = ({
             className="flex-1 md:flex-none px-3.5 py-2.5 bg-white hover:bg-gray-100 text-gray-800 text-sm font-semibold rounded-sm border border-gray-300 flex items-center justify-center gap-1.5 cursor-pointer transition-colors shadow-sm"
           >
             <Eye className="w-4 h-4 text-gov-blue" />
-            Preview Customer View
+            Preview Applicant View
           </button>
 
           <button
@@ -154,14 +158,15 @@ const BankOfficerSummary = ({
             <span className="text-xs font-bold px-2 py-1 bg-white border border-gray-300 text-gray-700 rounded-sm uppercase tracking-wider">
               Model Prediction
             </span>
-            <span className="text-sm text-gray-600">Retail Credit Engine</span>
+            <span className="text-sm text-gray-600">XGBoost Model</span>
           </div>
           <h3 className="text-2xl font-extrabold text-gray-900 uppercase tracking-tight mt-2">
             {determinationText}
           </h3>
           <p className="text-base text-gray-700 mt-1">
-            Probability assigned to predicted class: <strong className="font-mono">{(result.confidenceScore * 100).toFixed(1)}%</strong>
+            Model probability for this prediction: <strong className="font-mono">{(result.confidenceScore * 100).toFixed(1)}%</strong>
           </p>
+          <p className="mt-1 text-xs text-gray-600">This score does not estimate the chance of failing to repay.</p>
         </div>
         <div className={`px-5 py-2.5 text-xl sm:text-2xl font-extrabold uppercase rounded-sm border ${isApproved ? 'border-green-700' : 'border-red-700'} ${statusColor} tracking-wide text-center shrink-0`}>
           {result.prediction}
@@ -169,6 +174,7 @@ const BankOfficerSummary = ({
       </div>
 
       {/* Decision Recommendation & Explanation Check Card */}
+      <PolicyCheckNotice result={result} />
       {underwritingAction && (
         <section className={`bg-white border border-gray-300 border-l-4 rounded-sm shadow-sm p-4 sm:p-5 ${underwritingAction.tier === 'HIGH_RISK' ? 'border-l-red-700' : underwritingAction.tier === 'OFFICER_REVIEW' ? 'border-l-amber-500' : 'border-l-gov-blue'}`}>
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-gray-200 pb-3 mb-4">
@@ -212,7 +218,7 @@ const BankOfficerSummary = ({
         </section>
       )}
 
-      {/* Income & Debt Repayment Capacity Card */}
+      {/* Income & Debt Monthly Affordability Card */}
       {result.solvencyCheck && (
         <div className={`border border-gray-300 border-l-4 bg-white p-5 shadow-sm rounded-sm ${result.solvencyCheck.isSolvent ? 'border-l-gov-blue' : 'border-l-red-700'}`}>
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -221,9 +227,9 @@ const BankOfficerSummary = ({
                   <Wallet className="h-4 w-4" />
                 </div>
                 <div>
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-gray-500">Repayment Capacity</p>
-                  <h3 className="mt-0.5 text-sm font-bold uppercase tracking-tight text-gray-900">Income & Debt Repayment Capacity Check</h3>
-                  <p className="mt-1 text-xs text-gray-600">Combined monthly debt commitments are assessed against a 50% income ceiling.</p>
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-gray-500">Monthly Affordability</p>
+                  <h3 className="mt-0.5 text-sm font-bold uppercase tracking-tight text-gray-900">Income & Debt Monthly Affordability Check</h3>
+                  <p className="mt-1 text-xs text-gray-600">Existing and proposed EMIs are compared with the project limit of 50% of monthly income.</p>
                 </div>
               </div>
               <span className={`inline-flex w-fit items-center gap-2 rounded-sm border px-2.5 py-1.5 text-[11px] font-bold uppercase tracking-wide ${result.solvencyCheck.status === 'INSOLVENT'
@@ -233,7 +239,7 @@ const BankOfficerSummary = ({
                     : 'border-green-300 bg-green-50 text-green-900'
                 }`}>
                 <span className={`h-2 w-2 rounded-full ${result.solvencyCheck.status === 'INSOLVENT' ? 'bg-red-600' : result.solvencyCheck.status === 'MODERATE' ? 'bg-amber-500' : 'bg-green-700'}`} />
-                {result.solvencyCheck.status === 'INSOLVENT' ? 'High repayment risk' : result.solvencyCheck.status === 'MODERATE' ? 'Review recommended' : 'Within healthy range'}
+                {result.solvencyCheck.status === 'INSOLVENT' ? 'Above 50% limit' : result.solvencyCheck.status === 'MODERATE' ? 'Review recommended' : 'Lower debt share'}
               </span>
             </div>
 
@@ -241,12 +247,12 @@ const BankOfficerSummary = ({
               <div className="rounded-sm border border-gray-200 bg-gray-50 p-3">
                 <p className="text-[11px] font-bold uppercase tracking-wide text-gray-600">Monthly income</p>
                 <p className="mt-1.5 text-lg font-bold text-gray-900">₹{Math.round(monthlyIncome).toLocaleString('en-IN')}</p>
-                <p className="mt-1 text-[11px] text-gray-500">Verified household income</p>
+                <p className="mt-1 text-[11px] text-gray-500">Income used for this assessment</p>
               </div>
               <div className="rounded-sm border border-gray-200 bg-white p-3">
                 <p className="text-[11px] font-bold uppercase tracking-wide text-gray-600">Proposed EMI</p>
                 <p className="mt-1.5 text-lg font-bold text-gray-900">₹{Math.round(monthlyEMI).toLocaleString('en-IN')}</p>
-                <p className="mt-1 text-[11px] text-gray-500">New facility</p>
+                <p className="mt-1 text-[11px] text-gray-500">New loan payment</p>
               </div>
               <div className="rounded-sm border border-gray-200 bg-white p-3">
                 <p className="text-[11px] font-bold uppercase tracking-wide text-gray-600">Existing EMIs</p>
@@ -264,7 +270,7 @@ const BankOfficerSummary = ({
               <div className="rounded-sm border border-gray-300 bg-gray-50 p-4">
                 <div className="flex flex-wrap items-end justify-between gap-2">
                   <div>
-                    <p className="text-[11px] font-bold uppercase tracking-wide text-gray-700">Debt-to-income ratio (FOIR)</p>
+                    <p className="text-[11px] font-bold uppercase tracking-wide text-gray-700">Monthly Debt / Income (FOIR)</p>
                     <p className={`mt-1 text-3xl font-bold ${dtiRatioVal > 50 ? 'text-red-700' : dtiRatioVal > 35 ? 'text-amber-700' : 'text-green-800'}`}>
                       {result.solvencyCheck.dtiPercent}
                     </p>
@@ -289,7 +295,7 @@ const BankOfficerSummary = ({
               </div>
 
               <div className={`rounded-sm border p-4 ${netSurplus >= 0 ? 'border-green-300 bg-green-50' : 'border-red-300 bg-red-50'}`}>
-                <p className="text-[11px] font-bold uppercase tracking-wide text-gray-700">Net monthly cashflow</p>
+                <p className="text-[11px] font-bold uppercase tracking-wide text-gray-700">Income Left After EMIs</p>
                 <p className={`mt-2 text-2xl font-bold ${netSurplus >= 0 ? 'text-green-800' : 'text-red-800'}`}>
                   {netSurplus >= 0 ? '+' : '-'}₹{Math.abs(Math.round(netSurplus)).toLocaleString('en-IN')}
                 </p>
@@ -325,8 +331,8 @@ const BankOfficerSummary = ({
                   <ShieldCheck className="w-5 h-5" />
                 </span>
                 <div>
-                  <h3 className="text-base font-bold text-gray-950 uppercase tracking-tight">AI Decision Trust Score</h3>
-                  <p className="text-sm text-gray-600 mt-0.5">Reliability across four verification measures</p>
+                  <h3 className="text-base font-bold text-gray-950 uppercase tracking-tight">Explanation Trust Score</h3>
+                  <p className="text-sm text-gray-600 mt-0.5">Three explanation checks form the score; Gender sensitivity is shown separately.</p>
                 </div>
               </div>
               <span className={`px-2.5 py-1 text-xs font-bold uppercase rounded-sm border whitespace-nowrap ${trustLevel.color}`}>
@@ -353,10 +359,12 @@ const BankOfficerSummary = ({
               <div className="p-3 bg-white border border-gray-200 rounded-sm">
                 <span className="text-[11px] text-gray-600 uppercase font-bold tracking-wide block">Faithfulness</span>
                 <strong className="mt-1 block text-lg font-mono text-gray-950">{(result.trustScore.faithfulness * 100).toFixed(1)}%</strong>
+                <FaithfulnessCheckDetails result={result} />
               </div>
               <div className="p-3 bg-white border border-gray-200 rounded-sm">
                 <span className="text-[11px] text-gray-600 uppercase font-bold tracking-wide block">Stability</span>
                 <strong className="mt-1 block text-lg font-mono text-gray-950">{(result.trustScore.stability * 100).toFixed(1)}%</strong>
+                <StabilityCheckDetails result={result} />
               </div>
               <div className="p-3 bg-white border border-gray-200 rounded-sm">
                 <span className="text-[11px] text-gray-600 uppercase font-bold tracking-wide block">Consistency</span>
@@ -364,15 +372,15 @@ const BankOfficerSummary = ({
               </div>
               <div className="p-3 bg-white border border-gray-200 rounded-sm">
                 <span className="text-[11px] text-gray-600 uppercase font-bold tracking-wide block">Fairness</span>
-                <strong className="mt-1 block text-lg font-mono text-gray-950">{((result.trustScore.fairness ?? 1.0) * 100).toFixed(1)}%</strong>
+                <strong className="mt-1 block text-lg font-mono text-gray-950">{result.trustScore.fairness == null ? 'N/A' : `${(result.trustScore.fairness * 100).toFixed(1)}%`}</strong>
               </div>
             </div>
           </div>
 
           <div className="mt-5 pt-4 border-t border-gray-200 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 text-xs text-gray-600">
-            <span className="leading-relaxed">Measure weights: Faithfulness 35% | Consistency 30% | Stability 25% | Fairness 10%</span>
+            <span className="leading-relaxed">{formatTrustFormula(result.trustScore)}</span>
             <button type="button" onClick={onNavigateToAudit} className="text-gov-blue hover:text-blue-900 hover:underline font-bold flex items-center gap-1 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gov-blue shrink-0">
-              View verification framework <ArrowRight className="w-3.5 h-3.5" />
+              View explanation checks <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
         </section>
@@ -390,7 +398,7 @@ const BankOfficerSummary = ({
                   <p className="text-sm text-gray-600 mt-0.5">Factors with the strongest influence on this decision</p>
                 </div>
               </div>
-              <span className="text-xs font-semibold text-gray-700 bg-gray-100 border border-gray-200 px-2.5 py-1 rounded-sm whitespace-nowrap">SHAP / Primary model</span>
+              <span className="text-xs font-semibold text-gray-700 bg-gray-100 border border-gray-200 px-2.5 py-1 rounded-sm whitespace-nowrap">SHAP Explanation</span>
             </div>
 
             <div className="space-y-4">
@@ -412,7 +420,7 @@ const BankOfficerSummary = ({
 
               <div className="rounded-sm border border-red-200 bg-red-50/40 p-3">
                 <p className="text-xs font-bold text-red-900 uppercase tracking-wide flex items-center gap-1.5 mb-2">
-                  <TrendingDown className="w-4 h-4 text-red-700" /> Elevates Risk
+                  <TrendingDown className="w-4 h-4 text-red-700" /> Supports Rejection
                 </p>
                 {topNegative.length > 0 ? (
                   <div className="space-y-1.5">
@@ -430,7 +438,7 @@ const BankOfficerSummary = ({
 
           <div className="mt-5 pt-4 border-t border-gray-200 text-right">
             <button type="button" onClick={onNavigateToAudit} className="text-sm text-gov-blue hover:text-blue-900 hover:underline font-bold flex items-center gap-1 ml-auto cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gov-blue">
-              Compare explanation models <ArrowRight className="w-3.5 h-3.5" />
+              Compare SHAP and LIME <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
         </section>
@@ -443,14 +451,14 @@ const BankOfficerSummary = ({
             <Sparkles className="w-5 h-5" />
           </span>
           <div className="space-y-1.5">
-            <h4 className="text-base sm:text-lg font-bold uppercase tracking-wide text-yellow-300">Inspect Detailed AI Reasoning & Explanations</h4>
+            <h4 className="text-base sm:text-lg font-bold uppercase tracking-wide text-yellow-300">Review Model Explanations</h4>
             <p className="text-sm text-blue-100 max-w-3xl leading-relaxed">
-              Review SHAP and LIME explanations, factor agreement, decision stability, and compliance measures.
+              Compare important factors and review explanation quality and Gender sensitivity.
             </p>
           </div>
         </div>
         <button type="button" onClick={onNavigateToAudit} className="w-full md:w-auto px-5 py-3 bg-yellow-400 hover:bg-yellow-300 text-blue-950 text-sm font-extrabold uppercase tracking-wide rounded-sm flex items-center justify-center gap-2 cursor-pointer transition-colors shadow-sm shrink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-300">
-          <span>Open decision verification</span>
+          <span>Open explanation review</span>
           <ArrowRight className="w-4 h-4" />
         </button>
       </section>
@@ -459,7 +467,7 @@ const BankOfficerSummary = ({
         isOpen={showApplicationForm}
         onClose={() => setShowApplicationForm(false)}
         applicantData={applicantData}
-        applicationReference={result?.dossierId || 'TF-2026-891'}
+        applicationReference={result?.dossierId || result?.evaluationId}
       />
 
     </div>

@@ -1,0 +1,1001 @@
+Loan_ID,Gender,Age,Married,Dependents,Education,Employment_Status,Work_Experience,Applicant_Income,Existing_EMI,Loan_Term,Loan_Amount,Loan_Purpose,Credit_Card_Utilization,CIBIL_Score,Missed_Payments_12M,Loan_Status
+PLI00001,Female,34,Yes,1,Not Graduate,Salaried,10,34300,6000,12,76000,Home_Renovation,0.17,777,0,Approved
+PLI00002,Female,38,Yes,1,Graduate,Salaried,17,20600,1700,24,79000,Home_Renovation,0.57,737,0,Approved
+PLI00003,Male,38,Yes,2,Graduate,Salaried,13,26200,5200,60,213000,Debt_Consolidation,0.39,710,1,Rejected
+PLI00004,Male,37,Yes,0,Graduate,Salaried,16,60600,1800,24,153000,Debt_Consolidation,0.4,675,0,Approved
+PLI00005,Male,22,No,1,Graduate,Self-Employed,1,80700,10500,36,438000,Medical_Emergency,0.29,573,1,Rejected
+PLI00006,Male,25,No,3,Not Graduate,Salaried,4,40200,13100,24,177000,Debt_Consolidation,0.57,675,1,Rejected
+PLI00007,Male,51,Yes,1,Graduate,Salaried,30,73900,22200,12,103000,Education,0.24,730,0,Approved
+PLI00008,Female,48,Yes,2,Not Graduate,Salaried,25,56400,14800,24,197000,Medical_Emergency,0.97,847,0,Rejected
+PLI00009,Female,43,No,0,Graduate,Self-Employed,20,56000,3900,24,158000,Debt_Consolidation,0.59,642,0,Rejected
+PLI00010,Female,57,Yes,1,Graduate,Salaried,36,103500,100,60,40000,Medical_Emergency,0.13,577,0,Rejected
+PLI00011,Male,23,No,2,Not Graduate,Salaried,1,27200,5000,12,55000,Wedding,0.47,699,1,Rejected
+PLI00012,Female,24,Yes,0,Graduate,Salaried,3,73100,17300,12,128000,Home_Renovation,0.48,704,0,Approved
+PLI00013,Male,33,No,1,Graduate,Salaried,12,33300,3800,24,90000,Wedding,0.26,717,1,Approved
+PLI00014,Male,32,Yes,2,Graduate,Salaried,10,32600,10100,12,56000,Debt_Consolidation,0.67,621,1,Rejected
+PLI00015,Female,46,No,1,Not Graduate,Self-Employed,24,54600,5500,24,153000,Medical_Emergency,0.39,729,0,Approved
+PLI00016,Female,50,Yes,1,Graduate,Salaried,24,35900,2400,60,216000,Home_Renovation,0.49,634,2,Rejected
+PLI00017,Female,46,Yes,0,Graduate,Salaried,25,41400,4400,24,186000,Debt_Consolidation,0.45,713,0,Approved
+PLI00018,Male,35,No,1,Graduate,Self-Employed,14,134000,12800,36,407000,Home_Renovation,0.45,816,0,Approved
+PLI00019,Female,40,No,1,Not Graduate,Salaried,18,18000,1500,24,46000,Debt_Consolidation,0.94,820,0,Rejected
+PLI00020,Male,57,Yes,1,Graduate,Salaried,32,29700,1400,24,111000,Debt_Consolidation,0.15,685,0,Approved
+PLI00021,Male,30,Yes,0,Graduate,Self-Employed,4,52500,3100,36,299000,Wedding,0.81,711,2,Rejected
+PLI00022,Male,29,No,2,Graduate,Self-Employed,8,94100,2300,6,78000,Debt_Consolidation,0.73,586,1,Rejected
+PLI00023,Female,39,No,3,Graduate,Salaried,18,64600,4300,60,210000,Debt_Consolidation,0.3,817,0,Approved
+PLI00024,Male,41,Yes,0,Graduate,Salaried,19,28900,300,36,138000,Home_Renovation,0.46,525,2,Rejected
+PLI00025,Female,38,No,1,Graduate,Salaried,15,125700,500,36,41000,Medical_Emergency,0.1,573,0,Rejected
+PLI00026,Female,40,No,1,Graduate,Self-Employed,17,46000,3800,36,71000,Debt_Consolidation,0.3,706,0,Approved
+PLI00027,Female,37,Yes,2,Graduate,Salaried,15,56100,20700,36,315000,Education,0.69,669,0,Rejected
+PLI00028,Female,32,Yes,0,Graduate,Self-Employed,11,75100,16600,36,331000,Debt_Consolidation,0.29,540,2,Rejected
+PLI00029,Female,38,Yes,0,Graduate,Salaried,17,85700,5900,60,277000,Debt_Consolidation,0.4,769,0,Approved
+PLI00030,Male,29,Yes,0,Not Graduate,Salaried,5,19400,1800,24,1000000,Travel,0.4,560,0,Rejected
+PLI00031,Female,29,Yes,0,Graduate,Salaried,6,65700,7400,24,189000,Medical_Emergency,0.53,578,0,Rejected
+PLI00032,Male,41,Yes,1,Graduate,Salaried,18,109800,300,36,41000,Medical_Emergency,0.09,588,0,Approved
+PLI00033,Male,52,Yes,0,Graduate,Salaried,25,28200,2000,48,91000,Medical_Emergency,0.39,763,0,Approved
+PLI00034,Female,33,No,2,Graduate,Self-Employed,12,114600,15700,24,90000,Medical_Emergency,0.24,585,1,Rejected
+PLI00035,Female,46,No,1,Graduate,Self-Employed,25,48300,18700,48,366000,Debt_Consolidation,0.95,860,0,Rejected
+PLI00036,Male,50,Yes,1,Not Graduate,Salaried,26,28300,8100,12,64000,Medical_Emergency,0.46,787,0,Approved
+PLI00037,Female,27,No,0,Graduate,Salaried,6,43300,5900,36,270000,Debt_Consolidation,0.11,824,0,Approved
+PLI00038,Female,34,Yes,0,Graduate,Self-Employed,9,53000,21300,60,219000,Debt_Consolidation,0.39,712,1,Rejected
+PLI00039,Male,24,No,0,Graduate,Salaried,2,28800,8900,36,93000,Debt_Consolidation,0.46,611,0,Rejected
+PLI00040,Male,27,No,0,Not Graduate,Salaried,1,41700,2600,24,95000,Travel,0.36,661,0,Approved
+PLI00041,Male,57,Yes,3,Not Graduate,Salaried,34,38400,4500,24,130000,Education,0.59,638,0,Rejected
+PLI00042,Male,49,No,0,Not Graduate,Salaried,26,46000,1700,12,93000,Debt_Consolidation,0.85,599,2,Rejected
+PLI00043,Female,23,No,2,Graduate,Salaried,1,184200,300,24,53000,Medical_Emergency,0.06,813,4,Rejected
+PLI00044,Male,46,Yes,0,Graduate,Self-Employed,21,18000,5900,48,70000,Medical_Emergency,0.72,653,2,Rejected
+PLI00045,Female,41,Yes,0,Graduate,Salaried,15,187700,100,60,30000,Medical_Emergency,0.05,605,0,Approved
+PLI00046,Male,31,Yes,3,Graduate,Salaried,4,35100,6800,24,98000,Debt_Consolidation,0.32,591,1,Rejected
+PLI00047,Male,29,No,0,Graduate,Self-Employed,3,63900,11800,12,81000,Debt_Consolidation,0.63,717,0,Approved
+PLI00048,Female,21,Yes,2,Graduate,Self-Employed,0,36200,6300,36,295000,Medical_Emergency,0.6,760,0,Approved
+PLI00049,Male,27,Yes,0,Graduate,Salaried,4,82800,9400,6,51000,Debt_Consolidation,0.84,594,0,Rejected
+PLI00050,Male,55,Yes,3,Graduate,Salaried,30,33400,2700,60,163000,Travel,0.42,572,0,Rejected
+PLI00051,Male,55,Yes,1,Not Graduate,Salaried,31,18000,3600,24,75000,Debt_Consolidation,0.51,580,0,Rejected
+PLI00052,Male,44,Yes,3,Graduate,Salaried,23,36500,2800,12,62000,Home_Renovation,0.48,658,0,Approved
+PLI00053,Male,49,No,1,Graduate,Salaried,27,28200,2800,24,118000,Debt_Consolidation,0.15,780,0,Approved
+PLI00054,Female,39,Yes,2,Graduate,Salaried,18,37100,5200,6,205000,Education,0.12,714,0,Rejected
+PLI00055,Female,57,No,3,Graduate,Salaried,32,51800,17600,36,664000,Medical_Emergency,0.28,810,0,Rejected
+PLI00056,Male,39,No,0,Not Graduate,Salaried,15,20600,2000,24,50000,Education,0.51,586,0,Rejected
+PLI00057,Male,24,Yes,1,Graduate,Salaried,1,71500,16000,60,419000,Debt_Consolidation,0.2,768,0,Approved
+PLI00058,Male,34,No,0,Graduate,Salaried,11,131800,400,48,48000,Medical_Emergency,0.06,828,3,Rejected
+PLI00059,Female,40,Yes,1,Graduate,Salaried,13,63300,7200,12,76000,Education,0.38,493,1,Rejected
+PLI00060,Female,39,Yes,1,Not Graduate,Salaried,16,33800,7000,12,118000,Travel,0.49,712,1,Rejected
+PLI00061,Male,52,Yes,0,Not Graduate,Salaried,25,53100,1400,36,159000,Medical_Emergency,0.62,702,0,Approved
+PLI00062,Male,44,Yes,0,Graduate,Self-Employed,22,27600,2300,12,42000,Debt_Consolidation,0.37,760,0,Approved
+PLI00063,Female,52,Yes,0,Graduate,Salaried,29,162500,200,48,57000,Medical_Emergency,0.13,555,0,Rejected
+PLI00064,Female,56,Yes,3,Graduate,Salaried,34,22200,7200,60,73000,Medical_Emergency,0.63,568,2,Rejected
+PLI00065,Male,22,No,0,Not Graduate,Salaried,1,40600,3200,60,74000,Medical_Emergency,0.27,708,0,Approved
+PLI00066,Male,34,No,1,Graduate,Salaried,11,48600,1500,36,146000,Wedding,0.18,756,0,Approved
+PLI00067,Male,47,No,1,Not Graduate,Salaried,24,22800,900,36,84000,Education,0.51,579,1,Rejected
+PLI00068,Male,49,No,2,Graduate,Salaried,28,29600,1800,24,80000,Medical_Emergency,0.45,622,0,Rejected
+PLI00069,Female,24,Yes,0,Graduate,Salaried,3,184600,200,6,49000,Medical_Emergency,0.07,569,0,Rejected
+PLI00070,Female,48,No,2,Not Graduate,Salaried,24,18000,3500,24,249000,Education,0.88,628,3,Rejected
+PLI00071,Female,30,Yes,2,Graduate,Salaried,9,58300,8400,24,151000,Wedding,0.37,597,2,Rejected
+PLI00072,Male,35,Yes,1,Not Graduate,Salaried,6,24100,1300,60,86000,Home_Renovation,0.32,787,0,Approved
+PLI00073,Male,44,No,1,Graduate,Self-Employed,23,47700,9500,36,179000,Education,0.21,589,1,Rejected
+PLI00074,Male,47,No,1,Not Graduate,Salaried,25,21800,500,24,96000,Travel,0.5,614,2,Rejected
+PLI00075,Male,45,Yes,2,Not Graduate,Salaried,22,42700,6500,24,184000,Debt_Consolidation,0.39,717,1,Rejected
+PLI00076,Male,21,No,0,Not Graduate,Salaried,0,18000,4100,12,30000,Travel,0.28,766,0,Rejected
+PLI00077,Male,56,No,1,Graduate,Salaried,34,34000,2400,12,74000,Debt_Consolidation,0.91,731,0,Rejected
+PLI00078,Male,56,No,2,Graduate,Salaried,33,23300,900,6,169000,Medical_Emergency,0.7,659,0,Rejected
+PLI00079,Female,31,Yes,2,Graduate,Salaried,10,159900,300,36,60000,Medical_Emergency,0.15,815,4,Rejected
+PLI00080,Male,49,No,0,Graduate,Salaried,28,27000,200,48,90000,Home_Renovation,0.24,681,0,Approved
+PLI00081,Female,55,Yes,2,Not Graduate,Salaried,30,20500,100,60,176000,Medical_Emergency,0.25,828,0,Approved
+PLI00082,Male,30,No,2,Graduate,Salaried,5,33100,3000,6,30000,Medical_Emergency,0.1,644,0,Approved
+PLI00083,Male,24,Yes,0,Graduate,Salaried,1,31500,2600,24,124000,Medical_Emergency,0.53,749,0,Approved
+PLI00084,Male,37,Yes,1,Graduate,Self-Employed,16,30900,1000,24,89000,Medical_Emergency,0.24,496,3,Rejected
+PLI00085,Female,55,Yes,2,Graduate,Self-Employed,29,65100,2400,48,96000,Home_Renovation,0.62,722,0,Approved
+PLI00086,Male,45,Yes,2,Graduate,Salaried,22,180000,0,60,37000,Medical_Emergency,0.08,600,0,Approved
+PLI00087,Female,53,Yes,0,Graduate,Salaried,30,38400,600,48,192000,Home_Renovation,0.65,810,0,Approved
+PLI00088,Female,31,No,0,Graduate,Salaried,8,33000,9200,36,184000,Education,1.0,528,3,Rejected
+PLI00089,Male,34,Yes,1,Graduate,Salaried,12,87600,8400,12,441000,Medical_Emergency,0.32,716,0,Rejected
+PLI00090,Male,35,Yes,0,Not Graduate,Salaried,12,19900,300,36,77000,Medical_Emergency,0.56,587,1,Rejected
+PLI00091,Female,45,No,0,Not Graduate,Salaried,24,29800,4600,6,30000,Home_Renovation,0.36,701,0,Approved
+PLI00092,Male,48,Yes,2,Graduate,Self-Employed,26,33600,1300,12,101000,Medical_Emergency,0.27,533,2,Rejected
+PLI00093,Female,47,Yes,0,Graduate,Salaried,21,52900,7900,60,214000,Wedding,0.48,747,0,Approved
+PLI00094,Male,45,Yes,1,Graduate,Salaried,19,64300,21400,6,73000,Education,0.4,836,0,Rejected
+PLI00095,Male,30,Yes,2,Graduate,Salaried,9,75700,22600,36,258000,Wedding,0.44,812,0,Approved
+PLI00096,Male,40,No,2,Graduate,Self-Employed,19,68200,3300,12,141000,Debt_Consolidation,0.44,806,0,Approved
+PLI00097,Male,44,Yes,2,Graduate,Salaried,21,66300,3900,24,253000,Home_Renovation,0.39,668,1,Rejected
+PLI00098,Male,30,Yes,0,Graduate,Salaried,1,53500,7100,60,312000,Debt_Consolidation,0.7,635,1,Rejected
+PLI00099,Male,29,Yes,2,Graduate,Salaried,2,26900,5400,24,94000,Debt_Consolidation,0.35,702,1,Rejected
+PLI00100,Female,26,Yes,0,Not Graduate,Salaried,4,28500,700,36,155000,Home_Renovation,0.82,731,0,Approved
+PLI00101,Male,55,Yes,0,Graduate,Salaried,33,128300,500,24,30000,Medical_Emergency,0.14,785,3,Rejected
+PLI00102,Male,44,Yes,0,Graduate,Salaried,23,30200,900,24,66000,Travel,0.45,662,0,Approved
+PLI00103,Female,44,Yes,0,Graduate,Salaried,21,53500,1200,24,223000,Education,0.36,615,3,Rejected
+PLI00104,Female,53,Yes,0,Graduate,Self-Employed,32,40700,7900,36,140000,Wedding,0.09,839,0,Approved
+PLI00105,Male,30,No,1,Graduate,Salaried,9,25700,900,12,48000,Medical_Emergency,0.33,740,0,Approved
+PLI00106,Female,31,Yes,1,Graduate,Salaried,5,120500,100,24,43000,Medical_Emergency,0.08,862,4,Rejected
+PLI00107,Female,34,Yes,2,Graduate,Salaried,10,124400,17900,12,166000,Debt_Consolidation,0.66,810,0,Approved
+PLI00108,Female,25,Yes,1,Graduate,Self-Employed,3,68800,8000,12,157000,Debt_Consolidation,0.47,561,1,Rejected
+PLI00109,Male,49,No,0,Graduate,Salaried,25,49400,22600,48,256000,Medical_Emergency,0.24,761,0,Rejected
+PLI00110,Male,29,No,1,Graduate,Self-Employed,5,62200,10200,24,220000,Home_Renovation,0.67,672,3,Rejected
+PLI00111,Female,30,No,0,Graduate,Salaried,5,124500,200,36,38000,Medical_Emergency,0.06,589,0,Approved
+PLI00112,Female,47,Yes,3,Graduate,Self-Employed,22,30300,400,36,95000,Home_Renovation,0.23,659,1,Rejected
+PLI00113,Male,29,Yes,3,Graduate,Salaried,8,64500,6800,36,260000,Education,0.62,597,0,Rejected
+PLI00114,Female,46,Yes,1,Not Graduate,Salaried,20,25800,3300,24,101000,Travel,0.52,677,0,Rejected
+PLI00115,Female,29,No,1,Graduate,Salaried,8,38900,13700,12,261000,Medical_Emergency,0.64,714,0,Rejected
+PLI00116,Male,30,Yes,0,Not Graduate,Salaried,9,28000,900,12,50000,Travel,0.29,703,2,Rejected
+PLI00117,Male,21,No,0,Not Graduate,Self-Employed,0,18000,800,24,71000,Debt_Consolidation,0.54,728,0,Rejected
+PLI00118,Female,25,No,1,Graduate,Salaried,4,54900,6000,36,186000,Travel,0.43,751,0,Approved
+PLI00119,Male,30,No,0,Not Graduate,Salaried,7,18000,500,12,30000,Travel,0.25,618,1,Rejected
+PLI00120,Male,55,Yes,2,Graduate,Salaried,31,29100,2000,12,54000,Debt_Consolidation,0.42,842,0,Approved
+PLI00121,Female,28,No,2,Graduate,Self-Employed,7,29600,3300,36,90000,Education,0.37,828,0,Approved
+PLI00122,Male,25,Yes,0,Graduate,Salaried,1,84700,27800,60,480000,Debt_Consolidation,0.37,687,0,Rejected
+PLI00123,Male,53,Yes,1,Graduate,Salaried,27,87800,7400,12,59000,Medical_Emergency,0.19,731,0,Approved
+PLI00124,Male,56,Yes,0,Graduate,Salaried,32,51000,3400,12,82000,Medical_Emergency,0.26,602,1,Rejected
+PLI00125,Male,43,Yes,3,Graduate,Self-Employed,22,26400,2600,36,148000,Medical_Emergency,0.66,746,0,Approved
+PLI00126,Female,54,Yes,0,Not Graduate,Salaried,33,30900,4600,24,78000,Education,0.35,803,0,Approved
+PLI00127,Male,32,Yes,2,Graduate,Salaried,9,70400,5000,6,56000,Travel,0.4,662,0,Approved
+PLI00128,Male,55,Yes,1,Graduate,Salaried,26,133300,100,24,46000,Medical_Emergency,0.1,825,3,Rejected
+PLI00129,Female,51,Yes,0,Graduate,Salaried,29,86100,18400,36,69000,Education,0.36,704,0,Approved
+PLI00130,Male,39,Yes,0,Graduate,Salaried,16,90600,1500,24,361000,Medical_Emergency,0.49,623,0,Approved
+PLI00131,Male,35,Yes,2,Graduate,Salaried,12,38700,900,48,165000,Education,0.11,738,0,Approved
+PLI00132,Female,23,Yes,1,Graduate,Salaried,1,108400,200,12,52000,Medical_Emergency,0.06,583,0,Approved
+PLI00133,Male,55,Yes,1,Graduate,Salaried,33,20000,800,48,120000,Travel,0.23,801,1,Approved
+PLI00134,Male,26,No,1,Graduate,Self-Employed,2,48100,3900,24,132000,Medical_Emergency,0.51,739,0,Approved
+PLI00135,Male,56,No,3,Graduate,Salaried,32,125200,200,6,37000,Medical_Emergency,0.13,568,0,Rejected
+PLI00136,Male,50,Yes,0,Not Graduate,Salaried,29,19000,3200,36,103000,Medical_Emergency,0.26,757,1,Approved
+PLI00137,Male,44,Yes,0,Graduate,Self-Employed,20,115700,600,12,150000,Travel,0.31,672,0,Approved
+PLI00138,Male,33,No,2,Not Graduate,Salaried,11,24900,4300,48,89000,Home_Renovation,0.65,763,1,Approved
+PLI00139,Female,23,No,2,Graduate,Salaried,2,52600,13600,60,125000,Wedding,0.83,649,1,Rejected
+PLI00140,Male,49,No,1,Graduate,Salaried,24,38600,7900,12,86000,Medical_Emergency,0.23,739,1,Approved
+PLI00141,Male,47,No,0,Graduate,Self-Employed,26,110200,18600,48,366000,Education,0.36,819,0,Approved
+PLI00142,Male,35,No,2,Not Graduate,Salaried,14,27800,2600,36,133000,Debt_Consolidation,0.28,795,0,Approved
+PLI00143,Male,41,No,1,Graduate,Salaried,17,105100,400,60,53000,Medical_Emergency,0.06,602,0,Approved
+PLI00144,Female,30,No,2,Not Graduate,Self-Employed,9,29600,1300,36,134000,Medical_Emergency,0.22,626,1,Rejected
+PLI00145,Male,24,No,0,Graduate,Salaried,1,62500,18600,12,105000,Debt_Consolidation,0.16,480,2,Rejected
+PLI00146,Male,48,No,0,Not Graduate,Salaried,23,33200,6100,48,132000,Education,0.13,493,3,Rejected
+PLI00147,Male,54,No,0,Graduate,Salaried,28,63900,2800,12,127000,Education,0.21,773,0,Approved
+PLI00148,Female,47,No,0,Graduate,Salaried,26,76100,11100,48,299000,Home_Renovation,0.5,567,1,Rejected
+PLI00149,Male,30,Yes,3,Graduate,Salaried,3,67400,3100,36,414000,Medical_Emergency,0.3,799,0,Approved
+PLI00150,Female,53,Yes,0,Graduate,Salaried,29,33000,4600,24,120000,Travel,0.14,796,0,Approved
+PLI00151,Female,34,No,0,Graduate,Salaried,13,38800,3300,6,38000,Debt_Consolidation,1.0,862,0,Rejected
+PLI00152,Male,45,Yes,0,Graduate,Salaried,21,73600,15400,24,189000,Wedding,0.42,702,0,Approved
+PLI00153,Female,23,No,1,Graduate,Salaried,1,49400,11100,24,151000,Education,0.41,708,0,Approved
+PLI00154,Male,35,Yes,2,Graduate,Salaried,9,43700,7800,24,163000,Home_Renovation,0.16,684,1,Rejected
+PLI00155,Male,38,Yes,0,Graduate,Salaried,15,27900,5800,24,128000,Debt_Consolidation,0.26,841,0,Approved
+PLI00156,Female,25,No,2,Not Graduate,Salaried,2,19400,4100,48,71000,Medical_Emergency,0.27,651,1,Rejected
+PLI00157,Male,26,Yes,1,Graduate,Salaried,3,66700,29300,60,214000,Home_Renovation,0.73,804,0,Rejected
+PLI00158,Male,23,Yes,0,Graduate,Self-Employed,2,86400,5400,48,405000,Medical_Emergency,0.66,430,3,Rejected
+PLI00159,Male,43,No,1,Graduate,Salaried,22,181900,0,36,59000,Medical_Emergency,0.08,599,0,Approved
+PLI00160,Female,29,Yes,2,Graduate,Salaried,8,59900,10900,36,1000000,Wedding,0.4,745,0,Rejected
+PLI00161,Male,57,Yes,3,Graduate,Self-Employed,30,51300,4900,24,170000,Debt_Consolidation,0.4,699,1,Rejected
+PLI00162,Female,42,Yes,1,Graduate,Salaried,14,30100,6800,12,55000,Education,0.41,770,0,Approved
+PLI00163,Male,49,No,0,Graduate,Salaried,25,158100,400,12,56000,Medical_Emergency,0.09,879,3,Rejected
+PLI00164,Female,53,Yes,0,Graduate,Salaried,32,18000,3700,24,80000,Debt_Consolidation,0.56,730,0,Rejected
+PLI00165,Male,47,No,0,Graduate,Self-Employed,24,53200,3800,24,158000,Education,0.61,734,0,Approved
+PLI00166,Male,45,No,2,Graduate,Salaried,20,196000,200,48,33000,Medical_Emergency,0.12,583,0,Approved
+PLI00167,Female,54,Yes,1,Graduate,Salaried,26,42000,2500,24,283000,Home_Renovation,0.46,837,0,Approved
+PLI00168,Female,40,Yes,0,Graduate,Salaried,19,54000,4200,12,80000,Education,0.59,640,2,Rejected
+PLI00169,Male,41,Yes,0,Graduate,Salaried,17,64300,7500,24,160000,Home_Renovation,0.44,805,0,Approved
+PLI00170,Female,28,Yes,0,Graduate,Self-Employed,3,34000,2400,12,68000,Home_Renovation,0.56,617,0,Rejected
+PLI00171,Male,47,No,0,Graduate,Salaried,24,51500,16900,24,154000,Travel,0.81,541,3,Rejected
+PLI00172,Female,57,No,0,Graduate,Salaried,34,80500,4800,36,288000,Home_Renovation,0.36,716,1,Approved
+PLI00173,Male,34,Yes,2,Graduate,Salaried,13,34800,9300,24,106000,Travel,0.99,758,0,Rejected
+PLI00174,Female,37,No,0,Graduate,Salaried,16,38700,7800,6,30000,Travel,0.46,733,0,Approved
+PLI00175,Male,32,No,0,Graduate,Salaried,5,66100,15300,48,214000,Wedding,0.97,663,2,Rejected
+PLI00176,Male,36,Yes,2,Graduate,Salaried,14,183500,500,12,31000,Medical_Emergency,0.08,559,0,Rejected
+PLI00177,Male,52,Yes,0,Not Graduate,Self-Employed,30,34800,5300,24,83000,Travel,0.49,677,0,Rejected
+PLI00178,Male,28,No,0,Graduate,Self-Employed,7,52100,8100,6,46000,Wedding,0.42,572,3,Rejected
+PLI00179,Male,40,No,0,Graduate,Self-Employed,16,51900,3000,12,76000,Debt_Consolidation,0.82,633,0,Rejected
+PLI00180,Male,54,Yes,0,Not Graduate,Self-Employed,27,20800,1000,24,100000,Debt_Consolidation,0.3,680,1,Rejected
+PLI00181,Female,36,Yes,0,Graduate,Self-Employed,12,32200,9100,60,174000,Debt_Consolidation,0.84,731,0,Rejected
+PLI00182,Female,45,No,0,Graduate,Self-Employed,19,74800,4300,60,228000,Home_Renovation,0.43,748,0,Approved
+PLI00183,Male,55,No,2,Graduate,Salaried,34,99200,4000,36,440000,Debt_Consolidation,0.52,591,1,Rejected
+PLI00184,Male,25,No,1,Graduate,Self-Employed,3,49600,20700,36,214000,Education,0.34,767,0,Rejected
+PLI00185,Male,27,No,2,Graduate,Self-Employed,6,74200,15100,60,354000,Education,0.93,806,0,Rejected
+PLI00186,Male,29,Yes,2,Not Graduate,Salaried,7,18000,1700,60,73000,Debt_Consolidation,0.44,810,0,Rejected
+PLI00187,Female,40,No,2,Graduate,Self-Employed,19,41300,5800,24,101000,Home_Renovation,0.32,631,2,Rejected
+PLI00188,Female,25,Yes,0,Graduate,Salaried,1,45900,22100,48,187000,Wedding,0.62,555,0,Rejected
+PLI00189,Male,56,Yes,3,Graduate,Salaried,32,85400,4300,12,147000,Home_Renovation,0.3,758,0,Approved
+PLI00190,Female,26,No,2,Graduate,Salaried,5,162100,200,12,39000,Medical_Emergency,0.11,576,0,Rejected
+PLI00191,Female,28,Yes,2,Not Graduate,Salaried,7,18000,4600,24,47000,Debt_Consolidation,0.52,751,0,Rejected
+PLI00192,Male,28,Yes,3,Graduate,Salaried,4,63300,21100,36,304000,Debt_Consolidation,0.67,783,0,Approved
+PLI00193,Female,49,No,2,Graduate,Salaried,28,53200,11000,24,121000,Debt_Consolidation,0.46,476,3,Rejected
+PLI00194,Male,35,Yes,0,Graduate,Self-Employed,13,40400,6600,24,318000,Education,0.98,692,0,Rejected
+PLI00195,Female,26,No,2,Graduate,Salaried,3,40700,3500,36,197000,Education,0.55,676,0,Approved
+PLI00196,Male,28,No,1,Graduate,Self-Employed,2,28300,800,60,116000,Wedding,0.73,728,0,Approved
+PLI00197,Male,30,No,0,Not Graduate,Salaried,6,37100,1200,48,135000,Debt_Consolidation,0.99,860,0,Rejected
+PLI00198,Male,54,No,1,Not Graduate,Salaried,30,40300,500,36,173000,Education,0.36,735,1,Approved
+PLI00199,Male,39,Yes,0,Graduate,Salaried,16,41200,1000,48,198000,Wedding,0.37,717,0,Approved
+PLI00200,Male,49,Yes,2,Graduate,Salaried,20,22900,1600,12,40000,Debt_Consolidation,0.37,839,0,Approved
+PLI00201,Male,21,Yes,2,Graduate,Salaried,0,116700,8100,12,215000,Medical_Emergency,0.77,743,0,Approved
+PLI00202,Female,55,No,0,Graduate,Salaried,33,46600,4700,36,279000,Medical_Emergency,0.2,802,0,Approved
+PLI00203,Male,50,Yes,0,Not Graduate,Salaried,28,20600,800,6,30000,Home_Renovation,0.96,796,0,Rejected
+PLI00204,Male,28,Yes,1,Graduate,Salaried,1,67900,9000,24,287000,Travel,0.23,725,0,Approved
+PLI00205,Female,48,Yes,0,Not Graduate,Salaried,25,31600,2400,36,163000,Wedding,0.53,693,1,Rejected
+PLI00206,Male,51,No,0,Graduate,Salaried,28,150400,400,12,34000,Medical_Emergency,0.13,870,4,Rejected
+PLI00207,Male,29,No,2,Graduate,Self-Employed,6,50800,4500,36,160000,Wedding,0.35,596,1,Rejected
+PLI00208,Male,36,Yes,2,Graduate,Salaried,12,42000,9600,12,50000,Home_Renovation,0.82,834,0,Approved
+PLI00209,Male,34,No,2,Graduate,Salaried,10,111600,2200,12,261000,Travel,0.43,743,1,Approved
+PLI00210,Male,55,Yes,3,Not Graduate,Salaried,33,30000,5600,24,139000,Debt_Consolidation,0.48,805,0,Approved
+PLI00211,Male,28,Yes,1,Graduate,Salaried,5,51000,8800,24,221000,Home_Renovation,0.86,778,0,Approved
+PLI00212,Male,30,Yes,1,Graduate,Salaried,6,93700,10900,12,107000,Home_Renovation,0.29,537,2,Rejected
+PLI00213,Female,43,Yes,3,Graduate,Salaried,16,69900,7500,60,230000,Medical_Emergency,0.56,729,0,Approved
+PLI00214,Male,43,No,1,Graduate,Salaried,17,65100,7100,24,266000,Medical_Emergency,0.99,616,0,Rejected
+PLI00215,Male,47,No,1,Graduate,Salaried,26,59600,4700,48,186000,Medical_Emergency,0.19,777,1,Approved
+PLI00216,Female,27,Yes,3,Graduate,Salaried,6,47600,3700,36,290000,Medical_Emergency,0.45,578,3,Rejected
+PLI00217,Female,43,No,1,Graduate,Salaried,19,64500,15600,24,192000,Debt_Consolidation,0.45,745,0,Approved
+PLI00218,Female,21,No,1,Graduate,Salaried,0,185800,0,24,46000,Medical_Emergency,0.07,568,0,Rejected
+PLI00219,Male,37,Yes,3,Graduate,Self-Employed,16,39400,4400,12,53000,Travel,0.32,705,0,Approved
+PLI00220,Male,40,Yes,1,Graduate,Self-Employed,17,64700,26200,24,261000,Debt_Consolidation,0.7,634,0,Rejected
+PLI00221,Female,27,Yes,0,Not Graduate,Self-Employed,5,36500,4900,36,228000,Education,0.52,664,1,Rejected
+PLI00222,Female,24,Yes,0,Graduate,Salaried,3,43800,6000,48,182000,Education,0.32,820,0,Approved
+PLI00223,Male,27,Yes,2,Not Graduate,Salaried,6,18000,500,60,220000,Education,0.55,646,0,Rejected
+PLI00224,Male,35,No,0,Not Graduate,Salaried,11,24100,2800,48,143000,Home_Renovation,0.21,690,2,Rejected
+PLI00225,Female,33,Yes,1,Graduate,Salaried,9,36600,8100,36,172000,Medical_Emergency,0.29,561,3,Rejected
+PLI00226,Male,39,Yes,0,Graduate,Salaried,17,95200,17300,36,471000,Debt_Consolidation,0.94,594,0,Rejected
+PLI00227,Female,30,No,0,Graduate,Salaried,5,65400,9800,6,62000,Travel,0.68,667,0,Rejected
+PLI00228,Male,46,No,2,Not Graduate,Salaried,23,20800,2700,36,70000,Education,0.4,652,0,Approved
+PLI00229,Female,24,Yes,2,Graduate,Salaried,3,115700,100,36,52000,Medical_Emergency,0.05,821,4,Rejected
+PLI00230,Male,43,Yes,0,Graduate,Self-Employed,16,20200,3400,24,502000,Wedding,0.47,832,0,Rejected
+PLI00231,Male,36,Yes,0,Graduate,Salaried,14,64200,14900,24,258000,Education,0.59,723,0,Approved
+PLI00232,Male,56,No,0,Not Graduate,Self-Employed,35,40000,1700,24,97000,Wedding,0.32,642,0,Approved
+PLI00233,Male,38,Yes,1,Not Graduate,Salaried,13,37600,2300,36,209000,Medical_Emergency,0.54,583,1,Rejected
+PLI00234,Male,47,No,0,Graduate,Salaried,23,172400,200,24,52000,Medical_Emergency,0.11,580,0,Approved
+PLI00235,Male,46,No,0,Graduate,Salaried,14,108000,300,6,30000,Medical_Emergency,0.07,785,4,Rejected
+PLI00236,Male,37,No,0,Not Graduate,Salaried,16,49300,4900,12,80000,Debt_Consolidation,0.82,548,3,Rejected
+PLI00237,Male,51,No,3,Not Graduate,Salaried,30,26400,4900,24,232000,Wedding,0.22,659,0,Rejected
+PLI00238,Male,27,No,0,Graduate,Self-Employed,6,35200,5700,24,108000,Medical_Emergency,0.59,794,0,Approved
+PLI00239,Male,43,Yes,2,Graduate,Salaried,18,25900,5200,36,79000,Debt_Consolidation,0.47,658,0,Rejected
+PLI00240,Male,31,Yes,0,Graduate,Self-Employed,4,87000,5600,12,108000,Medical_Emergency,0.34,578,2,Rejected
+PLI00241,Male,42,Yes,2,Graduate,Self-Employed,21,52600,11200,48,249000,Medical_Emergency,0.35,746,0,Approved
+PLI00242,Female,29,Yes,3,Graduate,Salaried,8,34100,2900,24,96000,Education,0.66,583,2,Rejected
+PLI00243,Male,44,Yes,3,Not Graduate,Salaried,22,33400,7300,12,46000,Home_Renovation,0.42,736,0,Approved
+PLI00244,Female,39,No,1,Graduate,Salaried,13,63000,6700,36,254000,Travel,0.38,592,0,Rejected
+PLI00245,Female,34,Yes,1,Graduate,Salaried,9,152200,500,36,34000,Medical_Emergency,0.14,784,4,Rejected
+PLI00246,Male,56,Yes,0,Graduate,Salaried,33,83200,35600,12,138000,Travel,0.44,668,1,Rejected
+PLI00247,Female,50,No,1,Not Graduate,Self-Employed,29,26900,2000,24,90000,Medical_Emergency,0.91,790,0,Rejected
+PLI00248,Male,37,No,1,Graduate,Salaried,14,39800,13800,48,1000000,Wedding,0.68,725,0,Rejected
+PLI00249,Male,32,Yes,1,Graduate,Salaried,10,85300,3200,60,299000,Education,0.25,766,0,Approved
+PLI00250,Female,28,Yes,1,Graduate,Salaried,7,40800,8400,60,131000,Debt_Consolidation,0.37,757,0,Approved
+PLI00251,Male,47,No,0,Not Graduate,Salaried,21,18000,2500,36,138000,Education,0.39,740,0,Rejected
+PLI00252,Male,35,No,0,Graduate,Self-Employed,10,18000,1300,12,237000,Home_Renovation,0.48,632,3,Rejected
+PLI00253,Male,44,Yes,2,Graduate,Salaried,20,33000,2400,36,132000,Wedding,0.19,771,0,Approved
+PLI00254,Male,38,Yes,2,Graduate,Salaried,16,19400,500,24,242000,Debt_Consolidation,0.22,456,2,Rejected
+PLI00255,Male,22,Yes,0,Graduate,Self-Employed,1,26600,1800,36,108000,Debt_Consolidation,0.21,695,1,Rejected
+PLI00256,Male,29,Yes,3,Graduate,Salaried,7,158700,0,36,55000,Medical_Emergency,0.08,875,4,Rejected
+PLI00257,Male,42,No,1,Graduate,Salaried,18,30400,8600,6,450000,Home_Renovation,0.76,697,0,Rejected
+PLI00258,Female,29,No,0,Not Graduate,Salaried,5,40300,5700,12,56000,Debt_Consolidation,0.26,746,0,Approved
+PLI00259,Female,23,Yes,1,Graduate,Salaried,2,40000,600,24,379000,Education,0.72,807,1,Approved
+PLI00260,Male,23,Yes,2,Graduate,Salaried,2,55500,5600,24,217000,Wedding,0.56,878,0,Approved
+PLI00261,Male,48,No,0,Graduate,Salaried,25,120800,400,12,35000,Medical_Emergency,0.08,580,0,Approved
+PLI00262,Female,30,Yes,0,Graduate,Salaried,8,88600,34600,24,394000,Travel,0.54,797,0,Rejected
+PLI00263,Female,49,Yes,2,Not Graduate,Salaried,26,40700,5800,12,142000,Travel,0.55,603,2,Rejected
+PLI00264,Male,40,No,0,Graduate,Salaried,14,118700,17200,24,439000,Medical_Emergency,0.21,567,1,Rejected
+PLI00265,Male,31,No,3,Graduate,Salaried,10,87800,21000,24,634000,Debt_Consolidation,0.26,599,0,Rejected
+PLI00266,Male,24,No,1,Not Graduate,Salaried,1,18000,4000,60,90000,Home_Renovation,0.74,788,0,Rejected
+PLI00267,Male,51,No,1,Not Graduate,Salaried,30,33000,3300,12,36000,Wedding,0.47,566,0,Rejected
+PLI00268,Male,46,No,2,Graduate,Salaried,21,27000,2000,24,72000,Medical_Emergency,0.63,800,0,Approved
+PLI00269,Female,57,Yes,3,Graduate,Salaried,34,35500,2500,36,120000,Medical_Emergency,0.36,799,0,Approved
+PLI00270,Female,45,Yes,3,Graduate,Salaried,24,179400,0,24,59000,Medical_Emergency,0.12,568,0,Rejected
+PLI00271,Male,23,Yes,1,Graduate,Salaried,1,38100,4100,36,237000,Education,0.88,591,1,Rejected
+PLI00272,Female,26,No,0,Not Graduate,Salaried,2,19600,9200,24,79000,Debt_Consolidation,0.28,738,0,Rejected
+PLI00273,Male,46,Yes,1,Graduate,Salaried,25,21300,1400,24,62000,Travel,0.35,553,3,Rejected
+PLI00274,Female,40,No,1,Graduate,Salaried,17,57200,800,24,227000,Home_Renovation,0.71,749,0,Approved
+PLI00275,Female,43,Yes,2,Graduate,Salaried,22,40400,4400,24,147000,Travel,0.45,701,0,Approved
+PLI00276,Female,21,Yes,1,Graduate,Self-Employed,0,22500,8400,48,115000,Education,0.42,780,0,Rejected
+PLI00277,Male,57,Yes,0,Graduate,Salaried,34,64700,1400,36,197000,Home_Renovation,0.65,690,2,Rejected
+PLI00278,Male,31,Yes,0,Graduate,Salaried,6,82700,7800,36,453000,Education,0.43,633,1,Rejected
+PLI00279,Male,45,Yes,1,Graduate,Salaried,20,54100,200,12,105000,Medical_Emergency,0.39,716,2,Rejected
+PLI00280,Female,43,Yes,1,Not Graduate,Salaried,18,54300,13400,6,63000,Education,0.62,793,0,Approved
+PLI00281,Female,52,No,0,Graduate,Salaried,31,46700,10200,60,86000,Education,0.28,800,0,Approved
+PLI00282,Male,37,No,0,Graduate,Salaried,16,170100,400,48,36000,Medical_Emergency,0.09,580,0,Approved
+PLI00283,Female,45,No,0,Graduate,Salaried,24,42700,700,24,98000,Home_Renovation,0.77,518,4,Rejected
+PLI00284,Female,31,No,1,Graduate,Salaried,6,18000,3300,12,30000,Debt_Consolidation,0.43,789,0,Rejected
+PLI00285,Male,46,No,0,Not Graduate,Self-Employed,22,26900,2100,36,93000,Travel,0.29,789,0,Approved
+PLI00286,Female,25,No,0,Graduate,Salaried,3,78500,13200,36,332000,Home_Renovation,0.2,567,1,Rejected
+PLI00287,Male,45,No,1,Graduate,Salaried,21,107700,19100,6,179000,Debt_Consolidation,0.57,773,2,Rejected
+PLI00288,Male,23,No,1,Graduate,Self-Employed,2,73100,10300,12,148000,Medical_Emergency,0.78,772,0,Approved
+PLI00289,Male,29,No,3,Graduate,Salaried,7,33000,3400,24,88000,Debt_Consolidation,0.57,776,0,Approved
+PLI00290,Male,52,No,0,Graduate,Salaried,27,36800,7000,60,133000,Travel,0.25,790,0,Approved
+PLI00291,Male,33,No,0,Graduate,Salaried,9,109000,500,12,48000,Medical_Emergency,0.07,838,3,Rejected
+PLI00292,Male,42,Yes,1,Not Graduate,Salaried,21,33200,1800,48,165000,Debt_Consolidation,0.47,563,1,Rejected
+PLI00293,Male,34,Yes,2,Not Graduate,Salaried,13,57600,15000,12,65000,Education,0.95,630,1,Rejected
+PLI00294,Male,26,Yes,2,Graduate,Salaried,3,68700,11700,60,258000,Home_Renovation,0.6,614,1,Rejected
+PLI00295,Male,21,Yes,2,Graduate,Salaried,0,58900,2800,12,121000,Home_Renovation,0.39,719,0,Approved
+PLI00296,Male,34,Yes,1,Not Graduate,Self-Employed,12,61100,700,48,188000,Medical_Emergency,0.25,797,0,Approved
+PLI00297,Male,33,No,3,Graduate,Salaried,11,87000,19900,36,554000,Debt_Consolidation,0.45,706,0,Approved
+PLI00298,Male,52,Yes,1,Graduate,Salaried,31,58500,13900,12,119000,Debt_Consolidation,0.26,691,0,Approved
+PLI00299,Male,53,Yes,1,Graduate,Self-Employed,32,90100,7800,36,343000,Home_Renovation,0.39,586,1,Rejected
+PLI00300,Male,32,No,0,Graduate,Self-Employed,11,130100,18900,36,396000,Wedding,0.3,675,0,Approved
+PLI00301,Male,45,Yes,1,Graduate,Salaried,23,33400,5800,12,51000,Education,0.35,807,0,Approved
+PLI00302,Male,48,Yes,3,Not Graduate,Salaried,24,72200,25600,36,242000,Debt_Consolidation,0.34,820,0,Approved
+PLI00303,Female,53,Yes,2,Graduate,Salaried,31,69700,11500,48,397000,Medical_Emergency,0.13,748,0,Approved
+PLI00304,Male,36,No,1,Not Graduate,Self-Employed,11,23100,1500,48,124000,Education,0.6,569,2,Rejected
+PLI00305,Male,40,No,0,Graduate,Salaried,17,45400,16400,36,206000,Medical_Emergency,0.38,500,2,Rejected
+PLI00306,Male,42,Yes,1,Graduate,Salaried,21,48400,7600,48,72000,Education,0.59,832,1,Approved
+PLI00307,Male,50,No,2,Graduate,Salaried,27,19100,400,24,48000,Medical_Emergency,0.31,584,2,Rejected
+PLI00308,Male,28,No,0,Not Graduate,Salaried,5,24200,3200,36,307000,Home_Renovation,0.47,552,1,Rejected
+PLI00309,Male,25,Yes,1,Graduate,Self-Employed,4,98900,7100,24,375000,Medical_Emergency,0.3,589,0,Rejected
+PLI00310,Male,27,Yes,0,Not Graduate,Salaried,1,19900,5200,24,73000,Education,0.94,735,0,Rejected
+PLI00311,Female,56,No,2,Graduate,Salaried,33,49300,4600,36,273000,Debt_Consolidation,0.89,830,0,Rejected
+PLI00312,Male,36,Yes,0,Graduate,Salaried,11,69400,18700,36,369000,Debt_Consolidation,0.33,658,0,Rejected
+PLI00313,Male,37,No,0,Graduate,Self-Employed,16,77500,12300,6,59000,Home_Renovation,0.24,656,0,Approved
+PLI00314,Male,29,No,1,Not Graduate,Self-Employed,8,42200,5800,12,49000,Wedding,0.46,762,0,Approved
+PLI00315,Male,54,Yes,0,Graduate,Salaried,32,26500,5500,12,51000,Debt_Consolidation,0.44,454,2,Rejected
+PLI00316,Female,22,Yes,1,Graduate,Salaried,1,43000,4200,12,100000,Debt_Consolidation,0.24,617,2,Rejected
+PLI00317,Male,47,No,0,Graduate,Salaried,24,69700,5900,6,38000,Travel,0.17,757,0,Approved
+PLI00318,Female,33,Yes,2,Not Graduate,Salaried,7,24800,6300,24,93000,Travel,0.57,756,0,Approved
+PLI00319,Female,28,No,0,Not Graduate,Salaried,7,18000,4900,12,30000,Home_Renovation,0.35,610,1,Rejected
+PLI00320,Male,26,Yes,1,Graduate,Salaried,3,32900,11100,24,94000,Home_Renovation,0.43,667,0,Rejected
+PLI00321,Female,34,No,0,Graduate,Salaried,5,100800,0,36,51000,Medical_Emergency,0.09,591,0,Approved
+PLI00322,Male,31,No,1,Graduate,Salaried,8,28500,15100,12,67000,Home_Renovation,0.18,666,0,Rejected
+PLI00323,Female,37,Yes,2,Not Graduate,Salaried,15,21200,2300,12,33000,Medical_Emergency,0.74,792,0,Approved
+PLI00324,Male,48,Yes,1,Not Graduate,Salaried,21,40800,2900,60,201000,Debt_Consolidation,0.66,727,0,Approved
+PLI00325,Male,25,Yes,0,Not Graduate,Self-Employed,2,35300,7300,24,92000,Wedding,0.46,659,0,Rejected
+PLI00326,Male,40,No,0,Not Graduate,Self-Employed,17,26600,2100,24,72000,Debt_Consolidation,0.96,634,1,Rejected
+PLI00327,Male,56,No,0,Graduate,Self-Employed,34,41100,6700,36,206000,Debt_Consolidation,0.8,551,2,Rejected
+PLI00328,Female,49,No,3,Not Graduate,Self-Employed,26,58800,10600,36,252000,Travel,0.62,776,1,Approved
+PLI00329,Male,47,Yes,3,Graduate,Salaried,26,38200,2200,48,368000,Home_Renovation,0.37,643,0,Rejected
+PLI00330,Female,39,No,2,Graduate,Salaried,15,49600,2800,24,128000,Debt_Consolidation,0.27,821,0,Approved
+PLI00331,Male,40,No,0,Not Graduate,Salaried,19,31200,400,24,76000,Medical_Emergency,0.25,524,3,Rejected
+PLI00332,Male,34,No,0,Graduate,Salaried,9,60500,900,24,232000,Medical_Emergency,0.56,561,1,Rejected
+PLI00333,Male,51,Yes,0,Not Graduate,Self-Employed,28,66500,6800,12,136000,Debt_Consolidation,0.92,798,0,Rejected
+PLI00334,Male,31,No,2,Graduate,Salaried,9,23800,3300,24,243000,Home_Renovation,0.88,741,0,Rejected
+PLI00335,Male,56,Yes,0,Graduate,Self-Employed,32,20100,2900,36,103000,Wedding,0.23,616,0,Rejected
+PLI00336,Female,43,No,0,Graduate,Salaried,20,52900,3800,12,109000,Wedding,0.47,716,0,Approved
+PLI00337,Male,25,No,1,Graduate,Salaried,4,73600,700,36,405000,Wedding,0.35,600,0,Rejected
+PLI00338,Male,57,Yes,1,Not Graduate,Salaried,36,21700,2100,48,141000,Education,0.4,629,0,Rejected
+PLI00339,Female,43,Yes,1,Not Graduate,Salaried,16,34300,9500,24,434000,Wedding,0.4,640,0,Rejected
+PLI00340,Male,45,Yes,0,Graduate,Salaried,18,31800,8600,12,367000,Medical_Emergency,0.53,752,0,Rejected
+PLI00341,Male,43,Yes,1,Not Graduate,Salaried,22,64400,1800,48,336000,Wedding,0.45,548,3,Rejected
+PLI00342,Female,41,Yes,0,Graduate,Salaried,17,186800,400,60,56000,Medical_Emergency,0.15,832,3,Rejected
+PLI00343,Male,54,Yes,3,Graduate,Salaried,32,43600,1100,48,211000,Debt_Consolidation,0.17,753,0,Approved
+PLI00344,Male,48,No,3,Graduate,Salaried,20,49200,900,6,46000,Debt_Consolidation,0.22,660,1,Rejected
+PLI00345,Female,45,Yes,0,Not Graduate,Self-Employed,19,25200,3200,24,106000,Debt_Consolidation,0.32,723,0,Approved
+PLI00346,Female,31,Yes,1,Graduate,Salaried,8,71100,2500,24,300000,Home_Renovation,0.31,655,0,Approved
+PLI00347,Male,30,No,1,Not Graduate,Self-Employed,9,24200,4500,36,127000,Home_Renovation,0.62,491,2,Rejected
+PLI00348,Female,32,Yes,0,Not Graduate,Salaried,9,59900,5000,24,136000,Travel,0.71,715,0,Approved
+PLI00349,Male,26,No,3,Graduate,Salaried,1,27300,9300,48,52000,Education,0.63,749,0,Approved
+PLI00350,Male,51,No,1,Graduate,Salaried,27,36500,1600,12,403000,Travel,0.15,664,2,Rejected
+PLI00351,Female,22,No,0,Graduate,Salaried,1,40700,9600,36,174000,Medical_Emergency,0.63,643,1,Rejected
+PLI00352,Female,37,Yes,2,Graduate,Salaried,16,56000,7200,24,173000,Medical_Emergency,0.41,617,0,Rejected
+PLI00353,Female,43,No,0,Graduate,Salaried,20,57300,1600,36,219000,Debt_Consolidation,0.52,764,0,Approved
+PLI00354,Male,43,Yes,1,Graduate,Salaried,21,64300,6600,60,302000,Debt_Consolidation,0.17,752,0,Approved
+PLI00355,Male,53,No,1,Graduate,Salaried,32,44400,100,36,203000,Debt_Consolidation,0.57,792,0,Approved
+PLI00356,Male,57,No,0,Not Graduate,Salaried,33,29600,5300,24,82000,Medical_Emergency,0.89,690,0,Rejected
+PLI00357,Male,48,No,0,Graduate,Self-Employed,22,39000,6800,12,52000,Home_Renovation,0.25,796,0,Approved
+PLI00358,Female,29,Yes,0,Graduate,Salaried,4,148300,100,48,42000,Medical_Emergency,0.11,575,0,Rejected
+PLI00359,Male,47,Yes,1,Not Graduate,Self-Employed,24,36300,6800,24,101000,Debt_Consolidation,0.5,759,0,Approved
+PLI00360,Male,25,No,2,Graduate,Salaried,2,79000,15700,24,310000,Debt_Consolidation,0.58,592,1,Rejected
+PLI00361,Female,42,Yes,1,Graduate,Salaried,18,69500,13200,12,98000,Debt_Consolidation,0.37,651,1,Rejected
+PLI00362,Male,45,No,2,Graduate,Salaried,24,74900,18200,36,312000,Education,0.5,731,0,Approved
+PLI00363,Male,44,No,2,Graduate,Salaried,18,41400,6900,6,43000,Wedding,0.51,722,0,Approved
+PLI00364,Male,31,No,0,Graduate,Salaried,7,35300,7100,12,72000,Debt_Consolidation,0.77,569,2,Rejected
+PLI00365,Female,33,No,0,Graduate,Salaried,10,154100,0,24,32000,Medical_Emergency,0.1,794,3,Rejected
+PLI00366,Male,43,No,2,Graduate,Salaried,16,76000,8400,24,255000,Home_Renovation,0.88,755,0,Approved
+PLI00367,Male,49,Yes,2,Graduate,Self-Employed,23,38800,7500,6,30000,Medical_Emergency,0.41,779,0,Approved
+PLI00368,Male,53,Yes,0,Graduate,Salaried,32,156200,500,12,53000,Medical_Emergency,0.1,559,0,Rejected
+PLI00369,Male,42,No,2,Graduate,Salaried,20,18400,4000,12,40000,Wedding,0.26,649,0,Rejected
+PLI00370,Female,56,Yes,1,Graduate,Self-Employed,34,82400,26900,48,358000,Travel,0.9,604,2,Rejected
+PLI00371,Male,57,No,0,Graduate,Self-Employed,27,18000,3300,24,67000,Medical_Emergency,0.36,664,0,Rejected
+PLI00372,Male,34,Yes,0,Graduate,Salaried,13,30900,11100,36,101000,Debt_Consolidation,0.47,864,0,Approved
+PLI00373,Male,53,No,3,Not Graduate,Salaried,29,18000,4500,24,42000,Debt_Consolidation,0.58,688,0,Rejected
+PLI00374,Female,48,Yes,0,Graduate,Salaried,27,52000,800,12,283000,Debt_Consolidation,0.67,781,0,Rejected
+PLI00375,Male,21,Yes,2,Not Graduate,Salaried,0,23400,400,24,74000,Debt_Consolidation,0.83,699,0,Rejected
+PLI00376,Female,37,No,0,Graduate,Salaried,16,71300,5000,24,175000,Wedding,0.56,710,0,Approved
+PLI00377,Male,44,Yes,0,Graduate,Salaried,19,81300,3100,12,164000,Debt_Consolidation,0.73,818,0,Approved
+PLI00378,Female,21,Yes,1,Graduate,Salaried,0,47000,21100,12,109000,Debt_Consolidation,0.41,636,0,Rejected
+PLI00379,Male,33,Yes,0,Graduate,Salaried,9,38100,1100,24,142000,Debt_Consolidation,0.27,558,2,Rejected
+PLI00380,Female,42,No,2,Graduate,Salaried,21,67900,4000,24,172000,Debt_Consolidation,0.33,772,0,Approved
+PLI00381,Female,35,No,2,Graduate,Salaried,11,41000,5800,12,59000,Medical_Emergency,0.18,767,0,Approved
+PLI00382,Male,43,Yes,1,Graduate,Salaried,22,29500,2300,12,334000,Wedding,0.33,666,0,Rejected
+PLI00383,Female,32,Yes,2,Not Graduate,Self-Employed,6,21000,10900,6,30000,Home_Renovation,0.37,729,0,Rejected
+PLI00384,Male,30,Yes,2,Graduate,Salaried,7,23100,5200,36,93000,Education,0.97,685,0,Rejected
+PLI00385,Male,55,Yes,0,Graduate,Salaried,34,93800,36600,6,59000,Wedding,0.66,657,0,Rejected
+PLI00386,Male,53,Yes,1,Graduate,Salaried,26,85600,8800,24,328000,Medical_Emergency,0.39,526,3,Rejected
+PLI00387,Female,35,No,1,Graduate,Salaried,14,41500,800,36,243000,Medical_Emergency,0.62,597,3,Rejected
+PLI00388,Male,56,Yes,3,Not Graduate,Salaried,30,25800,100,6,30000,Medical_Emergency,0.42,662,2,Rejected
+PLI00389,Female,25,Yes,1,Graduate,Salaried,4,39700,2400,24,96000,Debt_Consolidation,0.6,698,0,Approved
+PLI00390,Female,43,No,1,Not Graduate,Salaried,22,21000,2100,48,67000,Education,0.24,712,0,Approved
+PLI00391,Male,42,No,1,Not Graduate,Salaried,21,18000,2300,36,78000,Debt_Consolidation,0.35,381,2,Rejected
+PLI00392,Male,29,No,0,Graduate,Salaried,8,146700,200,24,60000,Medical_Emergency,0.09,580,0,Approved
+PLI00393,Female,27,Yes,2,Graduate,Salaried,5,45100,4600,24,139000,Home_Renovation,0.49,768,0,Approved
+PLI00394,Male,38,Yes,2,Graduate,Salaried,16,41100,14100,6,32000,Home_Renovation,0.4,546,3,Rejected
+PLI00395,Male,27,Yes,0,Not Graduate,Salaried,1,26300,14100,24,89000,Home_Renovation,0.39,678,1,Rejected
+PLI00396,Female,29,No,2,Not Graduate,Salaried,6,24700,2600,12,44000,Travel,0.66,663,1,Rejected
+PLI00397,Male,57,Yes,2,Graduate,Self-Employed,31,83800,8300,12,175000,Travel,0.28,714,0,Approved
+PLI00398,Female,49,Yes,1,Graduate,Self-Employed,25,42400,9400,12,319000,Debt_Consolidation,0.54,699,0,Rejected
+PLI00399,Male,34,Yes,0,Not Graduate,Salaried,13,18000,2300,12,234000,Education,0.9,722,0,Rejected
+PLI00400,Female,22,Yes,1,Not Graduate,Salaried,1,84200,11000,24,182000,Home_Renovation,0.88,406,3,Rejected
+PLI00401,Male,53,No,0,Not Graduate,Salaried,29,22900,3500,36,82000,Education,0.41,677,0,Approved
+PLI00402,Male,32,Yes,1,Graduate,Salaried,10,65900,12300,12,871000,Education,0.61,710,1,Rejected
+PLI00403,Female,30,No,0,Not Graduate,Salaried,5,41600,1200,36,227000,Debt_Consolidation,0.34,654,0,Rejected
+PLI00404,Female,40,Yes,2,Graduate,Salaried,19,52700,5500,36,273000,Home_Renovation,0.19,626,0,Approved
+PLI00405,Male,30,Yes,2,Graduate,Self-Employed,2,45700,1000,24,134000,Home_Renovation,0.33,785,0,Approved
+PLI00406,Male,43,No,3,Graduate,Salaried,19,200500,21100,36,114000,Medical_Emergency,0.36,665,0,Approved
+PLI00407,Female,44,No,0,Graduate,Salaried,14,38600,11400,60,166000,Education,0.31,831,0,Approved
+PLI00408,Female,41,No,2,Not Graduate,Salaried,20,33300,2200,12,75000,Education,0.43,873,0,Approved
+PLI00409,Male,35,No,0,Graduate,Self-Employed,9,97300,5800,36,339000,Home_Renovation,0.35,751,1,Approved
+PLI00410,Female,48,Yes,1,Not Graduate,Salaried,27,50500,1600,24,167000,Home_Renovation,0.41,738,1,Approved
+PLI00411,Female,31,No,0,Graduate,Salaried,7,129800,23500,6,136000,Medical_Emergency,0.22,641,1,Rejected
+PLI00412,Female,27,No,2,Not Graduate,Salaried,3,28300,1200,60,260000,Home_Renovation,0.49,657,1,Rejected
+PLI00413,Male,43,No,2,Graduate,Self-Employed,22,40900,13000,24,95000,Education,0.93,763,0,Rejected
+PLI00414,Male,37,Yes,0,Graduate,Salaried,12,49900,5200,36,846000,Medical_Emergency,0.61,605,2,Rejected
+PLI00415,Male,23,Yes,0,Not Graduate,Self-Employed,1,59200,9500,6,65000,Debt_Consolidation,0.25,818,0,Approved
+PLI00416,Male,46,Yes,1,Graduate,Salaried,18,53000,10200,48,170000,Home_Renovation,0.66,704,0,Approved
+PLI00417,Male,55,Yes,1,Graduate,Self-Employed,34,68300,15800,48,423000,Education,0.4,821,0,Approved
+PLI00418,Male,53,Yes,1,Not Graduate,Self-Employed,29,24600,6500,36,139000,Debt_Consolidation,0.4,643,1,Rejected
+PLI00419,Male,24,Yes,1,Graduate,Self-Employed,1,22400,5400,60,97000,Wedding,0.29,749,1,Approved
+PLI00420,Male,21,No,0,Not Graduate,Salaried,0,18000,1600,60,111000,Medical_Emergency,0.36,782,0,Rejected
+PLI00421,Female,31,No,2,Graduate,Salaried,5,51900,5700,24,144000,Debt_Consolidation,0.79,822,1,Approved
+PLI00422,Female,27,No,0,Graduate,Salaried,3,117200,500,12,55000,Medical_Emergency,0.14,786,4,Rejected
+PLI00423,Male,30,Yes,1,Graduate,Salaried,9,78100,300,24,325000,Debt_Consolidation,0.47,704,0,Approved
+PLI00424,Male,45,No,2,Not Graduate,Salaried,21,23000,4300,60,186000,Medical_Emergency,0.77,731,0,Approved
+PLI00425,Male,42,No,1,Graduate,Self-Employed,21,49700,800,36,169000,Debt_Consolidation,0.48,630,1,Rejected
+PLI00426,Male,43,Yes,3,Graduate,Self-Employed,20,25100,7200,12,34000,Travel,0.27,621,1,Rejected
+PLI00427,Female,26,Yes,2,Graduate,Salaried,1,64100,17400,12,93000,Debt_Consolidation,0.69,522,2,Rejected
+PLI00428,Female,33,No,0,Graduate,Salaried,11,40600,5000,24,183000,Debt_Consolidation,0.84,608,0,Rejected
+PLI00429,Male,44,No,0,Not Graduate,Self-Employed,21,71800,24500,12,89000,Debt_Consolidation,0.6,749,0,Approved
+PLI00430,Male,44,Yes,0,Graduate,Salaried,23,18000,900,36,37000,Medical_Emergency,0.44,793,0,Rejected
+PLI00431,Male,35,No,2,Graduate,Salaried,8,66100,400,36,295000,Debt_Consolidation,0.39,780,0,Approved
+PLI00432,Female,36,No,2,Not Graduate,Salaried,11,77600,16700,60,337000,Medical_Emergency,0.29,540,2,Rejected
+PLI00433,Male,23,No,3,Graduate,Salaried,1,26000,4700,48,288000,Debt_Consolidation,0.73,725,0,Rejected
+PLI00434,Female,53,Yes,0,Graduate,Salaried,31,45000,2400,12,103000,Wedding,0.36,709,1,Approved
+PLI00435,Male,35,Yes,0,Not Graduate,Salaried,10,48000,8800,36,292000,Home_Renovation,0.18,792,0,Approved
+PLI00436,Male,34,Yes,2,Graduate,Salaried,13,29600,1700,36,135000,Debt_Consolidation,0.33,718,0,Approved
+PLI00437,Male,38,Yes,0,Graduate,Salaried,11,42000,5500,12,56000,Home_Renovation,0.23,602,1,Rejected
+PLI00438,Female,47,Yes,0,Graduate,Self-Employed,26,49600,12900,36,253000,Debt_Consolidation,0.98,818,0,Rejected
+PLI00439,Male,47,Yes,2,Graduate,Salaried,23,128400,300,24,30000,Medical_Emergency,0.11,568,0,Rejected
+PLI00440,Male,43,No,0,Not Graduate,Self-Employed,22,18000,3300,24,61000,Medical_Emergency,0.25,728,0,Rejected
+PLI00441,Male,25,Yes,2,Graduate,Salaried,1,197400,500,36,40000,Medical_Emergency,0.11,602,0,Approved
+PLI00442,Female,40,Yes,0,Graduate,Salaried,15,135800,100,60,59000,Medical_Emergency,0.1,799,4,Rejected
+PLI00443,Male,38,Yes,2,Not Graduate,Self-Employed,16,31700,7000,36,268000,Education,0.74,677,0,Rejected
+PLI00444,Female,57,Yes,0,Graduate,Self-Employed,35,31800,700,48,136000,Debt_Consolidation,0.4,699,0,Approved
+PLI00445,Male,48,Yes,0,Graduate,Salaried,27,64600,11200,24,263000,Wedding,0.42,738,0,Approved
+PLI00446,Male,57,No,1,Graduate,Self-Employed,32,44300,3500,24,227000,Travel,0.36,756,1,Approved
+PLI00447,Female,45,No,0,Graduate,Salaried,24,72000,700,36,233000,Home_Renovation,0.22,636,0,Approved
+PLI00448,Male,21,No,0,Graduate,Self-Employed,0,57700,1500,24,287000,Medical_Emergency,0.94,670,1,Rejected
+PLI00449,Male,57,Yes,0,Graduate,Salaried,33,65700,7300,60,177000,Education,0.48,697,0,Approved
+PLI00450,Female,26,Yes,0,Graduate,Salaried,2,139700,100,48,39000,Medical_Emergency,0.13,590,0,Approved
+PLI00451,Female,54,No,2,Not Graduate,Self-Employed,30,20300,2700,12,157000,Debt_Consolidation,0.48,633,1,Rejected
+PLI00452,Male,21,No,0,Not Graduate,Salaried,0,40200,4700,12,57000,Education,0.7,739,0,Approved
+PLI00453,Female,36,No,2,Graduate,Salaried,9,152800,500,12,60000,Medical_Emergency,0.13,859,4,Rejected
+PLI00454,Male,55,No,1,Graduate,Salaried,32,18000,1400,6,30000,Wedding,0.35,782,0,Rejected
+PLI00455,Male,33,Yes,2,Graduate,Salaried,9,45700,1400,24,128000,Debt_Consolidation,0.48,754,0,Approved
+PLI00456,Male,36,Yes,0,Graduate,Salaried,13,51800,800,60,303000,Home_Renovation,0.25,631,3,Rejected
+PLI00457,Male,43,Yes,0,Graduate,Salaried,21,31600,1500,6,30000,Travel,0.7,624,1,Rejected
+PLI00458,Male,27,Yes,1,Not Graduate,Salaried,2,36000,2700,24,90000,Debt_Consolidation,0.61,549,4,Rejected
+PLI00459,Male,34,No,0,Graduate,Self-Employed,8,61100,7200,12,56000,Home_Renovation,0.48,861,0,Approved
+PLI00460,Female,28,Yes,1,Graduate,Salaried,2,69200,4900,60,282000,Education,0.17,816,0,Approved
+PLI00461,Male,25,Yes,2,Graduate,Salaried,4,23800,2800,6,903000,Home_Renovation,0.23,634,2,Rejected
+PLI00462,Female,51,No,3,Graduate,Salaried,29,55100,4900,6,45000,Debt_Consolidation,0.56,738,0,Approved
+PLI00463,Male,26,No,0,Not Graduate,Self-Employed,5,18000,1700,36,89000,Medical_Emergency,0.49,597,1,Rejected
+PLI00464,Male,25,No,1,Graduate,Salaried,4,176700,400,24,49000,Medical_Emergency,0.06,793,3,Rejected
+PLI00465,Male,40,No,0,Graduate,Self-Employed,14,33400,500,36,122000,Education,0.54,817,0,Approved
+PLI00466,Female,56,No,2,Graduate,Salaried,29,171000,200,6,30000,Medical_Emergency,0.15,846,4,Rejected
+PLI00467,Female,31,Yes,0,Graduate,Salaried,6,38100,8000,36,146000,Debt_Consolidation,0.6,632,1,Rejected
+PLI00468,Female,38,No,0,Graduate,Salaried,14,156200,100,24,57000,Medical_Emergency,0.06,566,0,Rejected
+PLI00469,Male,46,Yes,0,Graduate,Salaried,22,48100,8100,36,302000,Home_Renovation,0.43,706,0,Approved
+PLI00470,Male,46,No,0,Not Graduate,Salaried,25,18000,500,24,100000,Home_Renovation,0.33,787,0,Rejected
+PLI00471,Male,22,Yes,2,Graduate,Salaried,1,85400,3100,12,115000,Education,0.95,687,0,Rejected
+PLI00472,Male,53,Yes,1,Graduate,Self-Employed,32,65700,11800,36,199000,Medical_Emergency,0.16,529,4,Rejected
+PLI00473,Male,27,Yes,2,Graduate,Salaried,6,33000,3000,24,92000,Wedding,0.25,770,0,Approved
+PLI00474,Male,56,Yes,0,Graduate,Salaried,32,84000,29800,24,299000,Debt_Consolidation,0.71,715,0,Rejected
+PLI00475,Male,37,No,0,Not Graduate,Salaried,16,21300,1300,12,30000,Education,0.51,688,0,Approved
+PLI00476,Male,56,Yes,3,Graduate,Salaried,35,92000,1300,24,254000,Home_Renovation,0.78,552,1,Rejected
+PLI00477,Female,28,No,2,Graduate,Self-Employed,3,71800,16000,48,244000,Medical_Emergency,0.49,808,0,Approved
+PLI00478,Female,21,No,2,Graduate,Salaried,0,63400,8300,36,227000,Education,0.75,728,1,Approved
+PLI00479,Female,38,No,0,Graduate,Self-Employed,13,33600,10600,24,422000,Education,0.39,506,2,Rejected
+PLI00480,Male,28,No,1,Graduate,Salaried,1,33900,1000,24,1000000,Home_Renovation,0.23,796,0,Rejected
+PLI00481,Male,24,Yes,2,Graduate,Self-Employed,1,113800,9300,60,692000,Debt_Consolidation,0.41,659,1,Rejected
+PLI00482,Male,30,Yes,0,Not Graduate,Salaried,9,24200,900,12,52000,Education,0.6,633,1,Rejected
+PLI00483,Female,28,No,0,Graduate,Self-Employed,6,57000,8600,24,206000,Debt_Consolidation,0.33,818,0,Approved
+PLI00484,Male,55,Yes,0,Graduate,Salaried,31,48900,9100,36,249000,Travel,0.54,560,2,Rejected
+PLI00485,Male,47,Yes,1,Graduate,Salaried,23,48300,4900,12,96000,Home_Renovation,0.24,762,0,Approved
+PLI00486,Male,29,Yes,0,Graduate,Salaried,7,165600,300,24,60000,Medical_Emergency,0.14,597,0,Approved
+PLI00487,Male,54,No,0,Not Graduate,Self-Employed,30,23900,4800,12,52000,Debt_Consolidation,0.35,804,0,Approved
+PLI00488,Male,33,No,0,Graduate,Salaried,10,128300,400,36,30000,Medical_Emergency,0.11,597,0,Approved
+PLI00489,Male,38,Yes,2,Not Graduate,Self-Employed,14,48200,11400,24,132000,Wedding,0.49,687,0,Rejected
+PLI00490,Female,30,Yes,2,Graduate,Salaried,6,150100,300,12,50000,Medical_Emergency,0.12,790,3,Rejected
+PLI00491,Female,55,No,3,Graduate,Self-Employed,28,30600,5900,36,94000,Medical_Emergency,0.34,714,1,Approved
+PLI00492,Male,39,Yes,0,Graduate,Salaried,12,75700,2200,12,174000,Debt_Consolidation,0.65,633,0,Rejected
+PLI00493,Male,37,No,2,Not Graduate,Self-Employed,16,55000,9200,36,327000,Wedding,0.51,693,0,Approved
+PLI00494,Male,49,No,0,Graduate,Salaried,23,25100,2800,12,42000,Education,0.35,866,0,Approved
+PLI00495,Female,27,No,0,Graduate,Salaried,1,22800,7300,36,136000,Debt_Consolidation,0.28,696,0,Rejected
+PLI00496,Female,21,Yes,1,Graduate,Self-Employed,0,138200,5900,12,298000,Debt_Consolidation,0.61,772,0,Approved
+PLI00497,Male,52,No,0,Graduate,Salaried,27,115300,300,6,50000,Medical_Emergency,0.06,798,4,Rejected
+PLI00498,Male,51,No,0,Graduate,Self-Employed,29,34100,7400,24,90000,Medical_Emergency,0.32,749,2,Rejected
+PLI00499,Male,56,Yes,1,Graduate,Salaried,34,38500,5500,24,170000,Education,0.82,833,0,Approved
+PLI00500,Male,35,Yes,3,Graduate,Salaried,13,18000,2500,12,30000,Medical_Emergency,0.64,651,2,Rejected
+PLI00501,Female,54,Yes,3,Graduate,Salaried,29,90000,26700,36,456000,Education,0.63,856,0,Approved
+PLI00502,Female,28,No,0,Not Graduate,Self-Employed,6,25600,8900,24,89000,Home_Renovation,0.35,576,1,Rejected
+PLI00503,Male,34,No,1,Graduate,Salaried,9,61500,7000,12,105000,Medical_Emergency,0.46,758,0,Approved
+PLI00504,Male,55,No,0,Not Graduate,Self-Employed,31,28100,4600,48,93000,Debt_Consolidation,0.52,593,2,Rejected
+PLI00505,Male,54,No,3,Graduate,Salaried,29,53000,500,12,136000,Education,0.68,704,1,Approved
+PLI00506,Male,27,Yes,1,Graduate,Salaried,4,55500,9100,36,281000,Home_Renovation,0.51,739,0,Approved
+PLI00507,Male,48,Yes,0,Graduate,Salaried,27,72900,18200,6,84000,Home_Renovation,0.27,680,2,Rejected
+PLI00508,Male,21,Yes,1,Graduate,Salaried,0,52400,11900,24,232000,Medical_Emergency,0.29,674,0,Approved
+PLI00509,Male,54,Yes,1,Graduate,Self-Employed,33,48200,5200,60,178000,Debt_Consolidation,0.12,720,0,Approved
+PLI00510,Male,56,No,0,Graduate,Salaried,33,115400,11400,36,587000,Debt_Consolidation,0.52,658,0,Approved
+PLI00511,Male,52,Yes,1,Not Graduate,Salaried,30,49500,8700,24,220000,Debt_Consolidation,0.86,610,3,Rejected
+PLI00512,Male,52,Yes,0,Not Graduate,Salaried,29,27800,5400,24,125000,Medical_Emergency,0.61,808,0,Approved
+PLI00513,Female,29,Yes,2,Not Graduate,Salaried,4,42500,3200,24,142000,Home_Renovation,1.0,667,0,Rejected
+PLI00514,Male,38,No,0,Not Graduate,Salaried,15,22900,1200,36,141000,Home_Renovation,0.51,848,0,Approved
+PLI00515,Male,33,Yes,1,Graduate,Salaried,10,36500,3700,24,129000,Debt_Consolidation,0.43,719,1,Rejected
+PLI00516,Female,48,Yes,0,Graduate,Salaried,27,145000,300,36,45000,Medical_Emergency,0.05,588,0,Approved
+PLI00517,Female,31,Yes,2,Graduate,Self-Employed,8,25400,400,48,124000,Medical_Emergency,0.18,705,0,Approved
+PLI00518,Female,22,No,2,Graduate,Self-Employed,1,35200,300,12,57000,Debt_Consolidation,0.41,773,0,Approved
+PLI00519,Female,29,Yes,0,Graduate,Salaried,5,142800,100,12,45000,Medical_Emergency,0.11,835,4,Rejected
+PLI00520,Male,45,No,3,Graduate,Salaried,23,101800,400,12,48000,Medical_Emergency,0.14,878,4,Rejected
+PLI00521,Male,25,Yes,0,Graduate,Salaried,3,58500,13300,12,130000,Debt_Consolidation,0.21,749,0,Approved
+PLI00522,Female,41,No,1,Not Graduate,Self-Employed,17,30400,2800,48,332000,Home_Renovation,0.72,881,0,Approved
+PLI00523,Female,57,Yes,2,Graduate,Salaried,36,33400,3000,12,67000,Debt_Consolidation,0.74,818,0,Approved
+PLI00524,Male,31,No,3,Graduate,Salaried,4,39000,8500,12,64000,Debt_Consolidation,0.48,718,0,Approved
+PLI00525,Male,29,Yes,2,Not Graduate,Self-Employed,4,20600,3600,36,399000,Medical_Emergency,0.31,805,0,Rejected
+PLI00526,Female,31,Yes,2,Graduate,Salaried,10,64200,6200,24,209000,Medical_Emergency,0.33,615,2,Rejected
+PLI00527,Male,28,No,2,Not Graduate,Salaried,7,50000,900,12,85000,Debt_Consolidation,0.24,674,0,Approved
+PLI00528,Female,34,No,0,Graduate,Salaried,9,35300,10000,24,83000,Medical_Emergency,0.6,659,2,Rejected
+PLI00529,Male,22,No,1,Not Graduate,Self-Employed,1,41000,3700,36,243000,Education,0.47,640,1,Rejected
+PLI00530,Female,47,Yes,1,Not Graduate,Salaried,26,18000,2500,60,236000,Travel,0.48,669,1,Rejected
+PLI00531,Male,49,No,2,Graduate,Self-Employed,27,35300,300,36,322000,Home_Renovation,0.45,566,2,Rejected
+PLI00532,Male,32,Yes,2,Graduate,Salaried,6,41100,4600,48,144000,Medical_Emergency,0.74,612,0,Rejected
+PLI00533,Female,43,Yes,1,Graduate,Salaried,17,86200,16800,36,395000,Debt_Consolidation,0.27,580,2,Rejected
+PLI00534,Male,57,No,0,Graduate,Salaried,33,49800,20400,24,191000,Home_Renovation,0.43,709,1,Rejected
+PLI00535,Male,51,Yes,2,Graduate,Salaried,30,19500,2800,36,282000,Home_Renovation,0.82,739,1,Rejected
+PLI00536,Female,25,No,0,Not Graduate,Salaried,2,38400,1700,36,148000,Home_Renovation,0.4,611,1,Rejected
+PLI00537,Female,43,Yes,1,Not Graduate,Salaried,20,32200,5500,24,146000,Education,0.85,732,0,Approved
+PLI00538,Male,24,No,0,Graduate,Salaried,3,56500,17500,48,266000,Debt_Consolidation,0.81,642,0,Rejected
+PLI00539,Male,21,No,0,Graduate,Salaried,0,112600,300,36,32000,Medical_Emergency,0.05,572,0,Rejected
+PLI00540,Female,46,Yes,0,Not Graduate,Salaried,23,45200,4100,36,183000,Debt_Consolidation,0.42,792,0,Approved
+PLI00541,Female,56,Yes,2,Graduate,Salaried,33,71000,8600,12,143000,Education,0.11,734,0,Approved
+PLI00542,Female,41,No,0,Graduate,Salaried,17,137200,5600,24,635000,Travel,0.65,694,1,Rejected
+PLI00543,Male,23,Yes,1,Graduate,Salaried,1,146700,100,36,53000,Medical_Emergency,0.09,605,0,Approved
+PLI00544,Male,25,Yes,2,Graduate,Salaried,3,47200,700,24,131000,Debt_Consolidation,0.31,806,0,Approved
+PLI00545,Male,43,No,1,Graduate,Salaried,21,25200,2200,48,265000,Debt_Consolidation,0.55,663,2,Rejected
+PLI00546,Male,53,No,0,Graduate,Salaried,29,52800,4600,48,336000,Medical_Emergency,0.98,806,0,Rejected
+PLI00547,Male,27,Yes,1,Graduate,Salaried,5,193100,100,24,42000,Medical_Emergency,0.09,568,0,Rejected
+PLI00548,Female,57,No,1,Graduate,Salaried,35,41100,7100,24,134000,Home_Renovation,0.54,807,0,Approved
+PLI00549,Male,40,Yes,0,Graduate,Salaried,17,39200,3700,24,97000,Debt_Consolidation,0.47,686,1,Rejected
+PLI00550,Female,28,Yes,1,Graduate,Salaried,7,31900,5700,24,100000,Debt_Consolidation,0.53,773,0,Approved
+PLI00551,Male,54,Yes,0,Not Graduate,Salaried,31,26000,1700,60,105000,Wedding,0.47,730,1,Approved
+PLI00552,Male,31,Yes,1,Not Graduate,Self-Employed,10,41100,7400,48,219000,Home_Renovation,0.97,742,0,Rejected
+PLI00553,Female,31,No,0,Graduate,Self-Employed,9,52600,13700,36,340000,Travel,0.53,825,0,Approved
+PLI00554,Male,52,Yes,2,Graduate,Salaried,28,53900,6900,48,216000,Travel,0.58,535,4,Rejected
+PLI00555,Female,22,No,1,Graduate,Salaried,1,36300,2200,24,238000,Home_Renovation,0.54,766,0,Approved
+PLI00556,Male,26,Yes,2,Graduate,Salaried,5,43700,400,48,138000,Home_Renovation,0.44,767,0,Approved
+PLI00557,Male,35,Yes,3,Graduate,Salaried,14,72700,11200,24,293000,Debt_Consolidation,0.78,662,2,Rejected
+PLI00558,Female,37,Yes,0,Graduate,Salaried,13,18800,3700,12,34000,Home_Renovation,0.5,692,0,Rejected
+PLI00559,Male,57,No,1,Graduate,Self-Employed,32,53500,7400,6,246000,Education,0.65,511,2,Rejected
+PLI00560,Male,37,No,2,Graduate,Self-Employed,16,43500,9200,12,77000,Medical_Emergency,0.16,615,0,Rejected
+PLI00561,Male,33,Yes,1,Graduate,Self-Employed,8,34300,4200,12,76000,Debt_Consolidation,0.99,846,1,Rejected
+PLI00562,Female,33,Yes,1,Graduate,Salaried,12,44300,1100,36,184000,Debt_Consolidation,0.54,652,0,Approved
+PLI00563,Male,55,Yes,3,Not Graduate,Salaried,31,18000,1700,24,75000,Travel,0.74,595,0,Rejected
+PLI00564,Male,35,No,2,Graduate,Self-Employed,14,47200,9000,48,191000,Medical_Emergency,0.64,742,0,Approved
+PLI00565,Female,48,Yes,0,Graduate,Salaried,26,55100,5500,36,210000,Medical_Emergency,0.32,629,3,Rejected
+PLI00566,Male,57,Yes,1,Not Graduate,Salaried,36,21200,1800,12,943000,Debt_Consolidation,0.73,668,0,Rejected
+PLI00567,Male,32,Yes,2,Graduate,Salaried,7,60600,11000,60,245000,Wedding,0.48,583,1,Rejected
+PLI00568,Female,22,No,0,Not Graduate,Salaried,1,75300,3800,36,232000,Home_Renovation,0.19,604,0,Rejected
+PLI00569,Male,43,No,3,Graduate,Salaried,19,55900,4400,24,177000,Debt_Consolidation,0.84,729,0,Approved
+PLI00570,Male,22,Yes,1,Graduate,Self-Employed,1,63900,7200,48,392000,Medical_Emergency,0.22,847,0,Approved
+PLI00571,Male,39,Yes,1,Not Graduate,Salaried,14,18000,3200,6,30000,Home_Renovation,0.22,531,1,Rejected
+PLI00572,Male,50,Yes,3,Graduate,Salaried,27,32100,8100,24,99000,Debt_Consolidation,0.25,752,0,Approved
+PLI00573,Female,57,Yes,0,Graduate,Salaried,31,41600,1100,36,157000,Education,0.25,748,0,Approved
+PLI00574,Male,57,Yes,1,Graduate,Salaried,31,81200,26300,6,81000,Home_Renovation,0.31,756,0,Approved
+PLI00575,Male,51,Yes,1,Not Graduate,Self-Employed,30,31900,11200,48,162000,Medical_Emergency,0.31,602,0,Rejected
+PLI00576,Male,54,Yes,1,Graduate,Salaried,26,27400,1300,12,570000,Medical_Emergency,0.38,671,0,Rejected
+PLI00577,Female,43,No,0,Graduate,Salaried,22,28300,1300,60,121000,Debt_Consolidation,0.46,758,0,Approved
+PLI00578,Male,55,Yes,3,Graduate,Self-Employed,32,36100,4700,60,161000,Medical_Emergency,0.42,627,2,Rejected
+PLI00579,Male,21,Yes,3,Graduate,Salaried,0,118200,36900,24,420000,Education,0.96,717,2,Rejected
+PLI00580,Male,29,Yes,0,Graduate,Salaried,7,55200,2600,36,225000,Travel,0.81,704,0,Approved
+PLI00581,Female,27,No,0,Graduate,Salaried,6,34800,11600,24,76000,Home_Renovation,0.57,629,1,Rejected
+PLI00582,Male,43,Yes,2,Not Graduate,Salaried,22,31200,3000,12,41000,Home_Renovation,0.81,702,0,Approved
+PLI00583,Male,44,Yes,0,Graduate,Salaried,22,182000,100,48,36000,Medical_Emergency,0.08,791,4,Rejected
+PLI00584,Male,31,No,0,Not Graduate,Salaried,9,25600,1700,24,81000,Wedding,0.42,702,0,Approved
+PLI00585,Male,30,No,1,Graduate,Salaried,5,78800,33900,36,448000,Debt_Consolidation,0.75,800,0,Rejected
+PLI00586,Female,52,No,0,Not Graduate,Self-Employed,31,21400,7400,24,76000,Medical_Emergency,0.47,759,0,Rejected
+PLI00587,Male,30,Yes,1,Graduate,Salaried,6,33400,9600,24,86000,Debt_Consolidation,0.41,558,1,Rejected
+PLI00588,Male,44,Yes,2,Graduate,Self-Employed,23,61200,21300,24,234000,Medical_Emergency,0.21,735,1,Rejected
+PLI00589,Female,36,No,2,Not Graduate,Salaried,12,29900,3800,48,217000,Medical_Emergency,0.14,831,0,Approved
+PLI00590,Male,55,No,1,Graduate,Salaried,32,181300,400,36,34000,Medical_Emergency,0.1,839,4,Rejected
+PLI00591,Female,38,No,1,Graduate,Salaried,16,128400,400,36,53000,Medical_Emergency,0.14,795,3,Rejected
+PLI00592,Female,48,No,0,Graduate,Salaried,25,110500,500,24,57000,Medical_Emergency,0.08,856,3,Rejected
+PLI00593,Male,53,No,0,Graduate,Salaried,31,89800,7900,24,314000,Debt_Consolidation,0.21,863,0,Approved
+PLI00594,Male,30,Yes,2,Graduate,Salaried,3,197000,200,24,47000,Medical_Emergency,0.06,566,0,Rejected
+PLI00595,Female,40,No,0,Graduate,Salaried,16,24200,5900,12,30000,Home_Renovation,0.69,635,1,Rejected
+PLI00596,Female,55,Yes,0,Not Graduate,Self-Employed,34,18000,4200,12,198000,Education,0.29,794,0,Rejected
+PLI00597,Female,46,Yes,0,Graduate,Salaried,24,63100,3600,12,141000,Debt_Consolidation,0.51,767,0,Approved
+PLI00598,Male,32,No,0,Graduate,Salaried,11,31200,4400,48,165000,Medical_Emergency,0.48,569,2,Rejected
+PLI00599,Male,56,Yes,3,Not Graduate,Salaried,33,32200,6100,36,157000,Home_Renovation,0.18,634,2,Rejected
+PLI00600,Male,34,No,1,Not Graduate,Self-Employed,13,31300,300,48,183000,Home_Renovation,0.43,683,2,Rejected
+PLI00601,Male,43,Yes,0,Graduate,Self-Employed,21,43400,10600,36,265000,Education,0.58,790,0,Approved
+PLI00602,Female,30,Yes,0,Graduate,Salaried,6,28500,1900,48,165000,Debt_Consolidation,0.62,776,1,Approved
+PLI00603,Male,56,Yes,2,Graduate,Salaried,33,155200,200,24,52000,Medical_Emergency,0.07,562,0,Rejected
+PLI00604,Male,34,Yes,0,Graduate,Self-Employed,11,74500,10000,36,231000,Home_Renovation,0.48,588,1,Rejected
+PLI00605,Male,39,No,1,Graduate,Salaried,14,45800,1400,48,546000,Debt_Consolidation,0.5,754,0,Approved
+PLI00606,Male,28,Yes,0,Graduate,Salaried,3,59500,6200,36,281000,Medical_Emergency,0.74,667,0,Approved
+PLI00607,Male,32,No,0,Graduate,Salaried,11,167500,0,48,48000,Medical_Emergency,0.14,590,0,Approved
+PLI00608,Male,47,Yes,1,Graduate,Salaried,22,23500,4200,36,94000,Debt_Consolidation,0.4,779,0,Approved
+PLI00609,Male,39,Yes,0,Not Graduate,Salaried,17,40900,6600,12,78000,Home_Renovation,0.31,667,0,Approved
+PLI00610,Female,28,No,2,Graduate,Salaried,7,62600,3500,60,698000,Education,0.36,752,0,Approved
+PLI00611,Female,46,No,0,Graduate,Salaried,22,72300,400,60,379000,Wedding,0.3,623,0,Approved
+PLI00612,Male,41,Yes,1,Graduate,Salaried,18,34300,800,36,168000,Wedding,0.96,799,0,Rejected
+PLI00613,Male,49,No,0,Graduate,Salaried,24,26100,1600,36,163000,Debt_Consolidation,0.29,773,1,Approved
+PLI00614,Male,37,Yes,2,Graduate,Salaried,13,38000,8000,24,169000,Wedding,0.89,726,0,Rejected
+PLI00615,Female,43,No,1,Not Graduate,Salaried,20,22900,2100,12,39000,Medical_Emergency,0.28,637,0,Approved
+PLI00616,Male,29,No,2,Graduate,Self-Employed,5,28500,2200,24,108000,Medical_Emergency,0.21,575,2,Rejected
+PLI00617,Male,28,Yes,1,Graduate,Salaried,6,26900,4000,12,62000,Medical_Emergency,0.27,527,2,Rejected
+PLI00618,Female,26,No,0,Not Graduate,Salaried,5,23200,1800,12,52000,Travel,0.27,774,0,Approved
+PLI00619,Male,29,Yes,0,Not Graduate,Salaried,7,35400,8400,36,197000,Debt_Consolidation,0.39,816,0,Approved
+PLI00620,Female,25,No,0,Graduate,Salaried,4,189200,100,12,36000,Medical_Emergency,0.09,817,4,Rejected
+PLI00621,Male,32,No,0,Graduate,Salaried,10,75200,11900,36,108000,Debt_Consolidation,0.52,690,0,Approved
+PLI00622,Female,22,Yes,1,Graduate,Salaried,1,60500,4400,24,241000,Debt_Consolidation,0.68,747,0,Approved
+PLI00623,Female,29,Yes,0,Graduate,Salaried,6,46400,9300,12,83000,Medical_Emergency,0.3,615,1,Rejected
+PLI00624,Male,55,No,2,Graduate,Salaried,34,60200,6400,24,184000,Debt_Consolidation,0.29,684,0,Approved
+PLI00625,Male,50,Yes,0,Graduate,Salaried,28,22300,1400,6,30000,Wedding,0.66,609,0,Rejected
+PLI00626,Male,26,Yes,0,Graduate,Salaried,2,63300,10700,12,113000,Home_Renovation,0.81,754,0,Approved
+PLI00627,Female,40,Yes,3,Graduate,Salaried,16,19300,1600,6,30000,Home_Renovation,0.29,767,0,Approved
+PLI00628,Male,32,No,1,Graduate,Salaried,6,35800,700,24,154000,Debt_Consolidation,0.53,593,0,Rejected
+PLI00629,Male,54,No,0,Graduate,Self-Employed,33,30200,100,48,154000,Home_Renovation,0.25,680,0,Approved
+PLI00630,Male,38,No,0,Graduate,Self-Employed,16,74900,6300,48,1000000,Medical_Emergency,0.81,708,2,Rejected
+PLI00631,Male,44,Yes,1,Not Graduate,Salaried,22,33800,1400,36,204000,Travel,0.41,728,0,Approved
+PLI00632,Female,48,No,1,Graduate,Self-Employed,24,69200,3800,60,383000,Medical_Emergency,0.22,757,1,Approved
+PLI00633,Male,57,No,0,Not Graduate,Salaried,36,92300,16000,48,341000,Education,0.22,491,4,Rejected
+PLI00634,Male,34,No,0,Graduate,Salaried,13,98500,8100,24,378000,Education,0.72,676,1,Rejected
+PLI00635,Female,30,Yes,0,Graduate,Salaried,2,36100,4600,36,211000,Home_Renovation,0.39,679,0,Approved
+PLI00636,Male,55,Yes,0,Not Graduate,Salaried,34,29400,13600,24,95000,Debt_Consolidation,0.53,740,0,Rejected
+PLI00637,Female,29,No,1,Graduate,Salaried,4,157400,300,24,54000,Medical_Emergency,0.09,573,0,Rejected
+PLI00638,Male,36,Yes,0,Graduate,Salaried,15,84800,13800,24,372000,Home_Renovation,0.37,716,0,Approved
+PLI00639,Male,50,Yes,0,Graduate,Salaried,28,61200,1900,12,92000,Education,0.55,526,2,Rejected
+PLI00640,Female,46,No,1,Graduate,Salaried,24,43200,1800,36,243000,Debt_Consolidation,0.59,656,0,Rejected
+PLI00641,Female,31,Yes,0,Not Graduate,Salaried,6,18000,3100,24,73000,Wedding,0.34,676,0,Rejected
+PLI00642,Male,23,Yes,1,Graduate,Self-Employed,1,71500,8700,24,180000,Medical_Emergency,0.39,849,0,Approved
+PLI00643,Male,57,Yes,1,Graduate,Salaried,28,84600,18600,36,354000,Medical_Emergency,0.45,676,1,Rejected
+PLI00644,Male,39,Yes,0,Graduate,Self-Employed,16,60200,4600,12,113000,Debt_Consolidation,0.45,722,0,Approved
+PLI00645,Female,50,Yes,2,Graduate,Salaried,27,24900,3200,12,38000,Education,0.34,716,1,Approved
+PLI00646,Male,27,Yes,2,Graduate,Salaried,6,77800,16200,24,100000,Debt_Consolidation,0.43,718,0,Approved
+PLI00647,Female,42,Yes,1,Graduate,Salaried,21,28700,1500,6,384000,Medical_Emergency,0.56,769,0,Rejected
+PLI00648,Male,50,No,2,Not Graduate,Salaried,28,84900,18900,24,345000,Home_Renovation,0.09,558,2,Rejected
+PLI00649,Male,45,No,2,Graduate,Self-Employed,24,45400,700,24,182000,Education,0.61,714,0,Approved
+PLI00650,Female,52,Yes,3,Graduate,Salaried,30,54600,3400,24,206000,Wedding,0.52,618,1,Rejected
+PLI00651,Male,41,No,0,Not Graduate,Self-Employed,20,18700,7700,6,30000,Travel,0.4,424,3,Rejected
+PLI00652,Female,39,Yes,0,Graduate,Self-Employed,13,73600,4900,36,309000,Debt_Consolidation,0.3,736,0,Approved
+PLI00653,Male,44,No,3,Not Graduate,Self-Employed,23,26700,3100,48,240000,Medical_Emergency,0.49,785,0,Approved
+PLI00654,Male,53,Yes,1,Graduate,Salaried,27,74800,12600,24,241000,Wedding,0.19,845,0,Approved
+PLI00655,Male,25,No,1,Graduate,Salaried,1,61800,14600,12,99000,Medical_Emergency,0.24,546,2,Rejected
+PLI00656,Male,43,No,1,Not Graduate,Salaried,19,25300,3400,24,80000,Medical_Emergency,0.54,800,0,Approved
+PLI00657,Female,51,Yes,3,Graduate,Self-Employed,27,61900,3900,36,268000,Medical_Emergency,0.46,825,0,Approved
+PLI00658,Male,27,Yes,0,Not Graduate,Salaried,5,58500,1900,24,105000,Wedding,0.49,829,0,Approved
+PLI00659,Female,28,Yes,0,Graduate,Salaried,6,79900,23900,12,194000,Medical_Emergency,0.42,657,2,Rejected
+PLI00660,Male,21,Yes,1,Graduate,Self-Employed,0,44800,1400,48,185000,Wedding,0.58,880,0,Approved
+PLI00661,Male,25,Yes,0,Graduate,Salaried,2,148200,300,36,43000,Medical_Emergency,0.12,786,4,Rejected
+PLI00662,Male,53,No,2,Not Graduate,Salaried,31,27500,4600,36,104000,Travel,0.67,710,0,Approved
+PLI00663,Male,46,Yes,0,Graduate,Salaried,23,44800,4900,36,158000,Education,0.47,779,2,Approved
+PLI00664,Female,43,No,0,Not Graduate,Salaried,18,27200,2100,36,133000,Medical_Emergency,0.51,559,0,Rejected
+PLI00665,Female,25,Yes,0,Not Graduate,Salaried,1,33300,3200,24,109000,Home_Renovation,0.48,726,1,Approved
+PLI00666,Male,48,No,1,Not Graduate,Salaried,25,23000,1600,36,77000,Debt_Consolidation,0.24,802,0,Approved
+PLI00667,Female,24,Yes,0,Not Graduate,Salaried,1,85800,19300,12,103000,Home_Renovation,0.48,764,2,Rejected
+PLI00668,Male,46,Yes,2,Not Graduate,Self-Employed,25,59100,20100,6,37000,Medical_Emergency,0.9,845,0,Rejected
+PLI00669,Female,39,Yes,0,Not Graduate,Self-Employed,15,21500,2900,24,79000,Medical_Emergency,1.0,681,1,Rejected
+PLI00670,Female,35,No,2,Graduate,Salaried,11,65600,900,12,131000,Education,0.43,769,0,Approved
+PLI00671,Male,50,Yes,0,Not Graduate,Salaried,26,21400,6000,6,30000,Education,0.82,694,1,Rejected
+PLI00672,Female,42,Yes,0,Graduate,Salaried,21,42700,9700,36,204000,Home_Renovation,0.38,761,0,Approved
+PLI00673,Female,30,No,3,Graduate,Salaried,9,59600,11800,6,59000,Medical_Emergency,0.75,742,0,Approved
+PLI00674,Female,52,No,0,Graduate,Self-Employed,31,94100,2800,36,332000,Travel,0.3,633,2,Rejected
+PLI00675,Female,23,No,1,Graduate,Salaried,1,36100,3300,36,110000,Debt_Consolidation,0.66,787,0,Approved
+PLI00676,Female,54,No,0,Not Graduate,Salaried,33,40600,600,12,58000,Medical_Emergency,0.63,833,0,Approved
+PLI00677,Male,47,Yes,0,Graduate,Salaried,20,146900,200,36,31000,Medical_Emergency,0.13,572,0,Rejected
+PLI00678,Male,57,Yes,0,Graduate,Self-Employed,33,34500,13900,24,105000,Debt_Consolidation,0.78,487,2,Rejected
+PLI00679,Male,46,No,2,Graduate,Salaried,23,27600,3500,24,87000,Wedding,0.82,487,2,Rejected
+PLI00680,Female,48,No,2,Not Graduate,Salaried,22,18000,3000,36,54000,Debt_Consolidation,0.5,531,3,Rejected
+PLI00681,Female,34,Yes,2,Graduate,Self-Employed,8,64000,6100,12,76000,Debt_Consolidation,0.99,535,4,Rejected
+PLI00682,Female,39,Yes,0,Not Graduate,Self-Employed,14,61100,5400,36,184000,Medical_Emergency,0.4,774,0,Approved
+PLI00683,Male,24,Yes,1,Not Graduate,Salaried,1,20700,2300,60,542000,Wedding,0.55,744,0,Rejected
+PLI00684,Male,47,Yes,2,Graduate,Self-Employed,24,46300,6400,24,207000,Travel,0.26,752,1,Approved
+PLI00685,Female,42,Yes,2,Graduate,Salaried,20,46000,13300,36,320000,Medical_Emergency,0.83,651,1,Rejected
+PLI00686,Male,25,No,0,Not Graduate,Self-Employed,1,77700,9200,12,146000,Education,0.88,715,2,Rejected
+PLI00687,Male,45,No,0,Graduate,Salaried,24,27100,1000,6,30000,Debt_Consolidation,0.53,708,0,Approved
+PLI00688,Male,38,Yes,3,Graduate,Salaried,10,51000,4500,36,245000,Home_Renovation,0.87,709,1,Rejected
+PLI00689,Male,32,Yes,0,Graduate,Self-Employed,10,70800,3600,24,233000,Debt_Consolidation,0.41,857,0,Approved
+PLI00690,Female,25,No,1,Graduate,Self-Employed,1,18700,400,36,90000,Education,0.43,820,0,Rejected
+PLI00691,Female,24,Yes,2,Graduate,Salaried,1,60100,7900,60,352000,Medical_Emergency,0.37,682,0,Approved
+PLI00692,Female,27,Yes,3,Not Graduate,Salaried,1,49700,2700,24,134000,Education,0.95,862,0,Rejected
+PLI00693,Female,40,Yes,2,Not Graduate,Salaried,14,78600,13600,12,125000,Home_Renovation,0.69,516,4,Rejected
+PLI00694,Female,27,No,0,Graduate,Salaried,4,47400,2900,48,486000,Home_Renovation,0.38,694,0,Approved
+PLI00695,Male,30,Yes,3,Graduate,Self-Employed,8,26500,3800,24,111000,Medical_Emergency,0.57,755,1,Approved
+PLI00696,Male,47,No,0,Graduate,Self-Employed,25,63900,21600,12,91000,Medical_Emergency,0.46,753,0,Approved
+PLI00697,Male,55,Yes,1,Graduate,Salaried,31,45800,2000,24,174000,Medical_Emergency,0.33,702,1,Approved
+PLI00698,Male,57,Yes,3,Graduate,Self-Employed,35,45600,7600,48,186000,Education,0.24,614,3,Rejected
+PLI00699,Female,35,Yes,3,Graduate,Salaried,11,24300,1700,48,74000,Debt_Consolidation,0.27,651,0,Approved
+PLI00700,Male,39,Yes,2,Graduate,Salaried,18,42300,1400,48,190000,Travel,0.65,650,0,Rejected
+PLI00701,Male,26,No,2,Graduate,Salaried,4,78700,16900,12,100000,Debt_Consolidation,0.3,628,2,Rejected
+PLI00702,Male,53,Yes,2,Graduate,Salaried,32,32100,1800,6,149000,Education,0.16,644,0,Rejected
+PLI00703,Male,36,No,2,Not Graduate,Salaried,9,40400,1400,24,105000,Home_Renovation,0.29,756,0,Approved
+PLI00704,Female,47,Yes,1,Graduate,Self-Employed,24,65300,12200,36,363000,Home_Renovation,0.86,703,0,Approved
+PLI00705,Female,55,Yes,3,Not Graduate,Salaried,31,46600,2500,36,208000,Medical_Emergency,0.19,782,0,Approved
+PLI00706,Female,41,Yes,0,Graduate,Self-Employed,19,66000,16700,24,260000,Debt_Consolidation,0.79,728,1,Rejected
+PLI00707,Female,39,No,1,Graduate,Salaried,18,46700,600,6,35000,Home_Renovation,0.46,694,0,Approved
+PLI00708,Female,53,Yes,0,Graduate,Salaried,31,23800,7100,24,96000,Home_Renovation,0.24,747,0,Approved
+PLI00709,Male,53,Yes,1,Graduate,Salaried,32,48900,2800,24,136000,Debt_Consolidation,0.59,531,1,Rejected
+PLI00710,Female,54,No,3,Graduate,Self-Employed,30,121500,17900,48,169000,Debt_Consolidation,0.84,621,1,Rejected
+PLI00711,Male,42,No,2,Graduate,Self-Employed,18,38500,5400,48,154000,Debt_Consolidation,0.72,747,0,Approved
+PLI00712,Female,48,No,0,Graduate,Salaried,27,87400,42800,36,527000,Debt_Consolidation,0.12,662,0,Rejected
+PLI00713,Female,43,No,1,Not Graduate,Salaried,20,18000,400,6,234000,Education,0.29,492,2,Rejected
+PLI00714,Female,41,No,1,Graduate,Salaried,15,49700,3800,48,197000,Wedding,0.58,774,0,Approved
+PLI00715,Male,47,Yes,0,Graduate,Self-Employed,18,26500,2700,12,42000,Education,0.44,669,0,Approved
+PLI00716,Female,40,No,2,Not Graduate,Salaried,19,69800,500,36,227000,Home_Renovation,0.41,722,0,Approved
+PLI00717,Male,29,Yes,1,Not Graduate,Salaried,6,18000,1900,48,104000,Education,0.34,695,1,Rejected
+PLI00718,Male,35,No,3,Graduate,Salaried,10,34600,1300,24,415000,Education,0.98,751,0,Rejected
+PLI00719,Male,53,No,1,Not Graduate,Salaried,32,24300,2300,36,130000,Home_Renovation,0.55,849,0,Approved
+PLI00720,Male,27,Yes,2,Graduate,Self-Employed,5,39500,500,48,719000,Education,0.63,678,2,Rejected
+PLI00721,Male,48,Yes,1,Not Graduate,Salaried,27,23700,7600,36,141000,Debt_Consolidation,0.5,585,2,Rejected
+PLI00722,Female,54,Yes,3,Graduate,Salaried,28,43500,5500,24,201000,Education,0.46,676,1,Rejected
+PLI00723,Male,24,No,0,Graduate,Salaried,1,43900,4500,36,177000,Home_Renovation,0.32,705,0,Approved
+PLI00724,Male,54,Yes,0,Not Graduate,Self-Employed,30,18000,1600,36,95000,Education,0.54,617,3,Rejected
+PLI00725,Female,43,Yes,1,Graduate,Salaried,19,82500,11600,12,104000,Travel,0.33,848,0,Approved
+PLI00726,Male,29,No,2,Graduate,Salaried,8,46400,4900,36,151000,Debt_Consolidation,0.43,649,3,Rejected
+PLI00727,Female,55,No,0,Graduate,Salaried,33,50000,4300,36,300000,Medical_Emergency,0.38,628,1,Rejected
+PLI00728,Male,32,No,1,Graduate,Salaried,11,142700,400,36,50000,Medical_Emergency,0.14,567,0,Rejected
+PLI00729,Male,51,Yes,2,Graduate,Salaried,28,38500,3500,48,160000,Debt_Consolidation,0.31,794,0,Approved
+PLI00730,Male,34,No,3,Not Graduate,Salaried,12,20700,1900,6,30000,Education,0.62,694,2,Rejected
+PLI00731,Male,28,No,0,Graduate,Salaried,2,90900,8800,48,399000,Medical_Emergency,0.84,732,0,Approved
+PLI00732,Male,55,No,0,Graduate,Salaried,30,179600,100,24,33000,Medical_Emergency,0.07,805,4,Rejected
+PLI00733,Male,34,No,0,Graduate,Salaried,13,32500,1000,24,143000,Debt_Consolidation,0.66,533,1,Rejected
+PLI00734,Female,52,Yes,0,Not Graduate,Self-Employed,26,25100,400,24,333000,Home_Renovation,0.35,585,0,Rejected
+PLI00735,Male,35,No,2,Graduate,Salaried,9,83700,38500,12,144000,Debt_Consolidation,0.07,815,0,Rejected
+PLI00736,Male,56,No,0,Graduate,Self-Employed,34,35100,6300,36,199000,Home_Renovation,0.98,663,2,Rejected
+PLI00737,Male,35,Yes,1,Graduate,Salaried,14,72800,7500,24,242000,Education,0.51,601,0,Rejected
+PLI00738,Male,57,No,0,Graduate,Self-Employed,34,32400,4900,12,39000,Education,0.5,790,0,Approved
+PLI00739,Female,49,No,1,Graduate,Salaried,28,48200,7300,48,157000,Education,0.58,850,0,Approved
+PLI00740,Male,44,No,1,Graduate,Self-Employed,20,38300,3000,6,30000,Home_Renovation,0.49,584,1,Rejected
+PLI00741,Female,25,No,2,Not Graduate,Self-Employed,3,47400,9500,12,87000,Education,0.22,764,0,Approved
+PLI00742,Male,26,No,0,Not Graduate,Salaried,5,25600,1200,12,47000,Education,0.43,623,1,Rejected
+PLI00743,Male,48,No,0,Graduate,Self-Employed,27,25300,5100,48,129000,Travel,0.45,734,1,Rejected
+PLI00744,Female,22,Yes,1,Graduate,Salaried,1,31000,2700,24,82000,Medical_Emergency,0.65,721,0,Approved
+PLI00745,Female,48,Yes,0,Graduate,Salaried,24,37400,6700,60,139000,Education,0.42,594,1,Rejected
+PLI00746,Male,41,No,3,Graduate,Salaried,20,58700,23100,24,238000,Travel,0.28,742,0,Rejected
+PLI00747,Female,40,No,1,Graduate,Salaried,18,60100,12200,12,102000,Wedding,0.66,646,0,Rejected
+PLI00748,Female,40,No,2,Graduate,Salaried,15,60900,13200,36,314000,Debt_Consolidation,0.86,751,0,Approved
+PLI00749,Male,50,No,3,Graduate,Salaried,29,55200,1400,24,112000,Debt_Consolidation,0.26,743,0,Approved
+PLI00750,Male,37,No,2,Graduate,Salaried,13,56700,300,24,635000,Education,0.84,815,0,Rejected
+PLI00751,Female,25,Yes,2,Graduate,Salaried,2,45400,8000,48,174000,Home_Renovation,0.29,602,1,Rejected
+PLI00752,Male,55,Yes,0,Graduate,Self-Employed,34,66400,8300,36,260000,Wedding,0.46,623,0,Rejected
+PLI00753,Male,40,Yes,0,Graduate,Salaried,15,20500,1100,24,86000,Home_Renovation,0.31,495,2,Rejected
+PLI00754,Male,40,No,2,Graduate,Salaried,17,49400,5300,24,154000,Medical_Emergency,0.52,652,3,Rejected
+PLI00755,Male,40,Yes,0,Not Graduate,Salaried,18,37100,7800,24,122000,Home_Renovation,0.74,710,3,Rejected
+PLI00756,Male,26,No,1,Graduate,Salaried,5,144100,400,24,30000,Medical_Emergency,0.11,801,4,Rejected
+PLI00757,Male,50,No,0,Graduate,Salaried,29,78200,2800,48,375000,Home_Renovation,0.4,560,3,Rejected
+PLI00758,Male,46,No,0,Not Graduate,Self-Employed,24,18000,2500,48,68000,Home_Renovation,0.24,632,1,Rejected
+PLI00759,Male,29,Yes,2,Graduate,Salaried,7,126600,300,36,53000,Medical_Emergency,0.12,875,3,Rejected
+PLI00760,Female,27,No,0,Graduate,Salaried,3,28600,4100,24,120000,Debt_Consolidation,0.54,700,0,Approved
+PLI00761,Male,23,Yes,0,Graduate,Salaried,1,54700,3100,36,696000,Debt_Consolidation,0.22,623,1,Rejected
+PLI00762,Male,51,Yes,3,Graduate,Self-Employed,29,78000,8700,48,170000,Education,0.37,582,2,Rejected
+PLI00763,Male,51,No,3,Not Graduate,Salaried,26,28300,4700,60,100000,Travel,0.81,490,1,Rejected
+PLI00764,Female,48,Yes,2,Graduate,Salaried,25,25300,1400,60,145000,Debt_Consolidation,0.36,574,1,Rejected
+PLI00765,Male,49,No,2,Graduate,Salaried,28,41700,7900,24,169000,Home_Renovation,0.95,550,3,Rejected
+PLI00766,Male,30,Yes,0,Not Graduate,Salaried,7,30500,3400,24,97000,Travel,0.3,554,1,Rejected
+PLI00767,Male,49,Yes,0,Graduate,Self-Employed,24,46500,19400,12,181000,Debt_Consolidation,0.76,530,3,Rejected
+PLI00768,Female,44,No,3,Graduate,Salaried,19,21200,1900,36,344000,Debt_Consolidation,0.4,743,0,Rejected
+PLI00769,Female,32,Yes,0,Graduate,Self-Employed,11,76400,15500,24,345000,Debt_Consolidation,0.82,812,0,Approved
+PLI00770,Male,29,Yes,3,Graduate,Salaried,1,52100,2600,12,68000,Travel,0.58,693,1,Rejected
+PLI00771,Male,46,Yes,0,Graduate,Salaried,25,52000,14700,48,281000,Education,0.23,773,0,Approved
+PLI00772,Male,24,Yes,3,Graduate,Salaried,1,171000,200,6,60000,Medical_Emergency,0.11,872,4,Rejected
+PLI00773,Male,27,No,0,Graduate,Salaried,1,26900,1400,24,65000,Medical_Emergency,0.33,659,0,Approved
+PLI00774,Male,47,No,2,Graduate,Salaried,23,68000,5600,24,215000,Debt_Consolidation,0.41,636,2,Rejected
+PLI00775,Female,48,No,2,Graduate,Salaried,27,92100,12000,36,327000,Home_Renovation,0.38,686,0,Approved
+PLI00776,Male,41,Yes,0,Graduate,Salaried,17,70100,1600,12,141000,Travel,0.37,797,0,Approved
+PLI00777,Female,49,Yes,1,Graduate,Salaried,22,41200,5100,6,46000,Debt_Consolidation,0.2,594,0,Rejected
+PLI00778,Female,42,Yes,1,Graduate,Salaried,21,173300,200,36,33000,Medical_Emergency,0.13,595,0,Approved
+PLI00779,Male,29,No,2,Graduate,Salaried,5,48000,6400,6,47000,Medical_Emergency,0.51,624,0,Rejected
+PLI00780,Male,35,No,1,Graduate,Salaried,14,174900,100,48,34000,Medical_Emergency,0.09,573,0,Rejected
+PLI00781,Male,37,No,0,Graduate,Salaried,13,35800,8300,6,30000,Debt_Consolidation,0.9,690,1,Rejected
+PLI00782,Male,50,Yes,0,Graduate,Salaried,29,50800,11700,36,201000,Travel,0.68,771,0,Approved
+PLI00783,Female,51,No,0,Graduate,Salaried,28,127300,100,6,37000,Medical_Emergency,0.14,598,0,Approved
+PLI00784,Male,46,No,0,Graduate,Salaried,21,44700,9700,60,85000,Home_Renovation,0.34,625,0,Rejected
+PLI00785,Male,47,Yes,2,Graduate,Salaried,25,70100,200,36,247000,Wedding,0.94,788,0,Rejected
+PLI00786,Female,51,No,2,Not Graduate,Salaried,30,18000,300,24,404000,Medical_Emergency,0.96,726,0,Rejected
+PLI00787,Female,52,Yes,2,Not Graduate,Salaried,29,19900,1200,36,96000,Medical_Emergency,0.24,719,0,Approved
+PLI00788,Male,24,No,0,Graduate,Self-Employed,1,54600,23200,36,256000,Home_Renovation,0.84,674,0,Rejected
+PLI00789,Female,33,Yes,1,Not Graduate,Salaried,12,25400,2100,36,131000,Education,0.38,651,2,Rejected
+PLI00790,Male,47,No,2,Graduate,Self-Employed,26,63500,1000,36,214000,Debt_Consolidation,0.81,746,0,Approved
+PLI00791,Male,32,Yes,2,Graduate,Salaried,8,34800,4800,36,123000,Debt_Consolidation,0.21,649,1,Rejected
+PLI00792,Male,47,No,2,Graduate,Salaried,20,28500,8900,36,87000,Debt_Consolidation,0.18,756,0,Approved
+PLI00793,Male,28,Yes,2,Graduate,Self-Employed,7,111600,7800,36,606000,Debt_Consolidation,0.28,867,0,Approved
+PLI00794,Female,53,No,0,Not Graduate,Salaried,26,24600,8300,24,191000,Debt_Consolidation,0.48,641,1,Rejected
+PLI00795,Female,32,No,0,Not Graduate,Self-Employed,11,64900,19700,48,372000,Education,0.97,753,0,Rejected
+PLI00796,Female,22,Yes,0,Graduate,Salaried,1,29600,6200,6,32000,Travel,0.17,761,0,Approved
+PLI00797,Male,53,No,0,Not Graduate,Salaried,31,18000,3700,12,255000,Education,0.39,626,1,Rejected
+PLI00798,Male,42,Yes,0,Graduate,Self-Employed,16,53800,1000,36,279000,Wedding,0.35,598,0,Rejected
+PLI00799,Male,53,Yes,2,Graduate,Salaried,31,56800,100,36,406000,Medical_Emergency,0.57,735,0,Approved
+PLI00800,Female,41,No,3,Not Graduate,Salaried,20,39100,7600,24,174000,Education,0.53,638,0,Rejected
+PLI00801,Male,35,Yes,0,Graduate,Salaried,13,43700,9900,36,145000,Travel,0.7,725,0,Approved
+PLI00802,Female,21,Yes,0,Not Graduate,Salaried,0,33600,7600,24,146000,Wedding,0.5,658,1,Rejected
+PLI00803,Male,34,Yes,1,Graduate,Self-Employed,13,56700,2100,24,245000,Education,0.27,601,2,Rejected
+PLI00804,Female,45,Yes,1,Graduate,Salaried,18,67800,4400,12,94000,Medical_Emergency,0.61,665,1,Rejected
+PLI00805,Female,47,No,0,Graduate,Salaried,24,148400,300,36,43000,Medical_Emergency,0.08,848,3,Rejected
+PLI00806,Male,40,Yes,2,Not Graduate,Salaried,17,23100,700,24,69000,Education,0.47,673,2,Rejected
+PLI00807,Male,38,Yes,3,Graduate,Self-Employed,17,49700,13700,36,308000,Wedding,0.69,549,4,Rejected
+PLI00808,Female,36,Yes,0,Not Graduate,Self-Employed,15,48100,11600,60,302000,Medical_Emergency,0.4,638,1,Rejected
+PLI00809,Male,31,No,0,Graduate,Self-Employed,6,47700,2200,36,147000,Home_Renovation,0.62,786,0,Approved
+PLI00810,Female,37,Yes,0,Graduate,Salaried,14,71700,25400,48,394000,Wedding,0.91,822,0,Rejected
+PLI00811,Male,42,No,0,Graduate,Self-Employed,15,31000,3100,60,168000,Medical_Emergency,0.4,728,0,Approved
+PLI00812,Male,43,No,0,Not Graduate,Salaried,22,23500,2800,36,87000,Wedding,0.42,775,0,Approved
+PLI00813,Male,43,Yes,0,Not Graduate,Salaried,17,26300,500,12,38000,Travel,0.53,736,0,Approved
+PLI00814,Female,42,No,0,Graduate,Salaried,19,62300,12300,6,34000,Medical_Emergency,0.59,825,0,Approved
+PLI00815,Male,39,No,2,Graduate,Salaried,13,52900,5400,36,160000,Medical_Emergency,0.59,768,1,Approved
+PLI00816,Male,42,No,2,Not Graduate,Salaried,17,25000,1800,12,30000,Home_Renovation,0.29,791,0,Approved
+PLI00817,Female,42,Yes,0,Graduate,Salaried,19,72600,2300,48,302000,Education,0.41,727,0,Approved
+PLI00818,Female,36,Yes,2,Graduate,Self-Employed,11,60200,5800,36,210000,Debt_Consolidation,0.41,560,1,Rejected
+PLI00819,Female,54,No,0,Not Graduate,Salaried,29,42300,7500,36,262000,Wedding,0.51,778,0,Approved
+PLI00820,Female,42,No,0,Graduate,Self-Employed,21,63600,27100,36,325000,Education,0.3,801,0,Rejected
+PLI00821,Male,30,Yes,2,Graduate,Self-Employed,6,44500,8200,60,208000,Home_Renovation,0.77,796,0,Approved
+PLI00822,Male,28,No,0,Graduate,Salaried,5,32900,4100,36,189000,Education,0.36,701,0,Approved
+PLI00823,Male,45,Yes,2,Not Graduate,Salaried,24,24000,4300,36,146000,Home_Renovation,0.28,564,0,Rejected
+PLI00824,Male,56,No,0,Not Graduate,Salaried,33,36700,700,36,88000,Home_Renovation,0.4,648,2,Rejected
+PLI00825,Male,57,Yes,3,Not Graduate,Salaried,34,18000,700,48,103000,Education,0.33,628,1,Rejected
+PLI00826,Female,48,No,0,Graduate,Salaried,20,192600,200,36,59000,Medical_Emergency,0.12,869,3,Rejected
+PLI00827,Male,51,Yes,0,Graduate,Self-Employed,27,69200,9000,24,261000,Medical_Emergency,0.62,722,0,Approved
+PLI00828,Female,53,Yes,0,Graduate,Salaried,26,100700,300,60,30000,Medical_Emergency,0.09,568,0,Rejected
+PLI00829,Female,25,No,0,Graduate,Salaried,4,32900,2600,36,132000,Debt_Consolidation,0.36,831,0,Approved
+PLI00830,Female,37,Yes,2,Graduate,Salaried,14,22000,3300,12,47000,Debt_Consolidation,0.4,592,0,Rejected
+PLI00831,Male,41,No,1,Graduate,Salaried,18,36300,3400,24,93000,Medical_Emergency,0.67,714,0,Approved
+PLI00832,Male,34,Yes,0,Graduate,Salaried,10,144600,0,6,54000,Medical_Emergency,0.12,794,3,Rejected
+PLI00833,Male,42,No,0,Graduate,Salaried,20,35100,1200,60,137000,Wedding,0.87,828,0,Approved
+PLI00834,Male,22,No,0,Graduate,Salaried,1,67900,10800,24,283000,Debt_Consolidation,0.35,717,0,Approved
+PLI00835,Female,41,Yes,0,Graduate,Salaried,19,164100,500,12,56000,Medical_Emergency,0.09,865,3,Rejected
+PLI00836,Female,43,Yes,1,Graduate,Salaried,22,43400,2400,24,143000,Medical_Emergency,0.75,694,0,Approved
+PLI00837,Female,26,No,2,Graduate,Salaried,3,176500,200,36,40000,Medical_Emergency,0.09,841,3,Rejected
+PLI00838,Female,40,No,3,Graduate,Salaried,16,51600,2200,6,32000,Wedding,0.24,802,0,Approved
+PLI00839,Female,57,Yes,1,Graduate,Self-Employed,36,60600,6500,24,127000,Wedding,0.35,589,0,Rejected
+PLI00840,Male,41,Yes,1,Graduate,Salaried,20,29900,6800,12,42000,Medical_Emergency,0.55,678,0,Approved
+PLI00841,Female,26,No,3,Graduate,Salaried,2,32900,2500,12,137000,Home_Renovation,0.52,707,2,Rejected
+PLI00842,Male,26,No,3,Graduate,Salaried,5,32400,8700,48,105000,Travel,0.4,614,2,Rejected
+PLI00843,Male,53,Yes,1,Graduate,Self-Employed,29,47500,5200,12,94000,Medical_Emergency,0.45,582,0,Rejected
+PLI00844,Male,43,Yes,2,Not Graduate,Salaried,22,45600,7800,24,163000,Wedding,0.31,659,0,Rejected
+PLI00845,Male,31,No,3,Graduate,Salaried,8,57500,5300,24,201000,Medical_Emergency,0.4,714,1,Approved
+PLI00846,Female,32,Yes,0,Graduate,Salaried,8,38100,2600,24,128000,Debt_Consolidation,0.28,805,0,Approved
+PLI00847,Male,33,No,1,Graduate,Salaried,12,51200,7300,24,238000,Debt_Consolidation,0.8,612,1,Rejected
+PLI00848,Male,35,No,0,Graduate,Salaried,9,46900,6000,24,904000,Home_Renovation,0.4,797,0,Rejected
+PLI00849,Male,38,No,2,Graduate,Self-Employed,17,80100,16300,36,239000,Medical_Emergency,0.52,785,0,Approved
+PLI00850,Female,46,No,3,Graduate,Salaried,23,64200,10400,12,84000,Home_Renovation,0.15,737,0,Approved
+PLI00851,Male,27,No,1,Not Graduate,Salaried,2,18000,5400,60,103000,Debt_Consolidation,0.15,620,1,Rejected
+PLI00852,Male,53,No,0,Graduate,Salaried,28,47100,7400,24,154000,Debt_Consolidation,0.6,677,1,Rejected
+PLI00853,Male,44,Yes,1,Graduate,Salaried,23,188100,100,24,57000,Medical_Emergency,0.12,852,4,Rejected
+PLI00854,Male,37,Yes,0,Graduate,Salaried,11,30400,4800,36,155000,Debt_Consolidation,0.29,658,2,Rejected
+PLI00855,Female,26,Yes,2,Graduate,Salaried,2,73000,22400,36,392000,Education,0.91,799,0,Rejected
+PLI00856,Male,29,Yes,2,Graduate,Salaried,7,42800,1100,48,136000,Home_Renovation,0.45,507,3,Rejected
+PLI00857,Male,39,No,0,Not Graduate,Salaried,17,18600,4800,36,95000,Education,0.23,613,2,Rejected
+PLI00858,Male,37,Yes,0,Graduate,Salaried,16,28200,2000,24,93000,Debt_Consolidation,0.19,830,0,Approved
+PLI00859,Male,33,Yes,0,Not Graduate,Self-Employed,7,27000,3900,36,785000,Debt_Consolidation,0.55,651,0,Rejected
+PLI00860,Female,40,Yes,1,Graduate,Salaried,16,90600,11300,48,370000,Medical_Emergency,0.32,638,1,Rejected
+PLI00861,Female,43,Yes,2,Graduate,Self-Employed,22,59100,14100,60,291000,Medical_Emergency,0.44,740,0,Approved
+PLI00862,Male,47,No,2,Graduate,Salaried,23,180000,100,24,33000,Medical_Emergency,0.1,832,3,Rejected
+PLI00863,Male,46,No,1,Graduate,Salaried,24,107400,13300,24,343000,Wedding,0.53,791,0,Approved
+PLI00864,Male,40,Yes,2,Graduate,Salaried,17,75900,30600,24,273000,Education,0.68,677,0,Rejected
+PLI00865,Female,53,No,1,Graduate,Salaried,30,69200,9000,48,320000,Home_Renovation,0.71,671,1,Rejected
+PLI00866,Female,40,No,1,Graduate,Self-Employed,19,133000,27800,36,554000,Debt_Consolidation,0.36,542,3,Rejected
+PLI00867,Female,30,No,0,Graduate,Salaried,4,20300,400,48,122000,Home_Renovation,0.62,676,1,Rejected
+PLI00868,Male,40,No,3,Graduate,Self-Employed,16,48000,17600,12,99000,Medical_Emergency,0.4,710,0,Rejected
+PLI00869,Female,43,Yes,1,Graduate,Salaried,15,35400,6400,48,154000,Home_Renovation,0.39,799,0,Approved
+PLI00870,Female,49,Yes,2,Graduate,Salaried,28,67200,3700,48,263000,Debt_Consolidation,0.35,691,0,Approved
+PLI00871,Male,26,No,1,Graduate,Self-Employed,1,39300,2900,60,130000,Debt_Consolidation,0.49,539,2,Rejected
+PLI00872,Female,53,Yes,0,Not Graduate,Salaried,31,41900,7800,6,678000,Home_Renovation,0.99,726,0,Rejected
+PLI00873,Female,44,No,2,Graduate,Salaried,22,35700,3700,36,287000,Debt_Consolidation,0.3,467,3,Rejected
+PLI00874,Female,56,Yes,1,Not Graduate,Salaried,31,36000,7800,36,218000,Education,0.56,656,0,Rejected
+PLI00875,Male,56,Yes,1,Graduate,Self-Employed,28,23500,6500,48,84000,Home_Renovation,0.45,775,1,Approved
+PLI00876,Male,57,Yes,0,Not Graduate,Salaried,31,28000,700,6,30000,Medical_Emergency,1.0,538,4,Rejected
+PLI00877,Male,46,Yes,3,Not Graduate,Self-Employed,20,26400,100,36,129000,Education,0.5,660,0,Approved
+PLI00878,Male,52,Yes,1,Graduate,Salaried,29,24000,900,36,85000,Debt_Consolidation,0.57,613,1,Rejected
+PLI00879,Female,42,Yes,0,Graduate,Self-Employed,19,51800,1000,36,321000,Education,0.57,755,0,Approved
+PLI00880,Male,42,Yes,0,Not Graduate,Salaried,20,18800,4600,36,97000,Debt_Consolidation,0.22,667,1,Rejected
+PLI00881,Female,47,No,1,Graduate,Salaried,23,198200,500,36,55000,Medical_Emergency,0.1,577,0,Rejected
+PLI00882,Male,23,Yes,1,Graduate,Salaried,1,53000,1800,24,155000,Education,0.26,751,0,Approved
+PLI00883,Male,50,Yes,1,Not Graduate,Salaried,28,28000,700,24,116000,Home_Renovation,0.52,535,2,Rejected
+PLI00884,Male,35,No,0,Not Graduate,Salaried,10,18000,5100,12,42000,Wedding,0.34,697,0,Rejected
+PLI00885,Female,27,No,1,Graduate,Salaried,2,86900,12400,6,94000,Education,0.4,681,1,Rejected
+PLI00886,Female,25,Yes,0,Graduate,Salaried,4,116000,0,60,37000,Medical_Emergency,0.15,788,4,Rejected
+PLI00887,Female,57,No,0,Graduate,Salaried,32,196200,200,24,34000,Medical_Emergency,0.15,864,4,Rejected
+PLI00888,Female,36,Yes,0,Not Graduate,Salaried,12,24500,600,24,76000,Medical_Emergency,0.31,624,2,Rejected
+PLI00889,Male,31,Yes,1,Graduate,Self-Employed,10,49400,3200,12,70000,Debt_Consolidation,0.45,527,3,Rejected
+PLI00890,Male,48,Yes,1,Graduate,Self-Employed,27,40300,1900,6,196000,Medical_Emergency,0.14,545,3,Rejected
+PLI00891,Male,42,Yes,0,Not Graduate,Salaried,21,44400,8700,36,195000,Debt_Consolidation,0.4,656,0,Rejected
+PLI00892,Male,28,No,0,Graduate,Salaried,5,72400,20700,36,246000,Debt_Consolidation,0.34,801,0,Approved
+PLI00893,Male,36,No,0,Graduate,Self-Employed,12,32900,2100,60,206000,Travel,0.42,718,0,Approved
+PLI00894,Male,43,Yes,2,Graduate,Self-Employed,21,32200,14500,24,86000,Debt_Consolidation,0.64,717,2,Rejected
+PLI00895,Male,35,Yes,0,Graduate,Salaried,10,50900,7400,6,44000,Education,0.42,587,2,Rejected
+PLI00896,Male,52,No,0,Not Graduate,Salaried,30,22600,2200,60,139000,Education,0.45,675,1,Rejected
+PLI00897,Male,27,No,1,Graduate,Salaried,1,71500,15100,24,325000,Home_Renovation,0.25,733,1,Approved
+PLI00898,Male,39,Yes,1,Graduate,Salaried,12,20600,4300,48,105000,Debt_Consolidation,0.31,762,0,Approved
+PLI00899,Female,38,No,0,Not Graduate,Self-Employed,15,36500,5900,24,155000,Travel,0.49,816,0,Approved
+PLI00900,Male,24,Yes,2,Graduate,Salaried,1,48100,2100,36,262000,Education,0.54,776,0,Approved
+PLI00901,Female,55,Yes,3,Graduate,Salaried,29,41700,2000,48,157000,Home_Renovation,0.92,751,0,Rejected
+PLI00902,Female,57,Yes,1,Not Graduate,Salaried,32,18000,1400,36,113000,Debt_Consolidation,0.81,582,1,Rejected
+PLI00903,Male,28,Yes,0,Not Graduate,Self-Employed,6,26000,1600,24,116000,Debt_Consolidation,0.66,845,0,Approved
+PLI00904,Male,24,No,1,Graduate,Self-Employed,1,58200,1200,60,365000,Medical_Emergency,0.92,875,0,Rejected
+PLI00905,Male,55,No,3,Graduate,Salaried,34,21300,4800,36,82000,Debt_Consolidation,0.73,633,0,Rejected
+PLI00906,Female,52,No,0,Graduate,Salaried,30,148400,19400,6,85000,Home_Renovation,0.29,699,1,Approved
+PLI00907,Female,51,No,1,Not Graduate,Salaried,30,58600,4800,36,230000,Medical_Emergency,0.64,842,0,Approved
+PLI00908,Male,33,Yes,0,Graduate,Salaried,11,86700,16900,36,354000,Medical_Emergency,0.82,785,0,Approved
+PLI00909,Male,41,Yes,1,Graduate,Salaried,20,42600,1400,24,185000,Education,0.86,839,0,Approved
+PLI00910,Female,24,Yes,2,Graduate,Salaried,2,49800,10200,6,42000,Debt_Consolidation,0.32,678,0,Approved
+PLI00911,Female,55,No,1,Graduate,Self-Employed,28,49300,5200,24,307000,Debt_Consolidation,0.42,756,0,Approved
+PLI00912,Male,40,No,1,Not Graduate,Self-Employed,14,47500,6100,12,104000,Education,0.2,759,0,Approved
+PLI00913,Male,47,No,2,Graduate,Salaried,22,71700,8200,24,138000,Wedding,0.33,696,0,Approved
+PLI00914,Male,22,Yes,3,Not Graduate,Self-Employed,1,20800,2200,12,38000,Education,0.44,783,0,Approved
+PLI00915,Female,38,No,2,Graduate,Salaried,12,168600,0,24,56000,Medical_Emergency,0.08,593,0,Approved
+PLI00916,Male,40,No,0,Graduate,Salaried,17,121100,500,36,50000,Medical_Emergency,0.09,588,0,Approved
+PLI00917,Male,25,No,2,Graduate,Self-Employed,1,56000,16600,6,34000,Medical_Emergency,0.45,548,2,Rejected
+PLI00918,Male,45,Yes,3,Not Graduate,Salaried,24,25400,4600,24,66000,Wedding,0.61,768,1,Approved
+PLI00919,Male,52,No,1,Graduate,Salaried,31,35900,3200,24,593000,Debt_Consolidation,0.2,645,0,Rejected
+PLI00920,Female,47,Yes,0,Graduate,Salaried,23,37900,4400,36,154000,Debt_Consolidation,0.62,661,1,Rejected
+PLI00921,Female,36,No,3,Not Graduate,Salaried,15,31600,1500,36,128000,Medical_Emergency,0.14,859,0,Approved
+PLI00922,Female,54,Yes,2,Graduate,Salaried,31,30600,1100,24,120000,Medical_Emergency,0.47,839,0,Approved
+PLI00923,Male,31,Yes,1,Graduate,Salaried,3,164800,500,24,34000,Medical_Emergency,0.08,789,4,Rejected
+PLI00924,Male,49,Yes,0,Graduate,Self-Employed,25,47400,2200,6,34000,Debt_Consolidation,0.27,573,1,Rejected
+PLI00925,Male,50,Yes,2,Not Graduate,Salaried,27,19200,5300,6,30000,Travel,0.66,763,0,Rejected
+PLI00926,Female,51,Yes,1,Graduate,Salaried,28,54800,6200,60,321000,Wedding,0.34,560,1,Rejected
+PLI00927,Female,23,No,2,Graduate,Salaried,2,42100,1200,48,133000,Education,0.29,670,2,Rejected
+PLI00928,Female,55,No,0,Graduate,Salaried,32,66500,100,48,103000,Medical_Emergency,0.64,762,0,Approved
+PLI00929,Male,48,No,1,Graduate,Salaried,26,23100,4500,24,209000,Medical_Emergency,0.28,735,0,Rejected
+PLI00930,Female,46,No,0,Graduate,Self-Employed,25,31200,2300,6,30000,Wedding,0.4,692,0,Approved
+PLI00931,Male,51,No,0,Graduate,Salaried,30,58600,2200,36,273000,Medical_Emergency,0.57,675,1,Rejected
+PLI00932,Male,52,No,0,Graduate,Salaried,29,50400,9900,36,216000,Medical_Emergency,0.25,657,1,Rejected
+PLI00933,Female,33,No,0,Not Graduate,Salaried,12,18000,1800,36,90000,Home_Renovation,0.41,545,3,Rejected
+PLI00934,Male,35,No,1,Not Graduate,Salaried,10,20500,5200,12,42000,Home_Renovation,0.4,686,0,Rejected
+PLI00935,Male,21,No,1,Graduate,Self-Employed,0,65700,7100,24,209000,Wedding,0.5,535,3,Rejected
+PLI00936,Female,26,Yes,2,Graduate,Salaried,4,34500,7900,60,130000,Medical_Emergency,0.56,877,0,Approved
+PLI00937,Male,29,No,3,Not Graduate,Salaried,6,37900,2700,6,39000,Debt_Consolidation,0.25,566,1,Rejected
+PLI00938,Male,49,No,0,Graduate,Self-Employed,22,32900,2700,12,46000,Debt_Consolidation,0.53,704,1,Rejected
+PLI00939,Male,33,No,0,Graduate,Self-Employed,8,53600,15100,12,124000,Home_Renovation,0.39,767,0,Approved
+PLI00940,Female,26,No,1,Graduate,Salaried,4,67600,1500,60,278000,Medical_Emergency,0.81,793,0,Approved
+PLI00941,Male,27,No,1,Not Graduate,Salaried,3,18000,1000,24,60000,Debt_Consolidation,0.7,652,0,Rejected
+PLI00942,Female,31,Yes,3,Graduate,Salaried,10,96200,12100,60,569000,Debt_Consolidation,0.32,622,1,Rejected
+PLI00943,Male,31,No,2,Graduate,Salaried,9,161600,200,24,36000,Medical_Emergency,0.08,835,3,Rejected
+PLI00944,Male,28,No,1,Graduate,Salaried,2,180300,300,12,58000,Medical_Emergency,0.12,582,0,Approved
+PLI00945,Male,26,Yes,0,Graduate,Self-Employed,2,52300,2300,48,324000,Medical_Emergency,0.4,643,1,Rejected
+PLI00946,Male,34,No,2,Graduate,Self-Employed,10,34000,1800,36,155000,Education,0.4,641,1,Rejected
+PLI00947,Male,33,No,0,Graduate,Salaried,10,53000,10200,24,192000,Debt_Consolidation,0.42,672,0,Rejected
+PLI00948,Male,39,No,0,Graduate,Salaried,12,111600,0,24,31000,Medical_Emergency,0.07,598,0,Approved
+PLI00949,Male,34,No,3,Graduate,Salaried,9,33000,2800,24,96000,Wedding,0.27,696,1,Approved
+PLI00950,Male,40,Yes,0,Not Graduate,Salaried,16,28900,4100,60,134000,Debt_Consolidation,0.96,713,0,Rejected
+PLI00951,Male,22,Yes,1,Not Graduate,Self-Employed,1,25000,4500,36,212000,Education,0.24,613,1,Rejected
+PLI00952,Male,28,Yes,0,Graduate,Salaried,5,121800,300,12,34000,Medical_Emergency,0.14,840,3,Rejected
+PLI00953,Female,26,No,1,Graduate,Self-Employed,1,28800,8600,60,152000,Travel,0.61,714,0,Rejected
+PLI00954,Male,26,Yes,0,Graduate,Self-Employed,1,59000,14400,6,65000,Education,0.39,500,3,Rejected
+PLI00955,Male,41,No,1,Graduate,Salaried,17,76400,12900,48,461000,Education,0.39,792,0,Approved
+PLI00956,Male,29,No,0,Graduate,Self-Employed,8,66300,4000,12,148000,Debt_Consolidation,0.75,599,2,Rejected
+PLI00957,Female,35,No,3,Graduate,Salaried,14,68000,3000,12,250000,Medical_Emergency,0.24,675,1,Rejected
+PLI00958,Male,34,Yes,1,Not Graduate,Salaried,13,66000,4000,12,81000,Wedding,0.34,647,0,Approved
+PLI00959,Male,23,No,2,Not Graduate,Salaried,1,29000,2700,24,311000,Medical_Emergency,0.11,575,2,Rejected
+PLI00960,Female,31,No,0,Graduate,Salaried,10,69100,20400,6,235000,Travel,0.59,790,0,Rejected
+PLI00961,Male,36,No,2,Graduate,Salaried,14,169500,100,36,35000,Medical_Emergency,0.09,834,4,Rejected
+PLI00962,Male,34,No,0,Graduate,Salaried,13,61300,5200,24,219000,Education,0.51,766,0,Approved
+PLI00963,Female,22,Yes,2,Graduate,Salaried,1,44700,9000,60,142000,Debt_Consolidation,0.77,702,1,Rejected
+PLI00964,Female,40,No,0,Not Graduate,Salaried,19,18000,1200,6,30000,Education,0.73,753,0,Rejected
+PLI00965,Male,23,Yes,0,Graduate,Salaried,1,66000,7800,36,335000,Home_Renovation,0.33,732,0,Approved
+PLI00966,Female,32,Yes,0,Graduate,Salaried,8,57400,11000,12,132000,Medical_Emergency,0.57,643,0,Rejected
+PLI00967,Male,27,No,1,Graduate,Self-Employed,4,92700,1400,12,173000,Travel,0.63,503,2,Rejected
+PLI00968,Male,30,Yes,0,Graduate,Salaried,5,192500,300,60,55000,Medical_Emergency,0.11,849,4,Rejected
+PLI00969,Female,48,Yes,2,Graduate,Salaried,22,177100,300,24,44000,Medical_Emergency,0.14,555,0,Rejected
+PLI00970,Male,39,No,0,Not Graduate,Salaried,16,34400,8200,24,141000,Education,0.47,482,3,Rejected
+PLI00971,Female,32,Yes,1,Graduate,Self-Employed,10,41300,7700,24,132000,Travel,0.56,763,2,Rejected
+PLI00972,Male,39,No,3,Not Graduate,Self-Employed,17,52100,26100,36,163000,Debt_Consolidation,0.14,694,2,Rejected
+PLI00973,Male,48,Yes,2,Graduate,Salaried,22,97000,6700,48,591000,Debt_Consolidation,0.51,570,0,Rejected
+PLI00974,Male,42,Yes,1,Not Graduate,Salaried,21,81100,7100,6,62000,Debt_Consolidation,0.61,804,0,Approved
+PLI00975,Female,38,Yes,2,Not Graduate,Salaried,17,62300,20700,36,315000,Home_Renovation,0.24,694,1,Rejected
+PLI00976,Male,30,Yes,0,Graduate,Salaried,8,110200,200,60,52000,Medical_Emergency,0.1,828,4,Rejected
+PLI00977,Female,51,No,2,Graduate,Self-Employed,30,95100,6600,12,183000,Travel,0.73,598,0,Rejected
+PLI00978,Male,35,Yes,0,Graduate,Salaried,8,47800,3200,36,247000,Wedding,0.39,684,1,Rejected
+PLI00979,Male,33,Yes,1,Graduate,Self-Employed,12,44600,12800,12,131000,Wedding,0.34,549,3,Rejected
+PLI00980,Male,56,No,1,Graduate,Salaried,31,125900,0,12,41000,Medical_Emergency,0.1,875,4,Rejected
+PLI00981,Female,27,No,0,Graduate,Self-Employed,2,45500,2800,48,197000,Education,0.35,733,0,Approved
+PLI00982,Male,26,No,0,Graduate,Salaried,4,36700,4300,36,186000,Debt_Consolidation,0.49,698,0,Approved
+PLI00983,Male,50,Yes,1,Graduate,Salaried,29,23100,1500,48,359000,Education,0.55,758,0,Approved
+PLI00984,Male,43,Yes,0,Not Graduate,Salaried,22,50200,15400,36,178000,Education,0.38,751,0,Approved
+PLI00985,Female,35,Yes,2,Not Graduate,Salaried,10,26500,4000,12,61000,Wedding,0.79,684,2,Rejected
+PLI00986,Male,47,No,1,Graduate,Salaried,22,103200,14200,36,116000,Debt_Consolidation,0.52,793,0,Approved
+PLI00987,Female,52,Yes,1,Graduate,Salaried,24,75300,1600,6,58000,Medical_Emergency,0.74,744,0,Approved
+PLI00988,Male,21,Yes,0,Graduate,Salaried,0,34000,5000,36,168000,Home_Renovation,0.91,647,1,Rejected
+PLI00989,Female,43,No,1,Graduate,Salaried,18,33600,3500,48,189000,Education,0.91,704,0,Rejected
+PLI00990,Female,30,No,0,Graduate,Salaried,9,29300,2700,36,98000,Medical_Emergency,0.32,762,0,Approved
+PLI00991,Male,49,No,1,Graduate,Self-Employed,23,36600,2500,36,222000,Debt_Consolidation,0.95,864,0,Rejected
+PLI00992,Female,35,Yes,2,Graduate,Salaried,10,41100,700,12,54000,Education,0.95,702,0,Rejected
+PLI00993,Male,25,No,1,Graduate,Salaried,1,60800,4300,12,169000,Travel,0.77,775,1,Approved
+PLI00994,Female,26,Yes,0,Not Graduate,Salaried,1,23000,1600,36,89000,Home_Renovation,0.63,725,2,Rejected
+PLI00995,Male,48,Yes,1,Graduate,Salaried,26,67800,27200,12,195000,Home_Renovation,0.4,699,0,Rejected
+PLI00996,Male,29,No,0,Not Graduate,Salaried,4,77300,7000,36,280000,Medical_Emergency,0.49,633,1,Rejected
+PLI00997,Female,33,Yes,0,Graduate,Salaried,11,32000,4400,36,202000,Medical_Emergency,0.62,586,3,Rejected
+PLI00998,Male,50,Yes,1,Graduate,Salaried,28,44500,2900,6,45000,Debt_Consolidation,0.32,601,1,Rejected
+PLI00999,Female,34,No,1,Not Graduate,Self-Employed,9,24900,3600,36,158000,Travel,0.44,814,0,Approved
+PLI01000,Female,56,Yes,1,Graduate,Salaried,34,45200,1100,24,149000,Debt_Consolidation,0.37,822,0,Approved

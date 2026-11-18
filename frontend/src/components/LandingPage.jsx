@@ -8,10 +8,10 @@ const LandingPage = ({ onSelectPortal }) => {
         {/* Hero Section */}
       <div className="text-center space-y-3 px-4 pt-4">
         <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
-          TrustFin AI Credit Intelligence System
+          TrustFin AI
         </h1>
         <p className="text-base text-gray-600 max-w-2xl mx-auto leading-relaxed">
-          A dual-stakeholder framework that combines Machine Learning with mathematical explanation validation and repayment safety checks for transparent retail credit.
+          Review loan predictions, understand the contributing factors, and check explanation quality and monthly affordability.
         </p>
       </div>
 
@@ -26,7 +26,7 @@ const LandingPage = ({ onSelectPortal }) => {
                 <Building2 className="w-7 h-7" />
               </div>
               <span className="text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 bg-blue-100 text-blue-900 rounded-sm">
-                Internal Banking Console
+                Officer Workspace
               </span>
             </div>
 
@@ -35,26 +35,26 @@ const LandingPage = ({ onSelectPortal }) => {
                 Bank Officer Portal
               </h2>
               <p className="text-xs text-gray-500 mt-1">
-                For Credit Underwriters, Branch Risk Officers & Model Auditors
+                For bank officers reviewing loan applications and model explanations
               </p>
             </div>
 
             <ul className="space-y-2 text-xs text-gray-700 pt-2 border-t border-gray-200">
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-4 h-4 text-green-700 shrink-0 mt-0.5" />
-                <span><strong>Decision Guidance:</strong> Recommended for Sanction, Officer Review, or Decline based on model confidence and explanation trust.</span>
+                <span><strong>Decision Guidance:</strong> Review the model prediction alongside project policy and affordability checks.</span>
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-4 h-4 text-green-700 shrink-0 mt-0.5" />
-                <span><strong>Dual-XAI Consensus:</strong> Side-by-side SHAP & LIME agreement check.</span>
+                <span><strong>SHAP and LIME:</strong> Compare the factors highlighted by both explanation methods.</span>
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-4 h-4 text-green-700 shrink-0 mt-0.5" />
-                <span><strong>4-Pillar Trust Score:</strong> Mathematical validation across Faithfulness, Stability, Consistency & Fairness.</span>
+                <span><strong>Four Validation Checks:</strong> Faithfulness, stability and consistency form the Trust Score. Gender sensitivity is shown separately.</span>
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-4 h-4 text-green-700 shrink-0 mt-0.5" />
-                <span><strong>50% Repayment Safety Limit:</strong> Monthly EMI capped at 50% of income for borrower affordability.</span>
+                <span><strong>Affordability Check:</strong> Compare existing and proposed EMIs with the project limit of 50% of monthly income.</span>
               </li>
             </ul>
           </div>
@@ -65,7 +65,7 @@ const LandingPage = ({ onSelectPortal }) => {
               onClick={() => onSelectPortal('bank_officer')}
               className="w-full py-3 px-4 bg-gov-blue hover:bg-blue-900 text-white text-xs font-bold uppercase tracking-wider rounded-sm flex items-center justify-center gap-2 shadow-sm transition-all cursor-pointer"
             >
-              <span>Access Bank Officer Console</span>
+              <span>Open Officer Workspace</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
@@ -79,7 +79,7 @@ const LandingPage = ({ onSelectPortal }) => {
                 <User className="w-7 h-7" />
               </div>
               <span className="text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 bg-yellow-100 text-yellow-900 rounded-sm">
-                Consumer Portal
+                Applicant Workspace
               </span>
             </div>
 
@@ -88,26 +88,26 @@ const LandingPage = ({ onSelectPortal }) => {
                 Applicant Portal
               </h2>
               <p className="text-xs text-gray-500 mt-1">
-                For Retail Loan Applicants & Individual Borrowers
+                For applicants viewing a loan assessment and its reasons
               </p>
             </div>
 
             <ul className="space-y-2 text-xs text-gray-700 pt-2 border-t border-gray-200">
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-4 h-4 text-green-700 shrink-0 mt-0.5" />
-                <span><strong>Instant Credit Eligibility:</strong> Transparent assessment based on income and loan terms.</span>
+                <span><strong>Loan Assessment:</strong> View the model prediction based on the submitted details.</span>
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-4 h-4 text-green-700 shrink-0 mt-0.5" />
-                <span><strong>Clear Decision Reasons:</strong> Understand exact financial factors if a loan is declined.</span>
+                <span><strong>Clear Decision Reasons:</strong> See which submitted details contributed to the model prediction.</span>
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-4 h-4 text-green-700 shrink-0 mt-0.5" />
-                <span><strong>"What-If" Loan Calculator:</strong> Interactive sliders showing how term adjustments qualify you.</span>
+                <span><strong>"What-If" Loan Calculator:</strong> See how changes to loan details affect estimated monthly repayments.</span>
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-4 h-4 text-green-700 shrink-0 mt-0.5" />
-                <span><strong>Official Bank Documents:</strong> Download formal Sanction Letter or Advisory Notice PDF.</span>
+                <span><strong>Assessment Report:</strong> Preview or download a PDF summary of the assessment.</span>
               </li>
             </ul>
           </div>
@@ -118,7 +118,7 @@ const LandingPage = ({ onSelectPortal }) => {
               onClick={() => onSelectPortal('applicant')}
               className="w-full py-3 px-4 bg-yellow-500 hover:bg-yellow-600 text-blue-950 text-xs font-bold uppercase tracking-wider rounded-sm flex items-center justify-center gap-2 shadow-sm transition-all cursor-pointer"
             >
-              <span>Apply for a Loan</span>
+              <span>Start Loan Assessment</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
@@ -135,30 +135,30 @@ const LandingPage = ({ onSelectPortal }) => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-center">
             <div className="p-3 bg-gray-50 border border-gray-200 rounded-sm">
               <Scale className="w-5 h-5 text-gov-blue mx-auto mb-1.5" />
-              <h4 className="text-xs font-bold text-gray-900 uppercase">50% Repayment Safety Limit</h4>
+              <h4 className="text-xs font-bold text-gray-900 uppercase">Monthly Affordability</h4>
               <p className="text-[11px] text-gray-600 mt-1">
-                Automatic safety rule capping monthly EMI to 50% of income.
+                Compare total monthly EMIs with the project income limit.
               </p>
             </div>
             <div className="p-3 bg-gray-50 border border-gray-200 rounded-sm">
               <Zap className="w-5 h-5 text-gov-blue mx-auto mb-1.5" />
-              <h4 className="text-xs font-bold text-gray-900 uppercase">Dual Explanation Agreement</h4>
+              <h4 className="text-xs font-bold text-gray-900 uppercase">SHAP and LIME Comparison</h4>
               <p className="text-[11px] text-gray-600 mt-1">
-                Cross-checks SHAP and LIME to verify explanation agreement.
+                Check whether the methods highlight similar factors and directions.
               </p>
             </div>
             <div className="p-3 bg-gray-50 border border-gray-200 rounded-sm">
               <ShieldCheck className="w-5 h-5 text-gov-blue mx-auto mb-1.5" />
-              <h4 className="text-xs font-bold text-gray-900 uppercase">4-Pillar Trust Score</h4>
+              <h4 className="text-xs font-bold text-gray-900 uppercase">Four Validation Checks</h4>
               <p className="text-[11px] text-gray-600 mt-1">
-                Mathematical verification: Faithfulness, Stability, Consistency, Fairness.
+                Three explanation scores form the total; Gender sensitivity is a separate check.
               </p>
             </div>
             <div className="p-3 bg-gray-50 border border-gray-200 rounded-sm">
               <Sliders className="w-5 h-5 text-gov-blue mx-auto mb-1.5" />
               <h4 className="text-xs font-bold text-gray-900 uppercase">What-If Loan Calculator</h4>
               <p className="text-[11px] text-gray-600 mt-1">
-                Interactive simulator showing how term adjustments qualify you.
+                Estimate how revised loan details affect EMI and monthly debt.
               </p>
             </div>
           </div>

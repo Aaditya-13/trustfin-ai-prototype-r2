@@ -12,6 +12,18 @@
 export const getUnderwritingAction = (result, applicantData) => {
     if (!result) return null;
 
+    if (result.policyCheck?.passed === false) {
+        return {
+            tier: 'HIGH_RISK', badgeText: 'PROJECT POLICY: REJECTED',
+            badgeClass: 'bg-red-700 text-white border-red-800',
+            cardBgClass: 'bg-red-50/70 border-red-300', indicatorClass: 'bg-red-600',
+            textColor: 'text-red-900', accentColor: 'text-red-700',
+            headline: 'The application does not meet one or more project lending rules. Review the reasons below.',
+            reasons: result.policyCheck.reasons || [],
+            nextStep: 'Review the recorded policy reasons and verify the submitted details before reassessment.',
+        };
+    }
+
     const isApproved = result.prediction === 'Approved';
     const confidencePercent = Number(((result.confidenceScore || 0) * 100).toFixed(1));
     const trustPercent = Number(((result.trustScore?.overallTrustScore || 0) * 100).toFixed(1));
@@ -37,7 +49,7 @@ export const getUnderwritingAction = (result, applicantData) => {
             }
         }
         if (!isApproved) {
-            reasons.push(`The model predicts Rejected with ${confidencePercent}% probability assigned to that class. This is not a measured default probability.`);
+            reasons.push(`The model gives rejection a score of ${confidencePercent}%. This does not estimate the applicant's chance of failing to repay.`);
         }
 
         return {
@@ -51,7 +63,7 @@ export const getUnderwritingAction = (result, applicantData) => {
             headline: affordabilityFailed
                 ? 'Monthly debt exceeds the configured review limit. Officer review is required, even if the model predicts approval.'
                 : 'The model predicts rejection. Review its contributing factors with a loan officer.',
-            reasons: reasons.length > 0 ? reasons : ['High credit risk identified across repayment capacity and bureau history.'],
+            reasons: reasons.length > 0 ? reasons : ['Review the submitted details and contributing factors.'],
             nextStep: 'Review the submitted income, existing debts and loan terms with the lender before a final decision.'
         };
     }
@@ -63,8 +75,8 @@ export const getUnderwritingAction = (result, applicantData) => {
     if (isApproved && confidencePercent >= 70 && trustPercent >= 70 && result.solvencyCheck && isSolvent && dtiRatio <= 0.35) {
         const reasons = [
             `Total monthly debt is ${dtiPercent} of the income used for the assessment, within the configured 35% lower-debt band.`,
-            `The model predicts Approved with ${confidencePercent}% probability assigned to that class.`,
-            `The experimental explanation Trust Score is ${trustPercent}%. It does not establish repayment ability or guarantee approval.`
+            `The model gives approval a score of ${confidencePercent}%.`,
+            `The project Explanation Trust Score is ${trustPercent}%. It does not establish repayment ability or guarantee approval.`
         ];
 
         return {
@@ -95,10 +107,10 @@ export const getUnderwritingAction = (result, applicantData) => {
         }
     }
     if (confidencePercent < 70) {
-        reasons.push(`The model assigns ${confidencePercent}% probability to its predicted class; review the prediction and supporting factors.`);
+        reasons.push(`The model gives ${result.prediction.toLowerCase()} a score of ${confidencePercent}%. Review the prediction and contributing factors.`);
     }
     if (trustPercent < 70) {
-        reasons.push(`The experimental explanation Trust Score is ${trustPercent}%; review the individual component checks.`);
+        reasons.push(`The project Explanation Trust Score is ${trustPercent}%; review the individual component checks.`);
     }
     if (!result.solvencyCheck) reasons.push('No affordability assessment is available for this record.');
     if (reasons.length === 0) {
@@ -115,6 +127,6 @@ export const getUnderwritingAction = (result, applicantData) => {
         accentColor: 'text-amber-700',
         headline: 'Review the model result, debt burden and explanation checks with a loan officer.',
         reasons,
-        nextStep: 'Verify applicant income documents, employer details, and existing liabilities before sanction.'
+        nextStep: 'Verify income, employment details and existing EMIs before a lending decision.'
     };
 };

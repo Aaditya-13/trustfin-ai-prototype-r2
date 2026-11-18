@@ -19,11 +19,11 @@ const Navbar = ({ currentScreen, userRole, onNavigateHome, onNavigateBack, selec
                         <div className="flex items-center gap-2">
                             <h1 className="text-lg font-bold tracking-tight">TrustFin AI</h1>
                             <span className="text-[10px] uppercase font-bold tracking-widest px-1.5 py-0.5 bg-blue-900 border border-blue-400 text-yellow-300 rounded-xs">
-                                Credit Intelligence
+                                Loan Assessment
                             </span>
                         </div>
                         <p className="text-[11px] uppercase tracking-wider text-blue-200">
-                            Explainable Loan Decisions & Trust Evaluation System
+                            Loan Predictions, Explanations and Quality Checks
                         </p>
                     </div>
                 </div>
@@ -52,7 +52,7 @@ const Navbar = ({ currentScreen, userRole, onNavigateHome, onNavigateBack, selec
                             type="button"
                             onClick={onOpenHistory}
                             className="px-2.5 py-1 bg-yellow-500 hover:bg-yellow-400 text-blue-950 font-bold text-xs flex items-center gap-1.5 cursor-pointer transition-colors shadow-xs"
-                            title="View Saved Loan Applications in Database"
+                            title="View saved loan assessments"
                         >
                             <Database className="w-3.5 h-3.5" />
                             <span>Application History</span>
@@ -91,7 +91,7 @@ const Navbar = ({ currentScreen, userRole, onNavigateHome, onNavigateBack, selec
 
                     {currentScreen === 'LANDING' && (
                         <div className="text-[11px] font-semibold border border-blue-400 px-3 py-1 bg-blue-900 text-blue-100 rounded-sm tracking-wider uppercase hidden sm:block">
-                            Retail Loan Evaluation Portal
+                            Loan Assessment Portal
                         </div>
                     )}
                 </div>

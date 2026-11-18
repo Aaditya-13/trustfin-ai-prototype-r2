@@ -1,0 +1,201 @@
+Loan_ID,Gender,Age,Married,Dependents,Education,Employment_Status,Work_Experience,Applicant_Income,Existing_EMI,Loan_Term,Loan_Amount,Loan_Purpose,Credit_Card_Utilization,CIBIL_Score,Missed_Payments_12M
+PL01637,Female,27,No,0,Not Graduate,Salaried,1,56800,7300,36,188000,Medical_Emergency,0.7,799,0
+PL01976,Female,22,Yes,0,Graduate,Salaried,1,127300,21700,12,278000,Travel,0.63,614,1
+PL00372,Male,45,No,2,Graduate,Self-Employed,20,79000,10200,12,169000,Debt_Consolidation,0.38,607,1
+PL02812,Male,31,Yes,3,Not Graduate,Salaried,8,41900,6500,36,252000,Debt_Consolidation,0.29,669,0
+PL00020,Female,37,No,0,Graduate,Salaried,11,180900,200,36,34000,Medical_Emergency,0.11,561,0
+PL00741,Male,51,Yes,2,Graduate,Self-Employed,27,59000,2200,24,250000,Debt_Consolidation,0.42,740,0
+PL01291,Male,29,No,2,Not Graduate,Salaried,8,59300,11400,36,152000,Medical_Emergency,0.43,791,0
+PL01979,Female,23,Yes,0,Not Graduate,Salaried,1,22100,900,6,30000,Education,0.32,715,0
+PL00790,Male,21,Yes,0,Graduate,Salaried,0,54300,1700,12,89000,Education,0.84,767,0
+PL01810,Female,56,Yes,0,Graduate,Salaried,29,23500,4400,24,81000,Home_Renovation,0.61,604,0
+PL00525,Male,32,No,2,Graduate,Self-Employed,7,42100,4800,36,177000,Debt_Consolidation,0.33,595,1
+PL01843,Female,51,Yes,1,Graduate,Salaried,29,30700,5500,24,149000,Education,0.67,697,0
+PL02444,Male,28,Yes,3,Graduate,Salaried,2,46800,12200,36,275000,Debt_Consolidation,0.26,680,0
+PL01483,Male,31,Yes,1,Graduate,Self-Employed,7,87300,4000,60,411000,Education,0.67,712,2
+PL02974,Female,57,Yes,0,Graduate,Salaried,34,65600,6400,12,73000,Debt_Consolidation,0.94,703,1
+PL02588,Male,32,Yes,3,Graduate,Salaried,7,152800,500,6,32000,Medical_Emergency,0.12,561,0
+PL01535,Male,51,Yes,0,Not Graduate,Salaried,27,37700,6100,60,610000,Debt_Consolidation,0.34,831,0
+PL01175,Male,21,No,0,Graduate,Salaried,0,191800,0,36,47000,Medical_Emergency,0.09,876,4
+PL01953,Female,23,Yes,2,Graduate,Salaried,1,65400,5500,24,296000,Debt_Consolidation,0.12,632,3
+PL01047,Male,29,Yes,2,Not Graduate,Self-Employed,4,41300,4600,36,216000,Wedding,0.87,762,1
+PL02015,Male,44,No,0,Not Graduate,Salaried,18,65600,15000,24,183000,Medical_Emergency,0.43,843,0
+PL00059,Male,48,No,0,Graduate,Salaried,25,63900,12400,48,222000,Home_Renovation,0.49,648,0
+PL02288,Female,51,Yes,3,Graduate,Salaried,29,41000,3200,24,190000,Wedding,0.82,755,0
+PL01035,Male,23,Yes,0,Graduate,Salaried,1,103300,300,6,45000,Medical_Emergency,0.12,830,3
+PL02137,Female,41,Yes,1,Not Graduate,Salaried,17,49900,7800,48,257000,Debt_Consolidation,0.87,622,0
+PL00085,Female,44,Yes,1,Graduate,Salaried,22,101100,500,6,58000,Medical_Emergency,0.1,800,3
+PL00027,Male,35,No,0,Graduate,Salaried,14,25900,1800,24,118000,Medical_Emergency,0.85,750,0
+PL02256,Male,46,Yes,2,Graduate,Salaried,24,39600,14600,24,117000,Education,0.65,704,0
+PL02540,Male,39,Yes,3,Not Graduate,Salaried,13,24400,4700,6,30000,Medical_Emergency,0.21,735,0
+PL01181,Male,43,Yes,1,Not Graduate,Self-Employed,20,35700,4200,24,101000,Debt_Consolidation,0.43,417,3
+PL01366,Female,21,Yes,1,Graduate,Salaried,0,63300,5200,24,149000,Home_Renovation,0.88,845,0
+PL01379,Male,39,Yes,0,Graduate,Salaried,15,153600,26400,12,88000,Debt_Consolidation,0.82,596,0
+PL02109,Male,31,Yes,0,Graduate,Salaried,9,52800,6300,36,279000,Medical_Emergency,0.49,717,2
+PL00410,Female,21,No,0,Not Graduate,Salaried,0,18000,2700,60,750000,Wedding,0.57,628,3
+PL01927,Female,34,No,0,Graduate,Salaried,12,51300,5800,36,212000,Wedding,0.78,676,1
+PL00759,Male,25,No,1,Graduate,Salaried,3,66000,1100,36,112000,Debt_Consolidation,0.19,691,0
+PL01873,Male,43,Yes,0,Not Graduate,Self-Employed,22,28700,1800,12,64000,Education,0.52,664,1
+PL02283,Male,32,No,1,Not Graduate,Self-Employed,9,38000,3500,36,145000,Home_Renovation,0.48,670,0
+PL02181,Female,46,Yes,0,Graduate,Self-Employed,25,63800,19500,12,110000,Education,0.37,606,0
+PL00940,Male,39,Yes,0,Graduate,Salaried,18,197400,300,24,55000,Medical_Emergency,0.07,823,3
+PL02978,Female,54,No,0,Graduate,Salaried,32,33000,2700,36,156000,Wedding,0.98,563,1
+PL00144,Male,36,No,3,Graduate,Salaried,15,66900,6800,24,297000,Home_Renovation,0.24,730,0
+PL00542,Male,23,Yes,1,Not Graduate,Self-Employed,2,18000,3400,24,78000,Debt_Consolidation,0.31,805,0
+PL02857,Female,42,Yes,1,Not Graduate,Salaried,20,19300,2900,48,62000,Education,0.23,595,1
+PL01816,Female,25,Yes,0,Graduate,Salaried,1,84600,3300,6,56000,Wedding,0.47,598,1
+PL00947,Female,57,No,0,Graduate,Salaried,34,51800,5100,12,85000,Debt_Consolidation,0.39,824,0
+PL01083,Male,56,No,0,Graduate,Salaried,30,73100,5600,24,267000,Medical_Emergency,0.71,781,0
+PL00527,Female,55,Yes,0,Not Graduate,Salaried,34,32300,2200,24,88000,Medical_Emergency,0.56,761,0
+PL00036,Female,23,No,3,Graduate,Salaried,1,105100,300,60,52000,Medical_Emergency,0.07,574,0
+PL00648,Female,40,No,0,Not Graduate,Self-Employed,17,18000,2900,12,34000,Medical_Emergency,0.42,695,0
+PL02275,Female,27,Yes,2,Not Graduate,Salaried,6,27500,7300,12,36000,Education,0.42,689,0
+PL01033,Male,48,No,2,Graduate,Salaried,24,77100,6200,12,264000,Medical_Emergency,0.85,814,0
+PL00687,Female,36,Yes,1,Not Graduate,Self-Employed,11,31100,7000,24,129000,Wedding,0.48,701,0
+PL02084,Female,45,Yes,2,Graduate,Salaried,19,43900,1600,36,160000,Medical_Emergency,0.24,776,1
+PL01943,Male,53,No,1,Graduate,Salaried,32,86300,19200,36,403000,Medical_Emergency,0.32,768,0
+PL01497,Male,41,Yes,1,Graduate,Salaried,20,120500,3500,12,262000,Debt_Consolidation,0.7,677,0
+PL01043,Male,36,No,3,Graduate,Self-Employed,12,56700,4600,24,171000,Debt_Consolidation,0.75,625,1
+PL00322,Female,24,Yes,1,Graduate,Self-Employed,1,41700,1900,60,249000,Medical_Emergency,0.55,724,0
+PL02292,Male,32,No,1,Graduate,Salaried,7,30100,8400,60,113000,Wedding,0.15,815,0
+PL00734,Male,49,Yes,0,Not Graduate,Self-Employed,22,30800,300,24,121000,Home_Renovation,0.33,660,0
+PL00577,Male,55,Yes,2,Graduate,Salaried,30,125100,200,12,39000,Medical_Emergency,0.08,783,3
+PL01273,Male,55,Yes,2,Not Graduate,Self-Employed,34,22200,5100,24,103000,Education,0.43,732,0
+PL00534,Female,31,Yes,0,Graduate,Self-Employed,6,78900,8600,36,242000,Travel,0.4,515,3
+PL01140,Male,40,Yes,0,Graduate,Salaried,17,161000,0,36,51000,Medical_Emergency,0.1,860,4
+PL02290,Female,36,Yes,3,Graduate,Salaried,13,22600,600,36,417000,Debt_Consolidation,0.57,586,2
+PL01205,Female,45,No,2,Graduate,Salaried,21,104900,2100,12,178000,Medical_Emergency,0.27,549,2
+PL02981,Female,47,No,0,Graduate,Salaried,24,30400,2700,24,136000,Debt_Consolidation,0.51,733,0
+PL02081,Male,51,No,3,Graduate,Salaried,27,163900,0,36,39000,Medical_Emergency,0.11,562,0
+PL00495,Male,31,Yes,0,Graduate,Salaried,9,63100,1300,36,282000,Travel,0.41,669,1
+PL01251,Male,29,No,2,Graduate,Salaried,7,24800,3200,6,30000,Home_Renovation,0.42,717,1
+PL01007,Male,52,Yes,1,Not Graduate,Salaried,23,18000,1800,48,93000,Education,0.31,783,0
+PL00358,Female,53,No,2,Graduate,Salaried,28,25800,7900,36,84000,Home_Renovation,0.62,552,0
+PL02007,Female,37,Yes,0,Graduate,Salaried,11,154800,400,48,39000,Medical_Emergency,0.09,812,4
+PL00432,Male,48,Yes,3,Graduate,Salaried,27,43900,800,48,462000,Medical_Emergency,0.23,728,0
+PL02075,Male,46,Yes,0,Graduate,Self-Employed,25,67500,16100,24,195000,Travel,0.44,719,0
+PL00837,Male,50,No,0,Not Graduate,Salaried,28,23300,500,24,349000,Medical_Emergency,0.57,732,1
+PL01462,Female,32,Yes,1,Not Graduate,Salaried,9,29400,4900,24,354000,Wedding,0.57,612,1
+PL00559,Male,50,Yes,1,Graduate,Self-Employed,29,81300,4700,36,270000,Debt_Consolidation,0.45,779,1
+PL01266,Male,22,Yes,1,Not Graduate,Salaried,1,33200,2400,36,1000000,Debt_Consolidation,0.43,713,1
+PL00330,Male,41,No,0,Graduate,Salaried,19,81500,18900,36,388000,Wedding,0.52,542,4
+PL01279,Male,21,No,0,Graduate,Self-Employed,0,42300,4600,48,182000,Education,0.35,825,0
+PL02876,Male,40,No,2,Graduate,Salaried,17,125400,500,12,37000,Medical_Emergency,0.15,785,4
+PL00706,Female,41,No,0,Graduate,Salaried,20,101000,3500,60,358000,Medical_Emergency,0.39,708,3
+PL02296,Female,50,Yes,3,Graduate,Salaried,26,59700,14500,24,137000,Travel,0.31,722,0
+PL02535,Female,50,Yes,0,Graduate,Salaried,27,26100,1500,36,265000,Debt_Consolidation,0.46,762,0
+PL02036,Male,52,Yes,0,Not Graduate,Salaried,30,32500,1100,36,161000,Home_Renovation,0.51,556,1
+PL02733,Female,55,Yes,0,Graduate,Salaried,34,34700,6300,36,193000,Home_Renovation,0.91,510,4
+PL02726,Male,43,Yes,1,Not Graduate,Salaried,22,32000,2500,36,132000,Debt_Consolidation,0.31,853,0
+PL02518,Male,40,Yes,3,Graduate,Salaried,19,128300,2600,6,75000,Medical_Emergency,0.6,651,0
+PL00804,Male,54,Yes,1,Graduate,Salaried,32,44400,6500,36,153000,Debt_Consolidation,0.44,834,0
+PL01210,Female,56,No,2,Graduate,Salaried,33,121000,100,24,37000,Medical_Emergency,0.05,828,3
+PL01046,Female,26,No,1,Graduate,Self-Employed,1,26900,3700,48,287000,Debt_Consolidation,0.41,704,2
+PL02054,Male,56,No,3,Graduate,Self-Employed,29,94700,2900,24,404000,Medical_Emergency,0.25,758,0
+PL01261,Male,30,No,0,Graduate,Self-Employed,4,20400,5200,48,263000,Debt_Consolidation,0.5,465,2
+PL00203,Male,39,No,2,Graduate,Salaried,18,83400,18400,12,582000,Medical_Emergency,0.67,757,0
+PL00277,Female,38,No,1,Graduate,Salaried,17,63000,2000,48,88000,Medical_Emergency,0.51,756,0
+PL00228,Male,42,No,3,Not Graduate,Salaried,17,43500,500,24,186000,Medical_Emergency,0.38,762,0
+PL01508,Male,38,No,1,Graduate,Salaried,13,52100,6800,36,251000,Debt_Consolidation,0.38,661,0
+PL00523,Female,28,No,2,Graduate,Salaried,5,55600,4000,24,162000,Debt_Consolidation,0.45,700,0
+PL00152,Male,31,No,2,Graduate,Salaried,10,85800,7600,24,244000,Home_Renovation,0.28,644,0
+PL01428,Male,54,Yes,1,Graduate,Salaried,31,44700,3100,36,306000,Travel,1.0,711,0
+PL00204,Female,46,No,2,Graduate,Salaried,24,114800,3900,48,714000,Home_Renovation,0.41,713,0
+PL02775,Male,41,Yes,2,Graduate,Salaried,19,46000,9900,36,196000,Debt_Consolidation,0.59,573,1
+PL00603,Male,48,Yes,3,Not Graduate,Salaried,24,30400,300,48,130000,Travel,0.9,583,1
+PL00237,Female,45,Yes,0,Not Graduate,Self-Employed,24,19900,7300,36,80000,Travel,0.73,519,2
+PL01793,Male,33,Yes,2,Graduate,Salaried,9,106000,2700,12,140000,Debt_Consolidation,0.66,706,2
+PL01026,Female,23,Yes,1,Graduate,Salaried,2,28600,4800,36,112000,Travel,0.16,771,0
+PL02783,Male,49,Yes,0,Graduate,Salaried,21,64800,1600,48,385000,Debt_Consolidation,0.66,745,0
+PL01394,Male,48,Yes,2,Graduate,Self-Employed,27,91000,4400,12,137000,Debt_Consolidation,0.6,667,1
+PL02412,Male,22,Yes,1,Graduate,Self-Employed,1,34800,16800,12,64000,Wedding,0.93,678,1
+PL01680,Male,40,Yes,3,Graduate,Self-Employed,18,18000,3400,12,104000,Travel,0.36,583,0
+PL02206,Male,50,No,0,Graduate,Salaried,29,130900,100,12,53000,Medical_Emergency,0.06,590,0
+PL00936,Male,55,Yes,0,Not Graduate,Salaried,34,35600,5000,24,111000,Medical_Emergency,0.7,740,0
+PL00284,Male,39,Yes,0,Graduate,Salaried,15,29900,6400,12,63000,Travel,0.76,823,0
+PL02471,Female,54,Yes,3,Not Graduate,Salaried,29,22800,1300,12,908000,Wedding,0.28,763,0
+PL01969,Female,52,Yes,2,Graduate,Salaried,30,38700,4400,36,236000,Debt_Consolidation,0.64,790,0
+PL01656,Female,29,Yes,1,Graduate,Salaried,5,40900,3600,24,335000,Home_Renovation,0.47,795,0
+PL02863,Male,51,Yes,0,Graduate,Salaried,29,91700,25200,48,375000,Home_Renovation,0.53,579,3
+PL02065,Male,42,Yes,1,Not Graduate,Salaried,14,53100,11200,36,327000,Medical_Emergency,0.39,710,0
+PL01581,Female,31,Yes,2,Graduate,Self-Employed,8,41000,4500,6,40000,Home_Renovation,0.88,700,2
+PL01798,Male,27,Yes,2,Graduate,Self-Employed,6,44400,1300,48,95000,Debt_Consolidation,0.58,758,0
+PL00680,Male,55,No,1,Not Graduate,Salaried,32,30300,2900,48,327000,Wedding,0.66,638,0
+PL01127,Male,52,Yes,1,Graduate,Self-Employed,29,34100,8500,24,112000,Debt_Consolidation,0.64,744,0
+PL02817,Female,45,No,1,Graduate,Salaried,17,196300,100,24,60000,Medical_Emergency,0.14,829,3
+PL01994,Male,44,Yes,0,Graduate,Salaried,20,59300,5500,36,292000,Wedding,0.31,704,1
+PL01541,Female,38,Yes,0,Graduate,Salaried,15,29600,3300,24,105000,Wedding,0.42,639,3
+PL01920,Female,40,Yes,3,Not Graduate,Self-Employed,15,71500,4900,6,43000,Debt_Consolidation,0.57,603,1
+PL00006,Female,52,No,2,Graduate,Self-Employed,26,39800,7600,36,256000,Home_Renovation,0.13,638,0
+PL02297,Male,27,No,1,Graduate,Salaried,2,28200,1000,36,197000,Travel,0.91,526,1
+PL01638,Male,44,No,1,Graduate,Salaried,19,113300,400,12,30000,Medical_Emergency,0.06,786,3
+PL00586,Female,55,No,2,Graduate,Salaried,34,53500,15200,6,54000,Home_Renovation,0.14,667,0
+PL01620,Female,57,No,0,Graduate,Salaried,35,31500,2200,24,69000,Debt_Consolidation,0.18,878,0
+PL00388,Male,51,Yes,2,Graduate,Salaried,25,56400,12100,24,145000,Debt_Consolidation,0.58,755,0
+PL02924,Female,40,No,2,Graduate,Salaried,19,43300,2300,36,238000,Home_Renovation,0.34,751,0
+PL02764,Female,22,No,0,Not Graduate,Salaried,1,18000,3100,60,92000,Home_Renovation,0.62,866,0
+PL01825,Male,49,Yes,0,Graduate,Salaried,25,95600,23000,24,30000,Education,0.31,800,0
+PL02449,Male,49,Yes,3,Not Graduate,Salaried,24,25700,8000,60,135000,Medical_Emergency,0.29,647,1
+PL02959,Female,39,Yes,3,Graduate,Salaried,16,53700,7300,36,276000,Debt_Consolidation,0.91,716,0
+PL01223,Female,56,No,1,Graduate,Salaried,35,49700,17500,36,509000,Home_Renovation,0.36,565,1
+PL01028,Male,31,Yes,3,Not Graduate,Salaried,9,29200,3300,36,183000,Debt_Consolidation,0.37,785,0
+PL02706,Female,31,No,1,Not Graduate,Salaried,10,18000,1700,36,85000,Home_Renovation,0.3,705,2
+PL02547,Male,50,No,0,Graduate,Salaried,26,38100,4400,36,180000,Home_Renovation,0.61,736,0
+PL02585,Female,33,Yes,1,Graduate,Self-Employed,12,101100,2300,48,561000,Debt_Consolidation,0.4,690,1
+PL01190,Female,21,Yes,2,Graduate,Salaried,0,52600,5500,48,315000,Debt_Consolidation,0.42,765,0
+PL01999,Female,31,Yes,0,Graduate,Salaried,9,116000,22300,24,463000,Debt_Consolidation,0.86,575,0
+PL02355,Male,32,Yes,3,Graduate,Salaried,11,67100,3900,24,154000,Debt_Consolidation,0.62,745,1
+PL00989,Female,30,No,3,Graduate,Salaried,9,166000,100,12,32000,Medical_Emergency,0.13,803,3
+PL00783,Male,25,No,0,Graduate,Self-Employed,4,22400,5300,6,30000,Medical_Emergency,0.29,728,0
+PL01609,Male,29,No,0,Graduate,Self-Employed,8,18000,300,36,109000,Wedding,0.87,802,0
+PL02443,Male,21,Yes,3,Graduate,Self-Employed,0,91300,16700,24,336000,Debt_Consolidation,0.75,679,0
+PL01598,Male,47,Yes,0,Graduate,Self-Employed,25,42600,1500,24,163000,Travel,0.35,669,0
+PL00975,Female,26,Yes,0,Graduate,Self-Employed,3,68700,3000,12,101000,Wedding,0.31,591,2
+PL00348,Female,55,Yes,1,Graduate,Salaried,30,47300,22700,6,52000,Home_Renovation,0.33,756,0
+PL02247,Male,42,No,2,Graduate,Salaried,18,38000,6000,48,168000,Medical_Emergency,0.57,520,3
+PL01536,Male,22,No,3,Graduate,Salaried,1,35900,2100,12,281000,Education,0.96,737,1
+PL00948,Male,25,No,0,Graduate,Salaried,2,197400,400,12,41000,Medical_Emergency,0.1,594,0
+PL00755,Female,41,Yes,1,Not Graduate,Self-Employed,14,61800,9600,12,96000,Medical_Emergency,0.65,682,1
+PL00175,Male,46,No,3,Not Graduate,Salaried,25,28400,1200,48,148000,Education,0.69,572,2
+PL01451,Male,31,No,0,Graduate,Salaried,7,75600,7100,36,236000,Medical_Emergency,0.32,667,0
+PL00974,Male,38,Yes,1,Graduate,Salaried,17,109300,13800,12,178000,Home_Renovation,0.53,611,1
+PL01697,Male,38,Yes,2,Graduate,Salaried,15,42200,5600,12,65000,Wedding,0.4,646,1
+PL02207,Male,25,No,1,Graduate,Self-Employed,4,65400,19200,12,135000,Debt_Consolidation,0.58,654,2
+PL02172,Male,48,Yes,1,Graduate,Salaried,27,31100,3700,36,147000,Education,0.6,753,0
+PL00557,Female,48,Yes,0,Not Graduate,Salaried,20,28700,1200,24,69000,Debt_Consolidation,0.21,661,1
+PL02416,Male,38,Yes,0,Graduate,Salaried,17,39800,6400,60,85000,Education,0.56,781,0
+PL01954,Male,38,No,0,Graduate,Salaried,17,49200,3900,6,51000,Home_Renovation,0.31,497,3
+PL02220,Female,28,No,1,Graduate,Salaried,7,63700,6900,24,183000,Medical_Emergency,0.24,714,0
+PL02470,Male,28,No,1,Graduate,Salaried,3,198200,200,24,47000,Medical_Emergency,0.08,592,0
+PL01600,Male,47,No,2,Graduate,Salaried,22,25300,2700,24,97000,Education,0.43,689,0
+PL01203,Female,57,No,0,Graduate,Salaried,32,55800,5500,48,203000,Wedding,0.39,866,0
+PL02598,Female,47,No,3,Graduate,Salaried,26,49800,6600,36,147000,Medical_Emergency,0.09,708,0
+PL00318,Male,47,Yes,1,Graduate,Salaried,26,32900,5300,12,192000,Wedding,0.56,657,2
+PL00165,Male,36,Yes,2,Not Graduate,Salaried,14,39700,7600,12,46000,Debt_Consolidation,0.65,739,0
+PL02979,Male,31,Yes,2,Not Graduate,Salaried,8,27100,1300,12,60000,Debt_Consolidation,0.57,823,0
+PL01330,Male,33,No,0,Graduate,Self-Employed,9,53500,10100,12,67000,Debt_Consolidation,0.48,624,3
+PL00939,Female,38,Yes,0,Graduate,Salaried,14,80500,7300,12,119000,Wedding,0.35,687,0
+PL02821,Male,41,Yes,2,Not Graduate,Self-Employed,20,18000,3800,60,58000,Travel,0.15,757,0
+PL02022,Male,45,Yes,0,Not Graduate,Salaried,20,27900,3700,6,30000,Debt_Consolidation,0.36,592,0
+PL00830,Male,22,Yes,0,Graduate,Self-Employed,1,58400,6600,48,183000,Medical_Emergency,0.4,635,2
+PL00954,Male,36,Yes,1,Not Graduate,Self-Employed,14,29300,4100,36,144000,Education,0.5,780,1
+PL02221,Female,55,Yes,1,Graduate,Salaried,29,120500,100,60,38000,Medical_Emergency,0.14,574,0
+PL02417,Male,43,No,2,Graduate,Salaried,20,50100,6000,60,163000,Education,0.47,698,1
+PL01580,Female,43,No,0,Graduate,Self-Employed,19,49100,7500,60,210000,Debt_Consolidation,0.11,770,0
+PL00918,Male,50,Yes,3,Graduate,Salaried,29,45300,3500,12,1000000,Home_Renovation,0.59,768,0
+PL01414,Female,50,No,2,Graduate,Salaried,25,131300,100,36,58000,Medical_Emergency,0.11,856,4
+PL01515,Male,30,Yes,2,Graduate,Salaried,6,101800,17600,36,583000,Medical_Emergency,0.56,707,0
+PL00179,Male,54,Yes,1,Not Graduate,Self-Employed,30,47600,4600,12,109000,Education,0.45,538,1
+PL02686,Male,38,Yes,0,Not Graduate,Salaried,14,47500,2300,12,103000,Debt_Consolidation,0.4,876,0
+PL01985,Male,44,Yes,2,Graduate,Salaried,19,41100,4400,36,148000,Wedding,0.59,671,0
+PL00728,Female,24,Yes,0,Graduate,Self-Employed,1,47200,9700,36,170000,Education,0.2,703,0
+PL01652,Female,21,Yes,1,Graduate,Self-Employed,0,38600,1600,12,51000,Home_Renovation,0.51,704,2
+PL02311,Male,31,Yes,0,Graduate,Salaried,9,103000,300,12,32000,Medical_Emergency,0.1,812,3
+PL00923,Female,37,No,1,Not Graduate,Salaried,14,18000,2200,12,37000,Education,0.35,569,1
+PL01480,Female,36,No,3,Graduate,Salaried,10,197100,0,6,42000,Medical_Emergency,0.12,600,0
+PL01509,Female,52,Yes,0,Graduate,Self-Employed,28,106200,4000,60,454000,Debt_Consolidation,0.61,692,0
+PL01904,Male,30,No,2,Not Graduate,Salaried,4,23100,1800,24,102000,Debt_Consolidation,0.09,735,0
+PL00932,Female,46,Yes,1,Graduate,Salaried,23,34000,2400,36,125000,Home_Renovation,0.6,706,0
+PL02628,Male,21,No,0,Graduate,Self-Employed,0,69200,10100,60,341000,Medical_Emergency,0.44,780,0
+PL00655,Female,41,Yes,3,Graduate,Salaried,20,59200,9600,24,272000,Debt_Consolidation,0.9,789,0
+PL01116,Male,39,Yes,2,Graduate,Self-Employed,17,49300,1400,24,458000,Medical_Emergency,0.6,782,0

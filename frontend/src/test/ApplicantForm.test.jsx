@@ -56,8 +56,8 @@ describe('ApplicantForm Component (Modular Test)', () => {
     render(<ApplicantForm onSubmit={handleSubmit} isLoading={false} userRole="bank_officer" loanProduct={personalProduct} />);
     
     // Check that credit card utilization controls exist
-    expect(screen.getByText(/Credit Card Utilization/i)).toBeInTheDocument();
-    expect(screen.getByText(/0% \(Zero Revolving Debt\)/i)).toBeInTheDocument();
+    expect(screen.getByText(/Credit Card Use/i)).toBeInTheDocument();
+    expect(screen.getByText(/0% \(No Card Use\)/i)).toBeInTheDocument();
 
     // Load Ananya Rao (profile 1 has Credit_Card_Utilization: 0.0)
     const profileBtn = screen.getByText(/Ananya Rao/i);

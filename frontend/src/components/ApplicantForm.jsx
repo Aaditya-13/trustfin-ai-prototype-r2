@@ -69,26 +69,26 @@ const ApplicantForm = ({
     const homeLoanProfiles = [
         { 
             id: 1, 
-            label: "Profile 1: Jane Doe (Prime Executive)", 
-            badge: "Prime 70% LTV", 
+            label: "Profile 1: Jane Doe (Higher Credit Score)",
+            badge: "Higher Credit Score",
             data: { loan_type: 'home_loan', Gender: 'Female', Married: 'Yes', Dependents: 0, Education: 'Graduate', Employment_Status: 'Salaried', Age: 35, Work_Experience: 10, Applicant_Income: 80000, Coapplicant_Income: 20000, Existing_EMI: 6000, Loan_Amount: 3500000, Loan_Term: 240, Property_Value: 5000000, Property_Area: 'Urban', CIBIL_Score: 810, Credit_History: 1, Missed_Payments_12M: 0 } 
         },
         { 
             id: 2, 
-            label: "Profile 2: Amit Sharma (Subprime Delinquent)", 
-            badge: "Deep Subprime", 
+            label: "Profile 2: Amit Sharma (Low Score and Missed Payments)",
+            badge: "Low Credit Score",
             data: { loan_type: 'home_loan', Gender: 'Male', Married: 'No', Dependents: 2, Education: 'Not Graduate', Employment_Status: 'Self-Employed', Age: 42, Work_Experience: 6, Applicant_Income: 40000, Coapplicant_Income: 0, Existing_EMI: 8000, Loan_Amount: 2200000, Loan_Term: 240, Property_Value: 2800000, Property_Area: 'Rural', CIBIL_Score: 535, Missed_Payments_12M: 2 } 
         },
         { 
             id: 3, 
-            label: "Profile 3: Rahul Verma (High FOIR Solvency Breach)", 
-            badge: "FOIR 78% Breach", 
+            label: "Profile 3: Rahul Verma (High Monthly Debt)",
+            badge: "High Monthly Debt",
             data: { loan_type: 'home_loan', Gender: 'Male', Married: 'Yes', Dependents: 1, Education: 'Graduate', Employment_Status: 'Salaried', Age: 30, Work_Experience: 7, Applicant_Income: 38000, Coapplicant_Income: 0, Existing_EMI: 7000, Loan_Amount: 3200000, Loan_Term: 180, Property_Value: 4200000, Property_Area: 'Semiurban', CIBIL_Score: 785, Missed_Payments_12M: 0 } 
         },
         { 
             id: 4, 
-            label: "Profile 4: Priya Patel (Borderline Demographic Audit)", 
-            badge: "Fairness Audit", 
+            label: "Profile 4: Priya Patel (Gender Sensitivity Example)",
+            badge: "Gender Check",
             data: { loan_type: 'home_loan', Gender: 'Female', Married: 'Yes', Dependents: 1, Education: 'Graduate', Employment_Status: 'Salaried', Age: 31, Work_Experience: 6, Applicant_Income: 62000, Coapplicant_Income: 18000, Existing_EMI: 5000, Loan_Amount: 2800000, Loan_Term: 240, Property_Value: 3800000, Property_Area: 'Urban', CIBIL_Score: 665, Missed_Payments_12M: 1 } 
         }
     ];
@@ -96,26 +96,26 @@ const ApplicantForm = ({
     const personalLoanProfiles = [
         { 
             id: 1, 
-            label: "Profile 1: Ananya Rao (Emergency Medical Credit - Zero Card Debt)", 
-            badge: "Low Risk Approval", 
+            label: "Profile 1: Ananya Rao (Medical Loan, No Card Use)",
+            badge: "Medical Loan Example",
             data: { loan_type: 'personal_loan', Gender: 'Female', Married: 'No', Dependents: 0, Education: 'Graduate', Employment_Status: 'Salaried', Age: 29, Work_Experience: 6, Applicant_Income: 85000, Existing_EMI: 4000, Loan_Amount: 350000, Loan_Term: 24, Loan_Purpose: 'Medical_Emergency', Credit_Card_Utilization: 0.0, CIBIL_Score: 795, Missed_Payments_12M: 0 } 
         },
         { 
             id: 2, 
-            label: "Profile 2: Vikram Singh (Maxed Cards & Delinquencies)", 
-            badge: "High Default Risk", 
+            label: "Profile 2: Vikram Singh (High Card Use and Missed Payments)",
+            badge: "Missed Payments",
             data: { loan_type: 'personal_loan', Gender: 'Male', Married: 'Yes', Dependents: 2, Education: 'Not Graduate', Employment_Status: 'Self-Employed', Age: 44, Work_Experience: 12, Applicant_Income: 38000, Existing_EMI: 11000, Loan_Amount: 450000, Loan_Term: 36, Loan_Purpose: 'Debt_Consolidation', Credit_Card_Utilization: 0.89, CIBIL_Score: 565, Missed_Payments_12M: 3 } 
         },
         { 
             id: 3, 
-            label: "Profile 3: Kavita Nair (Borderline Retail Audit)", 
-            badge: "Fairness Test", 
+            label: "Profile 3: Kavita Nair (Gender Sensitivity Example)",
+            badge: "Gender Check",
             data: { loan_type: 'personal_loan', Gender: 'Female', Married: 'No', Dependents: 0, Education: 'Graduate', Employment_Status: 'Salaried', Age: 27, Work_Experience: 4, Applicant_Income: 52000, Existing_EMI: 3500, Loan_Amount: 250000, Loan_Term: 36, Loan_Purpose: 'Home_Renovation', Credit_Card_Utilization: 0.42, CIBIL_Score: 675, Missed_Payments_12M: 0 } 
         },
         { 
             id: 4, 
             label: "Profile 4: Suresh Kumar (Higher Education Loan)", 
-            badge: "Salaried Prime", 
+            badge: "Salaried Applicant",
             data: { loan_type: 'personal_loan', Gender: 'Male', Married: 'Yes', Dependents: 1, Education: 'Graduate', Employment_Status: 'Salaried', Age: 36, Work_Experience: 11, Applicant_Income: 110000, Existing_EMI: 8000, Loan_Amount: 700000, Loan_Term: 48, Loan_Purpose: 'Education', Credit_Card_Utilization: 0.28, CIBIL_Score: 770, Missed_Payments_12M: 0 } 
         }
     ];
@@ -184,13 +184,13 @@ const ApplicantForm = ({
 
     const cibilScore = Number(formData.CIBIL_Score) || 300;
     const getCibilBadge = (score) => {
-        if (score >= 750) return { label: 'Prime Credit', color: 'bg-emerald-50 text-emerald-800 border-emerald-300' };
-        if (score >= 650) return { label: 'Near Prime', color: 'bg-amber-50 text-amber-800 border-amber-300' };
-        return { label: 'Subprime Risk', color: 'bg-rose-50 text-rose-800 border-rose-300' };
+        if (score >= 750) return { label: 'Higher Score', color: 'bg-emerald-50 text-emerald-800 border-emerald-300' };
+        if (score >= 650) return { label: 'Middle Score', color: 'bg-amber-50 text-amber-800 border-amber-300' };
+        return { label: 'Lower Score', color: 'bg-rose-50 text-rose-800 border-rose-300' };
     };
     const cibilBadge = getCibilBadge(cibilScore);
 
-    const productName = loanProduct?.title || (isHomeLoan ? 'Residential Home Loan' : 'Personal & Retail Credit');
+    const productName = loanProduct?.title || (isHomeLoan ? 'Home Loan' : 'Personal Loan');
 
     return (
         <div className="bg-white p-6 border border-gray-300 rounded-sm mb-6 shadow-sm">
@@ -218,11 +218,11 @@ const ApplicantForm = ({
                 <div>
                     <h2 className="text-base font-bold text-gray-900 uppercase tracking-tight flex items-center gap-2">
                         <FileText className="w-4 h-4 text-gov-blue" />
-                        Loan Application Form ({isHomeLoan ? 'Home Loan Mortgage' : 'Personal Credit'})
+                        Loan Application Form ({isHomeLoan ? 'Home Loan' : 'Personal Loan'})
                     </h2>
                     <p className="text-xs text-gray-500 mt-0.5">
                         {userRole === 'bank_officer' 
-                            ? 'Enter verified applicant financials, bureau CIBIL score, and loan terms for algorithmic underwriting'
+                            ? 'Enter the submitted income, debt, credit score and loan details for assessment.'
                             : 'Enter your financial details to evaluate loan eligibility and instant credit decision'}
                     </p>
                 </div>
@@ -232,14 +232,14 @@ const ApplicantForm = ({
                             type="button"
                             onClick={() => setShowBatchModal(true)}
                             className="px-3 py-1.5 bg-yellow-500 hover:bg-yellow-400 text-blue-950 font-bold text-xs uppercase tracking-wider rounded-sm flex items-center gap-1.5 cursor-pointer transition-colors shadow-xs"
-                            title="Upload and evaluate bulk CSV portfolios"
+                            title="Upload and assess multiple applications from a CSV file"
                         >
                             <Upload className="w-3.5 h-3.5" />
                             <span>Upload Batch of Applications</span>
                         </button>
                     )}
                     <span className="text-[11px] font-bold px-2 py-1 bg-blue-50 text-gov-blue border border-blue-200 rounded-sm uppercase tracking-wider">
-                        {userRole === 'bank_officer' ? 'Officer Entry' : 'Direct Portal'}
+                        {userRole === 'bank_officer' ? 'Officer Entry' : 'Applicant Entry'}
                     </span>
                 </div>
             </div>
@@ -250,12 +250,12 @@ const ApplicantForm = ({
                 <div>
                     <div className="text-xs font-bold text-gray-700 uppercase tracking-wider border-b border-gray-200 pb-1 mb-3 flex items-center gap-1.5">
                         <UserCheck className="w-3.5 h-3.5 text-gray-500" />
-                        Part I: Applicant Demographic & Employment Profile
+                        Part I: Personal and Employment Details
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
                         <div className="flex flex-col">
-                            <label className="text-[11px] font-semibold text-gray-700 mb-1 uppercase">Gender (Fairness Audit)</label>
+                            <label className="text-[11px] font-semibold text-gray-700 mb-1 uppercase">Gender (Gender Check)</label>
                             <select name="Gender" value={formData.Gender} onChange={handleChange} className="border border-gray-300 p-2 text-gray-900 rounded-sm focus:outline-none focus:border-gov-blue text-xs bg-white">
                                 <option value="Female">Female</option>
                                 <option value="Male">Male</option>
@@ -302,15 +302,15 @@ const ApplicantForm = ({
                             <label className="text-[11px] font-semibold text-gray-700 mb-1 uppercase">Education</label>
                             <select name="Education" value={formData.Education} onChange={handleChange} className="border border-gray-300 p-2 text-gray-900 rounded-sm focus:outline-none focus:border-gov-blue text-xs bg-white">
                                 <option value="Graduate">Graduate</option>
-                                <option value="Not Graduate">Undergraduate / Non-Graduate</option>
+                                <option value="Not Graduate">Not Graduate</option>
                             </select>
                         </div>
 
                         <div className="flex flex-col">
                             <label className="text-[11px] font-semibold text-gray-700 mb-1 uppercase">Employment Status</label>
                             <select name="Employment_Status" value={formData.Employment_Status} onChange={handleChange} className="border border-gray-300 p-2 text-gray-900 rounded-sm focus:outline-none focus:border-gov-blue text-xs bg-white">
-                                <option value="Salaried">Salaried Corporate / Govt</option>
-                                <option value="Self-Employed">Self-Employed Business / Professional</option>
+                                <option value="Salaried">Salaried</option>
+                                <option value="Self-Employed">Self-Employed</option>
                             </select>
                         </div>
 
@@ -331,9 +331,9 @@ const ApplicantForm = ({
                         {/* Product Specific Field */}
                         {isHomeLoan ? (
                             <div className="flex flex-col">
-                                <label className="text-[11px] font-semibold text-gray-700 mb-1 uppercase">Property Area Location</label>
+                                <label className="text-[11px] font-semibold text-gray-700 mb-1 uppercase">Property Area</label>
                                 <select name="Property_Area" value={formData.Property_Area} onChange={handleChange} className="border border-gray-300 p-2 text-gray-900 rounded-sm focus:outline-none focus:border-gov-blue text-xs bg-white">
-                                    <option value="Urban">Urban Metro</option>
+                                    <option value="Urban">Urban</option>
                                     <option value="Semiurban">Semi-Urban</option>
                                     <option value="Rural">Rural</option>
                                 </select>
@@ -347,7 +347,7 @@ const ApplicantForm = ({
                                     <option value="Home_Renovation">Home Renovation</option>
                                     <option value="Wedding">Wedding Expense</option>
                                     <option value="Debt_Consolidation">Debt Consolidation</option>
-                                    <option value="Travel">Travel / Discretionary</option>
+                                    <option value="Travel">Travel</option>
                                 </select>
                             </div>
                         )}
@@ -358,7 +358,7 @@ const ApplicantForm = ({
                 <div className="pt-1">
                     <div className="text-xs font-bold text-gray-700 uppercase tracking-wider border-b border-gray-200 pb-1 mb-3 flex items-center gap-1.5">
                         <Landmark className="w-3.5 h-3.5 text-gray-500" />
-                        Part II: Income, Existing Debt Obligations & Solvency
+                        Part II: Income and Existing Monthly Repayments
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -392,7 +392,7 @@ const ApplicantForm = ({
                             <div className="flex flex-col">
                                 <div className="flex justify-between items-center mb-1">
                                     <label className="text-[11px] font-semibold text-gray-700 uppercase">
-                                        Credit Card Utilization
+                                        Credit Card Use (%)
                                     </label>
                                     <div className="flex items-center gap-1">
                                         <input 
@@ -430,15 +430,15 @@ const ApplicantForm = ({
                                     />
                                 </div>
                                 <div className="flex justify-between text-[10px] font-mono text-gray-400 mt-1">
-                                    <span className="text-emerald-700 font-semibold">0% (Zero Revolving Debt)</span>
-                                    <span>30% (Standard)</span>
-                                    <span className="text-rose-600 font-semibold">100% (Maxed Out)</span>
+                                    <span className="text-emerald-700 font-semibold">0% (No Card Use)</span>
+                                    <span>30% Used</span>
+                                    <span className="text-rose-600 font-semibold">100% (Full Limit Used)</span>
                                 </div>
                             </div>
                         )}
 
                         <div className="flex flex-col">
-                            <label className="text-[11px] font-semibold text-gray-700 mb-1 uppercase">Existing Running EMIs (₹/Month)</label>
+                            <label className="text-[11px] font-semibold text-gray-700 mb-1 uppercase">Existing Monthly EMIs (₹)</label>
                             <input 
                                 type="number" 
                                 name="Existing_EMI" 
@@ -457,7 +457,7 @@ const ApplicantForm = ({
                     <div className="text-xs font-bold text-gray-700 uppercase tracking-wider border-b border-gray-200 pb-1 mb-3 flex items-center justify-between">
                         <div className="flex items-center gap-1.5">
                             <ShieldAlert className="w-3.5 h-3.5 text-gray-500" />
-                            <span>Part III: Credit Bureau (CIBIL Score & Delinquencies)</span>
+                            <span>Part III: Credit Score and Missed Payments</span>
                         </div>
                         <span className={`text-[10px] font-bold px-2 py-0.5 border rounded-xs ${cibilBadge.color}`}>
                             {cibilBadge.label}
@@ -470,7 +470,7 @@ const ApplicantForm = ({
                         <div className="md:col-span-2 flex flex-col justify-center">
                             <div className="flex justify-between items-center mb-1.5">
                                 <label className="text-[11px] font-bold text-gray-800 uppercase flex items-center gap-1.5">
-                                    <span>Continuous CIBIL Score (300 to 900)</span>
+                                    <span>CIBIL Score (300 to 900)</span>
                                 </label>
                                 <div className="flex items-center gap-2">
                                     <input 
@@ -499,26 +499,26 @@ const ApplicantForm = ({
                             />
 
                             <div className="flex justify-between text-[10px] font-mono text-gray-500 mt-1">
-                                <span className="text-rose-600 font-semibold">300 (Subprime Default)</span>
-                                <span className="text-amber-600 font-semibold">650 (Near Prime)</span>
-                                <span className="text-emerald-700 font-semibold">750+ (Prime Credit)</span>
-                                <span className="text-emerald-800 font-bold">900 (Super-Prime)</span>
+                                <span className="text-rose-600 font-semibold">300 (Lowest Score)</span>
+                                <span className="text-amber-600 font-semibold">650 (Middle Score)</span>
+                                <span className="text-emerald-700 font-semibold">750+ (Higher Score)</span>
+                                <span className="text-emerald-800 font-bold">900 (Highest Score)</span>
                             </div>
                         </div>
 
                         {/* Missed Payments */}
                         <div className="flex flex-col justify-center">
-                            <label className="text-[11px] font-semibold text-gray-700 mb-1 uppercase">Missed Payments in Past 12M</label>
+                            <label className="text-[11px] font-semibold text-gray-700 mb-1 uppercase">Missed Payments in the Last 12 Months</label>
                             <select 
                                 name="Missed_Payments_12M" 
                                 value={formData.Missed_Payments_12M || 0} 
                                 onChange={handleChange} 
                                 className="border border-gray-300 p-2 text-gray-900 rounded-sm focus:outline-none focus:border-gov-blue text-xs bg-white font-mono font-semibold"
                             >
-                                <option value={0}>0 Delinquencies (Clean Track Record)</option>
-                                <option value={1}>1 Missed Payment (Minor Delay)</option>
-                                <option value={2}>2 Missed Payments (Elevated Risk)</option>
-                                <option value={3}>3+ Missed Payments (Chronic Default)</option>
+                                <option value={0}>0 Missed Payments</option>
+                                <option value={1}>1 Missed Payment</option>
+                                <option value={2}>2 Missed Payments</option>
+                                <option value={3}>3 Missed Payments</option>
                             </select>
                         </div>
                     </div>
@@ -528,7 +528,7 @@ const ApplicantForm = ({
                 <div className="pt-1">
                     <div className="text-xs font-bold text-gray-700 uppercase tracking-wider border-b border-gray-200 pb-1 mb-3 flex items-center gap-1.5">
                         <Landmark className="w-3.5 h-3.5 text-gray-500" />
-                        Part IV: Requested Loan Principal & Terms
+                        Part IV: Loan Amount and Term
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -552,7 +552,7 @@ const ApplicantForm = ({
                             {isHomeLoan && formData.Loan_Amount !== '' && Number(formData.Loan_Amount) < 300000 ? (
                                 <span className="text-[10px] text-amber-700 font-semibold mt-1 flex items-center gap-1">
                                     <Info className="w-3.5 h-3.5 text-amber-600 shrink-0" />
-                                    Indian banking norms mandate a minimum Home Loan of ₹3,00,000 (3 Lakhs). Below this, use Personal Credit.
+                                    The minimum home-loan amount supported by this form is ₹3,00,000.
                                 </span>
                             ) : (
                                 <span className="text-[10px] text-gray-400 mt-0.5 font-mono">
@@ -562,7 +562,7 @@ const ApplicantForm = ({
                         </div>
 
                         <div className="flex flex-col">
-                            <label className="text-[11px] font-semibold text-gray-700 mb-1 uppercase">Loan Tenure (Months)</label>
+                            <label className="text-[11px] font-semibold text-gray-700 mb-1 uppercase">Loan Term (Months)</label>
                             {isHomeLoan ? (
                                 <select 
                                     name="Loan_Term" 
@@ -584,7 +584,7 @@ const ApplicantForm = ({
                                     onChange={handleChange} 
                                     className="border border-gray-300 p-2 text-gray-900 rounded-sm focus:outline-none focus:border-gov-blue text-xs bg-white font-mono"
                                 >
-                                    <option value={6}>6 Months (Fast Track)</option>
+                                    <option value={6}>6 Months</option>
                                     <option value={12}>12 Months (1 Year)</option>
                                     <option value={24}>24 Months (2 Years)</option>
                                     <option value={36}>36 Months (3 Years)</option>
@@ -596,7 +596,7 @@ const ApplicantForm = ({
 
                         {isHomeLoan && (
                             <div className="flex flex-col">
-                                <label className="text-[11px] font-semibold text-gray-700 mb-1 uppercase">Property Market Valuation (₹)</label>
+                                <label className="text-[11px] font-semibold text-gray-700 mb-1 uppercase">Property Market Value (₹)</label>
                                 <input 
                                     type="number" 
                                     name="Property_Value" 
@@ -622,7 +622,7 @@ const ApplicantForm = ({
                             isLoading ? 'bg-gray-400 cursor-not-allowed' : 'bg-gov-blue hover:bg-blue-900 cursor-pointer'
                         }`}
                     >
-                        {isLoading ? 'Evaluating Application with Explainable AI...' : 'Evaluate Loan Application'}
+                        {isLoading ? 'Assessing Application...' : 'Evaluate Loan Application'}
                     </button>
                 </div>
             </form>
@@ -632,9 +632,9 @@ const ApplicantForm = ({
                 <div className="flex justify-between items-center mb-2.5">
                     <span className="text-xs font-bold text-gray-800 uppercase tracking-wider flex items-center gap-1.5">
                         <FileText className="w-3.5 h-3.5 text-gray-600" />
-                        Sample Test Profiles ({isHomeLoan ? 'Home Loan Mortgage' : 'Personal Credit'})
+                        Sample Test Profiles ({isHomeLoan ? 'Home Loan' : 'Personal Loan'})
                     </span>
-                    <span className="text-[11px] text-gray-500">Click any profile to load calibrated test values</span>
+                    <span className="text-[11px] text-gray-500">Select a sample profile to fill the form. Results depend on the current model.</span>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     {activeProfiles.map(profile => (

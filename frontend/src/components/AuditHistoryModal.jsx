@@ -1,3 +1,4 @@
+import { formatAffordabilityStatus } from '../utils/bankingTerms';
 import React, { useState, useEffect } from 'react';
 import { 
     X, 
@@ -203,11 +204,11 @@ const AuditHistoryModal = ({ isOpen, onClose, onLoadEvaluation }) => {
                             <div className="flex items-center gap-2">
                                 <h2 className="text-base font-bold tracking-tight">Application & Batch History</h2>
                                 <span className="text-[10px] uppercase font-bold tracking-widest px-1.5 py-0.2 bg-blue-900 border border-blue-400 text-yellow-300">
-                                    Institutional Audit Log
+                                    Saved Assessment Records
                                 </span>
                             </div>
                             <p className="text-[11px] text-blue-200">
-                                Browse saved applications, audit batch portfolios, review decisions, and inspect flawed records
+                                Review saved applications, batch results and rows with missing or invalid details
                             </p>
                         </div>
                     </div>
@@ -296,12 +297,12 @@ const AuditHistoryModal = ({ isOpen, onClose, onLoadEvaluation }) => {
                     {loading && evaluations.length === 0 && batches.length === 0 ? (
                         <div className="py-16 text-center text-gray-500 flex flex-col items-center gap-2">
                             <RefreshCw className="w-6 h-6 animate-spin text-gov-blue" />
-                            <p className="text-xs">Loading records from database...</p>
+                            <p className="text-xs">Loading saved records...</p>
                         </div>
                     ) : error ? (
                         <div className="p-4 bg-red-50 border border-red-300 text-red-800 text-xs flex items-center gap-2">
                             <AlertCircle className="w-4 h-4 text-red-600 shrink-0" />
-                            <span><strong>Database Error:</strong> {error}</span>
+                            <span><strong>Unable to load records:</strong> {error}</span>
                         </div>
                     ) : activeHistoryTab !== 'batches' ? (
                         
@@ -320,8 +321,8 @@ const AuditHistoryModal = ({ isOpen, onClose, onLoadEvaluation }) => {
                                             <th className="p-2.5 border-r border-gray-300">Application Ref</th>
                                             <th className="p-2.5 border-r border-gray-300">Application Date</th>
                                             <th className="p-2.5 border-r border-gray-300">Financial Profile</th>
-                                            <th className="p-2.5 border-r border-gray-300">Decision</th>
-                                            <th className="p-2.5 border-r border-gray-300">Repayment Status</th>
+                                            <th className="p-2.5 border-r border-gray-300">Model Prediction</th>
+                                            <th className="p-2.5 border-r border-gray-300">Affordability Check</th>
                                             <th className="p-2.5 border-r border-gray-300">Trust Score</th>
                                             <th className="p-2.5 text-center">Actions</th>
                                         </tr>
@@ -375,11 +376,11 @@ const AuditHistoryModal = ({ isOpen, onClose, onLoadEvaluation }) => {
                                                                  ? 'bg-amber-50 text-amber-800 border-amber-300'
                                                                  : 'bg-rose-50 text-rose-800 border-rose-300'
                                                          }`}>
-                                                             {item.solvencyStatus === 'INSOLVENT' ? 'EXCEEDS LIMIT' : (item.solvencyStatus || 'N/A')}
+                                                             {formatAffordabilityStatus(item.solvencyStatus)}
                                                          </span>
                                                          {item.dtiRatio !== undefined && item.dtiRatio !== null && (
                                                              <div className="text-[10px] text-gray-500 mt-0.5">
-                                                                 EMI/Income: {(item.dtiRatio * 100).toFixed(1)}%
+                                                                 Debt/Income: {(item.dtiRatio * 100).toFixed(1)}%
                                                              </div>
                                                          )}
                                                     </td>
@@ -398,7 +399,7 @@ const AuditHistoryModal = ({ isOpen, onClose, onLoadEvaluation }) => {
                                                                  onClick={() => handleInspect(item)}
                                                                  disabled={isActionLoading}
                                                                  className="px-2 py-1 bg-gov-blue hover:bg-blue-900 text-white rounded-xs text-[11px] font-bold uppercase tracking-wider flex items-center gap-1 cursor-pointer transition-colors shadow-xs disabled:opacity-50"
-                                                                 title="Inspect XAI explanations and mathematical audit"
+                                                                 title="Review model explanations and validation scores"
                                                              >
                                                                  {isActionLoading ? <RefreshCw className="w-3 h-3 animate-spin" /> : <ExternalLink className="w-3 h-3" />}
                                                                  <span>Inspect</span>
@@ -408,7 +409,7 @@ const AuditHistoryModal = ({ isOpen, onClose, onLoadEvaluation }) => {
                                                                  onClick={() => handleDownload(item)}
                                                                  disabled={isActionLoading}
                                                                  className="p-1 bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-300 text-[11px] cursor-pointer transition-colors"
-                                                                 title="Download Loan Approval / Advisory PDF"
+                                                                 title="Download assessment report PDF"
                                                              >
                                                                  <Download className="w-3.5 h-3.5" />
                                                              </button>
@@ -452,7 +453,7 @@ const AuditHistoryModal = ({ isOpen, onClose, onLoadEvaluation }) => {
                                         Processed: <strong>{selectedBatchDetail.validRecords}</strong>
                                     </span>
                                     <span className="px-2 py-0.5 text-xs bg-red-100 text-red-900 border border-red-300 font-semibold rounded-xs">
-                                        Trashed: <strong>{selectedBatchDetail.flawedRecords}</strong>
+                                        Invalid Rows: <strong>{selectedBatchDetail.flawedRecords}</strong>
                                     </span>
                                 </div>
                             </div>
@@ -479,7 +480,7 @@ const AuditHistoryModal = ({ isOpen, onClose, onLoadEvaluation }) => {
                                             : 'border-transparent text-gray-600 hover:text-gray-900'
                                     }`}
                                 >
-                                    Trashed Incomplete Records ({selectedBatchDetail.flawedRecords})
+                                    Invalid Rows ({selectedBatchDetail.flawedRecords})
                                 </button>
                             </div>
 
@@ -491,8 +492,8 @@ const AuditHistoryModal = ({ isOpen, onClose, onLoadEvaluation }) => {
                                             <tr className="bg-gray-100 text-gray-700 font-bold border-b border-gray-300 text-[11px] uppercase tracking-wider">
                                                 <th className="p-2.5 border-r border-gray-300">Application Ref</th>
                                                 <th className="p-2.5 border-r border-gray-300">Financial Profile</th>
-                                                <th className="p-2.5 border-r border-gray-300">Decision</th>
-                                                <th className="p-2.5 border-r border-gray-300">Repayment Limit</th>
+                                                <th className="p-2.5 border-r border-gray-300">Model Prediction</th>
+                                                <th className="p-2.5 border-r border-gray-300">Affordability Check</th>
                                                 <th className="p-2.5 border-r border-gray-300">Trust Score</th>
                                                 <th className="p-2.5 text-center">Action</th>
                                             </tr>
@@ -525,7 +526,7 @@ const AuditHistoryModal = ({ isOpen, onClose, onLoadEvaluation }) => {
                                                             </span>
                                                         </td>
                                                         <td className="p-2.5 border-r border-gray-200">
-                                                            <span className="font-semibold text-gray-800">{item.solvencyStatus || 'N/A'}</span>
+                                                            <span className="font-semibold text-gray-800">{formatAffordabilityStatus(item.solvencyStatus)}</span>
                                                         </td>
                                                         <td className="p-2.5 border-r border-gray-200">
                                                             <span className="font-mono font-bold text-gray-900">{trustPct}%</span>
@@ -554,7 +555,7 @@ const AuditHistoryModal = ({ isOpen, onClose, onLoadEvaluation }) => {
                                     <div className="p-3 bg-red-50 border border-red-200 rounded-sm text-xs text-red-900 flex items-start gap-2">
                                         <AlertTriangle className="w-4 h-4 text-red-700 shrink-0 mt-0.5" />
                                         <div>
-                                            <strong className="font-bold">Institutional Traceability Audit:</strong> These {selectedBatchDetail.flawedRecords} applications were rejected and excluded from ML scoring during ingestion.
+                                            <strong className="font-bold">Invalid Rows:</strong> These {selectedBatchDetail.flawedRecords} rows could not be assessed because details were missing or invalid.
                                         </div>
                                     </div>
 
@@ -563,8 +564,8 @@ const AuditHistoryModal = ({ isOpen, onClose, onLoadEvaluation }) => {
                                             <thead>
                                                 <tr className="bg-red-50 text-red-900 font-bold border-b border-red-200 text-[11px] uppercase tracking-wider">
                                                     <th className="p-2.5 border-r border-red-200 w-20">Row #</th>
-                                                    <th className="p-2.5 border-r border-red-200">Validation Failure Reason</th>
-                                                    <th className="p-2.5">Received Input Values</th>
+                                                    <th className="p-2.5 border-r border-red-200">Reason the Row Could Not Be Assessed</th>
+                                                    <th className="p-2.5">Submitted Values</th>
                                                 </tr>
                                             </thead>
                                             <tbody className="divide-y divide-red-100">
@@ -608,7 +609,7 @@ const AuditHistoryModal = ({ isOpen, onClose, onLoadEvaluation }) => {
                                             <th className="p-2.5 border-r border-gray-300">Upload Date</th>
                                             <th className="p-2.5 border-r border-gray-300 text-center">Total Rows</th>
                                             <th className="p-2.5 border-r border-gray-300 text-center">Processed</th>
-                                            <th className="p-2.5 border-r border-gray-300 text-center">Trashed</th>
+                                            <th className="p-2.5 border-r border-gray-300 text-center">Invalid Rows</th>
                                             <th className="p-2.5 text-center">Actions</th>
                                         </tr>
                                     </thead>
@@ -648,7 +649,7 @@ const AuditHistoryModal = ({ isOpen, onClose, onLoadEvaluation }) => {
                                                             type="button"
                                                             onClick={() => handleViewBatch(b.batchId)}
                                                             className="px-2.5 py-1 bg-gov-blue hover:bg-blue-900 text-white font-bold rounded-xs text-[11px] uppercase tracking-wider flex items-center gap-1 cursor-pointer shadow-xs"
-                                                            title="Inspect processed and flawed records in this batch"
+                                                            title="View assessed applications and invalid rows in this batch"
                                                         >
                                                             <Eye className="w-3 h-3" />
                                                             <span>View</span>
@@ -675,7 +676,7 @@ const AuditHistoryModal = ({ isOpen, onClose, onLoadEvaluation }) => {
                 {/* Footer */}
                 <div className="p-3 bg-gray-50 border-t border-gray-300 flex justify-between items-center text-xs text-gray-500">
                     <span>
-                        Connected to Neon PostgreSQL (Automatic SQLite offline failover enabled)
+                        Saved application assessments and batch uploads
                     </span>
                     <button
                         type="button"

@@ -1,0 +1,9 @@
+# Reproducible generated-file fingerprints on Windows and Unix checkouts.
+datasets/*.csv text eol=lf
+datasets/evaluation/*.csv text eol=lf
+datasets/*.json text eol=lf
+models/*/*.json text eol=lf
+models/*/*.csv text eol=lf
+models/*/*.pkl binary
+models/*/*.ubj binary
+models/*/*.npy binary

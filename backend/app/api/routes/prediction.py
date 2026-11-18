@@ -2,7 +2,6 @@ from fastapi import APIRouter, HTTPException, Response, Depends, UploadFile, Fil
 from sqlalchemy.orm import Session
 from typing import List, Optional
 from datetime import datetime, timezone
-import joblib
 import pandas as pd
 import numpy as np
 import json
@@ -15,6 +14,7 @@ from backend.app.api.schemas import (
     LoanApplicationRequest, 
     LoanPredictionResponse, 
     SolvencyCheckResult, 
+    PolicyCheckResult,
     GenerateReportRequest,
     EvaluationSummaryItem,
     EvaluationDetailResponse,
@@ -27,12 +27,11 @@ from backend.app.api.schemas import (
 from backend.app.db.session import get_db
 from backend.app.db.models import PredictionLog, BatchUpload
 from backend.app.reporting.pdf_generator import generate_loan_report_pdf
-from backend.app.ml.preprocessing import add_financial_features
 from backend.app.ml.registry import registry
-from backend.app.explainability.shap_explainer import SHAPExplainer
-from backend.app.explainability.lime_explainer import LIMEExplainer
-from backend.app.validation.faithfulness import calculate_faithfulness
-from backend.app.validation.stability import calculate_stability
+from backend.app.ml.product_policy import POLICIES
+from backend.app.ml.policy_assessment import assess_policy
+from backend.app.validation.faithfulness import evaluate_faithfulness, FaithfulnessNotEvaluable
+from backend.app.validation.stability import evaluate_shap_stability, StabilityNotEvaluable
 from backend.app.validation.consistency import calculate_consistency
 from backend.app.validation.fairness import calculate_counterfactual_fairness
 from backend.app.trust.trust_score import calculate_trust_score
@@ -72,8 +71,8 @@ def generate_applicant_seed(input_data: dict) -> int:
     """
     Derives a deterministic, cryptographically stable 32-bit integer seed
     from the applicant input features.
-    Ensures identical inputs always produce identical random sequences for LIME
-    sampling and stability perturbations, preventing artificial score drift on re-evaluations.
+    Ensures identical inputs produce identical random sequences for LIME sampling.
+    Stability uses a fixed financial adjustment grid and does not use this seed.
     """
     filtered = {k: v for k, v in input_data.items() if v is not None}
     legacy_core_keys = ['Age', 'Applicant_Income', 'Coapplicant_Income', 'Credit_History', 'Dependents', 'Education', 'Employment_Status', 'Gender', 'Loan_Amount', 'Loan_Term', 'Married', 'Property_Area']
@@ -85,28 +84,8 @@ def generate_applicant_seed(input_data: dict) -> int:
     hash_hex = hashlib.sha256(serialized.encode("utf-8")).hexdigest()
     return int(hash_hex[:8], 16) % (2**31 - 1)
 
-try:
-    print("Loading models for API...")
-    model = joblib.load('models/loan_prediction_model.pkl')
-    preprocessor = joblib.load('models/preprocessor.pkl')
-    with open('models/feature_config.json', 'r') as f:
-        config = json.load(f)
-    feature_names = config["transformed_features"]
-    raw_features = config["raw_features"]
-    
-    # Load sample training data for LIME baseline
-    train_clean = pd.read_csv('data/processed/train_clean.csv')
-    X_train_raw = train_clean[raw_features]
-    X_train_transformed = preprocessor.transform(X_train_raw)
-    
-    # Initialize explainers globally to save time
-    shap_explainer = SHAPExplainer(model, feature_names)
-    lime_explainer = LIMEExplainer(X_train_transformed, feature_names)
-    print("Models loaded successfully.")
-    
-except Exception as e:
-    print(f"Error loading models: {e}")
-    model = None
+# ModelRegistry owns verified product models and their explainers.
+
 
 def generate_batch_id(loan_type: Optional[str] = None) -> str:
     """
@@ -283,7 +262,10 @@ def evaluate_single_record(input_data: dict, is_batch: bool = False):
         else:
             product_id = 'legacy' if 'legacy' in registry.pipelines else 'home_loan'
         
-    pipe = registry.get_pipeline(product_id)
+    try:
+        pipe = registry.get_pipeline(product_id)
+    except ValueError as exc:
+        raise HTTPException(status_code=503, detail="Requested loan model is unavailable; rebuild its verified model bundle.") from exc
     
     # 1. Normalize and Enrich
     normalized_data = registry.normalize_input(pipe.product_id, input_data)
@@ -301,7 +283,7 @@ def evaluate_single_record(input_data: dict, is_batch: bool = False):
     else:
         input_df_enriched = pipe.feature_fn(input_df)
         monthly_emi = float(input_df_enriched['Monthly_EMI'].iloc[0])
-        total_income = float(normalized_data['Applicant_Income'] + normalized_data.get('Coapplicant_Income', 0))
+        total_income = float(normalized_data['Applicant_Income'] + (normalized_data.get('Coapplicant_Income', 0) if pipe.product_id == 'home_loan' else 0))
         dti_ratio = float(input_df_enriched['FOIR'].iloc[0])
         dti_status_ratio = dti_ratio
         orig_values = normalized_data.copy()
@@ -311,27 +293,30 @@ def evaluate_single_record(input_data: dict, is_batch: bool = False):
 
     transformed_instance = pipe.preprocessor.transform(input_df_enriched)[0]
 
-    # 2. Solvency / FOIR Guardrail Calculation (Deterministic Banking Limit)
+    # 2. Project affordability thresholds (not universal regulatory limits).
     existing_emi = float(normalized_data.get('Existing_EMI', 0.0) or 0.0)
     total_obligation = round(monthly_emi + existing_emi, 2)
     net_disposable = round(total_income - total_obligation, 2)
     dti_percent = f"{dti_status_ratio * 100:.1f}%"
 
-    if dti_status_ratio <= 0.35:
+    project_policy = POLICIES.get(pipe.product_id)
+    comfortable_limit = project_policy.comfortable_foir if project_policy else 0.35
+    maximum_limit = project_policy.max_foir if project_policy else 0.50
+    if dti_status_ratio <= comfortable_limit:
         solvency_status = "OPTIMAL"
         is_solvent = True
         override_warning = None
-    elif dti_status_ratio <= 0.50:
+    elif dti_status_ratio <= maximum_limit:
         solvency_status = "MODERATE"
         is_solvent = True
-        override_warning = f"Moderate Debt Burden: Total obligations of ₹{total_obligation:,.0f}/mo represent {dti_percent} of monthly income (35%–50% zone)."
+        override_warning = f"Monthly debt review: existing and proposed EMIs total ₹{total_obligation:,.0f} per month, using {dti_percent} of income (above 35% and up to 50%)."
     else:
         solvency_status = "INSOLVENT"
         is_solvent = False
         if existing_emi > 0:
-            override_warning = f"CRITICAL FINANCIAL RISK: Total monthly debt obligation of ₹{total_obligation:,.0f}/mo (including ₹{existing_emi:,.0f} existing debt) represents {dti_percent} of income, exceeding the 50% regulatory ceiling."
+            override_warning = f"Above project limit: total monthly EMIs of ₹{total_obligation:,.0f} (including ₹{existing_emi:,.0f} in existing EMIs) use {dti_percent} of income, above the 50% limit."
         else:
-            override_warning = f"CRITICAL FINANCIAL RISK: Monthly repayment obligation (₹{monthly_emi:,.0f}/mo) represents {dti_percent} of income, exceeding the 50% regulatory limit."
+            override_warning = f"Above project limit: the estimated EMI of ₹{monthly_emi:,.0f} per month uses {dti_percent} of income, above the 50% limit."
 
     solvency_check = SolvencyCheckResult(
         monthlyEMI=round(monthly_emi, 2),
@@ -351,6 +336,7 @@ def evaluate_single_record(input_data: dict, is_batch: bool = False):
     pred = pipe.model.predict(transformed_2d)[0]
     prob = pipe.model.predict_proba(transformed_2d)[0][1]
     prediction_str = "Approved" if pred == 1 else "Rejected"
+    policy_check = PolicyCheckResult(**assess_policy(input_df, pipe.product_id, prediction_str)) if project_policy else None
 
     # 4. Explainability (SHAP & LIME)
     applicant_seed = generate_applicant_seed(input_data)
@@ -363,15 +349,21 @@ def evaluate_single_record(input_data: dict, is_batch: bool = False):
     )
 
     # 5. 4-Pillar Validation Suite
-    faithfulness_score = calculate_faithfulness(pipe.model, transformed_instance, shap_exp, pipe.feature_names)
+    try:
+        faithfulness_check = evaluate_faithfulness(float(prob), shap_exp, lime_exp)
+    except FaithfulnessNotEvaluable as exc:
+        raise HTTPException(status_code=422, detail=f"Faithfulness cannot be evaluated: {exc}") from exc
+    faithfulness_score = faithfulness_check.score
 
-    stability_rng = np.random.RandomState(applicant_seed)
-    noise = stability_rng.normal(0, 0.01, size=transformed_instance.shape)
-    perturbed_instance = transformed_instance + noise
-    shap_exp_perturbed = pipe.shap_explainer.explain_instance(perturbed_instance, original_values=orig_values)
-    stability_score = calculate_stability(shap_exp, shap_exp_perturbed)
+    try:
+        stability_check = evaluate_shap_stability(
+            pipe, normalized_data, shap_exp, original_prediction=int(pred), original_probability=float(prob),
+        )
+    except StabilityNotEvaluable as exc:
+        raise HTTPException(status_code=422, detail=f"SHAP stability cannot be evaluated: {exc}") from exc
+    stability_score = stability_check.score
 
-    consistency_score = calculate_consistency(shap_exp, lime_exp, top_k=3)
+    consistency_score = calculate_consistency(shap_exp, lime_exp)
     fairness_score = calculate_counterfactual_fairness(
         pipe.model, 
         pipe.preprocessor, 
@@ -385,9 +377,12 @@ def evaluate_single_record(input_data: dict, is_batch: bool = False):
     dossier_id = generate_dossier_id(normalized_data, is_batch=is_batch)
     confidence_score = float(prob) if pred == 1 else float(1 - prob)
 
-    model_version_str = "v1" if pipe.product_id == 'legacy' else f"{pipe.product_id}_v2"
+    model_version_str = "v1" if pipe.product_id == 'legacy' else pipe.metrics['model_version']
 
     response_obj = LoanPredictionResponse(
+        faithfulnessCheck=faithfulness_check,
+        stabilityCheck=stability_check,
+        policyCheck=policy_check,
         prediction=prediction_str,
         probability=float(prob),
         confidenceScore=confidence_score,
@@ -438,8 +433,6 @@ def process_rows_into_batch(rows: list, filename: str, db: Session, default_loan
     Ingests raw rows, trashes flawed rows with explicit errors, processes valid rows
     through ML/XAI pipeline, persists to database, and creates a BatchUpload log.
     """
-    if model is None:
-        raise HTTPException(status_code=500, detail="Models not loaded properly.")
 
     inferred_loan_type = default_loan_type
     if inferred_loan_type is None and rows:
@@ -494,6 +487,8 @@ def process_rows_into_batch(rows: list, filename: str, db: Session, default_loan
                 rejected_count += 1
             trust_scores.append(response_obj.trustScore.overallTrustScore)
 
+        except HTTPException:
+            raise
         except Exception as eval_err:
             flawed_count += 1
             flawed_list.append(FlawedRecordItem(
@@ -546,8 +541,6 @@ def process_rows_into_batch(rows: list, filename: str, db: Session, default_loan
 
 @router.post("/predict", response_model=LoanPredictionResponse)
 async def predict_loan(request: LoanApplicationRequest, db: Session = Depends(get_db)):
-    if model is None:
-        raise HTTPException(status_code=500, detail="Models not loaded properly.")
     try:
         input_data = request.model_dump()
         response_obj, db_fields = evaluate_single_record(input_data)
@@ -566,6 +559,8 @@ async def predict_loan(request: LoanApplicationRequest, db: Session = Depends(ge
                 pass
 
         return response_obj
+    except HTTPException:
+        raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Prediction failed: {str(e)}")
 

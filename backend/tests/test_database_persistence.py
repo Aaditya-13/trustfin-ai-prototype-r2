@@ -14,7 +14,7 @@ def test_evaluation_persistence_and_retrieval(api_client, prime_applicant):
     
     assert "evaluationId" in data and data["evaluationId"] is not None
     assert "dossierId" in data and data["dossierId"] is not None
-    assert data["dossierId"].startswith("TF-")
+    assert data["dossierId"].startswith("H-")
     eval_id = data["evaluationId"]
     dossier_id = data["dossierId"]
     

@@ -1,3 +1,4 @@
+import { formatAffordabilityStatus } from '../utils/bankingTerms';
 import React, { useState } from 'react';
 import { 
     X, Upload, FileText, CheckCircle2, AlertTriangle, 
@@ -131,7 +132,7 @@ const BatchUploadModal = ({ isOpen, loanType = 'home_loan', onClose, onInspectEv
                                 </span>
                             </div>
                             <p className="text-[11px] text-blue-200">
-                                Ingest bulk loan portfolios, validate incomplete records, and run XAI explanation pipelines
+                                Upload multiple applications, check their details, and view predictions and explanations
                             </p>
                         </div>
                     </div>
@@ -188,11 +189,11 @@ const BatchUploadModal = ({ isOpen, loanType = 'home_loan', onClose, onInspectEv
                                 <div className="mb-2">
                                     <h3 className="text-xs font-bold text-gray-800 uppercase tracking-wide flex items-center gap-1.5">
                                         <Play className="w-4 h-4 text-gov-blue" />
-                                        Option 1: {selectedLoanType === 'home_loan' ? 'Home Loan' : 'Personal Loan'} demo portfolio
+                                        Option 1: {selectedLoanType === 'home_loan' ? 'Home Loan' : 'Personal Loan'} sample applications
                                     </h3>
                                 </div>
                                 <p className="text-xs text-gray-600 mb-3">
-                                    Use a portfolio built for {selectedLoanType === 'home_loan' ? 'home loans, including property value and area' : 'personal loans, including purpose and card utilization'}.
+                                    Use sample applications prepared for {selectedLoanType === 'home_loan' ? 'home loans, including property value and area' : 'personal loans, including purpose and card utilization'}.
                                 </p>
 
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -204,7 +205,7 @@ const BatchUploadModal = ({ isOpen, loanType = 'home_loan', onClose, onInspectEv
                                     >
                                         <div className="flex items-center justify-between">
                                             <span className="text-xs font-bold text-gray-900 group-hover:text-gov-blue">
-                                                {selectedLoanType === 'home_loan' ? 'Home Loan Portfolio' : 'Personal Loan Portfolio'}
+                                                {selectedLoanType === 'home_loan' ? 'Home Loan Samples' : 'Personal Loan Samples'}
                                             </span>
                                             <span className="text-[10px] font-bold px-1.5 py-0.5 bg-blue-100 text-blue-900 rounded-xs">
                                                 9 Applications
@@ -216,7 +217,7 @@ const BatchUploadModal = ({ isOpen, loanType = 'home_loan', onClose, onInspectEv
                                                 : 'Unsecured credit cases with loan purpose, existing EMI, and card utilization.'}
                                         </p>
                                         <div className="mt-2.5 flex items-center gap-1 text-[11px] font-bold text-gov-blue group-hover:underline">
-                                            <span>Run {selectedLoanType === 'home_loan' ? 'Home' : 'Personal'} Loan Portfolio</span>
+                                            <span>Run {selectedLoanType === 'home_loan' ? 'Home' : 'Personal'} Loan Samples</span>
                                             <ArrowRight className="w-3.5 h-3.5" />
                                         </div>
                                     </button>
@@ -245,7 +246,7 @@ const BatchUploadModal = ({ isOpen, loanType = 'home_loan', onClose, onInspectEv
                                     <div>
                                         <h3 className="text-xs font-bold text-gray-800 uppercase tracking-wide flex items-center gap-1.5">
                                             <Upload className="w-4 h-4 text-gov-blue" />
-                                            Option 2: Upload Real CSV File
+                                            Option 2: Upload a CSV File
                                         </h3>
                                         <p className="text-xs text-gray-500 mt-0.5">
                                             Upload the selected {selectedLoanType === 'home_loan' ? 'home loan' : 'personal loan'} product's CSV format using the matching template above.
@@ -309,12 +310,12 @@ const BatchUploadModal = ({ isOpen, loanType = 'home_loan', onClose, onInspectEv
                                         {isProcessing ? (
                                             <>
                                                 <RefreshCw className="w-4 h-4 animate-spin" />
-                                                <span>Evaluating Portfolio...</span>
+                                                <span>Assessing Applications...</span>
                                             </>
                                         ) : (
                                             <>
                                                 <Upload className="w-4 h-4" />
-                                                <span>Process & Ingest Batch</span>
+                                                <span>Assess Applications</span>
                                             </>
                                         )}
                                     </button>
@@ -336,14 +337,14 @@ const BatchUploadModal = ({ isOpen, loanType = 'home_loan', onClose, onInspectEv
                                     <span className="text-[10px] text-gray-500">Submitted in file</span>
                                 </div>
                                 <div className="p-3 bg-green-50 border border-green-200 rounded-sm text-center">
-                                    <span className="text-[10px] font-semibold text-green-700 uppercase">Valid & Evaluated</span>
+                                    <span className="text-[10px] font-semibold text-green-700 uppercase">Assessed Rows</span>
                                     <p className="text-xl font-bold font-mono text-green-800 mt-0.5">{batchResult.validRecords}</p>
                                     <span className="text-[10px] text-green-700">Saved to database</span>
                                 </div>
                                 <div className="p-3 bg-red-50 border border-red-200 rounded-sm text-center">
-                                    <span className="text-[10px] font-semibold text-red-700 uppercase">Trashed / Flawed</span>
+                                    <span className="text-[10px] font-semibold text-red-700 uppercase">Invalid Rows</span>
                                     <p className="text-xl font-bold font-mono text-red-800 mt-0.5">{batchResult.flawedRecords}</p>
-                                    <span className="text-[10px] text-red-700">Data errors discarded</span>
+                                    <span className="text-[10px] text-red-700">Not assessed; reasons shown below</span>
                                 </div>
                             </div>
 
@@ -370,12 +371,12 @@ const BatchUploadModal = ({ isOpen, loanType = 'home_loan', onClose, onInspectEv
                                                 : 'border-transparent text-gray-600 hover:text-gray-900'
                                         }`}
                                     >
-                                        Trashed Incomplete Records ({batchResult.flawedRecords})
+                                        Invalid Rows ({batchResult.flawedRecords})
                                     </button>
                                 </div>
 
                                 <div className="text-[11px] text-gray-500 pr-2">
-                                    All valid records are persisted to institutional database
+                                    Assessed applications are saved in Application History
                                 </div>
                             </div>
 
@@ -386,9 +387,9 @@ const BatchUploadModal = ({ isOpen, loanType = 'home_loan', onClose, onInspectEv
                                         <thead>
                                             <tr className="bg-gray-100 text-gray-700 font-bold border-b border-gray-300 text-[11px] uppercase tracking-wider">
                                                 <th className="p-2.5 border-r border-gray-300">Application Ref</th>
-                                                <th className="p-2.5 border-r border-gray-300">Decision</th>
-                                                <th className="p-2.5 border-r border-gray-300">Confidence</th>
-                                                <th className="p-2.5 border-r border-gray-300">Repayment Limit</th>
+                                                <th className="p-2.5 border-r border-gray-300">Model Prediction</th>
+                                                <th className="p-2.5 border-r border-gray-300">Model Probability</th>
+                                                <th className="p-2.5 border-r border-gray-300">Affordability Check</th>
                                                 <th className="p-2.5 border-r border-gray-300">Trust Score</th>
                                                 <th className="p-2.5 text-center">Action</th>
                                             </tr>
@@ -423,7 +424,7 @@ const BatchUploadModal = ({ isOpen, loanType = 'home_loan', onClose, onInspectEv
                                                                     ? 'bg-amber-50 text-amber-800 border-amber-300'
                                                                     : 'bg-rose-50 text-rose-800 border-rose-300'
                                                             }`}>
-                                                                {item.solvencyCheck?.status || 'N/A'}
+                                                                {formatAffordabilityStatus(item.solvencyCheck?.status)}
                                                             </span>
                                                             <span className="text-[10px] text-gray-500 ml-1.5">
                                                                 ({item.solvencyCheck?.dtiPercent})
@@ -442,7 +443,7 @@ const BatchUploadModal = ({ isOpen, loanType = 'home_loan', onClose, onInspectEv
                                                                 type="button"
                                                                 onClick={() => handleInspectRow(item)}
                                                                 className="px-2.5 py-1 bg-gov-blue hover:bg-blue-900 text-white rounded-xs text-[11px] font-bold uppercase tracking-wider flex items-center gap-1 mx-auto cursor-pointer shadow-xs"
-                                                                title="Load full XAI explanation and loan evaluation audit"
+                                                                title="View the full loan assessment and explanations"
                                                             >
                                                                 <Eye className="w-3 h-3" />
                                                                 Inspect
@@ -462,7 +463,7 @@ const BatchUploadModal = ({ isOpen, loanType = 'home_loan', onClose, onInspectEv
                                     <div className="p-3 bg-amber-50 border border-amber-200 rounded-sm text-xs text-amber-900 flex items-start gap-2">
                                         <AlertTriangle className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
                                         <div>
-                                            <strong className="font-bold">Institutional Data Quality Enforcement:</strong> The following {batchResult.flawedRecords} records were discarded prior to credit scoring because they failed mandatory underwriting schema requirements.
+                                            <strong className="font-bold">Rows That Could Not Be Assessed:</strong> The following {batchResult.flawedRecords} rows were not assessed because required details were missing or invalid.
                                         </div>
                                     </div>
 
@@ -471,8 +472,8 @@ const BatchUploadModal = ({ isOpen, loanType = 'home_loan', onClose, onInspectEv
                                             <thead>
                                                 <tr className="bg-red-50 text-red-900 font-bold border-b border-red-200 text-[11px] uppercase tracking-wider">
                                                     <th className="p-2.5 border-r border-red-200 w-20">Row #</th>
-                                                    <th className="p-2.5 border-r border-red-200">Specific Missing / Invalid Parameter</th>
-                                                    <th className="p-2.5">Received Raw Input Values</th>
+                                                    <th className="p-2.5 border-r border-red-200">Missing or Invalid Detail</th>
+                                                    <th className="p-2.5">Submitted Values</th>
                                                 </tr>
                                             </thead>
                                             <tbody className="divide-y divide-red-100">
@@ -526,7 +527,7 @@ const BatchUploadModal = ({ isOpen, loanType = 'home_loan', onClose, onInspectEv
                     ) : (
                         <>
                             <span className="text-gray-500 text-[11px]">
-                                Automated pre-screening filter prevents incomplete records from corrupting credit models
+                                Rows with missing or invalid details are listed separately from assessed applications
                             </span>
                             <button
                                 type="button"

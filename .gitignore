@@ -4,6 +4,7 @@
 
 # --- Environment & Secret Credentials ---
 .env
+.env.*
 .env*.local
 *.env
 !.env.example
@@ -78,13 +79,25 @@ coverage.xml
 *.py,cover
 .hypothesis/
 htmlcov/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.nox/
+.ipynb_checkpoints/
+coverage/
+.nyc_output/
+test-results/
+playwright-report/
 
 # --- Node & Frontend Build Artifacts ---
 node_modules/
 frontend/node_modules/
 frontend/dist/
 frontend/dist-ssr/
-frontend/.oxlintrc.json
+.vite/
+.vite-temp/
+.vitest/
+*.tsbuildinfo
 .npm/
 npm-debug.log*
 yarn-debug.log*
@@ -95,6 +108,7 @@ lerna-debug.log*
 # --- Runtime Logs ---
 logs/
 *.log
+*.log.*
 
 # --- Scratch & Temporary Generated Files ---
 /scratch/
@@ -106,9 +120,9 @@ logs/
 /experiments/
 /models/experiments/
 
-# Metadata left by the superseded v4 training experiments before the reset.
-/models/homeloan/provenance.json
-/models/personalloan/provenance.json
+# Current product provenance is part of the reproducible serving bundles.
+# Keep model bundles, evaluation datasets, tests and research/protocol notes.
+# Do not blanket-ignore models/, datasets/, docs/, report/ or Markdown/PDF files.
 
 # --- Large Model Checkpoints & Binary Weights ---
 # (Ignore generic heavy checkpoints, but explicitly track lightweight demo models)
@@ -124,12 +138,34 @@ logs/
 !models/preprocessor.pkl
 !models/feature_config.json
 !models/model_metadata.json
+!models/homeloan/model.pkl
+!models/homeloan/preprocessor.pkl
+!models/personalloan/model.pkl
+!models/personalloan/preprocessor.pkl
 
 # --- Large Temporary Datasets ---
 *.parquet
 *.feather
 *.h5
 *.sqlite3
+*.sqlite
 *.db
+*.db-*
+*.sqlite-*
+*.sqlite3-*
 !datasets/train.csv
 !data/processed/train_clean.csv
+
+# --- LaTeX Compilation Intermediates ---
+# Keep .tex/.bib sources, diagram assets and the named final report PDF.
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.lot
+*.out
+*.toc
+*.synctex.gz
+*.xdv

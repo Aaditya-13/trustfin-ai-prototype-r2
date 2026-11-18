@@ -3,6 +3,14 @@ import { Sliders, RefreshCw, CheckCircle, AlertTriangle, AlertCircle } from 'luc
 
 const formatCurrency = (value) => `₹${Math.round(value).toLocaleString('en-IN')}`;
 
+const formatCardUtilization = (value) => {
+    if (value === null || value === undefined || value === '') return 'Unavailable';
+    let percentage = Number(value);
+    if (!Number.isFinite(percentage)) return 'Unavailable';
+    if (percentage <= 1) percentage *= 100;
+    return `${Math.min(100, Math.max(0, percentage)).toFixed(0)}%`;
+};
+
 const calculateEmi = (principal, annualRate, months) => {
     const monthlyRate = annualRate / 12;
     const factor = (1 + monthlyRate) ** months;
@@ -10,7 +18,9 @@ const calculateEmi = (principal, annualRate, months) => {
 };
 
 const RecourseSimulator = ({ applicantData, result }) => {
-    const isPersonalLoan = applicantData?.loan_type === 'personal_loan' || Boolean(applicantData?.Loan_Purpose);
+    const isPersonalLoan = applicantData?.loan_type
+        ? applicantData.loan_type === 'personal_loan'
+        : result?.modelVersion?.startsWith('personal_loan') || Boolean(applicantData?.Loan_Purpose);
     const minimumAmount = isPersonalLoan ? 30000 : 300000;
     const initialAmount = Math.max(minimumAmount, Number(applicantData?.Loan_Amount) || minimumAmount);
     const initialTerm = Math.max(1, Number(applicantData?.Loan_Term) || (isPersonalLoan ? 36 : 240));
@@ -22,8 +32,9 @@ const RecourseSimulator = ({ applicantData, result }) => {
     const annualRate = isPersonalLoan ? 0.135 : 0.085;
     const incomeForFoir = isPersonalLoan ? applicantIncome : householdIncome;
     const initialEmi = calculateEmi(initialAmount, annualRate, initialTerm);
-    const originalEmi = Number(result?.solvencyCheck?.monthlyEMI) || initialEmi;
-    const originalFoir = Number(result?.solvencyCheck?.dtiRatio) || ((initialExistingEmi + initialEmi) / incomeForFoir);
+    const originalEmi = result?.solvencyCheck?.monthlyEMI ?? initialEmi;
+    const originalFoir = result?.solvencyCheck?.dtiRatio ?? ((initialExistingEmi + initialEmi) / incomeForFoir);
+    const cardUtilizationText = formatCardUtilization(applicantData?.Credit_Card_Utilization);
 
     const [revisedAmount, setRevisedAmount] = useState(initialAmount);
     const [revisedTerm, setRevisedTerm] = useState(initialTerm);
@@ -48,7 +59,7 @@ const RecourseSimulator = ({ applicantData, result }) => {
 
     let statusConfig = {
         label: 'WITHIN THE 35% FOIR GUIDE',
-        sublabel: 'The estimated monthly debt obligation is within the lower-risk affordability range.',
+        sublabel: 'Estimated monthly EMIs use no more than 35% of the income used for this assessment.',
         barColor: 'bg-green-600',
         icon: <CheckCircle className="w-4 h-4 text-green-700 shrink-0" />,
         boxClass: 'bg-green-50 border-green-200'
@@ -142,15 +153,15 @@ const RecourseSimulator = ({ applicantData, result }) => {
                 <div className="flex flex-wrap gap-x-5 gap-y-1 text-[11px] text-gray-600">
                     <span>Income used: <strong className="text-gray-800">{formatCurrency(incomeForFoir)}/mo</strong>{isPersonalLoan ? ' (applicant)' : ' (household)'}</span>
                     <span>Existing EMI: <strong className="text-gray-800">{formatCurrency(isPersonalLoan ? revisedExistingEmi : initialExistingEmi)}/mo</strong></span>
-                    {isPersonalLoan && applicantData?.Credit_Card_Utilization != null && <span>Submitted card utilization: <strong className="text-gray-800">{(Number(applicantData.Credit_Card_Utilization) * 100).toFixed(0)}%</strong></span>}
-                    <span>Illustrative rate: <strong className="text-gray-800">{(annualRate * 100).toFixed(1)}% p.a.</strong></span>
+                    {isPersonalLoan && <span>Submitted card use: <strong className="text-gray-800">{cardUtilizationText}</strong></span>}
+                    <span>Assumed annual rate: <strong className="text-gray-800">{(annualRate * 100).toFixed(1)}% p.a.</strong></span>
                 </div>
 
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                     <div className="p-3 bg-white border border-gray-200 rounded-sm text-center"><span className="text-[11px] font-semibold text-gray-500 uppercase">Estimated monthly EMI</span><p className="text-base font-bold text-gray-900 font-mono mt-1">{formatCurrency(revisedMonthlyEmi)}</p>{emiDelta > 0 && <span className="text-[10px] font-semibold text-green-700">Saves {formatCurrency(emiDelta)}/mo</span>}</div>
-                    <div className="p-3 bg-white border border-gray-200 rounded-sm text-center"><span className="text-[11px] font-semibold text-gray-500 uppercase">Revised FOIR</span><p className={`text-base font-bold font-mono mt-1 ${revisedFoir <= 50 ? 'text-green-700' : 'text-red-700'}`}>{revisedFoir.toFixed(1)}%</p>{dtiDelta > 0 && <span className="text-[10px] font-semibold text-green-700">Dropped by {dtiDelta.toFixed(1)} pts</span>}</div>
-                    <div className="p-3 bg-white border border-gray-200 rounded-sm text-center"><span className="text-[11px] font-semibold text-gray-500 uppercase">Monthly surplus</span><p className={`text-base font-bold font-mono mt-1 ${monthlySurplus >= 0 ? 'text-green-700' : 'text-red-700'}`}>{formatCurrency(monthlySurplus)}</p><span className="text-[10px] text-gray-500">After proposed and existing EMIs</span></div>
-                    <div className="p-3 bg-white border border-gray-200 rounded-sm text-center"><span className="text-[11px] font-semibold text-gray-500 uppercase">{isPersonalLoan ? 'Card utilization' : 'Loan-to-value'}</span><p className="text-base font-bold text-gray-900 font-mono mt-1">{isPersonalLoan ? `${(Number(applicantData?.Credit_Card_Utilization || 0) * 100).toFixed(0)}%` : `${ltv.toFixed(1)}%`}</p><span className="text-[10px] text-gray-500">{isPersonalLoan ? 'Submitted profile; unchanged' : 'Loan amount ÷ property value'}</span></div>
+                    <div className="p-3 bg-white border border-gray-200 rounded-sm text-center"><span className="text-[11px] font-semibold text-gray-500 uppercase">Revised Debt / Income (FOIR)</span><p className={`text-base font-bold font-mono mt-1 ${revisedFoir <= 50 ? 'text-green-700' : 'text-red-700'}`}>{revisedFoir.toFixed(1)}%</p>{dtiDelta > 0 && <span className="text-[10px] font-semibold text-green-700">Dropped by {dtiDelta.toFixed(1)} pts</span>}</div>
+                    <div className="p-3 bg-white border border-gray-200 rounded-sm text-center"><span className="text-[11px] font-semibold text-gray-500 uppercase">Income Left After EMIs</span><p className={`text-base font-bold font-mono mt-1 ${monthlySurplus >= 0 ? 'text-green-700' : 'text-red-700'}`}>{formatCurrency(monthlySurplus)}</p><span className="text-[10px] text-gray-500">After proposed and existing EMIs</span></div>
+                    <div className="p-3 bg-white border border-gray-200 rounded-sm text-center"><span className="text-[11px] font-semibold text-gray-500 uppercase">{isPersonalLoan ? 'Card Use' : 'Loan-to-value'}</span><p className="text-base font-bold text-gray-900 font-mono mt-1">{isPersonalLoan ? cardUtilizationText : `${ltv.toFixed(1)}%`}</p><span className="text-[10px] text-gray-500">{isPersonalLoan ? 'Submitted profile; unchanged' : 'Loan amount ÷ property value'}</span></div>
                 </div>
 
                 <div className={`p-4 border rounded-sm ${statusConfig.boxClass} flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3`}>

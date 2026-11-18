@@ -2,11 +2,156 @@
   "model_type": "XGBClassifier",
   "product": "Home Loan",
   "n_samples": 3000,
-  "accuracy": 0.97,
-  "roc_auc": 0.9978102352051932,
-  "precision": 0.9615384615384616,
-  "recall": 0.9803921568627451,
-  "f1": 0.970873786407767,
-  "disparate_impact": 0.905840209812576,
-  "feature_count": 20
+  "accuracy": 0.985,
+  "precision": 0.9601990049751243,
+  "recall": 0.9948453608247423,
+  "f1": 0.9772151898734177,
+  "roc_auc": 0.998946219084861,
+  "feature_count": 20,
+  "evaluation": {
+    "holdout": {
+      "rows": 600,
+      "accuracy": 0.985,
+      "precision": 0.9601990049751243,
+      "recall": 0.9948453608247423,
+      "f1": 0.9772151898734177,
+      "roc_auc": 0.998946219084861,
+      "confusion_matrix_labels": [
+        "Rejected",
+        "Approved"
+      ],
+      "confusion_matrix": [
+        [
+          398,
+          8
+        ],
+        [
+          1,
+          193
+        ]
+      ],
+      "raw_model_policy_violations": 5,
+      "policy_violation_ids": [
+        "HL00147",
+        "HL00489",
+        "HL00137",
+        "HL00020",
+        "HL00950"
+      ],
+      "policy_violation_by_rule": {
+        "credit_score": 0,
+        "missed_payments": 0,
+        "repayment_burden": 5,
+        "property_value": 0
+      },
+      "gender_only_model_decision_flips": 0,
+      "max_gender_only_probability_change": 0.031397461891174316,
+      "by_gender": {
+        "Male": {
+          "rows": 367,
+          "accuracy": 0.989100817438692
+        },
+        "Female": {
+          "rows": 233,
+          "accuracy": 0.9785407725321889
+        }
+      },
+      "accuracy_before_policy_overrides": true
+    },
+    "independent": {
+      "rows": 1000,
+      "accuracy": 0.981,
+      "precision": 0.9636363636363636,
+      "recall": 0.9784615384615385,
+      "f1": 0.9709923664122138,
+      "roc_auc": 0.9990609686609686,
+      "confusion_matrix_labels": [
+        "Rejected",
+        "Approved"
+      ],
+      "confusion_matrix": [
+        [
+          663,
+          12
+        ],
+        [
+          7,
+          318
+        ]
+      ],
+      "raw_model_policy_violations": 7,
+      "policy_violation_ids": [
+        "HLI00070",
+        "HLI00196",
+        "HLI00259",
+        "HLI00262",
+        "HLI00306",
+        "HLI00614",
+        "HLI00680"
+      ],
+      "policy_violation_by_rule": {
+        "credit_score": 0,
+        "missed_payments": 0,
+        "repayment_burden": 6,
+        "property_value": 1
+      },
+      "gender_only_model_decision_flips": 1,
+      "max_gender_only_probability_change": 0.024761155247688293,
+      "by_gender": {
+        "Male": {
+          "rows": 633,
+          "accuracy": 0.9873617693522907
+        },
+        "Female": {
+          "rows": 367,
+          "accuracy": 0.9700272479564033
+        }
+      },
+      "accuracy_before_policy_overrides": true
+    },
+    "boundary": {
+      "rows": 300,
+      "accuracy": 0.7733333333333333,
+      "precision": 1.0,
+      "recall": 0.5952380952380952,
+      "f1": 0.746268656716418,
+      "roc_auc": 0.949404761904762,
+      "confusion_matrix_labels": [
+        "Rejected",
+        "Approved"
+      ],
+      "confusion_matrix": [
+        [
+          132,
+          0
+        ],
+        [
+          68,
+          100
+        ]
+      ],
+      "raw_model_policy_violations": 0,
+      "policy_violation_ids": [],
+      "policy_violation_by_rule": {
+        "credit_score": 0,
+        "missed_payments": 0,
+        "repayment_burden": 0,
+        "property_value": 0
+      },
+      "gender_only_model_decision_flips": 0,
+      "max_gender_only_probability_change": 0.009410426020622253,
+      "by_gender": {
+        "Male": {
+          "rows": 150,
+          "accuracy": 0.7733333333333333
+        },
+        "Female": {
+          "rows": 150,
+          "accuracy": 0.7733333333333333
+        }
+      },
+      "accuracy_before_policy_overrides": true
+    }
+  },
+  "model_version": "home_loan_v5-53d6124d20d7"
 }
