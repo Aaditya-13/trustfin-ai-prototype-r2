@@ -18,38 +18,38 @@
 
 ---
 
-# Slide 1: Modular Testing Overview & Automated Test Setup
+# Slide 1: Automated Testing Overview and Verified Results
 
 ### Top Running Header:
-`CRITERION 1: MODULAR TESTING (10 MARKS) | TESTING OVERVIEW`
+`CRITERION 1: MODULAR TESTING (10 MARKS) | AUTOMATED TEST RESULTS`
 
 ### Slide Title:
-## Modular Testing Overview & Automated Test Setup
-*Testing each module independently with automated test runners to guarantee zero software defects and fast performance.*
+## System Testing — 157 Automated Tests Passed
+*Verified against the current code on 20 November 2026.*
 
-### Visual Split-Card Layout:
-- **Left Card:** Test Execution Workflow showing automated isolation testing.
-- **Right Card:** Real Test Results Summary in Forest Sage (`#4A6B53`) and Warm Sand (`#EFECE6`).
+### Visual Layout:
+- Main figure: **157 passed**.
+- Supporting figures: **86 backend** and **71 frontend**.
+- Present the table below at a readable size; place a real terminal screenshot beside it if space permits.
 
-```text
-┌────────────────────────────────────────────────────────┐       ┌────────────────────────────────────────────────────────┐
-│ MODULAR TEST EXECUTION FLOW                            │       │ AUTOMATED TEST OUTCOMES SUMMARY                        │
-│                                                        │       │                                                        │
-│ [Isolated Modules: API, ML, Rules, UI]                 │       │ TOTAL TESTS EXECUTED: 46 PASSED (100% PASS RATE)       │
-│            ▼                                           │       │                                                        │
-│ [Controlled Test Environment: Mocks & Memory DB]       │       │ • Backend Automated Tests (Pytest): 22 Passed in 31.0s │
-│            ▼                                           │       │ • Frontend Screen Tests (Vitest):   24 Passed in 3.75s │
-│ [Dual Test Runners: Pytest (Backend) + Vitest (UI)]    │       │ • Zero Setup Errors & Zero Failed Checks               │
-│            ▼                                           │       │                                                        │
-│ [100% Verified Pass Across All 46 Core Tests]          │       │ Verified in 34.75 seconds total execution time         │
-└────────────────────────────────────────────────────────┘       └────────────────────────────────────────────────────────┘
-```
+| Test suite | Passed | Failed | Skipped |
+| :--- | ---: | ---: | ---: |
+| Backend — pytest | 86 | 0 | 0 |
+| Frontend — Vitest | 71 | 0 | 0 |
+| **Total** | **157** | **0** | **0** |
 
-### What Modular Testing Means in Our Project:
-- **Testing in Isolation:** Each part of the system (calculations, AI explainers, safety rules, user screens) was tested by itself so bugs could not hide behind other components.
-- **Backend Test Suite (Pytest — 22 Tests):** Covers repayment safety math, AI decision shortcuts, broken model detection, batch CSV uploads, database saving, and PDF report creation.
-- **Frontend Test Suite (Vitest — 24 Tests):** Covers user role permissions (Bank Officer vs Borrower), application history search, batch upload windows, and server communication.
-- **Fast & Reliable:** All 46 tests run automatically in under 35 seconds, ensuring quick bug detection whenever code is updated.
+### Areas Tested:
+- Dataset/preprocessing checks, model bundles and explanation-score calculations.
+- API assessment flows, CSV/JSON batches, saved history and PDF reporting.
+- Frontend rendering, displayed results, API-client requests and error handling.
+
+### Speaker Notes / Evidence:
+- The count represents automated test cases, not files or manual browser scenarios.
+- Thirty additional backend subtests passed; they are not added to the 157 total.
+- Frontend tests use jsdom and mocked API interactions. Backend integration tests use FastAPI TestClient and isolated SQLite.
+- No failed tests or skips were reported. Warnings remain in the actual logs.
+- This count is not a code-coverage percentage, model accuracy, a real-browser end-to-end result or a guarantee of zero defects.
+- Evidence and rerun commands: `logs/final_review_tests_2026-11-20/VERIFICATION.md`.
 
 ### Slide Footer:
 `TrustFin AI • K. K. Wagh Institute of Engineering Education & Research                          01`
@@ -160,24 +160,24 @@ $$\text{Overall Trust Score} = 0.25(\text{Faithfulness}) + 0.25(\text{Stability}
 
 ---
 
-# Slide 5: Module D — User Screens & Access Control Testing (Frontend Vitest)
+# Slide 5: Module D — Frontend Component and API-Client Tests
 
 ### Top Running Header:
 `CRITERION 1: MODULAR TESTING (10 MARKS) | FRONTEND COMPONENT TESTING`
 
 ### Slide Title:
-## Module D: User Screens & Access Control Testing (Frontend Vitest)
-*Automated screen testing: verifying role permissions, modal windows, search filters, and server communication.*
+## Module D: Frontend Component and API-Client Tests
+*Automated interface checks in jsdom, with mocked API interactions.*
 
 ### Frontend Test Environment:
 - **Test Framework:** **Vitest 5.0** + React Testing Library + JSDOM.
-- **Speed & Reliability:** **24 automated screen tests completed in 3.75s** with 100% pass rate.
+- **Verified result:** **71 tests passed across 12 files**, with zero failures or skips. Recorded Vitest duration: **12.35 seconds** (environment-specific).
 
 ### Screens & Features Tested:
 
 | Screen Component | Feature Tested | Behavior Verified in Test | What the Passed Test Means |
 | :--- | :--- | :--- | :--- |
-| **`ApplicantForm.test.jsx`** | Role Permissions & Presets | • "Upload Batch" button is visible for **Bank Officers**, hidden for **Borrowers**.<br>• Preset profile buttons accurately fill out sample application forms. | Ensures borrowers cannot access internal bank officer bulk tools. |
+| **`ApplicantForm.test.jsx`** | Role-dependent Display & Presets | • "Upload Batch" button is visible for **Bank Officers**, hidden for **Borrowers**.<br>• Preset profile buttons accurately fill out sample application forms. | Verifies role-dependent button visibility; it does not establish authentication or server-side access control. |
 | **`BatchUploadModal.test.jsx`** | Batch Window & Tabs | • Modal window opens and closes smoothly.<br>• Dual tabs allow toggling between **Processed Applications** and **Incomplete Records**. | Officers can easily inspect which rows passed and which had data errors. |
 | **`AuditHistoryModal.test.jsx`** | Application History Ledger | • Dual tabs toggle between **Individual Loans** and **Batch Upload History**.<br>• Search bar filters applications by ID.<br>• "Inspect" button opens detailed AI explanations. | Officers can look up past decisions instantly during customer inquiries or record checks. |
 | **`api.test.js`** | Server Networking Client | • Tested sending applications, uploading CSV files, downloading templates, and handling network errors. | Frontend handles connection errors gracefully without freezing the browser. |
@@ -187,14 +187,14 @@ $$\text{Overall Trust Score} = 0.25(\text{Faithfulness}) + 0.25(\text{Stability}
 
 ---
 
-# Slide 6: Module E — End-to-End System Integration Testing
+# Slide 6: Module E — API and Persistence Integration Testing
 
 ### Top Running Header:
 `CRITERION 1: MODULAR TESTING (10 MARKS) | FULL SYSTEM INTEGRATION`
 
 ### Slide Title:
-## Module E: End-to-End System Integration Testing
-*Testing the complete loan lifecycle across all connected components with zero breaks or data loss.*
+## Module E: API and Persistence Integration Testing
+*Checking assessment, batch, storage and PDF flows through FastAPI TestClient.*
 
 ### [AI Diagram Directive for Codex Luna]:
 > **Generate Horizontal Lifecycle Flowchart on `#FAF8F5`:**  
@@ -203,11 +203,11 @@ $$\text{Overall Trust Score} = 0.25(\text{Faithfulness}) + 0.25(\text{Stability}
 > Use Forest Sage (`#4A6B53`) and Warm Bronze (`#7E6F62`) node containers with crisp white text and directional arrows.
 
 ### Key Integration Scenarios Verified in Tests:
-- **Full Loan Lifecycle Journey:** Form submission automatically triggers safety rule validation, sub-second AI evaluation, plain-English explanations, database persistence, and official PDF generation.
+- **Assessment Lifecycle:** Submit an application through TestClient, inspect prediction/explanation fields, retrieve its saved record and generate a PDF.
 - **Bulk Batch Portfolio Lifecycle:** Validates entire CSV files, isolates incomplete rows, evaluates valid applications, saves under a unique Batch ID, and permits safe record cleanup.
-- **Offline Database Fallback:** Automatically switches to local SQLite with zero downtime or software crashes if the primary cloud PostgreSQL database is unreachable.
+- **SQLite Initialization:** Verify local table initialization and the health endpoint. This run does not exercise an unavailable remote PostgreSQL server.
 
-### Terminal Test Log Box:
+### Selected Passing Test Names (summary; not a verbatim terminal capture):
 ```text
 SOURCE: backend/tests/test_full_system_integration.py & test_reporting_and_pdf.py
 test_e2e_single_application_pipeline_integration    [FULL SYSTEM JOURNEY OK] PASSED [ 33%]
@@ -222,34 +222,34 @@ test_api_generate_pdf_endpoint                      [PDF DOWNLOAD API OK]    PAS
 
 ---
 
-# Slide 7: Modular Testing Scorecard & Complete Summary
+# Slide 7: Automated Testing Scorecard and Reproducible Evidence
 
 ### Top Running Header:
-`CRITERION 1: MODULAR TESTING (10 MARKS) | TESTING SCORECARD & SUMMARY`
+`CRITERION 1: MODULAR TESTING (10 MARKS) | VERIFIED TEST SUMMARY`
 
 ### Slide Title:
-## Modular Testing Scorecard & Complete Summary
-*Consolidated verification results across all 5 testing modules (46 total automated tests passed).*
+## Testing Scorecard — Current Repository
+*Actual suite results recorded on 20 November 2026.*
 
-### Visual Metrics Cards:
-- **Card 1:** Total Tests: **46 Executed / 46 Passed (100% Pass Rate)**
-- **Card 2:** Defect Count: **Zero Setup Errors & Zero Failed Checks**
-- **Card 3:** Combined Execution Speed: **< 35 Seconds Total Duration**
+| Suite | Passed | Failed | Skipped | Main scope |
+| :--- | ---: | ---: | ---: | :--- |
+| Backend — pytest | 86 | 0 | 0 | Datasets, bundles, calculations, explanation metrics, API, batches, history and PDF |
+| Frontend — Vitest | 71 | 0 | 0 | Components, assessment wording, score displays, API client and error handling |
+| **Total** | **157** | **0** | **0** | **Automated unit, integration and interface tests** |
 
-### Complete Modular Testing Scorecard Table:
+### Actual Runner Summaries:
+```text
+Backend: 86 passed, 15 warnings, 30 subtests passed in 17.31s
+Frontend: Test Files 12 passed (12); Tests 71 passed (71)
+```
 
-| Tested Module Area | Primary Function Verified | Test Framework | Total Tests | Status |
-| :--- | :--- | :---: | :---: | :---: |
-| **Module A: Loan Safety Rules** | Strict 50% EMI limit, ₹0 crash protection, income checks | Pytest (Backend) | 5 Tests | **100% PASS** |
-| **Module B: 4-Pillar Trust Score** | Healthy vs broken model detection, fairness, accuracy | Pytest (Backend) | 3 Tests | **100% PASS** |
-| **Module C: Batch Loan Processing** | Row pre-checking, separating broken data, CSV uploads | Pytest (Backend) | 7 Tests | **100% PASS** |
-| **Module D: User Screens & Access** | Role permissions, batch modals, history search, API client | Vitest (Frontend) | 24 Tests | **100% PASS** |
-| **Module E: End-to-End Journeys** | Single application, batch lifecycle, offline database, PDF | Pytest (Backend) | 7 Tests | **100% PASS** |
-| **Complete System Verification** | **Zero setup errors, zero failed checks (< 35s execution)** | **Pytest + Vitest** | **46 Tests** | **100% PASS** |
-
-### Key Engineering Takeaways:
-- **Full-Stack Test Coverage:** Every layer—from mathematical loan safety rules to machine learning explainers and frontend React user screens—is verified by automated tests.
-- **Safe Test Environment:** Mocks and in-memory test databases ensure comprehensive testing without altering live production databases.
+### Evidence for Review Questions:
+- Open `backend/tests/` or `frontend/src/test/` to inspect the actual assertions.
+- Rerun using the commands in `logs/final_review_tests_2026-11-20/VERIFICATION.md`.
+- Unit/integration tests and frontend mocks are different kinds of checks; the total does not represent 157 full browser journeys.
+- The backend run uses a separate SQLite test database. The original application database fingerprint was unchanged.
+- Keep warnings visible in the saved evidence. All assertions passed; zero defects are not guaranteed.
+- Backend's 30 subtests are reported separately and are not counted again in the 157.
 
 ### Slide Footer:
 `TrustFin AI • K. K. Wagh Institute of Engineering Education & Research                          07`
@@ -614,7 +614,7 @@ test_api_generate_pdf_endpoint                      [PDF DOWNLOAD API OK]    PAS
 > - **Top Row (3 Visual Metric Cards):**  
 >   - `Total Codebase`: **7,514 Logical SLOC** (7.514 KSLOC)  
 >   - `Active Files`: **50 Production Files** (Zero auto-generated bloat)  
->   - `Testing Density`: **46 Automated Tests** (33% of backend codebase)  
+>   - `Automated Tests`: **157 Passed** (86 backend + 71 frontend; not a code-coverage percentage)
 > - **Main Visual Table:** Render a clean, high-contrast breakdown table comparing the 4 core architectural subsystems with exact lines of code, primary languages, and architectural roles.  
 > - **Palette:** Warm Sand `#FAF8F5` background, Forest Sage `#4A6B53` and Warm Bronze `#7E6F62` headers.
 
@@ -628,7 +628,7 @@ test_api_generate_pdf_endpoint                      [PDF DOWNLOAD API OK]    PAS
 │  1. ML, XAI & Trust Engine       Python, XGBoost, SHAP, LIME  12       2,335 SLOC       31.1%     Scoring & Explanations│
 │  2. Backend APIs & Safety Rules  FastAPI, Pydantic, Python    15       2,057 SLOC       27.4%     50% EMI Rule & Routes│
 │  3. Frontend User Dashboard      React 18, Vanilla CSS, Vite  13       2,000 SLOC       26.6%     Officer & User UIs   │
-│  4. Testing Suites & Persistence Pytest, Vitest, SQLAlchemy   10       1,122 SLOC       14.9%     46 Tests & Fallback  │
+│  4. Testing Suites & Persistence Pytest, Vitest, SQLAlchemy   10       1,122 SLOC       14.9%     157 Tests; see test summary  │
 │  ──────────────────────────────  ──────────────────────────  ─────    ────────────    ─────────   ──────────────────── │
 │  TOTAL AUDITED REPOSITORY CODE   Full-Stack Python + React    50       7,514 SLOC      100.0%     7.514 KSLOC Size (S) │
 │                                                                                                                        │
