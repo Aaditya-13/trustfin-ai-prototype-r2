@@ -45,7 +45,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-    "https://trustfin-ai.vercel.app/",
+    "https://trustfin-ai.vercel.app",
     "http://localhost:5173",
     ],
     allow_credentials=True,
