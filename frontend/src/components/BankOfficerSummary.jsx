@@ -7,11 +7,9 @@ import {
 import { getBankingLabel } from '../utils/bankingTerms';
 import { getUnderwritingAction } from '../utils/decisionAdvisory';
 import { formatTrustFormula } from '../utils/trustScorePresentation';
-import FaithfulnessCheckDetails from './FaithfulnessCheckDetails';
 import { downloadLoanReportPdf } from '../services/api';
 import SubmittedApplicationFormModal from './SubmittedApplicationFormModal';
 import PolicyCheckNotice from './PolicyCheckNotice';
-import StabilityCheckDetails from './StabilityCheckDetails';
 
 const BankOfficerSummary = ({
   result,
@@ -359,12 +357,10 @@ const BankOfficerSummary = ({
               <div className="p-3 bg-white border border-gray-200 rounded-sm">
                 <span className="text-[11px] text-gray-600 uppercase font-bold tracking-wide block">Faithfulness</span>
                 <strong className="mt-1 block text-lg font-mono text-gray-950">{(result.trustScore.faithfulness * 100).toFixed(1)}%</strong>
-                <FaithfulnessCheckDetails result={result} />
               </div>
               <div className="p-3 bg-white border border-gray-200 rounded-sm">
                 <span className="text-[11px] text-gray-600 uppercase font-bold tracking-wide block">Stability</span>
                 <strong className="mt-1 block text-lg font-mono text-gray-950">{(result.trustScore.stability * 100).toFixed(1)}%</strong>
-                <StabilityCheckDetails result={result} />
               </div>
               <div className="p-3 bg-white border border-gray-200 rounded-sm">
                 <span className="text-[11px] text-gray-600 uppercase font-bold tracking-wide block">Consistency</span>
